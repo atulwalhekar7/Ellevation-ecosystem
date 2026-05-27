@@ -77,11 +77,9 @@ export default function EllevationContact() {
         <div
           ref={heroRef}
           style={{
-            background:
-              "linear-gradient(135deg, #fce4ec 0%, #f8d7ea 20%, #f0d4f0 45%, #e8d5f5 65%, #ddd4f0 100%)",
-            backgroundSize: "200% 200%",
-            animation: "gradientShift 10s ease infinite",
-            padding: "72px 32px 80px",
+            background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
+            position: "relative",
+            padding: "110px 48px 96px",
             textAlign: "center",
           }}
         >

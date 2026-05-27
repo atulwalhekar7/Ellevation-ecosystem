@@ -152,8 +152,8 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const hp: Record<string, React.CSSProperties> = {
-  page: { position:"relative", overflow:"hidden", minHeight:"90vh", display:"flex", alignItems:"center", padding:"60px 48px 80px" },
-  bgGrad: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fce8f0 0%,#f0d6f5 40%,#e4d0f8 70%,#fce8f0 100%)", zIndex:0 },
+  page: { position:"relative", overflow:"hidden", minHeight:"90vh", display:"flex", alignItems:"center", padding:"110px 48px 96px" },
+  bgGrad: { position:"absolute", inset:0, background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", zIndex:0 },
   blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,200,220,0.5) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
   blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(200,170,240,0.45) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"center", maxWidth:1200, margin:"0 auto", width:"100%", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
@@ -224,15 +224,15 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const ab: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", minHeight:520, display:"flex", alignItems:"center", justifyContent:"center", padding:"80px 48px" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(160deg,#3a2040 0%,#5a3050 40%,#7a4060 70%,#4a2848 100%)", zIndex:0 },
+  banner: { position:"relative", overflow:"hidden", minHeight:520, display:"flex", alignItems:"center", justifyContent:"center", padding:"110px 48px 96px" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", zIndex:0 },
   bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(220,140,160,0.35) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
   bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,100,140,0.3) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#e8b0a0", marginBottom:16 },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", lineHeight:1.15, marginBottom:20 },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:540, margin:"0 auto" },
+  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#9b7db8", marginBottom:16 },
+  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#1c1630", lineHeight:1.15, marginBottom:20 },
+  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#4a3860", lineHeight:1.7, maxWidth:540, margin:"0 auto" },
   btnD: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#c0705a", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(192,112,90,0.35)" },
-  btnL: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid rgba(253,240,245,0.5)", background:"transparent", color:"#fdf0f5", cursor:"pointer" },
+  btnL: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer" },
   featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px" },
   featCard: { background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(120,60,120,0.08)", border:"1px solid #f0e0f0", transition:"transform 0.2s ease" },
   featIcon: { fontSize:"1.6rem", color:"#b07fb4", marginBottom:16 },
@@ -293,11 +293,11 @@ function ServicesPage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const sv: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf6f0 0%,#f5ece8 100%)", zIndex:0 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#b89c6e", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  banner: { position:"relative", overflow:"hidden", padding:"110px 48px 96px", textAlign:"center" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", zIndex:0 },
+  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#9b7db8", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#1c1630", marginBottom:16, position:"relative", zIndex:1 },
+  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#4a3860", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
   section: { padding:"60px 48px 96px", background:"#f8f4f0" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"#fff", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(100,60,60,0.08)", border:"1px solid #ede0d8", position:"relative", display:"flex", flexDirection:"column", gap:0 },
@@ -352,10 +352,10 @@ function StoriesPage() {
 }
 
 const st: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(160deg,#2e1f22 0%,#3d2828 50%,#2e1f22 100%)", zIndex:0 },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(253,240,245,0.7)", position:"relative", zIndex:1 },
+  banner: { position:"relative", overflow:"hidden", padding:"110px 48px 96px", textAlign:"center" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", zIndex:0 },
+  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#1c1630", marginBottom:16, position:"relative", zIndex:1 },
+  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#4a3860", position:"relative", zIndex:1 },
   section: { background:"#f8f4f0", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
   card: { background:"#fff", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(100,60,60,0.07)", border:"1px solid #ede0d8", display:"flex", flexDirection:"column", gap:20 },
@@ -488,7 +488,7 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 
 const jp: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:260, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 80% at 50% 50%,#f0d6f5 0%,#e8d0f0 30%,#d8c0ee 60%,#c8b0e8 100%)", zIndex:0 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", zIndex:0 },
   blobL: { position:"absolute", top:-60, left:-80, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,182,210,0.45) 0%,transparent 70%)", animation:"floatBlob 8s ease-in-out infinite", zIndex:1 },
   blobR: { position:"absolute", bottom:-80, right:-60, width:380, height:380, borderRadius:"50%", background:"radial-gradient(circle,rgba(182,140,210,0.38) 0%,transparent 70%)", animation:"floatBlob 11s ease-in-out infinite reverse", zIndex:1 },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16 },

@@ -190,7 +190,7 @@ function Hero() {
   return (
     <section style={{
       background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
-      padding:"110px 24px 96px",
+      padding:"110px 48px 96px",
       textAlign:"center",
       position:"relative",
       overflow:"hidden",

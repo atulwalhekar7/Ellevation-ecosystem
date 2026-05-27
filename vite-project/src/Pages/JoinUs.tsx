@@ -471,7 +471,7 @@ const styles: Record<string, React.CSSProperties> = {
   eventsSection: {
     position: "relative",
     overflow: "hidden",
-    padding: "80px 24px",
+    padding: "110px 48px 96px",
     textAlign: "center",
     minHeight: 260,
     display: "flex",
@@ -481,8 +481,7 @@ const styles: Record<string, React.CSSProperties> = {
   eventsGradient: {
     position: "absolute",
     inset: 0,
-    background:
-      "radial-gradient(ellipse 80% 80% at 50% 50%, #f0d6f5 0%, #e8d0f0 30%, #d8c0ee 60%, #c8b0e8 100%)",
+    background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
     zIndex: 0,
   },
   eventsBlobLeft: {
