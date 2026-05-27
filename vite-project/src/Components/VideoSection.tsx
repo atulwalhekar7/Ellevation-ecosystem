@@ -6,25 +6,25 @@ const videos = [
   {
     id: 1,
     tag: "FEATURED VIDEO",
-    title: "Inside the Ellevation Room",
+    title: "The Power of Collective Ambition",
     description:
-      "A static video-style feature card for future YouTube, CMS, or hosted media embeds.",
+      "Explore how our digital ecosystem connects female founders, creators, and executives to bridge the funding gap and share social capital.",
     duration: "08:42",
-thumbnail:
-  "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80",
-       videoSrc: video1,
-
-        gradientBg: "linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fed7aa 100%)",
+    thumbnail:
+      "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80",
+    videoSrc: video1,
+    gradientBg: "linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fed7aa 100%)",
   },
   {
     id: 2,
     tag: "DIRECTORY WALKTHROUGH",
-    title: "How the Directory Works",
+    title: "Mentorship & Growth Frameworks",
     description:
-      "A guided preview of search, filters, member profiles, and get-listed pathways.",
+      "A deep dive into our peer-to-peer matching system designed to accelerate career pivots and leadership development for women in tech.",
     duration: "04:18",
-thumbnail:
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",    videoSrc: video2,
+    thumbnail:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
+    videoSrc: video2,
     gradientBg: "linear-gradient(135deg, #a5b4fc 0%, #ddd6fe 50%, #e0e7ff 100%)",
   },
 ];
@@ -42,95 +42,20 @@ const styles: Record<string, CSSProperties> = {
     fontFamily: "'Segoe UI', sans-serif",
   },
   container: {
-    maxWidth: 1100,
+    maxWidth: 1200, // Expanded container to support larger cards
     width: "100%",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
-    gap: 56,
-    flexWrap: "wrap",
-  },
-  leftPane: {
-    flexShrink: 0,
-    width: 320,
-    minWidth: 260,
-  },
-  eyebrow: {
-    fontSize: 12,
-    fontWeight: 700,
-    letterSpacing: "0.18em",
-    color: "#7c3aed",
-    textTransform: "uppercase" as const,
-    marginBottom: 14,
-  },
-  heading: {
-    fontSize: 42,
-    fontWeight: 700,
-    lineHeight: 1.18,
-    color: "#1a0a3c",
-    fontFamily: "'Cormorant Garamond', serif",
-    marginBottom: 18,
-    margin: "0 0 18px 0",
-  },
-  subtext: {
-    fontSize: 15,
-    lineHeight: 1.7,
-    color: "#6b7280",
-    marginBottom: 32,
-  },
-  ctaButton: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "12px 24px",
-    borderRadius: 999,
-    border: "none",
-    cursor: "pointer",
-    fontWeight: 600,
-    fontSize: 14,
-    color: "#fff",
-    background: "linear-gradient(135deg, #7c3aed, #a855f7)",
-    boxShadow: "0 4px 20px rgba(124,58,237,0.3)",
-    transition: "transform 0.2s, box-shadow 0.2s",
-    marginBottom: 28,
-  },
-  avatarRow: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    marginTop: 8,
-  },
-  avatarStack: {
-    display: "flex",
-  },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: "50%",
-    border: "2.5px solid #fff",
-    objectFit: "cover" as const,
-    marginLeft: -10,
-    boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
-  },
-  avatarFirst: {
-    marginLeft: 0,
-  },
-  communityText: {
-    fontSize: 13,
-    color: "#6b7280",
-    fontWeight: 500,
-  },
-  communityCount: {
-    color: "#7c3aed",
-    fontWeight: 700,
+    justifyContent: "center",
   },
   cardsRow: {
     display: "flex",
-    flexDirection: "row" as const,
-    gap: 20,
-    flex: 1,
-    flexWrap: "wrap" as const,
-    justifyContent: "center",
+    flexDirection: "row",
+    gap: 32, // Added more spacing between the wider cards
+    width: "100%",
+    flexWrap: "wrap",
+    justifyContent: "center", // Perfectly centers the cards in the middle
   },
   card: {
     borderRadius: 24,
@@ -138,39 +63,39 @@ const styles: Record<string, CSSProperties> = {
     background: "#fff",
     cursor: "pointer",
     transition: "transform 0.3s, box-shadow 0.3s",
-    flex: "1 1 260px",
-    maxWidth: 360,
-    minWidth: 240,
+    flex: "1 1 450px", // Increased width from 260px to 450px
+    maxWidth: 520,    // Increased max-width to look impactful in the center
+    minWidth: 300,
   },
   cardThumb: {
-    position: "relative" as const,
+    position: "relative",
     width: "100%",
-    height: 210,
+    height: 280, // Taller thumbnail ratio to match the wider cards
     overflow: "hidden",
   },
   gradientOverlay: {
-    position: "absolute" as const,
+    position: "absolute",
     inset: 0,
     opacity: 0.75,
   },
   thumbImg: {
-    position: "absolute" as const,
+    position: "absolute",
     inset: 0,
     width: "100%",
     height: "100%",
-    objectFit: "cover" as const,
+    objectFit: "cover",
     transition: "opacity 0.5s",
   },
   thumbVideo: {
-    position: "absolute" as const,
+    position: "absolute",
     inset: 0,
     width: "100%",
     height: "100%",
-    objectFit: "cover" as const,
+    objectFit: "cover",
     transition: "opacity 0.5s",
   },
   playOverlay: {
-    position: "absolute" as const,
+    position: "absolute",
     inset: 0,
     display: "flex",
     alignItems: "center",
@@ -178,8 +103,8 @@ const styles: Record<string, CSSProperties> = {
     transition: "opacity 0.3s",
   },
   playBtn: {
-    width: 52,
-    height: 52,
+    width: 60, // Slightly enlarged to scale with card size
+    height: 60,
     borderRadius: "50%",
     background: "rgba(255,255,255,0.92)",
     display: "flex",
@@ -188,11 +113,11 @@ const styles: Record<string, CSSProperties> = {
     boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
   },
   miniPlay: {
-    position: "absolute" as const,
-    top: 12,
-    left: 12,
-    width: 30,
-    height: 30,
+    position: "absolute",
+    top: 16,
+    left: 16,
+    width: 32,
+    height: 32,
     borderRadius: "50%",
     background: "rgba(255,255,255,0.8)",
     display: "flex",
@@ -201,9 +126,9 @@ const styles: Record<string, CSSProperties> = {
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
   },
   durationBadge: {
-    position: "absolute" as const,
-    bottom: 12,
-    right: 12,
+    position: "absolute",
+    bottom: 16,
+    right: 16,
     background: "rgba(255,255,255,0.92)",
     color: "#1a0a3c",
     fontSize: 12,
@@ -213,27 +138,27 @@ const styles: Record<string, CSSProperties> = {
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
   },
   cardBody: {
-    padding: "20px 22px 24px",
+    padding: "26px 28px 30px", // Increased padding inside the card body
     background: "#fff",
   },
   cardTag: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: 700,
     letterSpacing: "0.16em",
     color: "#7c3aed",
-    textTransform: "uppercase" as const,
-    marginBottom: 8,
+    textTransform: "uppercase",
+    marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 20,
+    fontSize: 24, // Clean upscaled heading size
     fontWeight: 600,
     color: "#1a0a3c",
     fontFamily: "'Georgia', 'Times New Roman', serif",
     lineHeight: 1.3,
-    marginBottom: 8,
+    marginBottom: 10,
   },
   cardDesc: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#6b7280",
     lineHeight: 1.65,
   },
@@ -278,20 +203,20 @@ function VideoCard({ video }: { video: (typeof videos)[0] }) {
           style={{ ...styles.thumbImg, opacity: hovered ? 0 : 1 }}
         />
 
-       <video
-  ref={videoRef}
-  src={video.videoSrc}
-  loop
-  muted
-  playsInline
-  preload="auto"
-  style={{ ...styles.thumbVideo, opacity: hovered ? 1 : 0 }}
-/>
+        <video
+          ref={videoRef}
+          src={video.videoSrc}
+          loop
+          muted
+          playsInline
+          preload="auto"
+          style={{ ...styles.thumbVideo, opacity: hovered ? 1 : 0 }}
+        />
 
         {/* Center play button */}
         <div style={{ ...styles.playOverlay, opacity: hovered ? 0 : 1 }}>
           <div style={styles.playBtn}>
-            <svg width="20" height="20" viewBox="0 0 24 24">
+            <svg width="22" height="22" viewBox="0 0 24 24">
               <polygon points="8,6 20,12 8,18" fill="#3b1f6e" />
             </svg>
           </div>
@@ -319,28 +244,10 @@ function VideoCard({ video }: { video: (typeof videos)[0] }) {
 }
 
 export default function VideoSection() {
-  const [btnHover, setBtnHover] = useState(false);
-
   return (
     <section style={styles.section}>
       <div style={styles.container}>
-
-        {/* LEFT: Text */}
-        <div style={styles.leftPane}>
-          <p style={styles.eyebrow}>Watch &amp; Experience</p>
-          <h2 style={styles.heading}>
-            Static video moments that make the ecosystem feel alive.
-          </h2>
-          <p style={styles.subtext}>
-            These polished video cards are ready for future YouTube, Vimeo, CMS,
-            or hosted media embeds while keeping the current frontend fully static.
-          </p>
-
-
-         
-        </div>
-
-        {/* RIGHT: Video Cards */}
+        {/* Centered row holding the wider cards */}
         <div style={styles.cardsRow}>
           {videos.map((v) => (
             <VideoCard key={v.id} video={v} />
