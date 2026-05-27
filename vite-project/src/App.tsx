@@ -16,11 +16,11 @@ function App() {
       <EllevationNavbar />
       <HeroBanner />
       <Ellevationcards />
+      <VideoSection />
       <EllevationAbout />
       <Ellevationpaths />
-      <FinalInvitationSection />
-      <VideoSection />
       <CommunityVoice />
+       <FinalInvitationSection />
       <Footer />
     </>
   );
