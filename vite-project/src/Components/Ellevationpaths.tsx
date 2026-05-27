@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface Path {
   eyebrow: string;
@@ -6,7 +6,7 @@ interface Path {
   description: string;
   features: string[];
   cta: string;
-  icon: JSX.Element;
+  icon: React.ReactNode;
 }
 
 const paths: Path[] = [
@@ -52,8 +52,7 @@ const paths: Path[] = [
   },
 ];
 
-export default function EllevationPaths(): JSX.Element {
-  const [hovered, setHovered] = useState<number | null>(null);
+export default function EllevationPaths() {
   const [visible, setVisible] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -290,8 +289,6 @@ export default function EllevationPaths(): JSX.Element {
             <div
               key={p.title}
               className="path-card"
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
               style={{
                 opacity: visible ? 1 : 0,
                 animation: visible ? "fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) forwards" : "none",

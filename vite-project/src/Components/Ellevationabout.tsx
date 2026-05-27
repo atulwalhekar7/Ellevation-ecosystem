@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface Feature {
   title: string;
@@ -37,8 +37,7 @@ const CheckIcon = () => (
   </svg>
 );
 
-export default function EllevationAbout(): JSX.Element {
-  const [hovered, setHovered] = useState<number | null>(null);
+export default function EllevationAbout() {
   const [visible, setVisible] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -169,8 +168,6 @@ export default function EllevationAbout(): JSX.Element {
             <div
               key={f.title}
               className="ab-card"
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
               style={{
                 opacity: visible ? 1 : 0,
                 animation: visible

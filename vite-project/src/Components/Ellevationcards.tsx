@@ -1,6 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const cards = [
+interface Card {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  accent: string;
+  bg: string;
+  glow: string;
+  border: string;
+}
+
+const cards: Card[] = [
   {
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -64,7 +74,7 @@ const cards = [
 ];
 
 export default function EllevationCards() {
-  const [hovered, setHovered] = useState(null);
+  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
     <>
@@ -190,7 +200,7 @@ export default function EllevationCards() {
             gap: "20px",
           }}
         >
-          {cards.map((card, i) => (
+        {cards.map((card: Card, i: number) => (
             <div
               key={card.title}
               className="card-wrap"

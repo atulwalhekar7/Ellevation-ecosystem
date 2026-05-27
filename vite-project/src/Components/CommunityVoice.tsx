@@ -27,33 +27,6 @@ const testimonials = [
   },
 ];
 
-function Sparkle({ animate }: { animate: boolean }) {
-  return (
-    <svg
-      width="28"
-      height="28"
-      viewBox="0 0 28 28"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{
-        transition: "transform 0.5s ease",
-        transform: animate ? "rotate(20deg) scale(1.2)" : "rotate(0deg) scale(1)",
-      }}
-    >
-      <path
-        d="M14 2C14 2 14.8 8.5 17.5 11C20.2 13.5 26 14 26 14C26 14 20.2 14.5 17.5 17C14.8 19.5 14 26 14 26C14 26 13.2 19.5 10.5 17C7.8 14.5 2 14 2 14C2 14 7.8 13.5 10.5 11C13.2 8.5 14 2 14 2Z"
-        fill="#7c3aed"
-        opacity="0.85"
-      />
-      <path
-        d="M5 5C5 5 5.4 7.2 6.5 8.2C7.6 9.2 10 9.5 10 9.5C10 9.5 7.6 9.8 6.5 10.8C5.4 11.8 5 14 5 14C5 14 4.6 11.8 3.5 10.8C2.4 9.8 0 9.5 0 9.5C0 9.5 2.4 9.2 3.5 8.2C4.6 7.2 5 5 5 5Z"
-        fill="#7c3aed"
-        opacity="0.5"
-      />
-    </svg>
-  );
-}
-
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -81,33 +54,30 @@ function TestimonialCard({
   const [hovered, setHovered] = useState(false);
 
   const cardStyle: CSSProperties = {
-    background: "#ffffff",
-    borderRadius: 20,
-    padding: "32px 28px 28px",
+    background: hovered ? "#ffffff" : "#faf8f4",
+    borderRadius: 16,
+    padding: "36px 32px 32px",
     flex: "1 1 280px",
-    maxWidth: 380,
+    maxWidth: 360,
     minWidth: 260,
     boxShadow: hovered
-      ? "0 24px 60px rgba(124,58,237,0.18), 0 2px 8px rgba(124,58,237,0.10)"
-      : "0 4px 24px rgba(124,58,237,0.07), 0 1px 4px rgba(124,58,237,0.04)",
+      ? "0 16px 48px rgba(180,140,80,0.16), 0 2px 8px rgba(0,0,0,0.05)"
+      : "0 2px 16px rgba(0,0,0,0.06)",
     transition:
-      "transform 0.4s cubic-bezier(.34,1.56,.64,1), box-shadow 0.4s ease, opacity 0.65s ease, background 0.3s ease",
+      "opacity 0.65s ease, transform 0.5s cubic-bezier(.34,1.56,.64,1), box-shadow 0.35s ease, background 0.3s ease",
     transform: !inView
-      ? "translateY(48px) scale(0.97)"
+      ? "translateY(32px)"
       : hovered
-      ? "translateY(-8px) scale(1.02)"
+      ? "translateY(-8px) scale(1.015)"
       : "translateY(0) scale(1)",
     opacity: inView ? 1 : 0,
-    transitionDelay: inView ? `${delay}ms` : "0ms",
-    cursor: "default",
+    transitionDelay: inView && !hovered ? `${delay}ms` : "0ms",
     display: "flex",
     flexDirection: "column",
     gap: 0,
+    cursor: "default",
     position: "relative",
     overflow: "hidden",
-    background: hovered
-      ? "linear-gradient(160deg, #fff 60%, #f5f0ff 100%)"
-      : "#ffffff",
   };
 
   return (
@@ -117,91 +87,114 @@ function TestimonialCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Animated top border line on hover */}
+      {/* Gold bottom border sweep on hover */}
       <div
         style={{
           position: "absolute",
-          top: 0,
+          bottom: 0,
           left: 0,
           height: 3,
-          borderRadius: "20px 20px 0 0",
-          background: "linear-gradient(90deg, #7c3aed, #a855f7, #e879f9)",
+          borderRadius: "0 0 16px 16px",
+          background: "linear-gradient(90deg, rgb(var(--gold)/0.9), rgb(var(--gold)/0.3))",
           width: hovered ? "100%" : "0%",
           transition: "width 0.45s cubic-bezier(.4,0,.2,1)",
         }}
       />
 
-      {/* Sparkle icon — spins on hover */}
-      <div style={{ marginBottom: 18 }}>
-        <Sparkle animate={hovered} />
+      {/* Gold quotation mark */}
+      <div
+        style={{
+          fontSize: 40,
+          lineHeight: 1,
+          color: "rgb(var(--gold) / 0.75)",
+          fontFamily: "Georgia, serif",
+          marginBottom: 16,
+          textAlign: "center",
+          userSelect: "none",
+          transition: "transform 0.35s ease",
+          transform: hovered ? "scale(1.15)" : "scale(1)",
+        }}
+      >
+        "
       </div>
 
-      {/* Quote text */}
+      {/* Quote */}
       <p
         style={{
-          fontSize: 16,
-          lineHeight: 1.72,
-          color: "#1a0a3c",
-          fontFamily: "'DM Sans', serif",
-          marginBottom: 28,
+          fontSize: 15,
+          lineHeight: 1.75,
+          color: "#3a3028",
+          fontFamily: "'DM Sans', sans-serif",
+          
+          textAlign: "center",
+          margin: "0 0 28px 0",
           flex: 1,
-          transition: "color 0.3s ease",
         }}
       >
-        &ldquo;{t.quote}&rdquo;
+        {t.quote}
       </p>
 
-      {/* Author */}
+      {/* Author row */}
       <div
         style={{
-          borderTop: "1px solid #ede9f8",
-          paddingTop: 20,
           display: "flex",
-          flexDirection: "column",
-          gap: 4,
-          transform: hovered ? "translateY(-2px)" : "translateY(0)",
+          alignItems: "center",
+          gap: 14,
+          borderTop: "1px solid #ede8df",
+          paddingTop: 20,
           transition: "transform 0.35s ease",
+          transform: hovered ? "translateY(-2px)" : "translateY(0)",
         }}
       >
-        <p
+        {/* Avatar */}
+        <div
           style={{
-            fontWeight: 700,
-            fontSize: 15,
-            color: "#1a0a3c",
-            margin: 0,
-            fontFamily: "'Georgia', 'Times New Roman', serif",
-          }}
-        >
-          {t.name}
-        </p>
-        <p
-          style={{
+            width: 44,
+            height: 44,
+            borderRadius: 10,
+            background: "linear-gradient(135deg, rgb(219, 166, 208) 0%, rgb(184, 94, 164, 0.31) 100%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            
             fontSize: 13,
-            color: "#9ca3af",
-            margin: 0,
-            fontFamily: "'Segoe UI', sans-serif",
-            letterSpacing: "0.01em",
+            fontWeight: 700,
+            fontFamily: "'DM Sans', sans-serif",
+            letterSpacing: "0.03em",
           }}
         >
-          {t.role}
-        </p>
-      </div>
+          {t.initials}
+        </div>
 
-      {/* Subtle glow blob on hover */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: -40,
-          right: -40,
-          width: 120,
-          height: 120,
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(124,58,237,0.10) 0%, transparent 70%)",
-          opacity: hovered ? 1 : 0,
-          transition: "opacity 0.4s ease",
-          pointerEvents: "none",
-        }}
-      />
+        {/* Name + role */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 14,
+              fontWeight: 700,
+              color: "#1a1410",
+              fontFamily: "'DM Sans', Georgia, sans-serif",
+            }}
+          >
+            {t.name}
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 10,
+              fontWeight: 600,
+              color: "#a89880",
+              textTransform: "uppercase",
+              letterSpacing: "0.12em",
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            {t.role}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -212,47 +205,25 @@ export default function CommunityVoices() {
   return (
     <>
       <style>{`
-        @keyframes floatSparkle {
-          0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.18; }
-          50%       { transform: translateY(-12px) rotate(15deg); opacity: 0.28; }
-        }
-        @keyframes floatSparkle2 {
-          0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.12; }
-          50%       { transform: translateY(-8px) rotate(-10deg); opacity: 0.22; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@500;600&display=swap');
       `}</style>
 
       <section
         style={{
           width: "100%",
-          background: "#f5f0ff",
+          background: "#f5f0e8",
           padding: "80px 24px 96px",
           boxSizing: "border-box",
-          fontFamily: "'Segoe UI', sans-serif",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Ambient floating sparkles in background */}
-        <div style={{ position: "absolute", top: 40, left: "8%", animation: "floatSparkle 5s ease-in-out infinite", pointerEvents: "none" }}>
-          <svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M14 2C14 2 14.8 8.5 17.5 11C20.2 13.5 26 14 26 14C26 14 20.2 14.5 17.5 17C14.8 19.5 14 26 14 26C14 26 13.2 19.5 10.5 17C7.8 14.5 2 14 2 14C2 14 7.8 13.5 10.5 11C13.2 8.5 14 2 14 2Z" fill="#7c3aed"/></svg>
-        </div>
-        <div style={{ position: "absolute", top: 80, right: "10%", animation: "floatSparkle2 6.5s ease-in-out infinite 1s", pointerEvents: "none" }}>
-          <svg width="16" height="16" viewBox="0 0 28 28" fill="none"><path d="M14 2C14 2 14.8 8.5 17.5 11C20.2 13.5 26 14 26 14C26 14 20.2 14.5 17.5 17C14.8 19.5 14 26 14 26C14 26 13.2 19.5 10.5 17C7.8 14.5 2 14 2 14C2 14 7.8 13.5 10.5 11C13.2 8.5 14 2 14 2Z" fill="#a855f7"/></svg>
-        </div>
-        <div style={{ position: "absolute", bottom: 60, left: "15%", animation: "floatSparkle 7s ease-in-out infinite 2s", pointerEvents: "none" }}>
-          <svg width="12" height="12" viewBox="0 0 28 28" fill="none"><path d="M14 2C14 2 14.8 8.5 17.5 11C20.2 13.5 26 14 26 14C26 14 20.2 14.5 17.5 17C14.8 19.5 14 26 14 26C14 26 13.2 19.5 10.5 17C7.8 14.5 2 14 2 14C2 14 7.8 13.5 10.5 11C13.2 8.5 14 2 14 2Z" fill="#7c3aed"/></svg>
-        </div>
-        <div style={{ position: "absolute", bottom: 40, right: "18%", animation: "floatSparkle2 5.5s ease-in-out infinite 0.5s", pointerEvents: "none" }}>
-          <svg width="18" height="18" viewBox="0 0 28 28" fill="none"><path d="M14 2C14 2 14.8 8.5 17.5 11C20.2 13.5 26 14 26 14C26 14 20.2 14.5 17.5 17C14.8 19.5 14 26 14 26C14 26 13.2 19.5 10.5 17C7.8 14.5 2 14 2 14C2 14 7.8 13.5 10.5 11C13.2 8.5 14 2 14 2Z" fill="#c084fc"/></svg>
-        </div>
-
         {/* Header */}
         <div
           ref={headerRef}
           style={{
             textAlign: "center",
-            marginBottom: 56,
+            marginBottom: 48,
             opacity: headerIn ? 1 : 0,
             transform: headerIn ? "translateY(0)" : "translateY(24px)",
             transition: "opacity 0.7s ease, transform 0.7s ease",
@@ -263,20 +234,21 @@ export default function CommunityVoices() {
               fontSize: 11,
               fontWeight: 700,
               letterSpacing: "0.22em",
-              color: "#7c3aed",
+              color: "rgb(var(--gold) / 1)",
               textTransform: "uppercase",
-              marginBottom: 16,
+              marginBottom: 14,
+              fontFamily: "'DM Sans', sans-serif",
             }}
           >
-Stories of Transformation
+            Stories of Transformation
           </p>
           <h2
             style={{
-              fontSize: "clamp(32px, 5vw, 54px)",
-              fontWeight: 700,
-              color: "#1a0a3c",
-              fontFamily: "'Cormorant Garamond', serif",
-              lineHeight: 1.18,
+              fontSize: "clamp(30px, 4.5vw, 50px)",
+              fontWeight: 600,
+              color: "#1a1410",
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              lineHeight: 1.2,
               margin: 0,
             }}
           >
@@ -284,7 +256,7 @@ Stories of Transformation
           </h2>
         </div>
 
-        {/* Cards row */}
+        {/* Cards */}
         <div
           style={{
             display: "flex",

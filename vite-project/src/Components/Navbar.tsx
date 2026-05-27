@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = {
@@ -8,27 +9,27 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { label: "Home", href: "#" },
-  { label: "About Ellevation", href: "#" },
+  { label: "Home", href: "/" },
+  { label: "About Ellevation", href: "/about" },
   {
     label: "Content",
     dropdown: [
-      { label: "YouTube", href: "#" },
-      { label: "Social Media Pages", href: "#" },
+      { label: "YouTube", href: "/content/youtube" },
+      { label: "Social Media Pages", href: "/content/social-media" },
     ],
   },
   {
     label: "Get Involved",
     dropdown: [
-      { label: "Join Us Ellevation", href: "#" },
-      { label: "Alliances", href: "#" },
-      { label: "Professional Membership Directories", href: "#" },
+      { label: "Join Us Ellevation", href: "/get-involved/join" },
+      { label: "Alliances", href: "/get-involved/alliances" },
+      { label: "Professional Membership Directories", href: "/get-involved/directories" },
     ],
   },
-  { label: "Events", href: "#" },
-  { label: "Contact", href: "#" },
-  { label: "Ms. Ellevation", href: "#" },
-  { label: "Ellevation Hub", href: "#" },
+  { label: "Events", href: "/events" },
+  { label: "Contact", href: "/contact" },
+  { label: "Ms. Ellevation", href: "/ms-ellevation" },
+  { label: "Ellevation Hub", href: "/hub" },
 ];
 
 function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean }) {
@@ -53,9 +54,9 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
       }}
     >
       {items.map((item) => (
-        <a
+        <Link
           key={item.label}
-          href={item.href}
+          to={item.href}
           style={{
             display: "block",
             padding: "10px 22px",
@@ -76,7 +77,7 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
           }
         >
           {item.label}
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -152,8 +153,8 @@ function NavItemComponent({ item }: { item: NavItem }) {
   }
 
   return (
-    <a
-      href={item.href}
+    <Link
+      to={item.href || "#"}
       style={{
         fontSize: "14px",
         color: "#2d2d2d",
@@ -169,7 +170,7 @@ function NavItemComponent({ item }: { item: NavItem }) {
       onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#2d2d2d")}
     >
       {item.label}
-    </a>
+    </Link>
   );
 }
 
@@ -198,8 +199,8 @@ export default function EllevationNavbar() {
         }}
       >
         {/* Logo */}
-        <a
-          href="#"
+        <Link
+          to="/"
           style={{
             display: "flex",
             alignItems: "center",
@@ -252,7 +253,7 @@ export default function EllevationNavbar() {
               Ecosystem
             </div>
           </div>
-        </a>
+        </Link>
 
         {/* Nav Links */}
         <div
