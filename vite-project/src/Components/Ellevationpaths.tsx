@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+
 
 interface Path {
   eyebrow: string;
@@ -6,47 +8,55 @@ interface Path {
   description: string;
   features: string[];
   cta: string;
+  route: string;
   icon: React.ReactNode;
 }
 
 const paths: Path[] = [
   {
-    eyebrow: "Personal Growth Journey",
+    eyebrow: "Executive Leadership Track",
     title: "Ms. Ellevation",
     description:
-      "Your deeply personal journey of transformation. Coaching, clarity, and the courage to become who you were always meant to be.",
+      "A high-touch leadership experience designed for women founders, executives, and changemakers ready to scale influence, confidence, and strategic impact.",
     features: [
-      "Personal Transformation",
-      "1-on-1 Coaching",
-      "Group Circles",
-      "Retreats",
+      "Executive Mentorship",
+      "Leadership Intensives",
+      "Private Mastermind Access",
+      "Quarterly Strategy Retreats",
     ],
-    cta: "Explore",
+    cta: "Apply Now",
+route: "/ms-ellevation",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2l1.09 3.26L16 6.27l-2.91 2.13 1.09 3.27L12 9.54l-2.18 2.13 1.09-3.27L8 6.27l2.91-.01L12 2z" fill="white" />
-        <path d="M5 12c0 3.87 3.13 7 7 7s7-3.13 7-7" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+        <path
+          d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1L3.2 9.4l6.1-.9L12 3z"
+          fill="white"
+        />
       </svg>
     ),
   },
   {
-    eyebrow: "Membership Ecosystem",
+    eyebrow: "Community & Networking",
     title: "Ellevation Hub",
     description:
-      "The professional ecosystem. A thriving membership community for connection, collaboration, impact, and collective rise.",
+      "A curated membership network connecting ambitious women through collaboration, meaningful relationships, curated events, and growth opportunities.",
     features: [
-      "Professional Network",
-      "Impact Programs",
-      "Directory & Alliances",
-      "Business Opportunities",
+      "Monthly Networking Events",
+      "Industry Peer Groups",
+      "Business Collaboration",
+      "Member Resource Library",
     ],
-    cta: "Join Membership",
-    icon: (
+    cta: "Become a Member",
+ route: "/hub",
+     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="7" r="3" stroke="white" strokeWidth="1.5" />
-        <circle cx="5" cy="17" r="2.5" stroke="white" strokeWidth="1.5" />
-        <circle cx="19" cy="17" r="2.5" stroke="white" strokeWidth="1.5" />
-        <path d="M7 16c1-2 2.5-3 5-3s4 1 5 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="12" cy="8" r="3" stroke="white" strokeWidth="1.5" />
+        <path
+          d="M5 19c1.5-3 4-4.5 7-4.5s5.5 1.5 7 4.5"
+          stroke="white"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
       </svg>
     ),
   },
@@ -264,7 +274,7 @@ export default function EllevationPaths() {
             margin: "0 0 18px",
             letterSpacing: "-0.01em",
           }}>
-            Two premium entry points inside the same ecosystem.
+  Choose the experience that matches your current season of growth.
           </h2>
           <p style={{
             fontSize: "15px",
@@ -272,8 +282,9 @@ export default function EllevationPaths() {
             color: "#5a4070",
             margin: 0,
           }}>
-            Each destination feels distinct, while the brand language, quality,
-            and navigation stay connected.
+            Whether you're seeking personal transformation through coaching and healing,
+  or professional expansion through community, mentorship, and collaboration —
+  both paths are designed to support ambitious women rising with purpose.
           </p>
         </div>
 
@@ -333,19 +344,24 @@ export default function EllevationPaths() {
 
               {/* CTA */}
               <div>
-                <button className="cta-btn">
-                  {p.cta}
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M5 12h14M13 6l6 6-6 6"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              </div>
+  <Link
+    to={p.route}
+    className="cta-btn"
+    style={{ textDecoration: "none" }}
+  >
+    {p.cta}
+
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M5 12h14M13 6l6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  </Link>
+</div>
             </div>
           ))}
         </div>
