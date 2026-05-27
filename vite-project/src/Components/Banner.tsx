@@ -66,7 +66,7 @@ function Carousel() {
   return (
     <div style={{ position: "relative", width: "100%", paddingTop: 24, paddingBottom: 28 }}>
 
-      {/* Signature card — top right (Animation class added via className) */}
+      {/* Signature card — top right */}
       <div 
         className="elv-float-card-top"
         style={{
@@ -187,7 +187,7 @@ function Carousel() {
         <div style={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 7, zIndex: 10 }}>
           {slides.map((_, i) => (
             <button key={i} onClick={() => goTo(i)} style={{
-              width: 7, height: 7, borderRadius: "50%", border: "none", cursor: "pointer", padding: 0,
+              width: 7, height: 4, borderRadius: "50%", border: "none", cursor: "pointer", padding: 0,
               background: i === cur ? "#fff" : "rgba(255,255,255,0.4)",
               transform: i === cur ? "scale(1.3)" : "scale(1)",
               transition: "background 0.3s, transform 0.3s",
@@ -196,23 +196,42 @@ function Carousel() {
         </div>
       </div>
 
-      {/* Dark float card — bottom left (Animation class added via className) */}
-      <div 
-        className="elv-float-card-bottom"
-        style={{
-          position: "absolute", bottom: 0, left: -24,
-          width: 205, borderRadius: 20,
-          background: "#1a0a2e", padding: "15px 17px",
-          boxShadow: "0 12px 36px rgba(26,10,46,0.35)",
-          border: "1px solid rgba(255,255,255,0.08)", zIndex: 20,
-        }}
-      >
-        <div style={{ marginBottom: 10 }}><CrownIcon /></div>
-        <p style={{ fontSize: 12, lineHeight: 1.65, color: "rgba(255,255,255,0.72)", fontFamily: "'DM Sans',sans-serif" }}>
-          Premium spaces for coaching, membership, directories, alliances, and events.
-        </p>
-      </div>
-    </div>
+     {/* Dark float card — bottom left */}
+<div
+  className="elv-float-card-bottom"
+  style={{
+    position: "absolute",
+    bottom: 0,
+    left: -12,
+
+    width: 165,
+    borderRadius: 16,
+
+    background: "#1a0a2e",
+    padding: "8px 12px",
+
+    boxShadow: "0 8px 24px rgba(26,10,46,0.22)",
+    border: "1px solid rgba(255,255,255,0.06)",
+    zIndex: 20,
+  }}
+>
+  <div style={{ marginBottom: 4 }}>
+    <CrownIcon />
+  </div>
+
+  <p
+    style={{
+      fontSize: 13,
+      lineHeight: 1.5,
+      color: "rgba(255,255,255,0.72)",
+      fontFamily: "'DM Sans',sans-serif",
+      margin: 0,
+    }}
+  >
+    Premium spaces for coaching, memberships, alliances, and events.
+  </p>
+</div>
+</div>
   );
 }
 
@@ -234,34 +253,50 @@ export default function EllevationHero() {
       />
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(24px); }
+          from { opacity: 0; transform: translateY(30px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeSlideInTop {
-          from { opacity: 0; transform: translate(15px, -15px); }
+          from { opacity: 0; transform: translate(25px, -25px); }
           to   { opacity: 1; transform: translate(0, 0); }
         }
         @keyframes fadeSlideInBottom {
-          from { opacity: 0; transform: translate(-15px, 15px); }
+          from { opacity: 0; transform: translate(-25px, 25px); }
           to   { opacity: 1; transform: translate(0, 0); }
         }
         @keyframes ticker {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-33.333%); }
         }
+        
+        /* Stagger delays for left content text block */
+        .elv-animate-1 { animation: fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: 0.1s; }
+        .elv-animate-2 { animation: fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: 0.25s; }
+        .elv-animate-3 { animation: fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: 0.4s; }
+        .elv-animate-4 { animation: fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: 0.55s; }
+        .elv-animate-5 { animation: fadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) both; animation-delay: 0.7s; }
+
+        /* Carousel Main Frame entry staging */
+        .elv-carousel-entry {
+          animation: fadeUp 1.2s cubic-bezier(0.25, 1, 0.5, 1) both;
+          animation-delay: 0.35s;
+        }
+
+        /* Micro floating interaction layers */
         .elv-stat:hover {
-          transform: translateY(-3px) !important;
+          transform: translateY(-4px) !important;
           background: rgba(255,255,255,0.86) !important;
+          box-shadow: 0 10px 20px rgba(155,109,190,0.08);
         }
         .elv-float-card-top {
           opacity: 0;
-          animation: fadeSlideInTop 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          animation-delay: 0.7s;
+          animation: fadeSlideInTop 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          animation-delay: 0.9s;
         }
         .elv-float-card-bottom {
           opacity: 0;
-          animation: fadeSlideInBottom 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-          animation-delay: 0.9s;
+          animation: fadeSlideInBottom 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          animation-delay: 1.1s;
         }
       `}</style>
 
@@ -281,7 +316,7 @@ export default function EllevationHero() {
           maxWidth: 1200,
           margin: "0 auto",
           width: "100%",
-          padding: "40px 48px 52px 48px",   // equal 48px L & R
+          padding: "40px 48px 52px 48px",
           display: "grid",
           gridTemplateColumns: "1fr 1.1fr",
           gap: 48,
@@ -289,15 +324,12 @@ export default function EllevationHero() {
         }}>
 
           {/* LEFT */}
-          <div style={{
-            opacity: visible ? 1 : 0,
-            animation: visible ? "fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both" : "none",
-          }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b6dbe", marginBottom: 18 }}>
+          <div style={{ opacity: visible ? 1 : 0 }}>
+            <p className={visible ? "elv-animate-1" : ""} style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b6dbe", marginBottom: 18 }}>
               Ellevation Community Ecosystem
             </p>
 
-            <h1 style={{
+            <h1 className={visible ? "elv-animate-2" : ""} style={{
               fontFamily: "'Cormorant Garamond',serif",
               fontSize: "clamp(31px,4.2vw,54px)",
               fontWeight: 700, lineHeight: 1.02,
@@ -306,13 +338,13 @@ export default function EllevationHero() {
               Rise into the room built <br />for your becoming.
             </h1>
 
-            <p style={{ fontSize: 15, lineHeight: 1.72, color: "rgba(42,18,60,0.72)", maxWidth: 460, marginBottom: 32 }}>
+            <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 15, lineHeight: 1.72, color: "rgba(42,18,60,0.72)", maxWidth: 460, marginBottom: 32 }}>
               Ellevation is a luxury feminine, community-driven ecosystem uniting personal
               transformation, professional visibility, impact pathways, events, and membership.
             </p>
 
             {/* CTA Buttons */}
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36 }}>
+            <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36 }}>
               <button
                 onMouseEnter={() => setGoldHov(true)}
                 onMouseLeave={() => setGoldHov(false)}
@@ -325,7 +357,7 @@ export default function EllevationHero() {
                   boxShadow: "0 4px 18px rgba(201,144,106,0.38)",
                   opacity: goldHov ? 0.88 : 1,
                   transform: goldHov ? "scale(1.02)" : "scale(1)",
-                  transition: "opacity 0.15s, transform 0.15s",
+                  transition: "opacity 0.15s, transform 0.15s, background-color 0.2s",
                 }}
               >
                 Enter Ms. Ellevation →
@@ -342,7 +374,7 @@ export default function EllevationHero() {
                   boxShadow: "0 4px 18px rgba(26,10,46,0.22)",
                   opacity: darkHov ? 0.88 : 1,
                   transform: darkHov ? "scale(1.02)" : "scale(1)",
-                  transition: "opacity 0.15s, transform 0.15s",
+                  transition: "opacity 0.15s, transform 0.15s, background-color 0.2s",
                 }}
               >
                 Join Membership →
@@ -350,12 +382,12 @@ export default function EllevationHero() {
             </div>
 
             {/* Stat cards */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, maxWidth: 420 }}>
+            <div className={visible ? "elv-animate-5" : ""} style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, maxWidth: 420 }}>
               {stats.map(({ top, bottom }) => (
                 <div key={top} className="elv-stat" style={{
                   borderRadius: 16, border: "1px solid rgba(255,255,255,0.85)",
                   background: "rgba(255,255,255,0.48)", backdropFilter: "blur(10px)",
-                  padding: "13px 14px", transition: "transform 0.2s, background 0.2s", cursor: "default",
+                  padding: "13px 14px", transition: "transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s, box-shadow 0.3s", cursor: "default",
                 }}>
                   <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 19, fontWeight: 600, color: "#1a0a2e", lineHeight: 1.1, marginBottom: 3 }}>{top}</p>
                   <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#C9A96E" }}>{bottom}</p>
@@ -365,9 +397,8 @@ export default function EllevationHero() {
           </div>
 
           {/* RIGHT */}
-          <div style={{
+          <div className={visible ? "elv-carousel-entry" : ""} style={{
             opacity: visible ? 1 : 0,
-            animation: visible ? "fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) 0.22s both" : "none",
             paddingTop: 28, paddingBottom: 32, paddingRight: 28,
           }}>
             <Carousel />
