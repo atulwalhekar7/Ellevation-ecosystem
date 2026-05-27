@@ -25,7 +25,7 @@ export default function FounderSection() {
           justifyContent: "center",
         }}
       >
-        {/* LEFT SIDE */}
+       
         <div
           style={{
             display: "flex",
@@ -68,7 +68,7 @@ export default function FounderSection() {
             </div>
           </div>
 
-          {/* NAME */}
+      
           <div style={{ textAlign: "center" }}>
             <p
               style={{
@@ -95,7 +95,7 @@ export default function FounderSection() {
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
+      
         <div style={{ flex: "1 1 380px", maxWidth: 620 }}>
           <p
             style={{
@@ -145,7 +145,6 @@ export default function FounderSection() {
             At Ms Ellevation, we believe that when women rise, communities rise.
           </p>
 
-          {/* ✅ BUTTON ADDED HERE */}
           <Link
             to="/about"
             style={{

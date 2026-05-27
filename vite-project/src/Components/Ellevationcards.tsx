@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 interface Card {
   title: string;
@@ -101,7 +101,7 @@ export default function EllevationCards() {
           transform: scale(1);
         }
 
-        /* ── Dark overlay on hover ── */
+       
         .elv-dark {
           position: absolute;
           inset: 0;
@@ -121,7 +121,6 @@ export default function EllevationCards() {
           opacity: 1;
         }
 
-        /* ── Default shade (fades on hover) ── */
         .elv-shade {
           position: absolute;
           inset: 0;
@@ -134,7 +133,7 @@ export default function EllevationCards() {
           opacity: 0;
         }
 
-        /* ── Arrow ── */
+    
         .elv-arrow {
           position: absolute;
           top: 16px;
@@ -156,7 +155,7 @@ export default function EllevationCards() {
           transform: translate(2px,-2px);
         }
 
-        /* ── Content body ── */
+       
         .elv-body {
           position: absolute;
           bottom: 0;
@@ -169,7 +168,6 @@ export default function EllevationCards() {
           gap: 0;
         }
 
-        /* ── h2 Title ── */
         .elv-title {
           font-family: 'Cormorant Garamond', serif;
           font-size: 24px;
@@ -182,7 +180,7 @@ export default function EllevationCards() {
           margin-bottom: 8px; /* Fixed spacing since it is always visible */
         }
 
-        /* ── Description (Now visible by default) ── */
+      
         .elv-desc {
           font-family: 'DM Sans', sans-serif;
           font-size: 13px;
@@ -197,7 +195,7 @@ export default function EllevationCards() {
           color: #e2e8f0;
         }
 
-        /* ── Accent line ── */
+       
         .elv-line {
           height: 2px;
           border-radius: 2px;
@@ -229,7 +227,6 @@ export default function EllevationCards() {
   fontFamily: "'DM Sans', sans-serif",
 }}
       >
-        {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "48px" }}>
           <h2
           style={{
@@ -246,7 +243,6 @@ export default function EllevationCards() {
           </h2>
         </div>
 
-        {/* Grid */}
         <div
           className="elv-grid"
           style={{
@@ -272,16 +268,12 @@ export default function EllevationCards() {
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
             >
-              {/* Background image */}
               <img className="elv-img" src={card.imageUrl} alt={card.title} loading="lazy" />
 
-              {/* Dark overlay */}
               <div className="elv-dark" />
 
-              {/* Default dark blue shade overlay */}
               <div className="elv-shade" style={{ background: card.shade }} />
 
-              {/* Arrow */}
               <div className="elv-arrow">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
                   <path
@@ -294,7 +286,6 @@ export default function EllevationCards() {
                 </svg>
               </div>
 
-              {/* Content */}
               <div className="elv-body">
                 <h2 className="elv-title">{card.title}</h2>
                 <p className="elv-desc">{card.description}</p>
