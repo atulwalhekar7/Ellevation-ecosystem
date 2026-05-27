@@ -245,7 +245,7 @@ export default function ProfessionalDirectory() {
       <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#fff", minHeight: "100vh" }}>
 
         {/* Hero */}
-        <div style={{ background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", padding: "110px 24px 96px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", padding: "160px 24px 140px", textAlign: "center", position: "relative", overflow: "hidden" }}>
           <div style={{ position:"absolute",top:"-40%",left:"-20%",width:"60%",height:"160%",background:"radial-gradient(ellipse,rgba(200,140,220,0.22) 0%,transparent 70%)",animation:"pulse 5s ease-in-out infinite",pointerEvents:"none" }} />
           <div style={{ position:"absolute",top:"-20%",right:"-10%",width:"50%",height:"120%",background:"radial-gradient(ellipse,rgba(230,150,200,0.18) 0%,transparent 70%)",animation:"pulse 7s ease-in-out infinite reverse",pointerEvents:"none" }} />
           <div style={{ fontSize:11,letterSpacing:"0.22em",color:"#a060b0",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:"1.2rem",position:"relative",zIndex:1 }}>
@@ -263,7 +263,7 @@ export default function ProfessionalDirectory() {
         </div>
 
         {/* Filter Bar */}
-        <div style={{ background:"#fdf5ff",padding:"1.2rem 54px 1rem",borderBottom:"1px solid #ecd8f5" }}>
+        <div style={{ background:"#fdf5ff",padding:"1.2rem 2rem 1rem",borderBottom:"1px solid #ecd8f5" }}>
           <div style={{ display:"flex",flexWrap:"wrap",alignItems:"center",gap:8 }}>
             {CATEGORIES.map((cat) => (
               <button key={cat} className="chip-btn" onClick={() => setActiveFilter(cat)}
@@ -276,19 +276,19 @@ export default function ProfessionalDirectory() {
             </button>
           </div>
         </div>
-        <div style={{ fontSize:13,color:"#a070b0",padding:"0.5rem 54px",background:"#fdf5ff",borderBottom:"1px solid #ecd8f5" }}>
+        <div style={{ fontSize:13,color:"#a070b0",padding:"0.5rem 2rem",background:"#fdf5ff",borderBottom:"1px solid #ecd8f5" }}>
           {filtered.length} member{filtered.length !== 1 ? "s" : ""} found
         </div>
 
         {/* Cards Grid */}
-        <div style={{ padding:"2rem 54px",background:"#fdf5ff",minHeight:300 }}>
+        <div style={{ padding:"2rem",background:"#fdf5ff",minHeight:300 }}>
           <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))",gap:20 }}>
             {filtered.map((m, i) => <MemberCard key={m.name} member={m} index={i} />)}
           </div>
         </div>
 
         {/* CTA */}
-        <div style={{ padding:"2rem 54px",background:"#fdf5ff" }}>
+        <div style={{ padding:"2rem",background:"#fdf5ff" }}>
           <div style={{ border:"1px solid #e8d0f5",borderRadius:20,padding:"2.5rem 2rem",textAlign:"center",background:"#fff" }}>
             <div style={{ fontSize:11,letterSpacing:"0.18em",color:"#b070c0",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:"1rem" }}>
               <span style={{ display:"inline-block",width:28,height:1,background:"#d0a8e0" }} />JOIN THE DIRECTORY<span style={{ display:"inline-block",width:28,height:1,background:"#d0a8e0" }} />

@@ -471,9 +471,8 @@ const styles: Record<string, React.CSSProperties> = {
   eventsSection: {
     position: "relative",
     overflow: "hidden",
-    padding: "110px 48px 96px",
+    padding: "160px 24px 140px",
     textAlign: "center",
-    minHeight: 260,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
