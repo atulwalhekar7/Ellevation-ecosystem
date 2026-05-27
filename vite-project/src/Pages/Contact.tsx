@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import banner3 from "../assets/banner3.avif";
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -77,9 +78,10 @@ export default function EllevationContact() {
         <div
           ref={heroRef}
           style={{
-            background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
-            position: "relative",
-            padding: "110px 48px 96px",
+            background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner3})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            padding: "72px 32px 80px",
             textAlign: "center",
           }}
         >
@@ -89,7 +91,7 @@ export default function EllevationContact() {
               fontSize: 10,
               fontWeight: 600,
               letterSpacing: "0.26em",
-              color: "#7c5fa0",
+              color: "#fff",
               textTransform: "uppercase",
               marginBottom: 22,
               opacity: heroIn ? 1 : 0,
@@ -106,7 +108,7 @@ export default function EllevationContact() {
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(40px, 6vw, 64px)",
               fontWeight: 600,
-              color: "#2d1f3d",
+              color: "#fff",
               lineHeight: 1.15,
               marginBottom: 20,
               opacity: heroIn ? 1 : 0,
@@ -122,7 +124,7 @@ export default function EllevationContact() {
             style={{
               fontSize: 15,
               fontWeight: 300,
-              color: "#5a4a6e",
+              color: "rgba(255,255,255,0.9)",
               lineHeight: 1.75,
               maxWidth: 520,
               margin: "0 auto 40px",
@@ -174,7 +176,7 @@ export default function EllevationContact() {
                   display: "inline-block",
                   animation: btnHovered ? "pulseArrow 0.6s ease infinite" : "none",
                 }}
-              >
+              > {/* Changed arrow color to white */}
                 →
               </span>
             </button>
