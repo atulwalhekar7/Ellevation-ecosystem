@@ -1,0 +1,48 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.*
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env/
+
+# Build folders
+dist/
+build/
+out/
+
+# IDEs
+.vscode/
+.idea/
+
+# Coverage
+coverage/
+.coverage
+
+# Temporary files
+*.tmp
+*.temp
+
+# Mac/Linux
+*.swp
+
+# Package lock files (optional)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
