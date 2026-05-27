@@ -1,4 +1,6 @@
 import { useRef, useState, CSSProperties } from "react";
+import video1 from "../assets/video1.mp4";
+import video2 from "../assets/video2.mp4";
 
 const videos = [
   {
@@ -8,9 +10,11 @@ const videos = [
     description:
       "A static video-style feature card for future YouTube, CMS, or hosted media embeds.",
     duration: "08:42",
-    thumbnail: "https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=600&q=80",
-    videoSrc: "https://www.w3schools.com/html/mov_bbb.mp4",
-    gradientBg: "linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fed7aa 100%)",
+thumbnail:
+  "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80",
+       videoSrc: video1,
+
+        gradientBg: "linear-gradient(135deg, #c4b5fd 0%, #f9a8d4 50%, #fed7aa 100%)",
   },
   {
     id: 2,
@@ -19,8 +23,8 @@ const videos = [
     description:
       "A guided preview of search, filters, member profiles, and get-listed pathways.",
     duration: "04:18",
-    thumbnail: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80",
-    videoSrc: "https://www.w3schools.com/html/movie.mp4",
+thumbnail:
+  "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",    videoSrc: video2,
     gradientBg: "linear-gradient(135deg, #a5b4fc 0%, #ddd6fe 50%, #e0e7ff 100%)",
   },
 ];
@@ -274,14 +278,15 @@ function VideoCard({ video }: { video: (typeof videos)[0] }) {
           style={{ ...styles.thumbImg, opacity: hovered ? 0 : 1 }}
         />
 
-        <video
-          ref={videoRef}
-          src={video.videoSrc}
-          loop
-          muted
-          playsInline
-          style={{ ...styles.thumbVideo, opacity: hovered ? 1 : 0 }}
-        />
+       <video
+  ref={videoRef}
+  src={video.videoSrc}
+  loop
+  muted
+  playsInline
+  preload="auto"
+  style={{ ...styles.thumbVideo, opacity: hovered ? 1 : 0 }}
+/>
 
         {/* Center play button */}
         <div style={{ ...styles.playOverlay, opacity: hovered ? 0 : 1 }}>
