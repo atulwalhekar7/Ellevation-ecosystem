@@ -254,7 +254,7 @@ export default function EllevationPaths() {
           }}
         >
           <p style={{
-            fontSize: "11px",
+            fontSize: "15px",
             fontWeight: 700,
             letterSpacing: "0.14em",
             textTransform: "uppercase",

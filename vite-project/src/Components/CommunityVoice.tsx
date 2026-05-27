@@ -123,7 +123,7 @@ function TestimonialCard({
         style={{
           fontSize: 15,
           lineHeight: 1.75,
-          color: "#3a3028",
+          color: "#5a4070",
           fontFamily: "'DM Sans', sans-serif",
           
           textAlign: "center",
@@ -167,7 +167,7 @@ function TestimonialCard({
               margin: 0,
               fontSize: 14,
               fontWeight: 700,
-              color: "#1a1410",
+              color: "#5a4070",
               fontFamily: "'DM Sans', Georgia, sans-serif",
             }}
           >
@@ -224,10 +224,10 @@ export default function CommunityVoices() {
         >
           <p
             style={{
-              fontSize: 11,
+              fontSize: 15,
               fontWeight: 700,
               letterSpacing: "0.22em",
-              color: "rgb(var(--gold) / 1)",
+              color: " rgb(124, 92, 191)",
               textTransform: "uppercase",
               marginBottom: 14,
               fontFamily: "'DM Sans', sans-serif",
@@ -239,7 +239,7 @@ export default function CommunityVoices() {
             style={{
               fontSize: "clamp(30px, 4.5vw, 50px)",
               fontWeight: 600,
-              color: "#1a1410",
+              color: "rgb(26, 10, 46)",
               fontFamily: "'Cormorant Garamond', Georgia, serif",
               lineHeight: 1.2,
               margin: 0,
