@@ -14,10 +14,18 @@ import Events from './pages/Events';
 import Contact from './pages/Contact';
 import MsEllevation from './pages/MsEllevation';
 import EllevationHub from './pages/EllevationHub';
+import Ellevationcards from './Components/Ellevationcards';
+import EllevationAbout from './Components/Ellevationabout';
+import Ellevationpaths from './Components/Ellevationpaths';
+import FinalInvitationSection from './Components/Finalinvitationsection';
+import VideoSection from "./Components/VideoSection";
+import CommunityVoice from "./Components/CommunityVoice"
+import ScrollToUp from "./Components/ScrollToTop";
 
 function App() {
   return (
     <>
+    <ScrollToUp />
       <EllevationNavbar />
       <Routes>
         <Route path="/" element={<Home />} />

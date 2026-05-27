@@ -52,7 +52,7 @@ const styles: Record<string, CSSProperties> = {
     minWidth: 260,
   },
   eyebrow: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 700,
     letterSpacing: "0.18em",
     color: "#7c3aed",
