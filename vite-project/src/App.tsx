@@ -7,6 +7,9 @@ import Ellevationcards from './Components/Ellevationcards';
 import EllevationAbout from './Components/Ellevationabout';
 import Ellevationpaths from './Components/Ellevationpaths';
 import FinalInvitationSection from './Components/Finalinvitationsection';
+import VideoSection from "./Components/VideoSection";
+import CommunityVoice from "./Components/CommunityVoice"
+
 function App() {
   return (
     <>
@@ -16,6 +19,8 @@ function App() {
       <EllevationAbout />
       <Ellevationpaths />
       <FinalInvitationSection />
+      <VideoSection />
+      <CommunityVoice />
       <Footer />
     </>
   );
