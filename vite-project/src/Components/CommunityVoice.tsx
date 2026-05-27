@@ -87,7 +87,7 @@ function TestimonialCard({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Gold bottom border sweep on hover */}
+     
       <div
         style={{
           position: "absolute",
@@ -101,7 +101,7 @@ function TestimonialCard({
         }}
       />
 
-      {/* Gold quotation mark */}
+    
       <div
         style={{
           fontSize: 40,
@@ -118,7 +118,7 @@ function TestimonialCard({
         "
       </div>
 
-      {/* Quote */}
+  
       <p
         style={{
           fontSize: 15,
@@ -134,7 +134,6 @@ function TestimonialCard({
         {t.quote}
       </p>
 
-      {/* Author row */}
       <div
         style={{
           display: "flex",
@@ -218,7 +217,7 @@ export default function CommunityVoices() {
           overflow: "hidden",
         }}
       >
-        {/* Header */}
+       
         <div
           ref={headerRef}
           style={{
@@ -256,7 +255,7 @@ export default function CommunityVoices() {
           </h2>
         </div>
 
-        {/* Cards */}
+       
         <div
           style={{
             display: "flex",

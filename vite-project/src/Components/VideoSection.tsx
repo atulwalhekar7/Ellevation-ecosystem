@@ -42,7 +42,7 @@ const styles: Record<string, CSSProperties> = {
     fontFamily: "'Segoe UI', sans-serif",
   },
   container: {
-    maxWidth: 1200, // Expanded container to support larger cards
+    maxWidth: 1200, 
     width: "100%",
     display: "flex",
     flexDirection: "column",
@@ -52,10 +52,10 @@ const styles: Record<string, CSSProperties> = {
   cardsRow: {
     display: "flex",
     flexDirection: "row",
-    gap: 32, // Added more spacing between the wider cards
+    gap: 32, 
     width: "100%",
     flexWrap: "wrap",
-    justifyContent: "center", // Perfectly centers the cards in the middle
+    justifyContent: "center", 
   },
   card: {
     borderRadius: 24,
@@ -63,14 +63,14 @@ const styles: Record<string, CSSProperties> = {
     background: "#fff",
     cursor: "pointer",
     transition: "transform 0.3s, box-shadow 0.3s",
-    flex: "1 1 450px", // Increased width from 260px to 450px
-    maxWidth: 520,    // Increased max-width to look impactful in the center
+    flex: "1 1 450px", 
+    maxWidth: 520,    
     minWidth: 300,
   },
   cardThumb: {
     position: "relative",
     width: "100%",
-    height: 280, // Taller thumbnail ratio to match the wider cards
+    height: 280, 
     overflow: "hidden",
   },
   gradientOverlay: {
@@ -103,7 +103,7 @@ const styles: Record<string, CSSProperties> = {
     transition: "opacity 0.3s",
   },
   playBtn: {
-    width: 60, // Slightly enlarged to scale with card size
+    width: 60, 
     height: 60,
     borderRadius: "50%",
     background: "rgba(255,255,255,0.92)",
@@ -138,7 +138,7 @@ const styles: Record<string, CSSProperties> = {
     boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
   },
   cardBody: {
-    padding: "26px 28px 30px", // Increased padding inside the card body
+    padding: "26px 28px 30px", 
     background: "#fff",
   },
   cardTag: {
@@ -150,7 +150,7 @@ const styles: Record<string, CSSProperties> = {
     marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 24, // Clean upscaled heading size
+    fontSize: 24, 
     fontWeight: 600,
     color: "#1a0a3c",
     fontFamily: "'Georgia', 'Times New Roman', serif",

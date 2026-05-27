@@ -94,7 +94,6 @@ function Carousel() {
         </div>
       </div>
 
-      {/* Main carousel box */}
       <div style={{
         borderRadius: 26, overflow: "hidden",
         aspectRatio: "4/3.2",
@@ -103,7 +102,6 @@ function Carousel() {
         position: "relative",
         width: "100%",
       }}>
-        {/* Sliding track */}
         <div
           style={{
             display: "flex",
@@ -137,12 +135,10 @@ function Carousel() {
                   }}
                 />
               )}
-              {/* Overlay gradient */}
               <div style={{
                 position: "absolute", inset: 0,
                 background: "linear-gradient(to bottom, rgba(26,10,46,0.04) 0%, rgba(26,10,46,0.42) 100%)",
               }} />
-              {/* Text */}
               <div style={{
                 position: "absolute", bottom: 28, left: 0, right: 0,
                 textAlign: "center", padding: "0 24px",
@@ -165,7 +161,6 @@ function Carousel() {
           ))}
         </div>
 
-        {/* Left arrow */}
         <button onClick={() => goTo(cur - 1)} style={{
           position: "absolute", top: "50%", left: 12, transform: "translateY(-50%)",
           width: 34, height: 34, borderRadius: "50%",
@@ -174,7 +169,6 @@ function Carousel() {
           zIndex: 10, backdropFilter: "blur(6px)", boxShadow: "0 2px 10px rgba(0,0,0,0.12)",
         }}>‹</button>
 
-        {/* Right arrow */}
         <button onClick={() => goTo(cur + 1)} style={{
           position: "absolute", top: "50%", right: 12, transform: "translateY(-50%)",
           width: 34, height: 34, borderRadius: "50%",
@@ -183,7 +177,7 @@ function Carousel() {
           zIndex: 10, backdropFilter: "blur(6px)", boxShadow: "0 2px 10px rgba(0,0,0,0.12)",
         }}>›</button>
 
-        {/* Dots */}
+      
         <div style={{ position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 7, zIndex: 10 }}>
           {slides.map((_, i) => (
             <button key={i} onClick={() => goTo(i)} style={{
@@ -271,11 +265,9 @@ export default function EllevationHero() {
         minHeight: "100vh", display: "flex", flexDirection: "column",
         fontFamily: "'DM Sans',sans-serif",
       }}>
-        {/* Background blobs */}
         <div style={{ position: "absolute", top: -60, right: -60, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(220,180,240,0.22) 0%,transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: 60, left: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(240,200,215,0.2) 0%,transparent 70%)", pointerEvents: "none" }} />
 
-        {/* ── MAIN GRID ── */}
         <div style={{
           flex: 1,
           maxWidth: 1200,
@@ -374,7 +366,8 @@ export default function EllevationHero() {
           </div>
         </div>
 
-        {/* ── TICKER ── */}
+        
+        
         <div style={{
           borderTop: "1px solid rgba(220,190,230,0.4)",
           background: "linear-gradient(90deg,#fdf0f5,#f8e8f5 50%,#fdf0f5)",

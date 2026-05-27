@@ -121,7 +121,6 @@ export default function EllevationFooter() {
           pointerEvents: "none",
         }} />
 
-        {/* Main footer content */}
         <div
           style={{
             maxWidth: "1280px",
