@@ -81,7 +81,7 @@ export default function EllevationContact() {
             background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner3})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            padding: "72px 32px 80px",
+            padding: "110px 24px 96px",
             textAlign: "center",
           }}
         >
@@ -176,7 +176,7 @@ export default function EllevationContact() {
                   display: "inline-block",
                   animation: btnHovered ? "pulseArrow 0.6s ease infinite" : "none",
                 }}
-              > {/* Changed arrow color to white */}
+              >
                 →
               </span>
             </button>

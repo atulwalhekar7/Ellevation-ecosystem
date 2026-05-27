@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import banner6 from "../assets/banner6.avif";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "ecosystem" | "membership" | "impact" | "connect";
@@ -230,16 +231,22 @@ function ConnectSection() {
 // ─── STYLES (Matching MsEllevation pattern) ──────────────────────────────────
 const hp: Record<string, React.CSSProperties> = {
   page: { position:"relative", overflow:"hidden", minHeight:"85vh", display:"flex", alignItems:"center", padding:"60px 48px" },
-  bgGrad: { position:"absolute", inset:0, background:"linear-gradient(135deg,#ede8f5 0%,#f5f0ff 40%,#eef2ff 70%,#ede8f5 100%)", zIndex:0 },
+  bgGrad: { 
+    position: "absolute", inset: 0, 
+    background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner6})`, 
+    backgroundSize: "cover", 
+    backgroundPosition: "center", 
+    zIndex: 0 
+  },
   blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(90,64,112,0.15) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
   blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1.2fr 1fr", gap:48, alignItems:"center", maxWidth:1200, margin:"0 auto", width:"100%", animation:"fadeSlideUp 0.9s ease both" },
   left: { display:"flex", flexDirection:"column", gap:24 },
   eyebrow: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.72rem", fontWeight:700, letterSpacing:"0.22em", color:"#5a4070" },
-  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#1a0a2e", lineHeight:1.1, margin:0 },
-  sub: { fontFamily:"'DM Sans',sans-serif", fontSize:"1rem", fontWeight:400, color:"#5a4070", lineHeight:1.7, maxWidth:480 },
+  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#f6f5f8", lineHeight:1.1, margin:0 },
+  sub: { fontFamily:"'DM Sans',sans-serif", fontSize:"1rem", fontWeight:400, color:"#f8f8f8", lineHeight:1.7, maxWidth:480 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
-  btnPrimary: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.1em", padding:"14px 28px", borderRadius:100, border:"none", background:"#1a0a2e", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(26,10,46,0.3)" },
+  btnPrimary: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.1em", padding:"14px 28px", borderRadius:100, border:"none", background:"#1a0a2e", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(253, 253, 253, 0.3)" },
   btnSecondary: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.1em", padding:"14px 28px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.2s ease" },
   card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
   cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
