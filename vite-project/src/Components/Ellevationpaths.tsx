@@ -245,12 +245,14 @@ export default function EllevationPaths(): JSX.Element {
           }}
         >
           <p style={{
-            fontSize: "18px",
-            fontWeight: 500,
+            fontSize: "11px",
+            fontWeight: 700,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             color: "#7c5cbf",
             margin: "0 0 16px",
+                      fontFamily: "'DM Sans', serif",
+
           }}>
             Choose Your Path
           </p>

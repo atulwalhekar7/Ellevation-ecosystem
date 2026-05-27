@@ -109,13 +109,15 @@ export default function EllevationAbout(): JSX.Element {
           {/* Eyebrow — centered */}
           <p
             style={{
-              fontSize: "18px",
-              fontWeight: 500,
+              fontSize: "12px",
+              fontWeight: 700,
               letterSpacing: "0.13em",
               textTransform: "uppercase",
               color: "#7c5cbf",
               margin: "0 0 16px",
               textAlign: "center",
+                        fontFamily: "'Segoe UI', sans-serif",
+
             }}
           >
             About Ellevation
