@@ -64,7 +64,7 @@ const cards = [
 ];
 
 export default function EllevationCards() {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState(null);
 
   return (
     <>
@@ -73,87 +73,17 @@ export default function EllevationCards() {
         rel="stylesheet"
       />
       <style>{`
-        @keyframes fadeUpCard {
-          from { opacity: 0; transform: translateY(36px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
         @keyframes iconPop {
           0%   { transform: scale(1); }
           40%  { transform: scale(1.18) rotate(-6deg); }
           70%  { transform: scale(0.96) rotate(3deg); }
           100% { transform: scale(1) rotate(0deg); }
         }
-        @keyframes arrowPulse {
-          0%, 100% { transform: translate(0, 0); opacity: 0.5; }
-          50%       { transform: translate(3px, -3px); opacity: 1; }
-        }
-        @keyframes borderGlowSpin {
-          0%   { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
 
         .card-wrap {
-          opacity: 0;
-          animation: fadeUpCard 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
           position: relative;
           display: flex;
           flex-direction: column;
-        }
-        .card-wrap:nth-child(1) { animation-delay: 0.05s; }
-        .card-wrap:nth-child(2) { animation-delay: 0.18s; }
-        .card-wrap:nth-child(3) { animation-delay: 0.31s; }
-        .card-wrap:nth-child(4) { animation-delay: 0.44s; }
-
-        /* Glowing border ring — sits behind the card */
-        .card-glow-ring {
-          position: absolute;
-          inset: -2px;
-          border-radius: 26px;
-          padding: 2px;
-          opacity: 0;
-          transition: opacity 0.35s ease;
-          z-index: 0;
-          pointer-events: none;
-          background: conic-gradient(
-            from 0deg,
-            transparent 0%,
-            var(--glow-color) 25%,
-            var(--border-color) 40%,
-            var(--glow-color) 55%,
-            transparent 70%,
-            var(--glow-color) 85%,
-            var(--border-color) 95%,
-            transparent 100%
-          );
-          -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          animation: borderGlowSpin 3s linear infinite paused;
-        }
-        .card-wrap:hover .card-glow-ring {
-          opacity: 1;
-          animation-play-state: running;
-        }
-
-        /* Static solid border that fades in on hover too */
-        .card-border-solid {
-          position: absolute;
-          inset: -1.5px;
-          border-radius: 25.5px;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: 0;
-          pointer-events: none;
-          border: 1.5px solid var(--border-color);
-          box-shadow:
-            0 0 12px var(--glow-color),
-            0 0 28px var(--glow-color),
-            inset 0 0 8px var(--glow-color);
-        }
-        .card-wrap:hover .card-border-solid {
-          opacity: 1;
         }
 
         .card-inner {
@@ -165,10 +95,10 @@ export default function EllevationCards() {
           height: 100%;
           box-sizing: border-box;
           overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.9);
           transition:
             transform 0.35s cubic-bezier(0.22,1,0.36,1),
             box-shadow 0.35s ease;
-          border: 1px solid rgba(255,255,255,0.9);
         }
         .card-wrap:hover .card-inner {
           transform: translateY(-10px) scale(1.025);
@@ -198,13 +128,11 @@ export default function EllevationCards() {
           align-items: center;
           justify-content: center;
           transition: background 0.2s, border-color 0.2s, transform 0.2s;
-          animation: arrowPulse 2.5s ease-in-out infinite;
         }
         .card-wrap:hover .arrow-btn {
           background: rgba(155,109,190,0.12);
           border-color: rgba(155,109,190,0.5);
           transform: translate(2px, -2px);
-          animation: none;
         }
 
         .card-title {
@@ -239,7 +167,6 @@ export default function EllevationCards() {
       >
         {/* Section header */}
         <div style={{ textAlign: "center", marginBottom: "52px" }}>
-          
           <h2 style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: "clamp(36px, 4vw, 52px)",
@@ -267,26 +194,15 @@ export default function EllevationCards() {
             <div
               key={card.title}
               className="card-wrap"
-              style={{
-                // CSS vars consumed by .card-glow-ring and .card-border-solid
-                ["--glow-color" as string]: card.glow,
-                ["--border-color" as string]: card.border,
-              }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
             >
-              {/* Spinning conic glow ring */}
-              <div className="card-glow-ring" />
-
-              {/* Static glow border + outer box-shadow */}
-              <div className="card-border-solid" />
-
               <div
                 className="card-inner"
                 style={{
                   background: card.bg,
                   boxShadow: hovered === i
-                    ? `0 24px 64px ${card.glow}, 0 4px 16px rgba(0,0,0,0.06)`
+                    ? `0 24px 64px ${card.glow}, 0 4px 16px rgba(0,0,0,0.06), 0 0 0 1.5px ${card.border}`
                     : `0 4px 24px rgba(160,120,200,0.08), 0 1px 4px rgba(0,0,0,0.04)`,
                 }}
               >

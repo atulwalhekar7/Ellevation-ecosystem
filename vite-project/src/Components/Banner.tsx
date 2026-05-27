@@ -258,7 +258,7 @@ export default function EllevationHero() {
             maxWidth: "1280px",
             margin: "0 auto",
             width: "100%",
-            padding: "20px 32px 10px",
+            padding: "20px 42px 10px",
             display: "grid",
             gridTemplateColumns: "1.05fr 0.95fr",
             gap: "48px",
