@@ -104,17 +104,14 @@ export default function EllevationPage() {
     ELLEVATE: false,
     LUMINARY: false,
   });
-  const [transitioning, setTransitioning] = useState(false);
   const [formVisible, setFormVisible] = useState(true);
   const formRef = useRef<HTMLDivElement>(null);
 
   const handleTierChange = (tier: MembershipTier) => {
     if (tier === activeTier) return;
-    setTransitioning(true);
     setFormVisible(false);
     setTimeout(() => {
       setActiveTier(tier);
-      setTransitioning(false);
       setFormVisible(true);
     }, 350);
   };

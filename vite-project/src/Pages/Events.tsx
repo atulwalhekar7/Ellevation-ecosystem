@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
-import banner2 from "../assets/banner2.avif";
 /* ── helpers ── */
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -150,13 +149,13 @@ function EventCard({ ev, index }: { ev: typeof events[0]; index: number }) {
          
         }}>{ev.price}</span>
 
-        <RegisterBtn hov={hov} />
+        <RegisterBtn />
       </div>
     </div>
   );
 }
 
-function RegisterBtn({ hov }: { hov: boolean }) {
+function RegisterBtn() {
   const [btnHov, setBtnHov] = useState(false);
   return (
     <button
@@ -189,10 +188,8 @@ function Hero() {
   useEffect(() => { setTimeout(() => setMounted(true), 80); }, []);
 
   return (
-    <section style={{ // Changed background to use banner2 image with a black shadow
-      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner2})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
+    <section style={{
+      background:"linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
       padding:"110px 24px 96px",
       textAlign:"center",
       position:"relative",
@@ -209,39 +206,39 @@ function Hero() {
           display:"flex", alignItems:"center", justifyContent:"center",
           gap:12, marginBottom:28,
         }}>
-          <div className={mounted ? "line-draw" : ""} style={{ // Changed line background to white
-            width:40, height:1, background:"rgba(255,255,255,0.6)",
+          <div className={mounted ? "line-draw" : ""} style={{
+            width:40, height:1, background:"rgba(155,125,184,0.6)",
             transformOrigin:"right center",
           }} />
-          <span style={{ // Changed text color to white
+          <span style={{
             fontFamily:"'DM Sans',sans-serif", fontSize:15, fontWeight:700,
-            letterSpacing:"0.22em", textTransform:"uppercase", color:"#fff",
+            letterSpacing:"0.22em", textTransform:"uppercase", color:"#9b7db8",
           }}>Events</span>
-          <div className={mounted ? "line-draw" : ""} style={{ // Changed line background to white
-            width:40, height:1, background:"rgba(255,255,255,0.6)",
+          <div className={mounted ? "line-draw" : ""} style={{
+            width:40, height:1, background:"rgba(155,125,184,0.6)",
             transformOrigin:"left center",
           }} />
         </div>
 
         <h1 style={{
           ...fade(mounted, 130),
-          fontFamily:"'Cormorant Garamond',serif", // Changed text color to white
+          fontFamily:"'Cormorant Garamond',serif",
           fontSize:"clamp(54px,9vw,96px)",
-          fontWeight:500,
-          color:"#fff", margin:"0 0 22px", lineHeight:1.08,
+          fontWeight:500, 
+          color:"#1c1630", margin:"0 0 22px", lineHeight:1.08,
         }}>Where We Gather</h1>
 
         <p style={{
           ...fade(mounted, 260),
           fontFamily:"'DM Sans',sans-serif",
           fontSize:"clamp(15px,2vw,18px)",
-          color:"rgba(255,255,255,0.9)", maxWidth:520, margin:"0 auto", lineHeight:1.75,
+          color:"#4a3860", maxWidth:520, margin:"0 auto", lineHeight:1.75,
         }}>
           In-person and virtual gatherings designed to inspire, connect, and elevate.
         </p>
 
         <div style={{ ...fade(mounted, 380), marginTop:44 }}>
-          <div className="bounce-arrow">↓</div> {/* Changed arrow color to white */}
+          <div className="bounce-arrow">↓</div>
         </div>
       </div>
     </section>

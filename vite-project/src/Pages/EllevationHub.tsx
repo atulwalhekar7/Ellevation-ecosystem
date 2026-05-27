@@ -1,12 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import banner6 from "../assets/banner6.avif";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "ecosystem" | "membership" | "impact" | "connect";
-
-interface FormData {
-  firstName: string; lastName: string; email: string; message: string;
-}
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const NAV_LINKS: { label: string; page: Page }[] = [

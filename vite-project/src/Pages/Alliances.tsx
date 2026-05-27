@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 /* ── helpers ── */
 function useInView(threshold = 0.15) {

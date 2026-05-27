@@ -1,4 +1,4 @@
-import { useRef, useState, CSSProperties } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import video1 from "../assets/video1.mp4";
 import video2 from "../assets/video2.mp4";
 

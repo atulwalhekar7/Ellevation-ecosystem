@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import aboutBg from "../assets/about1-image.jpg";
-import banner1 from "../assets/banner1.avif";
 /* ── helpers ── */
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -57,9 +56,7 @@ function Hero() {
 
   return (
     <section style={{
-      background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner1})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
+      background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
       padding: "110px 24px 96px",
       textAlign: "center",
       position: "relative",
@@ -77,16 +74,16 @@ function Hero() {
         }}>
           <div className={mounted ? "line-draw" : ""} style={{
             width: 40, height: 1,
-            background: "rgba(255,255,255,0.6)",
+            background: "rgba(155,125,184,0.6)",
             transformOrigin: "right center",
           }} />
           <span style={{
             fontFamily:"'DM Sans',sans-serif", fontSize:15, fontWeight:700,
-            letterSpacing:"0.22em", textTransform:"uppercase", color:"#fff",
+            letterSpacing:"0.22em", textTransform:"uppercase", color:"#9b7db8",
           }}>About Us</span>
           <div className={mounted ? "line-draw" : ""} style={{
             width: 40, height: 1,
-            background: "rgba(255,255,255,0.6)",
+            background: "rgba(155,125,184,0.6)",
             transformOrigin: "left center",
           }} />
         </div>
@@ -96,14 +93,14 @@ function Hero() {
           fontFamily:"'Cormorant Garamond',serif",
           fontSize: "clamp(58px,9vw,100px)",
           fontWeight: 500,
-          color: "#fff", margin: "0 0 22px", lineHeight: 1.08,
+          color: "#1c1630", margin: "0 0 22px", lineHeight: 1.08,
         }}>Our Story</h1>
 
         <p style={{
           ...fade(mounted, 260),
           fontFamily:"'DM Sans',sans-serif",
           fontSize: "clamp(15px,2vw,18px)",
-          color: "rgba(255,255,255,0.9)", maxWidth: 560, margin: "0 auto", lineHeight: 1.75,
+          color: "#4a3860", maxWidth: 560, margin: "0 auto", lineHeight: 1.75,
         }}>
           Born from a belief that every woman deserves a space to rise — fully, beautifully, and together.
         </p>
@@ -639,7 +636,7 @@ export default function AboutPage() {
         .bounce-arrow {
           display: inline-block;
           font-size: 20px;
-          color: #fff;
+          color: rgba(155,125,184,0.7);
           animation: bounceDown 2s ease-in-out infinite;
         }
         @keyframes bounceDown {
