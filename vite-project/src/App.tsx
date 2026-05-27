@@ -3,23 +3,23 @@ import { Routes, Route } from 'react-router-dom';
 import EllevationNavbar from './Components/Navbar';
 import Footer from './Components/Footer';
 
-import Home from './pages/Home';
-import About from './pages/About';
-import YouTube from './pages/YouTube';
-import SocialMedia from './pages/SocialMedia';
-import JoinUs from './pages/JoinUs';
-import Alliances from './pages/Alliances';
-import Directories from './pages/Directories';
-import Events from './pages/Events';
-import Contact from './pages/Contact';
-import MsEllevation from './pages/MsEllevation';
-import EllevationHub from './pages/EllevationHub';
-import Ellevationcards from './Components/Ellevationcards';
-import EllevationAbout from './Components/Ellevationabout';
-import Ellevationpaths from './Components/Ellevationpaths';
-import FinalInvitationSection from './Components/Finalinvitationsection';
-import VideoSection from "./Components/VideoSection";
-import CommunityVoice from "./Components/CommunityVoice"
+import Home from './Pages/Home';
+import About from './Pages/About';
+import YouTube from './Pages/YouTube';
+import SocialMedia from './Pages/SocialMedia';
+import JoinUs from './Pages/JoinUs';
+import Alliances from './Pages/Alliances';
+import Directories from './Pages/Directories'; 
+import Events from './Pages/Events';
+import Contact from './Pages/Contact';
+import MsEllevation from './Pages/MsEllevation';
+import EllevationHub from './Pages/EllevationHub';
+// import Ellevationcards from './Components/Ellevationcards';
+// import EllevationAbout from './Components/Ellevationabout';
+// import Ellevationpaths from './Components/Ellevationpaths';
+// import FinalInvitationSection from './Components/Finalinvitationsection';
+// import VideoSection from "./Components/VideoSection";
+// import CommunityVoice from "./Components/CommunityVoice"
 import ScrollToUp from "./Components/ScrollToTop";
 
 function App() {

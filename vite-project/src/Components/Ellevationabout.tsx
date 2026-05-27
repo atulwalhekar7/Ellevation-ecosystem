@@ -108,7 +108,7 @@ export default function EllevationAbout() {
           {/* Eyebrow — centered */}
           <p
             style={{
-              fontSize: "12px",
+              fontSize: "15px",
               fontWeight: 700,
               letterSpacing: "0.13em",
               textTransform: "uppercase",

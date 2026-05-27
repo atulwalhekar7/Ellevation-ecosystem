@@ -15,11 +15,11 @@ const FinalInvitationSection = () => {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
 .fi-eyebrow {
   font-family: 'Segoe UI', sans-serif;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: #7c5cbf;
+  color:  rgb(124, 92, 191);
   margin: 0 0 16px;
   text-align: center;
 }

@@ -52,10 +52,10 @@ const styles: Record<string, CSSProperties> = {
     minWidth: 260,
   },
   eyebrow: {
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: 700,
     letterSpacing: "0.18em",
-    color: "#7c3aed",
+    color: "rgb(124, 92, 191)",
     textTransform: "uppercase" as const,
     marginBottom: 14,
   },
@@ -71,7 +71,7 @@ const styles: Record<string, CSSProperties> = {
   subtext: {
     fontSize: 15,
     lineHeight: 1.7,
-    color: "#6b7280",
+    color: " rgb(90, 64, 112)",
     marginBottom: 32,
   },
   ctaButton: {
