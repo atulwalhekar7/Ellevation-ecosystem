@@ -1,3 +1,5 @@
+import logo from "../assets/MS-Ellevation-Logo.webp";
+
 const footerLinks = [
   {
     heading: "Ellevation",
@@ -121,6 +123,7 @@ export default function EllevationFooter() {
           pointerEvents: "none",
         }} />
 
+        {/* Main footer content */}
         <div
           style={{
             maxWidth: "1280px",
@@ -140,11 +143,10 @@ export default function EllevationFooter() {
                 width: "48px", height: "48px", borderRadius: "50%",
                 background: "#fff",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: "'Cormorant Garamond', serif",
-                fontWeight: 600, fontSize: "20px", color: "#1e0a3c",
                 flexShrink: 0,
+                overflow: "hidden",
               }}>
-                E
+                <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div>
                 <div style={{

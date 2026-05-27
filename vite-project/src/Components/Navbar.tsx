@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import logo from "../assets/MS-Ellevation-Logo.webp";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = {
@@ -218,13 +219,10 @@ export default function EllevationNavbar() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#fff",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 600,
-              fontSize: "16px",
+              overflow: "hidden",
             }}
           >
-            E
+            <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <div style={{ lineHeight: 1.15 }}>
             <div
