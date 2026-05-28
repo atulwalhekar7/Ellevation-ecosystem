@@ -153,7 +153,7 @@ const styles: Record<string, CSSProperties> = {
     fontSize: 24, 
     fontWeight: 600,
     color: "#1a0a3c",
-    fontFamily: "'Georgia', 'Times New Roman', serif",
+    fontFamily: "'Cormorant Garamond', serif",
     lineHeight: 1.3,
     marginBottom: 10,
   },

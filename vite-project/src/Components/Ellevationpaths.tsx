@@ -26,14 +26,16 @@ const paths: Path[] = [
     ],
     cta: "Apply Now",
 route: "/ms-ellevation",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.8 1-6.1L3.2 9.4l6.1-.9L12 3z"
-          fill="white"
-        />
-      </svg>
-    ),
+   icon: (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
+      stroke="white"
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
   },
   {
     eyebrow: "Community & Networking",
@@ -48,16 +50,16 @@ route: "/ms-ellevation",
     ],
     cta: "Become a Member",
  route: "/hub",
-     icon: (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="8" r="3" stroke="white" strokeWidth="1.5" />
-        <path
-          d="M5 19c1.5-3 4-4.5 7-4.5s5.5 1.5 7 4.5"
-          stroke="white"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
-      </svg>
+   icon: (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
+      stroke="white"
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+    />
+  </svg>
+
     ),
   },
 ];

@@ -79,7 +79,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
 const ns: Record<string, React.CSSProperties> = {
   nav: {
-    position: "sticky", top: 16, zIndex: 100,
+    position: "sticky", top: 79, zIndex: 100,
     display: "flex", justifyContent: "center",
     padding: "0 24px", margin: "16px auto 0",
     transition: "box-shadow 0.3s ease",
