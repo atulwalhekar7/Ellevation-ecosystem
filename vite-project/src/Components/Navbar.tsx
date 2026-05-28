@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/MS-Ellevation-Logo-removebg-preview.png";
+import logo from "../assets/Ms-Ellevation-removebg-preview.png";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = {
@@ -107,7 +107,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
           style={{
             display: "flex", alignItems: "center", gap: "4px",
             background: "none", border: "none", cursor: "pointer",
-            fontSize: "14px", color: linkColor,
+            fontSize: "18px", color: linkColor,
             fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
             padding: "6px 4px", borderRadius: "6px",
             transition: "color 0.15s", whiteSpace: "nowrap",
@@ -134,7 +134,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
-        fontSize: "14px", color: linkColor,
+        fontSize: "18px", color: linkColor,
         textDecoration: "none", fontFamily: "'DM Sans', sans-serif",
         fontWeight: 400, padding: "6px 4px", borderRadius: "6px",
         whiteSpace: "nowrap", transition: "color 0.15s",
@@ -147,7 +147,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
   );
 }
 
-const NAV_HEIGHT = 85;
+const NAV_HEIGHT = 110;
 
 export default function EllevationNavbar() {
   const [darkMode, setDarkMode] = useState(false);
@@ -212,7 +212,7 @@ export default function EllevationNavbar() {
         >
           {/* Logo */}
           <Link to="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", flexShrink: 0 }}>
-            <div style={{ width: "75px", height: "75px", borderRadius: "50%", background: "#675b77", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+            <div style={{ width: "180px", height: "110px", borderRadius: "50%",  display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
               <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             {/* <div style={{ lineHeight: 1.15 }}>
