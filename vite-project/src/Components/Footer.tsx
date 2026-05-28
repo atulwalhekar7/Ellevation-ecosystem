@@ -1,20 +1,33 @@
 import logo from "../assets/MS-Ellevation-Logo.webp";
+import { Link } from "react-router-dom";
 
 const footerLinks = [
   {
     heading: "Ellevation",
-    headingColor: "#c9a96e",
-    links: ["About", "Events", "Contact", "Professional Directories"],
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Events", href: "/events" },
+      { label: "Contact", href: "/contact" },
+      { label: "Professional Directories", href: "/get-involved/directories" },
+    ],
   },
   {
     heading: "Ms. Ellevation",
-    headingColor: "#c9a96e",
-    links: ["Home", "Services", "Stories", "Start Your Journey"],
+    links: [
+      { label: "Home", href: "/ms-ellevation" },
+      { label: "Services", href: "/ms-ellevation#services" },
+      { label: "Stories", href: "/ms-ellevation#stories" },
+      { label: "Start Your Journey", href: "/ms-ellevation#join" },
+    ],
   },
   {
     heading: "Ellevation Hub",
-    headingColor: "#c9a96e",
-    links: ["Ecosystem", "Membership", "Impact", "Connect"],
+    links: [
+      { label: "Ecosystem", href: "/hub#ecosystem" },
+      { label: "Membership", href: "/hub#membership" },
+      { label: "Impact", href: "/hub#impact" },
+      { label: "Connect", href: "/hub#connect" },
+    ],
   },
 ];
 
@@ -189,49 +202,53 @@ export default function EllevationFooter() {
 
             {/* CTA Buttons */}
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <button
-                className="btn-purple"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "12px 22px",
-                  borderRadius: "100px",
-                  background: "linear-gradient(135deg, #a87bc8 0%, #8b5bb5 100%)",
-                  border: "none",
-                  color: "#fff",
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  boxShadow: "0 4px 20px rgba(100,50,160,0.35)",
-                  transition: "opacity 0.18s",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Join Membership <ArrowRight />
-              </button>
-              <button
-                className="btn-ghost"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "12px 22px",
-                  borderRadius: "100px",
-                  background: "rgba(255,255,255,0.12)",
-                  border: "1px solid rgba(255,255,255,0.25)",
-                  color: "#fff",
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  cursor: "pointer",
-                  transition: "background 0.18s",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Get Listed <ArrowRight />
-              </button>
+              <Link to="/get-involved/join" style={{ textDecoration: "none" }}>
+                <button
+                  className="btn-purple"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "12px 22px",
+                    borderRadius: "100px",
+                    background: "linear-gradient(135deg, #a87bc8 0%, #8b5bb5 100%)",
+                    border: "none",
+                    color: "#fff",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 20px rgba(100,50,160,0.35)",
+                    transition: "opacity 0.18s",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Join Membership <ArrowRight />
+                </button>
+              </Link>
+              <Link to="/get-involved/directories" style={{ textDecoration: "none" }}>
+                <button
+                  className="btn-ghost"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "12px 22px",
+                    borderRadius: "100px",
+                    background: "rgba(255,255,255,0.12)",
+                    border: "1px solid rgba(255,255,255,0.25)",
+                    color: "#fff",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    transition: "background 0.18s",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Get Listed <ArrowRight />
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -255,8 +272,15 @@ export default function EllevationFooter() {
                 </h4>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                   {links.map((link) => (
-                    <li key={link}>
-                      <a href="#" className="footer-link">{link}</a>
+                    <li key={link.label}>
+                      <Link
+                        to={link.href}
+                        className="footer-link"
+                        target={link.href.startsWith("/ms-ellevation") || link.href.startsWith("/hub") ? "_blank" : undefined}
+                        rel={link.href.startsWith("/ms-ellevation") || link.href.startsWith("/hub") ? "noopener noreferrer" : undefined}
+                      >
+                        {link.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>

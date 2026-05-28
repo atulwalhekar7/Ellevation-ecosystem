@@ -153,9 +153,13 @@ function NavItemComponent({ item }: { item: NavItem }) {
     );
   }
 
+  const shouldOpenInNewTab = item.label === "Ms. Ellevation" || item.label === "Ellevation Hub";
+
   return (
     <Link
       to={item.href || "#"}
+      target={shouldOpenInNewTab ? "_blank" : undefined}
+      rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
         fontSize: "14px",
         color: "#2d2d2d",
