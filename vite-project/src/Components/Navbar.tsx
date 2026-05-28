@@ -194,8 +194,10 @@ export default function EllevationNavbar() {
           background: darkMode ? "#18141f" : "#fff",
           borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f0eaf8",
           boxShadow: "0 1px 0 rgba(120,80,180,0.07)",
-          position: "relative",
-          zIndex: 100,
+ position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,          zIndex: 100,
           transition: "background 0.25s, border-color 0.25s",
         }}
       >
