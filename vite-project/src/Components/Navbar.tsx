@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/MS-Ellevation-Logo.webp";
+import logo from "../assets/MS-Ellevation-Logo-removebg-preview.png";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = {
@@ -70,12 +70,8 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
             margin: "2px 6px",
             transition: "background 0.13s",
           }}
-          onMouseEnter={(e) =>
-            ((e.target as HTMLElement).style.background = "#f5f0ff")
-          }
-          onMouseLeave={(e) =>
-            ((e.target as HTMLElement).style.background = "transparent")
-          }
+          onMouseEnter={(e) => ((e.target as HTMLElement).style.background = "#f5f0ff")}
+          onMouseLeave={(e) => ((e.target as HTMLElement).style.background = "transparent")}
         >
           {item.label}
         </Link>
@@ -84,19 +80,19 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
   );
 }
 
-function NavItemComponent({ item }: { item: NavItem }) {
+function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const linkColor = darkMode ? "#e9deff" : "#2d2d2d";
 
   if (item.dropdown) {
     return (
@@ -109,43 +105,20 @@ function NavItemComponent({ item }: { item: NavItem }) {
         <button
           onClick={() => setOpen((v) => !v)}
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "14px",
-            color: "#2d2d2d",
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 400,
-            padding: "6px 4px",
-            borderRadius: "6px",
-            transition: "color 0.15s",
-            whiteSpace: "nowrap",
+            display: "flex", alignItems: "center", gap: "4px",
+            background: "none", border: "none", cursor: "pointer",
+            fontSize: "14px", color: linkColor,
+            fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
+            padding: "6px 4px", borderRadius: "6px",
+            transition: "color 0.15s", whiteSpace: "nowrap",
           }}
           aria-haspopup="true"
           aria-expanded={open}
         >
           {item.label}
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            style={{
-              transition: "transform 0.18s",
-              transform: open ? "rotate(180deg)" : "rotate(0deg)",
-              marginTop: "1px",
-            }}
-          >
-            <path
-              d="M2 4L6 8L10 4"
-              stroke="#888"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+            style={{ transition: "transform 0.18s", transform: open ? "rotate(180deg)" : "rotate(0deg)", marginTop: "1px" }}>
+            <path d="M2 4L6 8L10 4" stroke="#888" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
         <DropdownMenu items={item.dropdown} open={open} />
@@ -161,26 +134,47 @@ function NavItemComponent({ item }: { item: NavItem }) {
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
-        fontSize: "14px",
-        color: "#2d2d2d",
-        textDecoration: "none",
-        fontFamily: "'DM Sans', sans-serif",
-        fontWeight: 400,
-        padding: "6px 4px",
-        borderRadius: "6px",
-        whiteSpace: "nowrap",
-        transition: "color 0.15s",
+        fontSize: "14px", color: linkColor,
+        textDecoration: "none", fontFamily: "'DM Sans', sans-serif",
+        fontWeight: 400, padding: "6px 4px", borderRadius: "6px",
+        whiteSpace: "nowrap", transition: "color 0.15s",
       }}
       onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#7c3aed")}
-      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#2d2d2d")}
+      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = linkColor)}
     >
       {item.label}
     </Link>
   );
 }
 
+const NAV_HEIGHT = 85;
+
 export default function EllevationNavbar() {
   const [darkMode, setDarkMode] = useState(false);
+  const [isFixed, setIsFixed] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const navTopRef = useRef<number>(0);
+
+  // Measure natural position of navbar wrapper after mount
+  useEffect(() => {
+    const measure = () => {
+      if (wrapperRef.current) {
+        navTopRef.current = wrapperRef.current.getBoundingClientRect().top + window.scrollY;
+      }
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  // Fix navbar when scrolled past its natural top position
+  useEffect(() => {
+    const onScroll = () => {
+      setIsFixed(window.scrollY >= navTopRef.current);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <>
@@ -188,227 +182,109 @@ export default function EllevationNavbar() {
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap"
         rel="stylesheet"
       />
-      <nav
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "24px",
-          padding: "0 24px",
-          height: "74px",
-          background: darkMode ? "#18141f" : "#fff",
-          borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f0eaf8",
-          boxShadow: "0 1px 0 rgba(120,80,180,0.07)",
- position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,          zIndex: 100,
-          transition: "background 0.25s, border-color 0.25s",
-        }}
-      >
-        {/* Logo */}
-        <Link
-          to="/"
+
+      {/*
+        Wrapper stays in normal document flow.
+        When nav becomes fixed, wrapper still holds its height so
+        content below doesn't jump.
+      */}
+      <div ref={wrapperRef} style={{ height: `${NAV_HEIGHT}px`, position: "relative" }}>
+        <nav
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "10px",
-            textDecoration: "none",
-            flexShrink: 0,
+            gap: "24px",
+            padding: "0 24px",
+            height: `${NAV_HEIGHT}px`,
+            background: darkMode ? "rgba(24,20,31,0.97)" : "rgba(255,255,255,0.97)",
+            borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f0eaf8",
+            boxShadow: isFixed
+              ? "0 4px 24px rgba(120,80,180,0.13)"
+              : "0 1px 0 rgba(120,80,180,0.07)",
+            backdropFilter: isFixed ? "blur(12px)" : "none",
+            position: isFixed ? "fixed" : "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            transition: "box-shadow 0.25s, backdrop-filter 0.25s, background 0.25s",
           }}
         >
-          <div
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              background: "#1a0a2e",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden",
-            }}
-          >
-            <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          {/* Logo */}
+          <Link to="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", flexShrink: 0 }}>
+            <div style={{ width: "75px", height: "75px", borderRadius: "50%", background: "#675b77", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+              <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+            {/* <div style={{ lineHeight: 1.15 }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "15px", color: darkMode ? "#e9deff" : "#1a0a2e", letterSpacing: "0.01em" }}>
+                Ellevation
+              </div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "9px", color: "#8b5cf6", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                Community<br />Ecosystem
+              </div>
+            </div> */}
+          </Link>
+
+          {/* Nav Links */}
+          <div style={{ display: "flex", alignItems: "center", gap: "20px", flex: 1, flexWrap: "nowrap" }}>
+            {navItems.map((item) => (
+              <NavItemComponent key={item.label} item={item} darkMode={darkMode} />
+            ))}
           </div>
-          <div style={{ lineHeight: 1.15 }}>
-            <div
+
+          {/* Right Actions */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => setDarkMode((v) => !v)}
               style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 600,
-                fontSize: "15px",
-                color: darkMode ? "#e9deff" : "#1a0a2e",
-                letterSpacing: "0.01em",
+                display: "flex", alignItems: "center", gap: "6px",
+                background: darkMode ? "#2a1a4e" : "#f5f0ff",
+                border: "1.5px solid #e0d4f7", borderRadius: "20px",
+                padding: "6px 14px", cursor: "pointer", fontSize: "13px",
+                color: darkMode ? "#c4a8ff" : "#5b21b6",
+                fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
+                transition: "background 0.2s, color 0.2s",
               }}
             >
-              Ellevation
-            </div>
-            <div
-              style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 500,
-                fontSize: "9px",
-                color: "#8b5cf6",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-              }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {darkMode ? (
+                  <>
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </>
+                ) : (
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                )}
+              </svg>
+              {darkMode ? "Light" : "Dark"}
+            </button>
+
+            {/* Get Listed */}
+            <a href="#" style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", border: "1.5px solid #d1c4e9", borderRadius: "20px", padding: "6px 16px", cursor: "pointer", fontSize: "13px", color: "#2d2d2d", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, textDecoration: "none", whiteSpace: "nowrap" }}>
+              Get Listed
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+
+            {/* Join */}
+            <a href="#"
+              style={{ display: "flex", alignItems: "center", gap: "6px", background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)", border: "none", borderRadius: "20px", padding: "8px 20px", cursor: "pointer", fontSize: "13px", color: "#fff", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 2px 12px rgba(168,85,247,0.35)", whiteSpace: "nowrap" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.9"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 18px rgba(168,85,247,0.5)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(168,85,247,0.35)"; }}
             >
-              Community
-              <br />
-              Ecosystem
-            </div>
+              Join
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
           </div>
-        </Link>
-
-        {/* Nav Links */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "20px",
-            flex: 1,
-            flexWrap: "nowrap",
-          }}
-        >
-          {navItems.map((item) => (
-            <NavItemComponent key={item.label} item={item} />
-          ))}
-        </div>
-
-        {/* Right Actions */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            flexShrink: 0,
-          }}
-        >
-          {/* Dark Mode Toggle */}
-          <button
-            onClick={() => setDarkMode((v) => !v)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              background: darkMode ? "#2a1a4e" : "#f5f0ff",
-              border: "1.5px solid #e0d4f7",
-              borderRadius: "20px",
-              padding: "6px 14px",
-              cursor: "pointer",
-              fontSize: "13px",
-              color: darkMode ? "#c4a8ff" : "#5b21b6",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 500,
-              transition: "background 0.2s, color 0.2s",
-            }}
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {darkMode ? (
-                <>
-                  <circle cx="12" cy="12" r="5" />
-                  <line x1="12" y1="1" x2="12" y2="3" />
-                  <line x1="12" y1="21" x2="12" y2="23" />
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                  <line x1="1" y1="12" x2="3" y2="12" />
-                  <line x1="21" y1="12" x2="23" y2="12" />
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                </>
-              ) : (
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              )}
-            </svg>
-            {darkMode ? "Light" : "Dark"}
-          </button>
-
-          {/* Get Listed */}
-          <a
-            href="#"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              background: "#fff",
-              border: "1.5px solid #d1c4e9",
-              borderRadius: "20px",
-              padding: "6px 16px",
-              cursor: "pointer",
-              fontSize: "13px",
-              color: "#2d2d2d",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 500,
-              textDecoration: "none",
-              transition: "border-color 0.15s",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Get Listed
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12h14M13 6l6 6-6 6"
-                stroke="#888"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-
-          {/* Join */}
-          <a
-            href="#"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)",
-              border: "none",
-              borderRadius: "20px",
-              padding: "8px 20px",
-              cursor: "pointer",
-              fontSize: "13px",
-              color: "#fff",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 600,
-              textDecoration: "none",
-              boxShadow: "0 2px 12px rgba(168,85,247,0.35)",
-              transition: "opacity 0.15s, box-shadow 0.15s",
-              whiteSpace: "nowrap",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.opacity = "0.9";
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 4px 18px rgba(168,85,247,0.5)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.opacity = "1";
-              (e.currentTarget as HTMLElement).style.boxShadow =
-                "0 2px 12px rgba(168,85,247,0.35)";
-            }}
-          >
-            Join
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M5 12h14M13 6l6 6-6 6"
-                stroke="#fff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </a>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </>
   );
 }

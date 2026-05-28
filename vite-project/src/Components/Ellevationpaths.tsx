@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-
 interface Path {
   eyebrow: string;
   title: string;
@@ -25,17 +24,17 @@ const paths: Path[] = [
       "Quarterly Strategy Retreats",
     ],
     cta: "Apply Now",
-route: "/ms-ellevation",
-   icon: (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
-      stroke="white"
-      strokeWidth="1.8"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+    route: "/ms-ellevation",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
+          stroke="white"
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
   },
   {
     eyebrow: "Community & Networking",
@@ -49,17 +48,16 @@ route: "/ms-ellevation",
       "Member Resource Library",
     ],
     cta: "Become a Member",
- route: "/hub",
-   icon: (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
-      stroke="white"
-      strokeWidth="1.8"
-      strokeLinejoin="round"
-    />
-  </svg>
-
+    route: "/hub",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
+          stroke="white"
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+        />
+      </svg>
     ),
   },
 ];
@@ -94,30 +92,41 @@ export default function EllevationPaths() {
           70%  { transform: scale(0.95) rotate(4deg); }
           100% { transform: scale(1.08) rotate(0deg); }
         }
-        @keyframes dotSlide {
-          from { transform: translateX(-4px); opacity: 0; }
-          to   { transform: translateX(0); opacity: 1; }
-        }
 
+        /* ── Card: collapsed by default ── */
         .path-card {
           background: rgba(255,255,255,0.78);
           border: 1px solid rgba(200,190,225,0.55);
           border-radius: 24px;
-          padding: 36px 32px 40px;
+          padding: 32px 32px 32px;
           box-sizing: border-box;
           cursor: default;
           display: flex;
           flex-direction: column;
           position: relative;
           overflow: hidden;
+          /* Fixed collapsed height — just enough for eyebrow + title + icon */
+          height: 160px;
           transition:
+            height 0.52s cubic-bezier(0.22,1,0.36,1),
             transform 0.38s cubic-bezier(0.22,1,0.36,1),
             box-shadow 0.38s ease,
             border-color 0.28s ease,
             background 0.28s ease;
         }
 
-        /* Soft purple shimmer at top on hover */
+        /* Expanded on hover */
+        .path-card:hover {
+          height: 460px;
+          transform: translateY(-8px);
+          background: rgba(255,255,255,0.99);
+          box-shadow:
+            0 24px 60px rgba(124,92,191,0.2),
+            0 4px 16px rgba(124,92,191,0.08);
+          border-color: rgba(155,109,190,0.6);
+        }
+
+        /* Purple shimmer top bar */
         .path-card::before {
           content: '';
           position: absolute;
@@ -130,15 +139,22 @@ export default function EllevationPaths() {
         }
         .path-card:hover::before { opacity: 1; }
 
-        .path-card:hover {
-          transform: translateY(-12px) scale(1.025);
-          background: rgba(255,255,255,0.99);
-          box-shadow:
-            0 24px 60px rgba(124,92,191,0.2),
-            0 4px 16px rgba(124,92,191,0.08);
-          border-color: rgba(155,109,190,0.6);
+        /* ── Hidden content: invisible + no height until hover ── */
+        .path-hidden {
+          opacity: 0;
+          transform: translateY(10px);
+          transition:
+            opacity 0.35s ease 0.18s,
+            transform 0.38s cubic-bezier(0.22,1,0.36,1) 0.15s;
+          pointer-events: none;
+        }
+        .path-card:hover .path-hidden {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
         }
 
+        /* ── Icon ── */
         .path-icon-wrap {
           width: 48px;
           height: 48px;
@@ -147,6 +163,7 @@ export default function EllevationPaths() {
           display: flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
           transition: background 0.3s ease, box-shadow 0.3s ease;
         }
         .path-card:hover .path-icon-wrap {
@@ -155,17 +172,21 @@ export default function EllevationPaths() {
           animation: iconPop 0.5s ease forwards;
         }
 
+        /* ── Title ── */
         .path-title {
           font-family: 'Cormorant Garamond', serif;
           font-size: 38px;
           font-weight: 700;
           color: #1a0a2e;
-          margin: 0 0 16px;
+          margin: 12px 0 0;
           line-height: 1.1;
           letter-spacing: -0.01em;
-          transition: color 0.25s ease;
+          transition: color 0.25s ease, margin-bottom 0.3s ease;
         }
-        .path-card:hover .path-title { color: #3d1f6e; }
+        .path-card:hover .path-title {
+          color: #3d1f6e;
+          margin-bottom: 16px;
+        }
 
         .path-desc {
           font-size: 14.5px;
@@ -176,6 +197,7 @@ export default function EllevationPaths() {
         }
         .path-card:hover .path-desc { color: #3d2a5a; }
 
+        /* ── Features ── */
         .path-feature {
           display: flex;
           align-items: center;
@@ -185,13 +207,11 @@ export default function EllevationPaths() {
           line-height: 1.5;
           transition: color 0.2s, transform 0.2s;
         }
-        .path-card:hover .path-feature {
-          color: #3d2a5a;
-        }
-        .path-card:hover .path-feature:nth-child(1) { transform: translateX(4px); transition-delay: 0.00s; }
-        .path-card:hover .path-feature:nth-child(2) { transform: translateX(4px); transition-delay: 0.05s; }
-        .path-card:hover .path-feature:nth-child(3) { transform: translateX(4px); transition-delay: 0.10s; }
-        .path-card:hover .path-feature:nth-child(4) { transform: translateX(4px); transition-delay: 0.15s; }
+        .path-card:hover .path-feature { color: #3d2a5a; }
+        .path-card:hover .path-feature:nth-child(1) { transform: translateX(4px); transition-delay: 0.22s; }
+        .path-card:hover .path-feature:nth-child(2) { transform: translateX(4px); transition-delay: 0.27s; }
+        .path-card:hover .path-feature:nth-child(3) { transform: translateX(4px); transition-delay: 0.32s; }
+        .path-card:hover .path-feature:nth-child(4) { transform: translateX(4px); transition-delay: 0.37s; }
 
         .path-feature::before {
           content: '';
@@ -207,6 +227,7 @@ export default function EllevationPaths() {
           transform: scale(1.4);
         }
 
+        /* ── CTA button ── */
         .cta-btn {
           display: inline-flex;
           align-items: center;
@@ -223,6 +244,7 @@ export default function EllevationPaths() {
           border-radius: 999px;
           padding: 12px 28px;
           cursor: pointer;
+          text-decoration: none;
           transition: background 0.22s, border-color 0.22s, color 0.22s, gap 0.22s, transform 0.22s;
         }
         .path-card:hover .cta-btn {
@@ -231,8 +253,13 @@ export default function EllevationPaths() {
           color: #5a3fa0;
           gap: 12px;
         }
-        .cta-btn:hover {
-          transform: scale(1.04);
+        .cta-btn:hover { transform: scale(1.04); }
+
+        @media (max-width: 680px) {
+          .paths-grid { grid-template-columns: 1fr !important; }
+          .path-card { height: auto !important; }
+          .path-card:hover { height: auto !important; transform: none !important; }
+          .path-hidden { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
         }
       `}</style>
 
@@ -240,7 +267,7 @@ export default function EllevationPaths() {
         ref={sectionRef}
         style={{
           background: "#f0ebf8",
-          padding: "72px 56px 80px",
+          padding: "30px 56px 80px",
           boxSizing: "border-box",
           fontFamily: "'DM Sans', sans-serif",
         }}
@@ -262,42 +289,23 @@ export default function EllevationPaths() {
             textTransform: "uppercase",
             color: "#7c5cbf",
             margin: "0 0 16px",
-                      fontFamily: "'DM Sans', serif",
-
+            fontFamily: "'DM Sans', serif",
           }}>
             Choose Your Path
-          </p>
-          <h2 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(36px, 4vw, 52px)",
-            fontWeight: 700,
-            lineHeight: 1.1,
-            color: "#1a0a2e",
-            margin: "0 0 18px",
-            letterSpacing: "-0.01em",
-          }}>
-  Choose the experience that matches your current season of growth.
-          </h2>
-          <p style={{
-            fontSize: "15px",
-            lineHeight: 1.7,
-            color: "#5a4070",
-            margin: 0,
-          }}>
-            Whether you're seeking personal transformation through coaching and healing,
-  or professional expansion through community, mentorship, and collaboration —
-  both paths are designed to support ambitious women rising with purpose.
           </p>
         </div>
 
         {/* Cards */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "20px",
-          maxWidth: "980px",
-          margin: "0 auto",
-        }}>
+        <div
+          className="paths-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "20px",
+            maxWidth: "980px",
+            margin: "0 auto",
+          }}
+        >
           {paths.map((p: Path, i: number) => (
             <div
               key={p.title}
@@ -308,15 +316,14 @@ export default function EllevationPaths() {
                 animationDelay: `${0.2 + i * 0.15}s`,
               }}
             >
-              {/* Top row */}
+              {/* ── Always visible: top row + title ── */}
               <div style={{
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "flex-start",
-                marginBottom: "20px",
               }}>
                 <p style={{
-                  fontSize: "15px",
+                  fontSize: "11px",
                   fontWeight: 500,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
@@ -329,41 +336,38 @@ export default function EllevationPaths() {
               </div>
 
               <h3 className="path-title">{p.title}</h3>
-              <p className="path-desc">{p.description}</p>
 
-              {/* Features */}
-              <div style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                marginBottom: "32px",
-                flex: 1,
-              }}>
-                {p.features.map((feat) => (
-                  <div key={feat} className="path-feature">{feat}</div>
-                ))}
+              {/* ── Hidden until hover ── */}
+              <div className="path-hidden" style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                <p className="path-desc">{p.description}</p>
+
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  marginBottom: "32px",
+                  flex: 1,
+                }}>
+                  {p.features.map((feat) => (
+                    <div key={feat} className="path-feature">{feat}</div>
+                  ))}
+                </div>
+
+                <div>
+                  <Link to={p.route} className="cta-btn">
+                    {p.cta}
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M5 12h14M13 6l6 6-6 6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </Link>
+                </div>
               </div>
-
-              {/* CTA */}
-              <div>
-  <Link
-    to={p.route}
-    className="cta-btn"
-    style={{ textDecoration: "none" }}
-  >
-    {p.cta}
-
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-      <path
-        d="M5 12h14M13 6l6 6-6 6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  </Link>
-</div>
             </div>
           ))}
         </div>

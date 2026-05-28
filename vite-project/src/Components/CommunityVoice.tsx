@@ -203,7 +203,7 @@ export default function CommunityVoices() {
         style={{
           width: "100%",
           background: "#f5f0e8",
-          padding: "80px 24px 96px",
+          padding: "30px 24px 96px",
           boxSizing: "border-box",
           position: "relative",
           overflow: "hidden",
@@ -233,7 +233,7 @@ export default function CommunityVoices() {
           >
             Stories of Transformation
           </p>
-          <h2
+          {/* <h2
             style={{
               fontSize: "clamp(30px, 4.5vw, 50px)",
               fontWeight: 600,
@@ -244,7 +244,7 @@ export default function CommunityVoices() {
             }}
           >
             A premium space with real warmth.
-          </h2>
+          </h2> */}
         </div>
 
        
