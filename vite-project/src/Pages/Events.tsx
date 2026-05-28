@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import banner2 from "../assets/banner2.avif";
 /* ── helpers ── */
@@ -150,13 +150,13 @@ function EventCard({ ev, index }: { ev: typeof events[0]; index: number }) {
          
         }}>{ev.price}</span>
 
-        <RegisterBtn hov={hov} />
+        <RegisterBtn />
       </div>
     </div>
   );
 }
 
-function RegisterBtn({ hov }: { hov: boolean }) {
+function RegisterBtn() {
   const [btnHov, setBtnHov] = useState(false);
   return (
     <button

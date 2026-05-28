@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import aboutBg from "../assets/about1-image.jpg";
 import banner1 from "../assets/banner1.avif";
 /* ── helpers ── */

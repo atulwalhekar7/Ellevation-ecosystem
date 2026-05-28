@@ -1,4 +1,3 @@
-import React from "react";
 import aboutBg from "../assets/about1-image.jpg";
 
 import { Link } from "react-router-dom";

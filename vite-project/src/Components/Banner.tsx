@@ -49,18 +49,18 @@ const CrownIcon = () => (
 
 function Carousel() {
   const [cur, setCur] = useState(0);
-  const timerRef = useRef(null);
+  const timerRef = useRef<number | null>(null);
 
-  const goTo = (n) => {
+  const goTo = (n: number) => {
     const next = (n + slides.length) % slides.length;
     setCur(next);
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => setCur((c) => (c + 1) % slides.length), 3800);
+    if (timerRef.current !== null) clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(() => setCur((c) => (c + 1) % slides.length), 3800);
   };
 
   useEffect(() => {
-    timerRef.current = setInterval(() => setCur((c) => (c + 1) % slides.length), 3800);
-    return () => clearInterval(timerRef.current);
+    timerRef.current = window.setInterval(() => setCur((c) => (c + 1) % slides.length), 3800);
+    return () => { if (timerRef.current !== null) clearInterval(timerRef.current); };
   }, []);
 
   return (
