@@ -1,212 +1,181 @@
-import { useState, useEffect, useRef } from "react";
+import React from "react";
+import aboutBg from "../assets/about1-image.jpg";
 
-interface Feature {
-  title: string;
-  description: string;
-}
+import { Link } from "react-router-dom";
 
-const features: Feature[] = [
-  {
-    title: "Shared branding",
-    description: "Designed as a production-ready frontend foundation with reusable visual patterns.",
-  },
-  {
-    title: "Unified navigation",
-    description: "Designed as a production-ready frontend foundation with reusable visual patterns.",
-  },
-  {
-    title: "Expandable membership",
-    description: "Designed as a production-ready frontend foundation with reusable visual patterns.",
-  },
-  {
-    title: "CMS-ready structure",
-    description: "Designed as a production-ready frontend foundation with reusable visual patterns.",
-  },
-];
 
-const CheckIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="10" stroke="#9b6dbe" strokeWidth="1.5" />
-    <path
-      d="M8 12.5l3 3 5-5"
-      stroke="#9b6dbe"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-export default function EllevationAbout() {
-  const [visible, setVisible] = useState<boolean>(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
+export default function FounderSection() {
   return (
-    <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
-        rel="stylesheet"
-      />
-      <style>{`
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .ab-card {
-          background: rgba(255,255,255,0.75);
-          border: 1px solid rgba(200,190,220,0.5);
-          border-radius: 20px;
-          padding: 28px 26px 30px;
-          cursor: default;
-          box-sizing: border-box;
-          transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
-                      box-shadow 0.32s ease,
-                      background 0.2s,
-                      border-color 0.2s;
-        }
-        .ab-card:hover {
-          transform: translateY(-7px) scale(1.02);
-          background: rgba(255,255,255,0.97);
-          box-shadow: 0 16px 40px rgba(124,92,191,0.18);
-          border-color: rgba(155,109,190,0.5);
-        }
-      `}</style>
-
-      <section
-        ref={sectionRef}
+    <section
+      style={{
+        background: "#fff",
+        padding: "80px 24px",
+        borderBottom: "1px solid rgba(180,160,210,0.15)",
+        fontFamily: "'DM Sans', sans-serif",
+      }}
+    >
+      <div
         style={{
-          background: "#f0ebf8",
-          padding: "64px 56px",
-          boxSizing: "border-box",
-          fontFamily: "'DM Sans', sans-serif",
-          display: "grid",
-          gridTemplateColumns: "1fr 1.2fr",
-          gap: "60px",
+          maxWidth: 1080,
+          margin: "0 auto",
+          display: "flex",
+          flexWrap: "wrap",
           alignItems: "center",
+          gap: "56px 72px",
+          justifyContent: "center",
         }}
       >
-        {/* Left column */}
+       
         <div
           style={{
-            opacity: visible ? 1 : 0,
-            animation: visible
-              ? "fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards"
-              : "none",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 20,
+            flexShrink: 0,
           }}
         >
-          {/* Eyebrow — centered */}
-          <p
+          {/* IMAGE */}
+          <div
             style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              letterSpacing: "0.13em",
-              textTransform: "uppercase",
-              color: "#7c5cbf",
-              margin: "0 0 16px",
-              textAlign: "center",
-                        fontFamily: "'Segoe UI', sans-serif",
-
+              position: "relative",
+              width: 320,
+              height: 320,
+              borderRadius: "50%",
+              padding: 6,
+              background: "linear-gradient(135deg, #d63384, #9b7db8)",
             }}
           >
-            About Ellevation
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "50%",
+                overflow: "hidden",
+                background: "#fff",
+              }}
+            >
+              <img
+                src={aboutBg}
+                alt="Ms Hannah Gongar"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "top center",
+                }}
+              />
+            </div>
+          </div>
+
+      
+          <div style={{ textAlign: "center" }}>
+            <p
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "#c0609a",
+                margin: "0 0 4px",
+              }}
+            >
+              Ms Hannah Gongar
+            </p>
+            <p
+              style={{
+                fontSize: 12,
+                fontWeight: 500,
+                color: "#6b5880",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                margin: 0,
+              }}
+            >
+              Founder
+            </p>
+          </div>
+        </div>
+
+      
+        <div style={{ flex: "1 1 380px", maxWidth: 620 }}>
+          <p
+            style={{
+              fontSize: 15,
+              fontWeight: 700,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#c0609a",
+              margin: "0 0 14px",
+            }}
+          >
+            MS ELLEVATION
           </p>
 
-          {/* Heading — centered */}
           <h2
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(36px, 4vw, 52px)",
-              fontWeight: 700,
-              lineHeight: 1.08,
-              color: "#1a0a2e",
-              margin: "0 0 24px",
-              letterSpacing: "-0.01em",
-              textAlign: "center",
+              fontSize: "clamp(28px,4.5vw,46px)",
+              fontWeight: 500,
+              color: "#1c1630",
+              lineHeight: 1.2,
+              margin: "0 0 28px",
             }}
           >
-            One main website. Two connected journeys. One elevated community.
+            Empowering Women to Rise,{" "}
+            <span style={{ color: "#9b7db8" }}>Shine and Thrive</span>
           </h2>
 
-          {/* Body — left aligned */}
-          <p
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#3a2e50" }}>
+            Ms Ellevation is a community-driven organisation supporting CALD
+            women in Australia to integrate, thrive, and achieve financial
+            independence.
+          </p>
+
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#3a2e50" }}>
+            Founded by Hannah Gongar, whose journey through war, migration, and
+            adversity shaped her resilience, we support women through finance,
+            education, and empowerment programs.
+          </p>
+
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#3a2e50" }}>
+            Through micro-finance, business development, and community support,
+            we help women regain confidence and build stability.
+          </p>
+
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#6b5880" }}>
+            At Ms Ellevation, we believe that when women rise, communities rise.
+          </p>
+
+          <Link
+            to="/about"
             style={{
-              fontSize: "15px",
-              lineHeight: 1.75,
-              color: "#5a4070",
-              margin: 0,
-              fontWeight: 400,
-              textAlign: "left",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              marginTop: 26,
+              padding: "12px 20px",
+              borderRadius: "999px",
+              border: "1px solid #9b7db8",
+              color: "#7c5cbf",
+              textDecoration: "none",
+              fontWeight: 600,
+              fontSize: 13,
+              transition: "all 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background =
+                "rgba(155,125,184,0.1)";
+              (e.currentTarget as HTMLElement).style.transform =
+                "translateY(-3px)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "transparent";
+              (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
             }}
           >
-            The main Ellevation site holds the brand, navigation, footer,
-            design system, content, events, and directories while guiding
-            visitors into either the Ms. Ellevation transformation flow or
-            the Ellevation Hub membership flow.
-          </p>
+            Explore More About Us →
+          </Link>
         </div>
-
-        {/* Right column — 2×2 card grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "16px",
-          }}
-        >
-          {features.map((f: Feature, i: number) => (
-            <div
-              key={f.title}
-              className="ab-card"
-              style={{
-                opacity: visible ? 1 : 0,
-                animation: visible
-                  ? "fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) forwards"
-                  : "none",
-                animationDelay: `${0.2 + i * 0.1}s`,
-              }}
-            >
-              <div style={{ marginBottom: "16px" }}>
-                <CheckIcon />
-              </div>
-
-              <p
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "22px",
-                  fontWeight: 700,
-                  color: "#1a0a2e",
-                  margin: "0 0 10px",
-                  lineHeight: 1.2,
-                }}
-              >
-                {f.title}
-              </p>
-
-              <p
-                style={{
-                  fontSize: "13.5px",
-                  lineHeight: 1.65,
-                  color: "#7a6890",
-                  margin: 0,
-                }}
-              >
-                {f.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

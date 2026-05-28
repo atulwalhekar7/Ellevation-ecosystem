@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, CSSProperties } from "react";
 
 const testimonials = [
   {
@@ -7,7 +7,7 @@ const testimonials = [
       "Ellevation gave me the community I never knew I needed. I've grown not just professionally but as a whole woman.",
     name: "Amara J.",
     role: "Business Coach",
-    initials: "AJ",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ const testimonials = [
       "The ecosystem here is unlike anything else — authentic, premium, and deeply empowering at every level.",
     name: "Priya S.",
     role: "Educator & Mentor",
-    initials: "PS",
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
   },
   {
     id: 3,
@@ -23,7 +23,7 @@ const testimonials = [
       "Ms. Ellevation changed the way I see my own potential. Every woman deserves this experience.",
     name: "Danielle M.",
     role: "Corporate Leader",
-    initials: "DM",
+    image: "https://randomuser.me/api/portraits/women/32.jpg",
   },
 ];
 
@@ -145,28 +145,20 @@ function TestimonialCard({
           transform: hovered ? "translateY(-2px)" : "translateY(0)",
         }}
       >
-        {/* Avatar */}
-        <div
-          style={{
-            width: 44,
-            height: 44,
-            borderRadius: 10,
-            background: "linear-gradient(135deg, rgb(219, 166, 208) 0%, rgb(184, 94, 164, 0.31) 100%)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-            
-            fontSize: 13,
-            fontWeight: 700,
-            fontFamily: "'DM Sans', sans-serif",
-            letterSpacing: "0.03em",
-          }}
-        >
-          {t.initials}
-        </div>
-
-        {/* Name + role */}
+        <img
+  src={t.image}
+  alt={t.name}
+  style={{
+    width: 48,
+    height: 48,
+    borderRadius: "50%",
+    objectFit: "cover",
+    flexShrink: 0,
+    border: "2px solid rgba(184, 94, 164, 0.18)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+  }}
+/>
+       
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
           <p
             style={{

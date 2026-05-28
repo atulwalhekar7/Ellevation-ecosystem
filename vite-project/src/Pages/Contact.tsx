@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import banner3 from "../assets/banner3.avif";
 
 function useInView(threshold = 0.1) {
   const ref = useRef(null);
@@ -28,7 +29,7 @@ export default function EllevationContact() {
   const { ref: leftRef, inView: leftIn } = useInView(0.1);
   const { ref: formRef, inView: formIn } = useInView(0.1);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const inputStyle = {
@@ -77,10 +78,9 @@ export default function EllevationContact() {
         <div
           ref={heroRef}
           style={{
-            background:
-              "linear-gradient(135deg, #fce4ec 0%, #f8d7ea 20%, #f0d4f0 45%, #e8d5f5 65%, #ddd4f0 100%)",
-            backgroundSize: "200% 200%",
-            animation: "gradientShift 10s ease infinite",
+            background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner3})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             padding: "72px 32px 80px",
             textAlign: "center",
           }}
@@ -91,7 +91,7 @@ export default function EllevationContact() {
               fontSize: 10,
               fontWeight: 600,
               letterSpacing: "0.26em",
-              color: "#7c5fa0",
+              color: "#fff",
               textTransform: "uppercase",
               marginBottom: 22,
               opacity: heroIn ? 1 : 0,
@@ -108,7 +108,7 @@ export default function EllevationContact() {
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(40px, 6vw, 64px)",
               fontWeight: 600,
-              color: "#2d1f3d",
+              color: "#fff",
               lineHeight: 1.15,
               marginBottom: 20,
               opacity: heroIn ? 1 : 0,
@@ -124,7 +124,7 @@ export default function EllevationContact() {
             style={{
               fontSize: 15,
               fontWeight: 300,
-              color: "#5a4a6e",
+              color: "rgba(255,255,255,0.9)",
               lineHeight: 1.75,
               maxWidth: 520,
               margin: "0 auto 40px",
@@ -176,7 +176,7 @@ export default function EllevationContact() {
                   display: "inline-block",
                   animation: btnHovered ? "pulseArrow 0.6s ease infinite" : "none",
                 }}
-              >
+              > {/* Changed arrow color to white */}
                 →
               </span>
             </button>

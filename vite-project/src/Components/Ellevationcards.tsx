@@ -1,75 +1,56 @@
-import { useState } from "react";
+import  { useState } from "react";
 
 interface Card {
-  icon: React.ReactNode;
   title: string;
   description: string;
   accent: string;
-  bg: string;
   glow: string;
   border: string;
+  imageUrl: string;
+  bg: string;
+  shade: string;
 }
 
 const cards: Card[] = [
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.6" />
-        <polygon points="10,8 16,12 10,16" fill="currentColor" />
-      </svg>
-    ),
     title: "Weekly Room",
     description: "A devotional-style rhythm for reflection, courage, and leadership.",
-    accent: "#9b6dbe",
-    bg: "linear-gradient(145deg, #f8f4ff 0%, #f0eaff 100%)",
-    glow: "rgba(155,109,190,0.35)",
-    border: "rgba(155,109,190,0.6)",
+    accent: "#38bdf8", // Sky blue accent
+    glow: "rgba(56,189,248,0.45)",
+    border: "rgba(56,189,248,0.6)",
+    imageUrl: "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?w=700&q=80",
+    bg: "linear-gradient(145deg, #0f172a, #1e293b)", // Dark Blue Shade
+    shade: "linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.4) 100%)",
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-      </svg>
-    ),
     title: "Community TV",
     description: "Video-led stories, teachings, member highlights, and cultural conversations.",
-    accent: "#7c5cbf",
-    bg: "linear-gradient(145deg, #f5f0ff 0%, #ece4ff 100%)",
-    glow: "rgba(124,92,191,0.35)",
-    border: "rgba(124,92,191,0.6)",
+    accent: "#60a5fa", // Royal blue accent
+    glow: "rgba(96,165,250,0.45)",
+    border: "rgba(96,165,250,0.6)",
+    imageUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80",
+    bg: "linear-gradient(145deg, #1e3a8a, #0f172a)", // Deep Royal Blue Shade
+    shade: "linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.4) 100%)",
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="1.6" />
-        <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-        <circle cx="8" cy="15" r="1" fill="currentColor" />
-        <circle cx="12" cy="15" r="1" fill="currentColor" />
-        <circle cx="16" cy="15" r="1" fill="currentColor" />
-      </svg>
-    ),
     title: "Signature Events",
     description: "Conference-style rooms, salons, dinners, retreats, and digital gatherings.",
-    accent: "#8b5cf6",
-    bg: "linear-gradient(145deg, #f6f2ff 0%, #ede5ff 100%)",
-    glow: "rgba(139,92,246,0.35)",
-    border: "rgba(139,92,246,0.6)",
+    accent: "#818cf8", // Indigo-blue accent
+    glow: "rgba(129,140,248,0.45)",
+    border: "rgba(129,140,248,0.6)",
+    imageUrl: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=80",
+    bg: "linear-gradient(145deg, #172554, #1e293b)", // Navy Dark Blue Shade
+    shade: "linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.4) 100%)",
   },
   {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
     title: "Professional Paths",
     description: "Directory visibility, alliances, referrals, and membership access.",
-    accent: "#6d4fc2",
-    bg: "linear-gradient(145deg, #f4f0ff 0%, #ebe3ff 100%)",
-    glow: "rgba(109,79,194,0.35)",
-    border: "rgba(109,79,194,0.6)",
+    accent: "#22d3ee", // Cyan blue accent
+    glow: "rgba(34,211,238,0.45)",
+    border: "rgba(34,211,238,0.6)",
+    imageUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=700&q=80",
+    bg: "linear-gradient(145deg, #0369a1, #0f172a)", // Steel Blue Shade
+    shade: "linear-gradient(to top, rgba(15,23,42,0.85) 0%, rgba(30,41,59,0.4) 100%)",
   },
 ];
 
@@ -79,171 +60,236 @@ export default function EllevationCards() {
   return (
     <>
       <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet"
       />
       <style>{`
-        @keyframes iconPop {
-          0%   { transform: scale(1); }
-          40%  { transform: scale(1.18) rotate(-6deg); }
-          70%  { transform: scale(0.96) rotate(3deg); }
-          100% { transform: scale(1) rotate(0deg); }
+        /* ── Card — Height structured to accommodate description initially ── */
+        .elv-card {
+          border-radius: 20px;
+          overflow: hidden;
+          cursor: pointer;
+          position: relative;
+          height: 220px; /* Base height increased so description looks clean */
+          transition:
+            height 0.52s cubic-bezier(0.22,1,0.36,1),
+            box-shadow 0.4s ease,
+            transform 0.4s cubic-bezier(0.22,1,0.36,1);
+        }
+        .elv-card:hover {
+          height: 340px;
+          transform: translateY(-6px);
         }
 
-        .card-wrap {
-          position: relative;
+        /* ── Background image ── */
+        .elv-img {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center top;
+          opacity: 0;
+          transform: scale(1.08);
+          transition:
+            opacity 0.5s ease 0.18s,
+            transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s;
+          z-index: 0;
+        }
+        .elv-card:hover .elv-img {
+          opacity: 1;
+          transform: scale(1);
+        }
+
+       
+        .elv-dark {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to top,
+            rgba(7, 16, 43, 0.96) 0%,
+            rgba(12, 24, 56, 0.7) 45%,
+            rgba(15, 23, 42, 0.2) 100%
+          );
+          opacity: 0;
+          transition: opacity 0.45s ease 0.15s;
+          z-index: 1;
+          pointer-events: none;
+          border-radius: 20px;
+        }
+        .elv-card:hover .elv-dark {
+          opacity: 1;
+        }
+
+        .elv-shade {
+          position: absolute;
+          inset: 0;
+          border-radius: 20px;
+          z-index: 1;
+          pointer-events: none;
+          transition: opacity 0.4s ease;
+        }
+        .elv-card:hover .elv-shade {
+          opacity: 0;
+        }
+
+    
+        .elv-arrow {
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          z-index: 4;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(255,255,255,0.15);
+          background: rgba(255,255,255,0.10);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.22s, border-color 0.22s, transform 0.25s ease;
+        }
+        .elv-card:hover .elv-arrow {
+          border-color: rgba(255,255,255,0.5);
+          background: rgba(255,255,255,0.2);
+          transform: translate(2px,-2px);
+        }
+
+       
+        .elv-body {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 3;
+          padding: 20px 22px 24px;
           display: flex;
           flex-direction: column;
+          gap: 0;
         }
 
-        .card-inner {
-          position: relative;
-          z-index: 1;
-          border-radius: 24px;
-          padding: 28px 28px 32px;
-          cursor: pointer;
-          height: 100%;
-          box-sizing: border-box;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.9);
-          transition:
-            transform 0.35s cubic-bezier(0.22,1,0.36,1),
-            box-shadow 0.35s ease;
-        }
-        .card-wrap:hover .card-inner {
-          transform: translateY(-10px) scale(1.025);
-        }
-
-        .icon-wrap {
-          width: 46px;
-          height: 46px;
-          border-radius: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-          transition: background 0.25s;
-        }
-        .card-wrap:hover .icon-wrap {
-          animation: iconPop 0.5s ease forwards;
-        }
-
-        .arrow-btn {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(155,109,190,0.25);
-          background: rgba(255,255,255,0.7);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: background 0.2s, border-color 0.2s, transform 0.2s;
-        }
-        .card-wrap:hover .arrow-btn {
-          background: rgba(155,109,190,0.12);
-          border-color: rgba(155,109,190,0.5);
-          transform: translate(2px, -2px);
-        }
-
-        .card-title {
+        .elv-title {
           font-family: 'Cormorant Garamond', serif;
-          font-size: 30px;
+          font-size: 24px;
           font-weight: 700;
-          line-height: 1.15;
-          color: #1a0a2e;
-          margin: 28px 0 14px;
+          line-height: 1.18;
           letter-spacing: -0.01em;
-          transition: color 0.2s;
+          margin: 0;
+          color: #f8fafc; /* light color for dark background */
+          transition: color 0.35s ease, margin-bottom 0.35s ease;
+          margin-bottom: 8px; /* Fixed spacing since it is always visible */
         }
-        .card-wrap:hover .card-title { color: #3d1f6e; }
 
-        .card-desc {
+      
+        .elv-desc {
           font-family: 'DM Sans', sans-serif;
-          font-size: 18px;
-          font-weight: 400;
+          font-size: 13px;
           line-height: 1.65;
-          color: rgba(79, 31, 115, 0.92);
-          transition: color 0.2s;
+          margin: 0;
+          opacity: 0.85; /* Clearly visible initially */
+          color: #cbd5e1; /* Smooth slate-blue/grey color */
+          transition: color 0.35s ease, opacity 0.35s ease;
         }
-        .card-wrap:hover .card-desc { color: rgba(42,18,60,0.78); }
+        .elv-card:hover .elv-desc {
+          opacity: 1;
+          color: #e2e8f0;
+        }
+
+       
+        .elv-line {
+          height: 2px;
+          border-radius: 2px;
+          margin-top: 0;
+          width: 0;
+          transition:
+            width 0.42s cubic-bezier(0.22,1,0.36,1) 0.3s,
+            margin-top 0.3s ease 0.25s;
+        }
+        .elv-card:hover .elv-line {
+          width: 100%;
+          margin-top: 14px;
+        }
+
+        @media (max-width: 860px) {
+          .elv-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .elv-card { height: 200px; }
+          .elv-card:hover { height: 320px; }
+        }
+        @media (max-width: 500px) {
+          .elv-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       <section
-        style={{
-          background: "linear-gradient(150deg, #fdf6f9 0%, #f5eaf4 40%, #ede8f5 100%)",
-          padding: "10px 40px 80px",
-          fontFamily: "'DM Sans', sans-serif",
-        }}
+       style={{
+  background: "rgb(240, 235, 248)",
+  padding: "52px 40px 80px",
+  fontFamily: "'DM Sans', sans-serif",
+}}
       >
-        {/* Section header */}
-        <div style={{ textAlign: "center", marginBottom: "52px" }}>
-          <h2 style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(36px, 4vw, 52px)",
-            fontWeight: 700,
-            color: "#1a0a2e",
-            lineHeight: 1.1,
-            letterSpacing: "-0.01em",
-          }}>
+        <div style={{ textAlign: "center", marginBottom: "48px" }}>
+          <h2
+          style={{
+  fontFamily: "'Cormorant Garamond', serif",
+  fontSize: "clamp(34px,4vw,52px)",
+  fontWeight: 700,
+  color: "rgb(26, 10, 46)",
+  lineHeight: 1.08,
+  letterSpacing: "-0.02em",
+  margin: 0,
+}}
+          >
             Everything you need to rise.
           </h2>
         </div>
 
-        {/* Cards grid */}
         <div
+          className="elv-grid"
           style={{
             maxWidth: "1200px",
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            alignItems: "stretch",
-            gap: "20px",
+            gridTemplateColumns: "repeat(4,1fr)",
+            alignItems: "start",
+            gap: "16px",
           }}
         >
-        {cards.map((card: Card, i: number) => (
+          {cards.map((card, i) => (
             <div
               key={card.title}
-              className="card-wrap"
+              className="elv-card"
+              style={{
+                background: card.bg,
+                boxShadow:
+                  hovered === i
+                    ? `0 24px 60px ${card.glow}, 0 0 0 1.5px ${card.border}`
+                    : `0 4px 20px rgba(0, 0, 0, 0.4)`,
+              }}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
             >
-              <div
-                className="card-inner"
-                style={{
-                  background: card.bg,
-                  boxShadow: hovered === i
-                    ? `0 24px 64px ${card.glow}, 0 4px 16px rgba(0,0,0,0.06), 0 0 0 1.5px ${card.border}`
-                    : `0 4px 24px rgba(160,120,200,0.08), 0 1px 4px rgba(0,0,0,0.04)`,
-                }}
-              >
-                {/* Top row: icon + arrow */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div
-                    className="icon-wrap"
-                    style={{
-                      background: hovered === i
-                        ? `rgba(155,109,190,0.15)`
-                        : `rgba(155,109,190,0.09)`,
-                      color: card.accent,
-                    }}
-                  >
-                    {card.icon}
-                  </div>
-                  <div className="arrow-btn">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                      <path
-                        d="M7 17L17 7M17 7H7M17 7v10"
-                        stroke={card.accent}
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
+              <img className="elv-img" src={card.imageUrl} alt={card.title} loading="lazy" />
 
-                <p className="card-title">{card.title}</p>
-                <p className="card-desc">{card.description}</p>
+              <div className="elv-dark" />
+
+              <div className="elv-shade" style={{ background: card.shade }} />
+
+              <div className="elv-arrow">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 17L17 7M17 7H7M17 7v10"
+                    stroke={card.accent}
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+
+              <div className="elv-body">
+                <h2 className="elv-title">{card.title}</h2>
+                <p className="elv-desc">{card.description}</p>
+                <div className="elv-line" style={{ background: card.accent }} />
               </div>
             </div>
           ))}
