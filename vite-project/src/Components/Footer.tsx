@@ -1,4 +1,4 @@
-import logo from "../assets/MS-Ellevation-Logo.webp";
+import logo from "../assets/MS-Ellevation-Logo-removebg-preview.png";
 import { Link } from "react-router-dom";
 
 const footerLinks = [
@@ -154,7 +154,7 @@ export default function EllevationFooter() {
             <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "28px" }}>
               <div style={{
                 width: "48px", height: "48px", borderRadius: "50%",
-                background: "#fff",
+                
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0,
                 overflow: "hidden",

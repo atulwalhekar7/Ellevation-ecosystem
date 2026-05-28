@@ -5,10 +5,10 @@ import video2 from "../assets/video2.mp4";
 const videos = [
   {
     id: 1,
-    tag: "FEATURED VIDEO",
-    title: "The Power of Collective Ambition",
+    tag: "",
+    title: "",
     description:
-      "Explore how our digital ecosystem connects female founders, creators, and executives to bridge the funding gap and share social capital.",
+      "",
     duration: "08:42",
     thumbnail:
       "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80",
@@ -17,10 +17,10 @@ const videos = [
   },
   {
     id: 2,
-    tag: "DIRECTORY WALKTHROUGH",
-    title: "Mentorship & Growth Frameworks",
+    tag: "",
+    title: "",
     description:
-      "A deep dive into our peer-to-peer matching system designed to accelerate career pivots and leadership development for women in tech.",
+      "",
     duration: "04:18",
     thumbnail:
       "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
@@ -32,7 +32,7 @@ const videos = [
 const styles: Record<string, CSSProperties> = {
   section: {
     width: "100%",
-    minHeight: "100vh",
+    minHeight: "70vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -233,12 +233,7 @@ function VideoCard({ video }: { video: (typeof videos)[0] }) {
         <div style={styles.durationBadge}>{video.duration}</div>
       </div>
 
-      {/* Card text */}
-      <div style={styles.cardBody}>
-        <p style={styles.cardTag}>{video.tag}</p>
-        <h3 style={styles.cardTitle}>{video.title}</h3>
-        <p style={styles.cardDesc}>{video.description}</p>
-      </div>
+    
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import HeroBanner from '../Components/Banner';
+import EllevationNavbar from '../Components/Navbar';
 import Ellevationcards from '../Components/Ellevationcards';
 import VideoSection from "../Components/VideoSection";
 import EllevationAbout from '../Components/Ellevationabout';
@@ -10,6 +11,7 @@ export default function Home() {
   return (
     <>
       <HeroBanner />
+      <EllevationNavbar />
       <Ellevationcards />
       <VideoSection />
       <EllevationAbout />

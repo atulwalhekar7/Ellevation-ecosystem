@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import banner3 from "../assets/banner3.avif";
 
 function useInView(threshold = 0.1) {
@@ -29,7 +29,7 @@ export default function EllevationContact() {
   const { ref: leftRef, inView: leftIn } = useInView(0.1);
   const { ref: formRef, inView: formIn } = useInView(0.1);
 
-  const handleChange = (e) =>
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const inputStyle = {

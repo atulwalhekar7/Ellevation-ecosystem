@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import EllevationNavbar from './Components/Navbar';
 import Footer from './Components/Footer';
@@ -18,12 +18,15 @@ import EllevationHub from './Pages/EllevationHub';
 import ScrollToUp from "./Components/ScrollToTop";
 
 function App() {
+  const { pathname } = useLocation();
+
   return (
     <>
     <ScrollToUp />
-      <EllevationNavbar />
+      {pathname !== "/" && <EllevationNavbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        
         <Route path="/about" element={<About />} />
         
         <Route path="/content/youtube" element={<YouTube />} />

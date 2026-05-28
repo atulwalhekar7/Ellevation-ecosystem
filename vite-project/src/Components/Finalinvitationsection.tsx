@@ -25,7 +25,6 @@ const FinalInvitationSection = () => {
 }
         .final-invitation-section {
           width: 100%;
-          min-height: 320px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -194,9 +193,9 @@ const FinalInvitationSection = () => {
         <div className={`fi-content${visible ? " visible" : ""}`}>
           <p className="fi-eyebrow">Final Invitation</p>
 
-          <h2 className="fi-heading">
+          {/* <h2 className="fi-heading">
             Enter the ecosystem. Find your pathway. Rise with us.
-          </h2>
+          </h2> */}
 
           <div className="fi-buttons">
             <a href="/ms-ellevation" className="fi-btn-primary">
