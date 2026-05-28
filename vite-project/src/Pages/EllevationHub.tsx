@@ -212,8 +212,8 @@ function ConnectSection() {
   return (
     <section style={{ ...hp.page, minHeight: "60vh", background: "#fdfaff" }}>
       <div style={{ textAlign: "center", width: "100%", maxWidth: 600, margin: "0 auto" }}>
-        <h2 style={hp.headline}>Connect with Us</h2>
-        <p style={hp.sub}>Have questions about the Hub or interested in an enterprise partnership?</p>
+        <h2 style={cp.headline}>Connect with Us</h2>
+        <p style={cp.sub}>Have questions about the Hub or interested in an enterprise partnership?</p>
         <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 32 }}>
           <input style={jp.input} placeholder="Email Address" />
           <textarea style={{ ...jp.input, minHeight: 120 }} placeholder="How can we help?" />
@@ -238,12 +238,12 @@ const hp: Record<string, React.CSSProperties> = {
   blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1.2fr 1fr", gap:48, alignItems:"center", maxWidth:1200, margin:"0 auto", width:"100%", animation:"fadeSlideUp 0.9s ease both" },
   left: { display:"flex", flexDirection:"column", gap:24 },
-  eyebrow: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.72rem", fontWeight:700, letterSpacing:"0.22em", color:"#5a4070" },
-  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#000000", lineHeight:1.1, margin:0 },
-  sub: { fontFamily:"'DM Sans',sans-serif", fontSize:"1rem", fontWeight:400, color:"#0f0f0f", lineHeight:1.7, maxWidth:480 },
+  eyebrow: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.72rem", fontWeight:700, letterSpacing:"0.22em", color:"#ffffff" },
+  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#ffffff", lineHeight:1.1, margin:0 },
+  sub: { fontFamily:"'DM Sans',sans-serif", fontSize:"1rem", fontWeight:400, color:"#ffffff", lineHeight:1.7, maxWidth:480 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
   btnPrimary: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.1em", padding:"14px 28px", borderRadius:100, border:"none", background:"#1a0a2e", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(253, 253, 253, 0.3)" },
-  btnSecondary: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.1em", padding:"14px 28px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.2s ease" },
+  btnSecondary: { fontFamily:"'DM Sans',sans-serif", fontSize:"0.75rem", fontWeight:700, letterSpacing:"0.1em", padding:"14px 28px", borderRadius:100, border:"2px solid #ffffff", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
   card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
   cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
   cardIcon: { width:48, height:48, borderRadius:"50%", background:"#5a4070", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
@@ -297,6 +297,11 @@ const st: Record<string, React.CSSProperties> = {
   card: { padding: 40, border: "1px solid #ede8f5", borderRadius: 24, textAlign: "left" },
   quote: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontStyle: "italic", color: "#5a4070", lineHeight: 1.6, marginBottom: 20 },
   name: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 700, color: "#1a0a2e" },
+};
+
+const cp: Record<string, React.CSSProperties> = {
+  headline: { ...hp.headline, color: "#1a0a2e" },
+  sub: { ...hp.sub, color: "#5a4070", maxWidth: "none" },
 };
 
 // ─── ROOT HUB PAGE ───────────────────────────────────────────────────────────
