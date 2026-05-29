@@ -107,7 +107,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
           style={{
             display: "flex", alignItems: "center", gap: "4px",
             background: "none", border: "none", cursor: "pointer",
-            fontSize: "18px", color: linkColor,
+            fontSize: "16px", color: linkColor,
             fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
             padding: "6px 4px", borderRadius: "6px",
             transition: "color 0.15s", whiteSpace: "nowrap",
@@ -134,7 +134,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
-        fontSize: "18px", color: linkColor,
+        fontSize: "16px", color: linkColor,
         textDecoration: "none", fontFamily: "'DM Sans', sans-serif",
         fontWeight: 400, padding: "6px 4px", borderRadius: "6px",
         whiteSpace: "nowrap", transition: "color 0.15s",
@@ -212,8 +212,8 @@ export default function EllevationNavbar() {
         >
           {/* Logo */}
           <Link to="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", flexShrink: 0 }}>
-            <div style={{ width: "180px", height: "110px", borderRadius: "50%",  display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-              <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <div style={{ width: "170px", height: "110px", borderRadius: "50%",  display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+              <img src={logo} alt="Ellevation Logo" style={{ width: "80%", height: "100%", objectFit: "cover" }} />
             </div>
             {/* <div style={{ lineHeight: 1.15 }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "15px", color: darkMode ? "#e9deff" : "#1a0a2e", letterSpacing: "0.01em" }}>
