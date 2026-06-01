@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 import img1 from "../assets/banner7.avif";
 import img2 from "../assets/banner1.avif";
-import img3 from "../assets/img2.jpg";
+import img3 from "../assets/banner3.avif";
 import img4 from "../assets/banner4.avif";
 
 const slides = [
@@ -32,7 +32,7 @@ export default function EllevationHero() {
     <section style={{
       position: "relative",
       width: "100%",
-      height: "100vh",
+      height: "82vh",
       overflow: "hidden",
     }}>
       {/* Sliding images */}

@@ -1,4 +1,4 @@
-import logo from "../assets/MS-Ellevation-Logo-removebg-preview.png";
+import logo from "../assets/Ms-Ellevation-removebg-preview.png";
 import { Link } from "react-router-dom";
 
 const footerLinks = [
@@ -53,11 +53,11 @@ const MailIcon = () => (
   </svg>
 );
 
-const SparkleIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.2L12 16.4l-6.2 4.5 2.4-7.2L2 9.2h7.6L12 2z" />
-  </svg>
-);
+// const SparkleIcon = () => (
+//   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+//     <path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.2L12 16.4l-6.2 4.5 2.4-7.2L2 9.2h7.6L12 2z" />
+//   </svg>
+// );
 
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -66,10 +66,10 @@ const ArrowRight = () => (
 );
 
 const socialIcons = [
-  { icon: <InstagramIcon />, label: "Instagram" },
+  { icon: <InstagramIcon />, label: "Instagram", href: "https://www.instagram.com/ms_ellevation/" },
   { icon: <YoutubeIcon />, label: "YouTube" },
   { icon: <MailIcon />, label: "Email" },
-  { icon: <SparkleIcon />, label: "More" },
+  // { icon: <SparkleIcon />, label: "More" },
 ];
 
 export default function EllevationFooter() {
@@ -83,7 +83,7 @@ export default function EllevationFooter() {
         .footer-link {
           color: rgba(255,255,255,0.65);
           font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
+          font-size: 20px;
           font-weight: 400;
           text-decoration: none;
           display: block;
@@ -153,36 +153,17 @@ export default function EllevationFooter() {
             {/* Logo */}
             <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "28px" }}>
               <div style={{
-                width: "48px", height: "48px", borderRadius: "50%",
+                width: "150px", height: "100px", 
                 
                 display: "flex", alignItems: "center", justifyContent: "center",
                 flexShrink: 0,
                 overflow: "hidden",
               }}>
-                <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "90%", objectFit: "cover",background:"white", }} />
               </div>
               <div>
-                <div style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontWeight: 600,
-                  fontSize: "22px",
-                  color: "#fff",
-                  letterSpacing: "0.01em",
-                  lineHeight: 1.1,
-                }}>
-                  Ellevation
-                </div>
-                <div style={{
-                  fontSize: "9px",
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 600,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "#c9a96e",
-                  marginTop: "2px",
-                }}>
-                  Rise In Community
-                </div>
+                
+                
               </div>
             </div>
 
@@ -263,7 +244,7 @@ export default function EllevationFooter() {
                 <h4 style={{
                   fontFamily: "'DM Sans', sans-serif",
                   fontWeight: 600,
-                  fontSize: "14px",
+                  fontSize: "20px",
                   color: "#c9a96e",
                   marginBottom: "20px",
                   letterSpacing: "0.01em",
@@ -321,11 +302,26 @@ export default function EllevationFooter() {
 
           {/* Social icons */}
           <div style={{ display: "flex", gap: "10px" }}>
-            {socialIcons.map(({ icon, label }) => (
-              <button key={label} className="social-btn" aria-label={label} title={label}>
-                {icon}
-              </button>
-            ))}
+            {socialIcons.map(({ icon, label, href }) => 
+              href ? (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="social-btn"
+                  aria-label={label}
+                  title={label}
+                  style={{ textDecoration: "none" }}
+                >
+                  {icon}
+                </a>
+              ) : (
+                <button key={label} className="social-btn" aria-label={label} title={label}>
+                  {icon}
+                </button>
+              )
+            )}
           </div>
         </div>
       </footer>
