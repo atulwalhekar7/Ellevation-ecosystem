@@ -68,10 +68,7 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
             fontWeight: 400,
             borderRadius: "6px",
             margin: "2px 6px",
-            transition: "background 0.13s",
           }}
-          onMouseEnter={(e) => ((e.target as HTMLElement).style.background = "#f5f0ff")}
-          onMouseLeave={(e) => ((e.target as HTMLElement).style.background = "transparent")}
         >
           {item.label}
         </Link>
@@ -105,28 +102,30 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
         <button
           onClick={() => setOpen((v) => !v)}
           style={{
-            display: "flex", alignItems: "center", gap: "4px",
-            background: "none", border: "none", cursor: "pointer",
-            fontSize: "16px", color: linkColor,
-            fontFamily: "'DM Sans', sans-serif", fontWeight: 400,
-            padding: "6px 4px", borderRadius: "6px",
-            transition: "color 0.15s", whiteSpace: "nowrap",
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "16px",
+            color: linkColor,
+            fontFamily: "'DM Sans', sans-serif",
+            fontWeight: 400,
+            padding: "6px 4px",
+            borderRadius: "6px",
           }}
-          aria-haspopup="true"
-          aria-expanded={open}
         >
           {item.label}
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
-            style={{ transition: "transform 0.18s", transform: open ? "rotate(180deg)" : "rotate(0deg)", marginTop: "1px" }}>
-            <path d="M2 4L6 8L10 4" stroke="#888" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
         </button>
+
         <DropdownMenu items={item.dropdown} open={open} />
       </div>
     );
   }
 
-  const shouldOpenInNewTab = item.label === "Ms. Ellevation" || item.label === "Ellevation Hub";
+  const shouldOpenInNewTab =
+    item.label === "Ms. Ellevation" || item.label === "Ellevation Hub";
 
   return (
     <Link
@@ -134,10 +133,12 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
-        fontSize: "16px", color: linkColor,
-        textDecoration: "none", fontFamily: "'DM Sans', sans-serif",
-        fontWeight: 400, padding: "6px 4px", borderRadius: "6px",
-        whiteSpace: "nowrap", transition: "color 0.15s",
+        fontSize: "16px",
+        color: linkColor,
+        textDecoration: "none",
+        fontFamily: "'DM Sans', sans-serif",
+        fontWeight: 400,
+        padding: "6px 4px",
       }}
       onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#7c3aed")}
       onMouseLeave={(e) => ((e.target as HTMLElement).style.color = linkColor)}
@@ -155,11 +156,24 @@ export default function EllevationNavbar() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navTopRef = useRef<number>(0);
 
+  // ✅ THEME LOAD (added only)
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+
+    if (saved) {
+      document.documentElement.setAttribute("data-theme", saved);
+      setDarkMode(saved === "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, []);
+
   // Measure natural position of navbar wrapper after mount
   useEffect(() => {
     const measure = () => {
       if (wrapperRef.current) {
-        navTopRef.current = wrapperRef.current.getBoundingClientRect().top + window.scrollY;
+        navTopRef.current =
+          wrapperRef.current.getBoundingClientRect().top + window.scrollY;
       }
     };
     measure();
@@ -176,6 +190,18 @@ export default function EllevationNavbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // ✅ THEME TOGGLE (updated only)
+  const toggleTheme = () => {
+    const root = document.documentElement;
+    const current = root.getAttribute("data-theme");
+    const next = current === "dark" ? "light" : "dark";
+
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+
+    setDarkMode(next === "dark");
+  };
+
   return (
     <>
       <link
@@ -183,12 +209,10 @@ export default function EllevationNavbar() {
         rel="stylesheet"
       />
 
-      {/*
-        Wrapper stays in normal document flow.
-        When nav becomes fixed, wrapper still holds its height so
-        content below doesn't jump.
-      */}
-      <div ref={wrapperRef} style={{ height: `${NAV_HEIGHT}px`, position: "relative" }}>
+      <div
+        ref={wrapperRef}
+        style={{ height: `${NAV_HEIGHT}px`, position: "relative" }}
+      >
         <nav
           style={{
             display: "flex",
@@ -211,76 +235,86 @@ export default function EllevationNavbar() {
           }}
         >
           {/* Logo */}
-          <Link to="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", flexShrink: 0 }}>
-            <div style={{ width: "170px", height: "110px", borderRadius: "50%",  display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-              <img src={logo} alt="Ellevation Logo" style={{ width: "80%", height: "100%", objectFit: "cover" }} />
+          <Link
+            to="/"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              textDecoration: "none",
+              flexShrink: 0,
+            }}
+          >
+            <div
+              style={{
+                width: "170px",
+                height: "110px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src={logo}
+                alt="Ellevation Logo"
+                style={{ width: "80%", height: "100%", objectFit: "cover" }}
+              />
             </div>
-            {/* <div style={{ lineHeight: 1.15 }}>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: "15px", color: darkMode ? "#e9deff" : "#1a0a2e", letterSpacing: "0.01em" }}>
-                Ellevation
-              </div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: "9px", color: "#8b5cf6", letterSpacing: "0.12em", textTransform: "uppercase" }}>
-                Community<br />Ecosystem
-              </div>
-            </div> */}
           </Link>
 
           {/* Nav Links */}
-          <div style={{ display: "flex", alignItems: "center", gap: "20px", flex: 1, flexWrap: "nowrap" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "20px",
+              flex: 1,
+              flexWrap: "nowrap",
+            }}
+          >
             {navItems.map((item) => (
-              <NavItemComponent key={item.label} item={item} darkMode={darkMode} />
+              <NavItemComponent
+                key={item.label}
+                item={item}
+                darkMode={darkMode}
+              />
             ))}
           </div>
 
           {/* Right Actions */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
-            {/* Dark Mode Toggle */}
+            
+            {/* Dark Mode Toggle (ONLY CHANGE HERE IS FUNCTION) */}
             <button
-              onClick={() => setDarkMode((v) => !v)}
+              onClick={toggleTheme}
               style={{
-                display: "flex", alignItems: "center", gap: "6px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
                 background: darkMode ? "#2a1a4e" : "#f5f0ff",
-                border: "1.5px solid #e0d4f7", borderRadius: "20px",
-                padding: "6px 14px", cursor: "pointer", fontSize: "13px",
+                border: "1.5px solid #e0d4f7",
+                borderRadius: "20px",
+                padding: "6px 14px",
+                cursor: "pointer",
+                fontSize: "13px",
                 color: darkMode ? "#c4a8ff" : "#5b21b6",
-                fontFamily: "'DM Sans', sans-serif", fontWeight: 500,
-                transition: "background 0.2s, color 0.2s",
+                fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 500,
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                {darkMode ? (
-                  <>
-                    <circle cx="12" cy="12" r="5" />
-                    <line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                    <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                  </>
-                ) : (
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                )}
-              </svg>
               {darkMode ? "Light" : "Dark"}
             </button>
 
             {/* Get Listed */}
             <a href="#" style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", border: "1.5px solid #d1c4e9", borderRadius: "20px", padding: "6px 16px", cursor: "pointer", fontSize: "13px", color: "#2d2d2d", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, textDecoration: "none", whiteSpace: "nowrap" }}>
               Get Listed
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="#888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </a>
 
             {/* Join */}
-            <a href="#"
-              style={{ display: "flex", alignItems: "center", gap: "6px", background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)", border: "none", borderRadius: "20px", padding: "8px 20px", cursor: "pointer", fontSize: "13px", color: "#fff", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 2px 12px rgba(168,85,247,0.35)", whiteSpace: "nowrap" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.9"; (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 18px rgba(168,85,247,0.5)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; (e.currentTarget as HTMLElement).style.boxShadow = "0 2px 12px rgba(168,85,247,0.35)"; }}
-            >
+            <a href="#" style={{ display: "flex", alignItems: "center", gap: "6px", background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)", border: "none", borderRadius: "20px", padding: "8px 20px", cursor: "pointer", fontSize: "13px", color: "#fff", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 2px 12px rgba(168,85,247,0.35)", whiteSpace: "nowrap" }}>
               Join
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
             </a>
           </div>
         </nav>

@@ -1,13 +1,11 @@
 import aboutBg from "../assets/about1-image.jpg";
-
 import { Link } from "react-router-dom";
-
 
 export default function FounderSection() {
   return (
     <section
       style={{
-        background: "#fff",
+        background: "var(--bg-color)",
         padding: "80px 24px",
         borderBottom: "1px solid rgba(180,160,210,0.15)",
         fontFamily: "'DM Sans', sans-serif",
@@ -24,7 +22,7 @@ export default function FounderSection() {
           justifyContent: "center",
         }}
       >
-       
+        {/* IMAGE BLOCK */}
         <div
           style={{
             display: "flex",
@@ -34,7 +32,6 @@ export default function FounderSection() {
             flexShrink: 0,
           }}
         >
-          {/* IMAGE */}
           <div
             style={{
               position: "relative",
@@ -51,7 +48,7 @@ export default function FounderSection() {
                 height: "100%",
                 borderRadius: "50%",
                 overflow: "hidden",
-                background: "#fff",
+                background: "var(--card-bg, #fff)",
               }}
             >
               <img
@@ -67,7 +64,6 @@ export default function FounderSection() {
             </div>
           </div>
 
-      
           <div style={{ textAlign: "center" }}>
             <p
               style={{
@@ -94,7 +90,7 @@ export default function FounderSection() {
           </div>
         </div>
 
-      
+        {/* TEXT BLOCK */}
         <div style={{ flex: "1 1 380px", maxWidth: 620 }}>
           <p
             style={{
@@ -114,7 +110,7 @@ export default function FounderSection() {
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "clamp(28px,4.5vw,46px)",
               fontWeight: 500,
-              color: "#1c1630",
+              color: "var(--text-color)",
               lineHeight: 1.2,
               margin: "0 0 28px",
             }}
@@ -123,24 +119,30 @@ export default function FounderSection() {
             <span style={{ color: "#9b7db8" }}>Shine and Thrive</span>
           </h2>
 
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#3a2e50" }}>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-color)" }}>
             Ms Ellevation is a community-driven organisation supporting CALD
             women in Australia to integrate, thrive, and achieve financial
             independence.
           </p>
 
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#3a2e50" }}>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-color)" }}>
             Founded by Hannah Gongar, whose journey through war, migration, and
             adversity shaped her resilience, we support women through finance,
             education, and empowerment programs.
           </p>
 
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#3a2e50" }}>
+          <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-color)" }}>
             Through micro-finance, business development, and community support,
             we help women regain confidence and build stability.
           </p>
 
-          <p style={{ fontSize: 15, lineHeight: 1.8, color: "#6b5880" }}>
+          <p
+            style={{
+              fontSize: 15,
+              lineHeight: 1.8,
+              color: "var(--text-secondary, #6b5880)",
+            }}
+          >
             At Ms Ellevation, we believe that when women rise, communities rise.
           </p>
 
