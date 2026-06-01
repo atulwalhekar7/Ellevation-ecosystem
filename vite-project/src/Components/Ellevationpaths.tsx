@@ -204,7 +204,7 @@ export default function EllevationPaths() {
           margin: 0 0 24px;
           transition: color 0.25s ease;
         }
-        .path-card:hover .path-desc { color: #f4f2f7; }
+        .path-card:hover .path-desc { color: #5a4070; }
 
         /* ── Features ── */
         .path-feature {
@@ -216,7 +216,7 @@ export default function EllevationPaths() {
           line-height: 1.5;
           transition: color 0.2s, transform 0.2s;
         }
-        .path-card:hover .path-feature { color: #f6f4f8; }
+        .path-card:hover .path-feature { color: #5a4070; }
         .path-card:hover .path-feature:nth-child(1) { transform: translateX(4px); transition-delay: 0.22s; }
         .path-card:hover .path-feature:nth-child(2) { transform: translateX(4px); transition-delay: 0.27s; }
         .path-card:hover .path-feature:nth-child(3) { transform: translateX(4px); transition-delay: 0.32s; }
@@ -234,6 +234,11 @@ export default function EllevationPaths() {
         .path-card:hover .path-feature::before {
           background: #7c5cbf;
           transform: scale(1.4);
+        }
+
+        .path-card-eyebrow {
+          color: #9b6dbe;
+          transition: color 0.3s ease;
         }
 
         /* ── CTA button ── */
@@ -284,18 +289,15 @@ export default function EllevationPaths() {
           border-color: rgba(196, 181, 253, 0.4);
           box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
         }
-        [data-theme="dark"] .path-title {
-          color: #f3ebff;
-        }
-        [data-theme="dark"] .path-card:hover .path-title {
-          color: #d8ccf4;
-        }
+        [data-theme="dark"] .path-title,
+        [data-theme="dark"] .path-card:hover .path-title,
         [data-theme="dark"] .path-desc,
-        [data-theme="dark"] .path-feature {
-          color: #b8a8c8;
-        }
+        [data-theme="dark"] .path-card:hover .path-desc,
+        [data-theme="dark"] .path-feature,
+        [data-theme="dark"] .path-card:hover .path-feature,
+        [data-theme="dark"] .path-card-eyebrow,
         [data-theme="dark"] .paths-header-eyebrow {
-          color: #a78bfa !important;
+          color: #ffffff !important;
         }
         [data-theme="dark"] .cta-btn {
           color: #d8ccf4;
@@ -367,12 +369,13 @@ export default function EllevationPaths() {
                 justifyContent: "space-between",
                 alignItems: "flex-start",
               }}>
-                <p style={{
+                <p 
+                  className="path-card-eyebrow"
+                  style={{
                   fontSize: "11px",
                   fontWeight: 500,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "#9b6dbe",
                   margin: 0,
                 }}>
                   {p.eyebrow}
