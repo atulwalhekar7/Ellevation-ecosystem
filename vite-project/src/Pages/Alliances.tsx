@@ -43,7 +43,9 @@ function Hero() {
   useEffect(() => { setTimeout(() => setMounted(true), 80); }, []);
 
   return (
-    <section style={{
+    <section 
+      className="alliances-hero"
+      style={{
       background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)",
       padding: "110px 24px 96px",
       textAlign: "center",
@@ -115,7 +117,9 @@ function IntroSection() {
   const [hov, setHov] = useState(false);
 
   return (
-    <section style={{
+    <section 
+      className="alliances-intro"
+      style={{
       background: "#fdf9fc",
       padding: "88px 24px 80px",
       textAlign: "center",
@@ -184,6 +188,7 @@ function PartnerCard({ label, index }: { label: string; index: number }) {
   return (
     <div
       ref={ref}
+      className="partner-card"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -242,7 +247,9 @@ function PartnersSection() {
   const { ref, inView } = useInView(0.1);
 
   return (
-    <section style={{ background: "#f5eef8", padding: "72px 24px 96px" }}>
+    <section 
+      className="alliances-partners"
+      style={{ background: "#f5eef8", padding: "72px 24px 96px" }}>
       {/* section label */}
       <div ref={ref} style={{
         ...fade(inView, 0),
@@ -285,7 +292,9 @@ function CTASection() {
   const [hov2, setHov2] = useState(false);
 
   return (
-    <section style={{
+    <section 
+      className="alliances-cta"
+      style={{
       background: "linear-gradient(150deg,#f0d8ee 0%,#e2d0f0 40%,#d4c8f8 75%,#e0d4f8 100%)",
       padding: "88px 24px",
       textAlign: "center",
@@ -471,6 +480,53 @@ export default function AlliancesPage() {
         @keyframes shimmerSweep {
           0%   { background-position: 200% center; }
           100% { background-position: -200% center; }
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] body {
+          background: #0f0a1a !important;
+        }
+        [data-theme="dark"] .alliances-hero {
+          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 40%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .alliances-hero h1 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .alliances-hero p {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .alliances-intro,
+        [data-theme="dark"] .alliances-partners {
+          background: #140a1a !important;
+        }
+        [data-theme="dark"] .alliances-intro p {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .alliances-partners h2 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .partner-card {
+          background: rgba(30, 20, 45, 0.7) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .partner-card:hover {
+          background: rgba(45, 30, 65, 0.98) !important;
+        }
+        [data-theme="dark"] .partner-card p {
+          color: #d8ccf4 !important;
+        }
+        [data-theme="dark"] .alliances-cta {
+          background: linear-gradient(150deg, #2d1a4e 0%, #1a0a2e 100%) !important;
+        }
+        [data-theme="dark"] .alliances-cta h2 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .alliances-cta p {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] button[style*="transparent"] {
+          color: #f3ebff !important;
+          border-color: #f3ebff !important;
         }
       `}</style>
 

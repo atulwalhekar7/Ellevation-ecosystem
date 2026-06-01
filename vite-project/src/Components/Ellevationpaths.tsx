@@ -93,13 +93,17 @@ export default function EllevationPaths() {
           100% { transform: scale(1.08) rotate(0deg); }
         }
 
+        .paths-section {
+          background: #f0ebf8;
+          transition: background 0.4s ease;
+        }
+
         /* ── Card: collapsed by default ── */
         .path-card {
           background: rgba(255,255,255,0.78);
           border: 1px solid rgba(200,190,225,0.55);
           border-radius: 24px;
           padding: 32px 32px 32px;
-          box-sizing: border-box;
           cursor: default;
           display: flex;
           flex-direction: column;
@@ -111,8 +115,8 @@ export default function EllevationPaths() {
             height 0.52s cubic-bezier(0.22,1,0.36,1),
             transform 0.38s cubic-bezier(0.22,1,0.36,1),
             box-shadow 0.38s ease,
-            border-color 0.28s ease,
-            background 0.28s ease;
+            border-color 0.3s ease,
+            background 0.4s ease;
         }
 
         /* Expanded on hover */
@@ -181,11 +185,16 @@ export default function EllevationPaths() {
           margin: 12px 0 0;
           line-height: 1.1;
           letter-spacing: -0.01em;
-          transition: color 0.25s ease, margin-bottom 0.3s ease;
+          transition: color 0.3s ease, margin-bottom 0.3s ease;
         }
         .path-card:hover .path-title {
           color: #3d1f6e;
           margin-bottom: 16px;
+        }
+
+        .paths-header-eyebrow {
+          color: #7c5cbf;
+          transition: color 0.3s ease;
         }
 
         .path-desc {
@@ -261,12 +270,47 @@ export default function EllevationPaths() {
           .path-card:hover { height: auto !important; transform: none !important; }
           .path-hidden { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
         }
+
+        /* ── Dark Mode Overrides (Referencing index.css variables) ── */
+        [data-theme="dark"] .paths-section {
+          background: #0f0a1a; /* Overriding var(--bg-color) for brand consistency */
+        }
+        [data-theme="dark"] .path-card {
+          background: rgba(30, 20, 45, 0.7);
+          border-color: rgba(155, 109, 190, 0.25);
+        }
+        [data-theme="dark"] .path-card:hover {
+          background: rgba(45, 30, 65, 0.98);
+          border-color: rgba(196, 181, 253, 0.4);
+          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+        }
+        [data-theme="dark"] .path-title {
+          color: #f3ebff;
+        }
+        [data-theme="dark"] .path-card:hover .path-title {
+          color: #d8ccf4;
+        }
+        [data-theme="dark"] .path-desc,
+        [data-theme="dark"] .path-feature {
+          color: #b8a8c8;
+        }
+        [data-theme="dark"] .paths-header-eyebrow {
+          color: #a78bfa !important;
+        }
+        [data-theme="dark"] .cta-btn {
+          color: #d8ccf4;
+          border-color: rgba(155, 109, 190, 0.4);
+        }
+        [data-theme="dark"] .path-card:hover .cta-btn {
+          color: #ffffff;
+          background: rgba(155, 109, 190, 0.15);
+        }
       `}</style>
 
       <section
         ref={sectionRef}
+        className="paths-section"
         style={{
-          background: "#f0ebf8",
           padding: "30px 56px 80px",
           boxSizing: "border-box",
           fontFamily: "'DM Sans', sans-serif",
@@ -282,12 +326,13 @@ export default function EllevationPaths() {
             animation: visible ? "fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) forwards" : "none",
           }}
         >
-          <p style={{
+          <p 
+            className="paths-header-eyebrow"
+            style={{
             fontSize: "15px",
             fontWeight: 700,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
-            color: "#7c5cbf",
             margin: "0 0 16px",
             fontFamily: "'DM Sans', serif",
           }}>

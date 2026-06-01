@@ -112,6 +112,28 @@ export default function EllevationFooter() {
         }
         .btn-purple:hover { opacity: 0.88; }
         .btn-ghost:hover { background: rgba(255,255,255,0.18) !important; }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] footer {
+          background: #080510 !important; /* Deeper black for footer in dark mode */
+          transition: background 0.4s ease;
+        }
+        [data-theme="dark"] .footer-logo-img {
+          background: transparent !important;
+          filter: brightness(1.2);
+        }
+        [data-theme="dark"] .footer-description {
+          color: rgba(255, 255, 255, 0.5) !important;
+        }
+        [data-theme="dark"] .footer-column-heading {
+          color: #a78bfa !important;
+        }
+        [data-theme="dark"] .footer-bottom-text {
+          color: rgba(255, 255, 255, 0.3) !important;
+        }
+        [data-theme="dark"] .footer-divider {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
       `}</style>
 
       <footer
@@ -159,7 +181,7 @@ export default function EllevationFooter() {
                 flexShrink: 0,
                 overflow: "hidden",
               }}>
-                <img src={logo} alt="Ellevation Logo" style={{ width: "100%", height: "90%", objectFit: "cover",background:"white", }} />
+                <img src={logo} alt="Ellevation Logo" className="footer-logo-img" style={{ width: "100%", height: "90%", objectFit: "cover",background:"white", }} />
               </div>
               <div>
                 
@@ -168,7 +190,9 @@ export default function EllevationFooter() {
             </div>
 
             {/* Description */}
-            <p style={{
+            <p 
+              className="footer-description"
+              style={{
               fontSize: "15px",
               lineHeight: 1.75,
               color: "rgba(255,255,255,0.72)",
@@ -241,7 +265,9 @@ export default function EllevationFooter() {
           }}>
             {footerLinks.map(({ heading, links }) => (
               <div key={heading}>
-                <h4 style={{
+                <h4 
+                  className="footer-column-heading"
+                  style={{
                   fontFamily: "'DM Sans', sans-serif",
                   fontWeight: 600,
                   fontSize: "20px",
@@ -276,7 +302,9 @@ export default function EllevationFooter() {
           margin: "0 auto",
           padding: "0 48px",
         }}>
-          <div style={{
+          <div 
+            className="footer-divider"
+            style={{
             height: "1px",
             background: "rgba(255,255,255,0.12)",
           }} />
@@ -291,7 +319,9 @@ export default function EllevationFooter() {
           alignItems: "center",
           justifyContent: "space-between",
         }}>
-          <p style={{
+          <p 
+            className="footer-bottom-text"
+            style={{
             fontSize: "13px",
             color: "rgba(255,255,255,0.45)",
             fontFamily: "'DM Sans', sans-serif",

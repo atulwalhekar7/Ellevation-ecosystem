@@ -44,6 +44,7 @@ function EventCard({ ev, index }: { ev: typeof events[0]; index: number }) {
   return (
     <div
       ref={ref}
+      className="event-card"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -189,7 +190,9 @@ function Hero() {
   useEffect(() => { setTimeout(() => setMounted(true), 80); }, []);
 
   return (
-    <section style={{ // Changed background to use banner2 image with a black shadow
+    <section 
+      className="events-hero"
+      style={{ // Changed background to use banner2 image with a black shadow
       background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner2})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
@@ -252,7 +255,9 @@ function Hero() {
 function EventsList() {
   const { ref, inView } = useInView(0.1);
   return (
-    <section style={{ background:"#f5eef8", padding:"72px 24px 96px" }}>
+    <section 
+      className="events-list-section"
+      style={{ background:"#f5eef8", padding:"72px 24px 96px" }}>
       <div style={{ maxWidth:900, margin:"0 auto" }}>
 
         {/* section label */}
@@ -345,6 +350,34 @@ export default function EventsPage() {
         @keyframes bounceDown {
           0%,100% { transform: translateY(0);   opacity: 0.7; }
           50%      { transform: translateY(8px); opacity: 1;   }
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] body { background: #0f0a1a !important; }
+        [data-theme="dark"] .events-hero {
+           background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${banner2}) !important;
+           background-size: cover !important;
+        }
+        [data-theme="dark"] .events-list-section {
+          background: #140a1a !important;
+        }
+        [data-theme="dark"] .events-list-section h2 { color: #f3ebff !important; }
+        [data-theme="dark"] .event-card {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .event-card:hover {
+          background: #23183a !important;
+        }
+        [data-theme="dark"] .event-card h3 { color: #f3ebff !important; }
+        [data-theme="dark"] .event-card p { color: #b8a8c8 !important; }
+        [data-theme="dark"] .event-card div[style*="color:#1c1630"] { color: #f3ebff !important; }
+        [data-theme="dark"] .event-card span[style*="color:#1c1630"] { color: #f3ebff !important; }
+        [data-theme="dark"] .event-card div[style*="background: rgba(180,160,210,0.25)"] {
+          background: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .bounce-arrow {
+          color: #a78bfa !important;
         }
       `}</style>
 

@@ -155,6 +155,7 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <div
+      className="member-card"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -240,12 +241,49 @@ export default function ProfessionalDirectory() {
         .get-listed-btn:hover{opacity:0.88;transform:translateY(-1px)}
         .cta-btn{cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.25s}
         .cta-btn:hover{opacity:0.87;transform:translateY(-2px)}
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .directory-page-root { background: #0f0a1a !important; }
+        [data-theme="dark"] .directory-hero {
+          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 40%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .directory-hero h1 { color: #f3ebff !important; }
+        [data-theme="dark"] .directory-hero p { color: #b8a8c8 !important; }
+        [data-theme="dark"] .search-input {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .directory-filters,
+        [data-theme="dark"] .directory-grid-wrap,
+        [data-theme="dark"] .directory-results-info {
+          background: #140a1a !important;
+          border-bottom-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .member-card {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .member-card div[style*="color: #3a1a5a"] { color: #f3ebff !important; }
+        [data-theme="dark"] .member-card div[style*="color: #6a4a7a"] { color: #b8a8c8 !important; }
+        [data-theme="dark"] .member-card span[style*="background: #faf0ff"] {
+          background: rgba(155, 109, 190, 0.1) !important;
+          color: #d8ccf4 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .directory-cta-wrap { background: #140a1a !important; }
+        [data-theme="dark"] .directory-cta-card {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .directory-cta-card h2 { color: #f3ebff !important; }
+        [data-theme="dark"] .directory-cta-card p { color: #b8a8c8 !important; }
       `}</style>
 
-      <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#fff", minHeight: "100vh" }}>
+      <div className="directory-page-root" style={{ fontFamily: "'DM Sans', sans-serif", background: "#fff", minHeight: "100vh" }}>
 
         {/* Hero */}
-        <div style={{ background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", padding: "160px 74px 140px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div className="directory-hero" style={{ background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", padding: "160px 74px 140px", textAlign: "center", position: "relative", overflow: "hidden" }}>
           <div style={{ position:"absolute",top:"-40%",left:"-20%",width:"60%",height:"160%",background:"radial-gradient(ellipse,rgba(200,140,220,0.22) 0%,transparent 70%)",animation:"pulse 5s ease-in-out infinite",pointerEvents:"none" }} />
           <div style={{ position:"absolute",top:"-20%",right:"-10%",width:"50%",height:"120%",background:"radial-gradient(ellipse,rgba(230,150,200,0.18) 0%,transparent 70%)",animation:"pulse 7s ease-in-out infinite reverse",pointerEvents:"none" }} />
           <div style={{ fontSize:11,letterSpacing:"0.22em",color:"#a060b0",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:"1.2rem",position:"relative",zIndex:1 }}>
@@ -263,7 +301,7 @@ export default function ProfessionalDirectory() {
         </div>
 
         {/* Filter Bar */}
-        <div style={{ background:"#fdf5ff",padding:"1.2rem 74px 1rem",borderBottom:"1px solid #ecd8f5" }}>
+        <div className="directory-filters" style={{ background:"#fdf5ff",padding:"1.2rem 74px 1rem",borderBottom:"1px solid #ecd8f5" }}>
           <div style={{ display:"flex",flexWrap:"wrap",alignItems:"center",gap:8 }}>
             {CATEGORIES.map((cat) => (
               <button key={cat} className="chip-btn" onClick={() => setActiveFilter(cat)}
@@ -276,20 +314,20 @@ export default function ProfessionalDirectory() {
             </button>
           </div>
         </div>
-        <div style={{ fontSize:13,color:"#a070b0",padding:"0.5rem 74px",background:"#fdf5ff",borderBottom:"1px solid #ecd8f5" }}>
+        <div className="directory-results-info" style={{ fontSize:13,color:"#a070b0",padding:"0.5rem 74px",background:"#fdf5ff",borderBottom:"1px solid #ecd8f5" }}>
           {filtered.length} member{filtered.length !== 1 ? "s" : ""} found
         </div>
 
         {/* Cards Grid */}
-        <div style={{ padding:"74px",background:"#fdf5ff",minHeight:300 }}>
+        <div className="directory-grid-wrap" style={{ padding:"74px",background:"#fdf5ff",minHeight:300 }}>
           <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))",gap:20 }}>
             {filtered.map((m, i) => <MemberCard key={m.name} member={m} index={i} />)}
           </div>
         </div>
 
         {/* CTA */}
-        <div style={{ padding:"74px",background:"#fdf5ff" }}>
-          <div style={{ border:"1px solid #e8d0f5",borderRadius:20,padding:"2.5rem 2rem",textAlign:"center",background:"#fff" }}>
+        <div className="directory-cta-wrap" style={{ padding:"74px",background:"#fdf5ff" }}>
+          <div className="directory-cta-card" style={{ border:"1px solid #e8d0f5",borderRadius:20,padding:"2.5rem 2rem",textAlign:"center",background:"#fff" }}>
             <div style={{ fontSize:11,letterSpacing:"0.18em",color:"#b070c0",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:"1rem" }}>
               <span style={{ display:"inline-block",width:28,height:1,background:"#d0a8e0" }} />JOIN THE DIRECTORY<span style={{ display:"inline-block",width:28,height:1,background:"#d0a8e0" }} />
             </div>

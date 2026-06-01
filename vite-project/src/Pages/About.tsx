@@ -197,7 +197,9 @@ function Hero() {
   }, []);
 
   return (
-    <section style={{
+    <section 
+      className="about-hero"
+      style={{
       position: "relative", overflow: "hidden",
       background: "linear-gradient(150deg,#fdf6f9 0%,#f5eaf4 35%,#ede8f5 65%,#f0e8f0 100%)",
       minHeight: "100vh", display: "flex", flexDirection: "column",
@@ -297,7 +299,9 @@ function FounderSection() {
   const right = useInView(0.15);
 
   return (
-    <section style={{
+    <section 
+      className="about-founder"
+      style={{
       background: "#fff",
       padding: "80px 24px",
       borderBottom: "1px solid rgba(180,160,210,0.15)",
@@ -374,7 +378,9 @@ function VisionSection() {
   const p3 = useInView(0.15);
 
   return (
-    <section style={{ background: "#fdf9fc", padding: "88px 24px 72px", textAlign: "center" }}>
+    <section 
+      className="about-vision"
+      style={{ background: "#fdf9fc", padding: "88px 24px 72px", textAlign: "center" }}>
       <div style={{ maxWidth: 720, margin: "0 auto" }}>
         <div ref={h.ref}>
           <h2 style={{ ...fade(h.inView, 0), fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(28px,5vw,50px)", fontWeight: 500, lineHeight: 1.22, margin: "0 0 48px", color: "#1c1630" }}>
@@ -431,7 +437,9 @@ function VMVCard({ item, index }: { item: typeof vmv[0]; index: number }) {
 function VMVSection() {
   const { ref, inView } = useInView(0.1);
   return (
-    <section style={{ background: "#f5eef8", padding: "72px 24px 88px" }}>
+    <section 
+      className="about-vmv"
+      style={{ background: "#f5eef8", padding: "72px 24px 88px" }}>
       <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 44 }}>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b7db8" }}>What We Stand For</p>
       </div>
@@ -465,7 +473,9 @@ function TeamMember({ m, index }: { m: typeof team[0]; index: number }) {
 function TeamSection() {
   const h = useInView(0.2);
   return (
-    <section style={{ background: "#fdf9fc", padding: "80px 24px 88px", textAlign: "center" }}>
+    <section 
+      className="about-team"
+      style={{ background: "#fdf9fc", padding: "80px 24px 88px", textAlign: "center" }}>
       <div ref={h.ref}>
         <div style={{ ...fade(h.inView, 0), display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 18 }}>
           <div style={{ width: h.inView ? 36 : 0, height: 1, background: "rgba(155,125,184,0.6)", transition: "width 0.6s ease 200ms" }} />
@@ -496,7 +506,9 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
 function CTASection() {
   const { ref, inView } = useInView(0.2);
   return (
-    <section style={{ background: "linear-gradient(150deg,#f0d8ee 0%,#e2d0f0 40%,#d4c8f8 75%,#e0d4f8 100%)", padding: "88px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+    <section 
+      className="about-cta"
+      style={{ background: "linear-gradient(150deg,#f0d8ee 0%,#e2d0f0 40%,#d4c8f8 75%,#e0d4f8 100%)", padding: "88px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
       <div className="blob cta-blob-1" />
       <div className="blob cta-blob-2" />
       <div className="cta-shimmer" />
@@ -601,6 +613,75 @@ export default function AboutPage() {
         }
         @media (max-width: 640px) {
           .founder-layout { flex-direction: column !important; }
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] body {
+          background: #0f0a1a !important;
+        }
+        [data-theme="dark"] .about-hero {
+          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 40%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .about-hero h1,
+        [data-theme="dark"] .about-founder h2,
+        [data-theme="dark"] .about-vision h2,
+        [data-theme="dark"] .about-team h2,
+        [data-theme="dark"] .about-cta h2,
+        [data-theme="dark"] .team-member p:first-of-type {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .about-hero p,
+        [data-theme="dark"] .about-founder p,
+        [data-theme="dark"] .about-vision p,
+        [data-theme="dark"] .about-vmv p:last-child {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .about-founder,
+        [data-theme="dark"] .about-team {
+          background: #140a1a !important;
+          border-bottom-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .about-vision {
+          background: #0f0a1a !important;
+        }
+        [data-theme="dark"] .about-vmv {
+          background: #1a1226 !important;
+        }
+        [data-theme="dark"] .about-cta {
+          background: linear-gradient(150deg, #2d1a4e 0%, #1a0a2e 100%) !important;
+        }
+        /* Floating Cards in Hero */
+        [data-theme="dark"] .elv-float-card-top {
+          background: rgba(30, 20, 45, 0.9) !important;
+          border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        [data-theme="dark"] .elv-float-card-top p:last-of-type {
+          color: #d8ccf4 !important;
+        }
+        [data-theme="dark"] .elv-float-card-top div > div {
+          background: rgba(124, 92, 191, 0.2) !important;
+          color: #c4b5fd !important;
+        }
+        /* VMV Cards */
+        [data-theme="dark"] .about-vmv > div + div > div {
+          background: rgba(30, 20, 45, 0.5) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .about-vmv h3 {
+          color: #a78bfa !important;
+        }
+        /* Buttons */
+        [data-theme="dark"] button[style*="transparent"] {
+          color: #f3ebff !important;
+          border-color: #f3ebff !important;
+        }
+        [data-theme="dark"] .about-cta button:last-child {
+          border-color: rgba(243, 235, 255, 0.5) !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .about-founder a {
+          border-color: #a78bfa !important;
+          color: #a78bfa !important;
         }
       `}</style>
 

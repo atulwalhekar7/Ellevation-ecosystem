@@ -148,27 +148,27 @@ export default function EllevationPage() {
   const isSubmitted = submitted[activeTier];
 
   return (
-    <div style={styles.page}>
+    <div style={styles.page} className="join-page-root">
       {/* === COMBINED BANNER === */}
-      <section style={styles.eventsSection}>
-        <div style={styles.eventsGradient} />
+      <section style={styles.eventsSection} className="join-banner">
+        <div style={styles.eventsGradient} className="events-gradient" />
         <div style={styles.eventsBlobLeft} />
         <div style={styles.eventsBlobRight} />
         <div style={styles.eventsContent}>
           {/* MEMBERSHIP row */}
-          <div style={styles.membershipEyebrow}>
-            <span style={styles.membershipLine} />
-            <span style={styles.membershipEyebrowText}>MEMBERSHIP</span>
-            <span style={styles.membershipLine} />
+          <div style={styles.membershipEyebrow} className="membership-eyebrow">
+            <span style={styles.membershipLine} className="membership-line" />
+            <span style={styles.membershipEyebrowText} className="membership-eyebrow-text">MEMBERSHIP</span>
+            <span style={styles.membershipLine} className="membership-line" />
           </div>
-          <h1 style={styles.membershipTitle}>Join Ellevation</h1>
+          <h1 style={styles.membershipTitle} className="membership-title">Join Ellevation</h1>
 
 
         </div>
       </section>
 
       {/* === MEMBERSHIP FORM SECTION === */}
-      <section style={styles.formSection}>
+      <section style={styles.formSection} className="join-form-section">
         {/* Tabs */}
         <div style={styles.tabsRow}>
           {TIERS.map((tier) => (
@@ -178,6 +178,7 @@ export default function EllevationPage() {
                 ...styles.tabBtn,
                 ...(activeTier === tier ? { ...styles.tabBtnActive, background: TIER_META[tier].color } : {}),
               }}
+              className={`tab-btn ${activeTier === tier ? 'tab-btn-active' : ''}`}
               onClick={() => handleTierChange(tier)}
             >
               {tier}
@@ -188,6 +189,7 @@ export default function EllevationPage() {
         {/* Form Card */}
         <div
           ref={formRef}
+          className="join-form-card"
           style={{
             ...styles.formCard,
             opacity: formVisible ? 1 : 0,
@@ -412,6 +414,56 @@ export default function EllevationPage() {
         }
         .events-content-anim {
           animation: fadeSlideUp 1s cubic-bezier(.22,1,.36,1) 0.2s both;
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .join-page-root {
+          background: #0f0a1a !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .join-banner .events-gradient {
+          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 40%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .join-banner h1 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .join-form-card {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 8px 60px rgba(0, 0, 0, 0.4) !important;
+        }
+        [data-theme="dark"] .join-form-card h2 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .join-form-card input,
+        [data-theme="dark"] .join-form-card select,
+        [data-theme="dark"] .join-form-card textarea {
+          background: #0f0a1a !important;
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .join-form-card input::placeholder,
+        [data-theme="dark"] .join-form-card textarea::placeholder {
+          color: rgba(243, 235, 255, 0.4) !important;
+        }
+        [data-theme="dark"] .tab-btn {
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .tab-btn-active {
+          color: #ffffff !important;
+        }
+        [data-theme="dark"] .agree-text {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .form-subtitle {
+          color: #a78bfa !important;
+        }
+        [data-theme="dark"] .membership-eyebrow-text {
+          color: #a78bfa !important;
+        }
+        [data-theme="dark"] .membership-line {
+          background: #a78bfa !important;
         }
       `}</style>
     </div>

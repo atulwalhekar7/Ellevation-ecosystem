@@ -66,6 +66,44 @@ export default function EllevationContact() {
         .elv-inp:focus { border-color: #9b6fc4 !important; }
         .elv-select { cursor: pointer; color: #b0a0c0; }
         .elv-select:focus { border-color: #9b6fc4 !important; }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .contact-body-section {
+          background: linear-gradient(160deg, #140a1a 0%, #0f0a1a 60%, #080510 100%) !important;
+        }
+        [data-theme="dark"] .contact-info-wrap h2 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .contact-info-wrap p {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .contact-info-item-label {
+          color: #a78bfa !important;
+        }
+        [data-theme="dark"] .contact-info-item-value {
+          color: #d8ccf4 !important;
+        }
+        [data-theme="dark"] .contact-form-card {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+        [data-theme="dark"] .contact-form-card h3 {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .elv-inp, 
+        [data-theme="dark"] .elv-select {
+          background: #0f0a1a !important;
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .elv-inp::placeholder {
+          color: rgba(243, 235, 255, 0.4) !important;
+        }
+        [data-theme="dark"] .contact-hero-section {
+          background-blend-mode: overlay;
+          background-color: rgba(15, 10, 26, 0.6);
+        }
       `}</style>
 
       <section
@@ -77,6 +115,7 @@ export default function EllevationContact() {
         {/* ── HERO ── */}
         <div
           ref={heroRef}
+          className="contact-hero-section"
           style={{
             background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner3})`,
             backgroundSize: "cover",
@@ -185,6 +224,7 @@ export default function EllevationContact() {
 
         {/* ── BODY ── */}
         <div
+          className="contact-body-section"
           style={{
             background:
               "linear-gradient(160deg, #fdf6fb 0%, #f5eef8 60%, #ede8f5 100%)",
@@ -204,6 +244,7 @@ export default function EllevationContact() {
             {/* ── LEFT INFO ── */}
             <div
               ref={leftRef}
+              className="contact-info-wrap"
               style={{
                 opacity: leftIn ? 1 : 0,
                 transform: leftIn ? "translateY(0)" : "translateY(30px)",
@@ -242,6 +283,7 @@ export default function EllevationContact() {
               ].map(({ label, value }) => (
                 <div key={label} style={{ marginBottom: 22 }}>
                   <p
+                    className="contact-info-item-label"
                     style={{
                       fontSize: 10,
                       fontWeight: 600,
@@ -253,7 +295,7 @@ export default function EllevationContact() {
                   >
                     {label}
                   </p>
-                  <p style={{ fontSize: 14, color: "#2d1f3d", fontWeight: 400 }}>
+                  <p className="contact-info-item-value" style={{ fontSize: 14, color: "#2d1f3d", fontWeight: 400 }}>
                     {value}
                   </p>
                 </div>
@@ -263,6 +305,7 @@ export default function EllevationContact() {
             {/* ── FORM CARD ── */}
             <div
               ref={formRef}
+              className="contact-form-card"
               style={{
                 background: "#ffffff",
                 borderRadius: 16,

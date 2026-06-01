@@ -83,6 +83,7 @@ function TestimonialCard({
   return (
     <div
       ref={ref}
+      className="testimonial-card"
       style={cardStyle}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -120,6 +121,7 @@ function TestimonialCard({
 
   
       <p
+        className="testimonial-quote"
         style={{
           fontSize: 15,
           lineHeight: 1.75,
@@ -139,7 +141,7 @@ function TestimonialCard({
           display: "flex",
           alignItems: "center",
           gap: 14,
-          borderTop: "1px solid #ede8df",
+          borderTop: "1px solid var(--border-color, #ede8df)",
           paddingTop: 20,
           transition: "transform 0.35s ease",
           transform: hovered ? "translateY(-2px)" : "translateY(0)",
@@ -161,6 +163,7 @@ function TestimonialCard({
        
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
           <p
+            className="testimonial-name"
             style={{
               margin: 0,
               fontSize: 14,
@@ -172,6 +175,7 @@ function TestimonialCard({
             {t.name}
           </p>
           <p
+            className="testimonial-role"
             style={{
               margin: 0,
               fontSize: 10,
@@ -197,12 +201,44 @@ export default function CommunityVoices() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@500;600&display=swap');
+
+        .community-section {
+          background: #f5f0e8;
+          transition: background 0.4s ease;
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .community-section {
+          background: #0f0a1a; /* Matching brand dark background */
+        }
+        [data-theme="dark"] .testimonial-card {
+          background: rgba(30, 20, 45, 0.7) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+        }
+        [data-theme="dark"] .testimonial-card:hover {
+          background: rgba(45, 30, 65, 0.98) !important;
+          box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+        }
+        [data-theme="dark"] .testimonial-quote,
+        [data-theme="dark"] .testimonial-name {
+          color: #d8ccf4 !important;
+        }
+        [data-theme="dark"] .testimonial-role {
+          color: #a89880 !important; /* Keep gold-muted role for elegance */
+        }
+        [data-theme="dark"] .community-eyebrow {
+          color: #a78bfa !important;
+        }
+        [data-theme="dark"] .testimonial-card > div:last-child {
+          border-top-color: rgba(155, 109, 190, 0.2) !important;
+        }
       `}</style>
 
       <section
+        className="community-section"
         style={{
           width: "100%",
-          background: "#f5f0e8",
           padding: "30px 24px 96px",
           boxSizing: "border-box",
           position: "relative",
@@ -221,11 +257,11 @@ export default function CommunityVoices() {
           }}
         >
           <p
+            className="community-eyebrow"
             style={{
               fontSize: 15,
               fontWeight: 700,
               letterSpacing: "0.22em",
-              color: " rgb(124, 92, 191)",
               textTransform: "uppercase",
               marginBottom: 14,
               fontFamily: "'DM Sans', sans-serif",

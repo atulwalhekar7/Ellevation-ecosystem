@@ -43,6 +43,7 @@ const FinalInvitationSection = () => {
           font-family: 'Playfair Display', Georgia, serif;
           padding: 60px 40px;
           box-sizing: border-box;
+          transition: background 0.4s ease;
         }
 
         /* Soft ambient blobs for depth */
@@ -186,6 +187,45 @@ const FinalInvitationSection = () => {
             width: 220px;
             justify-content: center;
           }
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .final-invitation-section {
+          background: linear-gradient(
+            135deg,
+            #1a0f1f 0%,
+            #140a1a 40%,
+            #0f0a1a 100%
+          );
+        }
+        [data-theme="dark"] .final-invitation-section::before {
+          background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .final-invitation-section::after {
+          background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .fi-eyebrow {
+          color: #a78bfa;
+        }
+        [data-theme="dark"] .fi-heading {
+          color: #f3ebff;
+        }
+        [data-theme="dark"] .fi-btn-primary {
+          background: #d8ccf4;
+          color: #1a0a2e;
+        }
+        [data-theme="dark"] .fi-btn-primary:hover {
+          background: #ffffff;
+          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+        }
+        [data-theme="dark"] .fi-btn-secondary {
+          background: rgba(167, 139, 250, 0.1);
+          color: #d8ccf4;
+          border-color: rgba(167, 139, 250, 0.3);
+        }
+        [data-theme="dark"] .fi-btn-secondary:hover {
+          background: rgba(167, 139, 250, 0.2);
+          border-color: rgba(167, 139, 250, 0.5);
         }
       `}</style>
 
