@@ -204,7 +204,7 @@ export default function EllevationPaths() {
           margin: 0 0 24px;
           transition: color 0.25s ease;
         }
-        .path-card:hover .path-desc { color: #3d2a5a; }
+        .path-card:hover .path-desc { color: #f4f2f7; }
 
         /* ── Features ── */
         .path-feature {
@@ -216,7 +216,7 @@ export default function EllevationPaths() {
           line-height: 1.5;
           transition: color 0.2s, transform 0.2s;
         }
-        .path-card:hover .path-feature { color: #3d2a5a; }
+        .path-card:hover .path-feature { color: #f6f4f8; }
         .path-card:hover .path-feature:nth-child(1) { transform: translateX(4px); transition-delay: 0.22s; }
         .path-card:hover .path-feature:nth-child(2) { transform: translateX(4px); transition-delay: 0.27s; }
         .path-card:hover .path-feature:nth-child(3) { transform: translateX(4px); transition-delay: 0.32s; }
