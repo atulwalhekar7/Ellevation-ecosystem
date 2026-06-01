@@ -58,12 +58,13 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   }, []);
 
   return (
-    <nav style={{ ...ns.nav, boxShadow: scrolled ? "0 4px 32px rgba(180,120,200,0.13)" : "0 2px 16px rgba(180,120,200,0.07)" }}>
-      <div style={ns.inner}>
+    <nav className="ms-nav" style={{ ...ns.nav, boxShadow: scrolled ? "0 4px 32px rgba(180,120,200,0.13)" : "0 2px 16px rgba(180,120,200,0.07)" }}>
+      <div className="ns-inner" style={ns.inner}>
         {NAV_LINKS.map(({ label, page }) => (
           <button
             key={page}
             onClick={() => nav(page)}
+            className={`ns-link ${current === page ? 'active' : ''}`}
             style={{
               ...ns.link,
               ...(current === page ? ns.active : {}),
@@ -111,20 +112,18 @@ const ns: Record<string, React.CSSProperties> = {
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: (p: Page) => void }) {
   return (
-    <div style={hp.page}>
-      {/* Pink-lavender gradient bg */}
-      <div style={hp.bgGrad} />
+    <div className="hp-page" style={hp.page}>
+      <div className="hp-bg-grad" style={hp.bgGrad} />
       <div style={hp.blobTL} />
       <div style={hp.blobBR} />
 
       <div style={hp.grid}>
-        {/* LEFT */}
         <div style={hp.left}>
           <p style={hp.eyebrow}>MS. ELLEVATION</p>
-          <h1 style={hp.headline}>
+          <h1 className="hp-headline" style={hp.headline}>
             A beautiful becoming for women ready to rise with softness and strength.
           </h1>
-          <p style={hp.sub}>
+          <p className="hp-sub" style={hp.sub}>
             A deeply personal, exquisitely curated transformation journey. Coaching, clarity, courage — and the community to hold you through it all.
           </p>
           <div style={hp.btnRow}>
@@ -133,18 +132,17 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           </div>
         </div>
 
-        {/* RIGHT – card */}
-        <div style={hp.card}>
+        <div className="hp-card" style={hp.card}>
           <div style={hp.cardTop}>
             <div style={hp.cardIcon}>☆</div>
             <span style={hp.cardBadge}>Ms. Ellevation</span>
           </div>
-          <p style={hp.cardDesc}>
+          <p className="hp-card-desc" style={hp.cardDesc}>
             Designed as a premium internal journey within the Ellevation website.
           </p>
           <div style={hp.cardFeatures}>
             {["Signature coaching journeys","Personal transformation roadmap","Elite community sisterhood","World-class facilitators"].map(f => (
-              <div key={f} style={hp.feat}><span style={hp.check}>✓</span>{f}</div>
+              <div key={f} className="hp-feat" style={hp.feat}><span style={hp.check}>✓</span>{f}</div>
             ))}
           </div>
         </div>
@@ -155,12 +153,12 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 
 const hp: Record<string, React.CSSProperties> = {
   page: { position:"relative", overflow:"hidden", minHeight:"90vh", display:"flex", alignItems:"center", padding:"60px 48px 80px" },
-  bgGrad: { 
-    position:"absolute", inset:0, 
-    background:`linear-gradient(rgba(252, 232, 240, 0.8), rgba(232, 210, 250, 0.8)), url(${banner4})`, 
-    backgroundSize: "cover", 
-    backgroundPosition: "center", 
-    zIndex:0 
+  bgGrad: {
+    position:"absolute", inset:0,
+    background:`linear-gradient(rgba(252, 232, 240, 0.8), rgba(232, 210, 250, 0.8)), url(${banner4})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    zIndex:0
   },
   blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,200,220,0.5) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
   blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(200,170,240,0.45) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
@@ -185,16 +183,15 @@ const hp: Record<string, React.CSSProperties> = {
 // ─── ABOUT PAGE ───────────────────────────────────────────────────────────────
 function AboutPage({ nav }: { nav: (p: Page) => void }) {
   return (
-    <div>
-      {/* Banner */}
-      <section style={ab.banner}>
-        <div style={ab.bannerBg} />
+    <div className="ab-page-root">
+      <section className="ab-banner" style={ab.banner}>
+        <div className="ab-banner-bg" style={ab.bannerBg} />
         <div style={ab.bannerBlob1} />
         <div style={ab.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p style={ab.bannerEye}>MS. ELLEVATION</p>
-          <h1 style={ab.bannerTitle}>Become the Woman<br />You Were Born to Be</h1>
-          <p style={ab.bannerSub}>A deeply personal, exquisitely curated transformation journey.<br/>Coaching, clarity, courage — and the community to hold you through it all.</p>
+          <h1 className="ab-banner-title" style={ab.bannerTitle}>Become the Woman<br />You Were Born to Be</h1>
+          <p className="ab-banner-sub" style={ab.bannerSub}>A deeply personal, exquisitely curated transformation journey.<br/>Coaching, clarity, courage — and the community to hold you through it all.</p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32 }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={ab.btnL} onClick={() => nav("services")}>EXPLORE MORE</button>
@@ -202,28 +199,26 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* Feature cards */}
-      <section style={ab.featSection}>
+      <section className="ab-feat-section" style={ab.featSection}>
         {[
           { icon:"✦", title:"Personal Transformation", desc:"Guided programs designed to unlock your unique potential." },
           { icon:"◈", title:"1-on-1 Coaching",         desc:"Intimate, tailored support from world-class coaches." },
           { icon:"✿", title:"Community Sisterhood",     desc:"A sacred circle of women walking this journey together." },
         ].map((c) => (
-          <div key={c.title} style={ab.featCard}>
+          <div key={c.title} className="ab-feat-card" style={ab.featCard}>
             <div style={ab.featIcon}>{c.icon}</div>
-            <h3 style={ab.featTitle}>{c.title}</h3>
-            <p style={ab.featDesc}>{c.desc}</p>
+            <h3 className="ab-feat-title" style={ab.featTitle}>{c.title}</h3>
+            <p className="ab-feat-desc" style={ab.featDesc}>{c.desc}</p>
           </div>
         ))}
       </section>
 
-      {/* Stories teaser */}
-      <section style={ab.storiesTeaser}>
-        <div style={ab.storiesTeaserBg} />
+      <section className="ab-stories-teaser" style={ab.storiesTeaser}>
+        <div className="ab-stories-teaser-bg" style={ab.storiesTeaserBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center" }}>
           <p style={ab.tEye}>— TRANSFORMATIONAL STORIES —</p>
-          <h2 style={ab.tTitle}>She Did It. So Can You.</h2>
-          <p style={ab.tSub}>Real women, real transformations. Discover how Ms. Ellevation has changed lives.</p>
+          <h2 className="ab-t-title" style={ab.tTitle}>She Did It. So Can You.</h2>
+          <p className="ab-t-sub" style={ab.tSub}>Real women, real transformations. Discover how Ms. Ellevation has changed lives.</p>
           <button style={ab.tBtn} onClick={() => nav("stories")}>READ THEIR STORIES</button>
         </div>
       </section>
@@ -233,12 +228,12 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
 
 const ab: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", minHeight:520, display:"flex", alignItems:"center", justifyContent:"center", padding:"80px 48px" },
-  bannerBg: { 
-    position:"absolute", inset:0, 
-    background:`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner5})`, 
-    backgroundSize: "cover", 
-    backgroundPosition: "center", 
-    zIndex:0 
+  bannerBg: {
+    position:"absolute", inset:0,
+    background:`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner5})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    zIndex:0
   },
   bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(220,140,160,0.35) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
   bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,100,140,0.3) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
@@ -268,28 +263,26 @@ function ServicesPage({ nav }: { nav: (p: Page) => void }) {
     { title:"Group Circles",            price:"From $97/mo",   popular:false, features:["Monthly group sessions","Community forum access","Guided journaling","Accountability partners"] },
   ];
   return (
-    <div>
-      {/* Banner */}
-      <section style={sv.banner}>
-        <div style={sv.bannerBg} />
+    <div className="sv-page-root">
+      <section className="sv-banner" style={sv.banner}>
+        <div className="sv-banner-bg" style={sv.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p style={sv.eye}>— OUR SERVICES —</p>
-          <h1 style={sv.title}>Curated for Your Elevation</h1>
-          <p style={sv.sub}>Choose the path that speaks to where you are and where you're meant to go.</p>
+          <h1 className="sv-title" style={sv.title}>Curated for Your Elevation</h1>
+          <p className="sv-sub" style={sv.sub}>Choose the path that speaks to where you are and where you're meant to go.</p>
         </div>
       </section>
 
-      {/* Pricing cards */}
-      <section style={sv.section}>
+      <section className="sv-section" style={sv.section}>
         <div style={sv.grid}>
           {plans.map((p) => (
-            <div key={p.title} style={{ ...sv.card, ...(p.popular ? sv.cardPopular : {}) }}>
+            <div key={p.title} className="sv-card" style={{ ...sv.card, ...(p.popular ? sv.cardPopular : {}) }}>
               {p.popular && <div style={sv.popularBadge}>MOST POPULAR</div>}
-              <h3 style={{ ...sv.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
+              <h3 className="sv-card-title" style={{ ...sv.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
               <p style={{ ...sv.cardPrice, ...(p.popular ? { color:"#f0b0a0" } : {}) }}>{p.price}</p>
               <ul style={sv.list}>
                 {p.features.map(f => (
-                  <li key={f} style={{ ...sv.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
+                  <li key={f} className="sv-list-item" style={{ ...sv.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
                     <span style={sv.bullet}>•</span>{f}
                   </li>
                 ))}
@@ -336,25 +329,23 @@ const STORIES = [
 
 function StoriesPage() {
   return (
-    <div>
-      {/* Banner */}
-      <section style={st.banner}>
-        <div style={st.bannerBg} />
+    <div className="st-page-root">
+      <section className="st-banner" style={st.banner}>
+        <div className="st-banner-bg" style={st.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <h1 style={st.bannerTitle}>Transformational Stories</h1>
-          <p style={st.bannerSub}>Real women. Real journeys. Real transformation.</p>
+          <h1 className="st-banner-title" style={st.bannerTitle}>Transformational Stories</h1>
+          <p className="st-banner-sub" style={st.bannerSub}>Real women. Real journeys. Real transformation.</p>
         </div>
       </section>
 
-      {/* Stories grid */}
-      <section style={st.section}>
+      <section className="st-section" style={st.section}>
         <div style={st.grid}>
           {STORIES.map((s) => (
-            <div key={s.name} style={st.card}>
+            <div key={s.name} className="st-card" style={st.card}>
               <div style={st.quoteIcon}>"</div>
-              <p style={st.quote}>{s.quote}</p>
+              <p className="st-quote" style={st.quote}>{s.quote}</p>
               <div style={st.author}>
-                <p style={st.name}>{s.name}</p>
+                <p className="st-name" style={st.name}>{s.name}</p>
                 <p style={st.role}>{s.role}</p>
               </div>
             </div>
@@ -414,27 +405,25 @@ function JoinPage() {
   const isSubmitted = submitted[activeTier];
 
   return (
-    <div>
-      {/* Banner */}
-      <section style={jp.banner}>
-        <div style={jp.bannerBg} />
+    <div className="jp-page-root">
+      <section className="jp-banner" style={jp.banner}>
+        <div className="jp-banner-bg" style={jp.bannerBg} />
         <div style={jp.blobL} />
         <div style={jp.blobR} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <div style={jp.eyebrowRow}><span style={jp.line}/><span style={jp.eyebrowTxt}>MEMBERSHIP</span><span style={jp.line}/></div>
-          <h1 style={jp.bannerTitle}>Join Ellevation</h1>
+          <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Ellevation</h1>
         </div>
       </section>
 
-      {/* Form section */}
-      <section style={jp.formSection}>
+      <section className="jp-form-section" style={jp.formSection}>
         <div style={jp.tabsRow}>
           {TIERS.map(tier => (
-            <button key={tier} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: TIER_META[tier].color } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
+            <button key={tier} className={`jp-tabBtn ${activeTier === tier ? 'active' : ''}`} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: TIER_META[tier].color } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
           ))}
         </div>
 
-        <div ref={formRef} style={{ ...jp.card, opacity: formVisible?1:0, transform: formVisible?"translateY(0)":"translateY(24px)", transition:"opacity 0.35s ease,transform 0.35s ease", borderTop:`3px solid ${meta.color}` }}>
+        <div ref={formRef} className="jp-card" style={{ ...jp.card, opacity: formVisible?1:0, transform: formVisible?"translateY(0)":"translateY(24px)", transition:"opacity 0.35s ease,transform 0.35s ease", borderTop:`3px solid ${meta.color}` }}>
           {isSubmitted ? (
             <div style={jp.successBox}>
               <div style={{ ...jp.successIcon, color: meta.color }}>✦</div>
@@ -445,8 +434,8 @@ function JoinPage() {
           ) : (
             <>
               <div style={jp.formHeader}>
-                <h2 style={jp.formTitle}>Apply for {meta.label} Membership</h2>
-                <p style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
+                <h2 className="jp-form-title" style={jp.formTitle}>Apply for {meta.label} Membership</h2>
+                <p className="jp-form-sub" style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
                 <p style={{ ...jp.tagline, color: meta.color }}>{meta.tagline}</p>
               </div>
               <div style={jp.row}>
@@ -457,24 +446,21 @@ function JoinPage() {
               <Field label="Phone Number" type="tel" value={form.phone} error={errs.phone} onChange={v => handleChange(activeTier,"phone",v)} />
               <Field label="City, State, Country *" value={form.location} error={errs.location} onChange={v => handleChange(activeTier,"location",v)} />
               <Field label="Profession / Industry *" value={form.profession} error={errs.profession} onChange={v => handleChange(activeTier,"profession",v)} />
-              {/* Referral select */}
-              <div style={jp.fieldWrap} data-error={errs.referral?"true":undefined}>
-                <select style={{ ...jp.input, ...jp.select, color: form.referral?"#2d1f3d":"#b89fae" }} value={form.referral} onChange={e => handleChange(activeTier,"referral",e.target.value)}>
+              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.referral?"true":undefined}>
+                <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.referral?"#2d1f3d":"#b89fae" }} value={form.referral} onChange={e => handleChange(activeTier,"referral",e.target.value)}>
                   <option value="" disabled>How did you hear about us? *</option>
                   {REFERRAL_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
                 {errs.referral && <span style={jp.errMsg}>{errs.referral}</span>}
               </div>
-              {/* Goals textarea */}
-              <div style={jp.fieldWrap} data-error={errs.goals?"true":undefined}>
-                <textarea style={{ ...jp.input, ...jp.textarea, ...(errs.goals?jp.inputErr:{}) }} placeholder="What are you hoping to gain from your Ellevation membership? *" value={form.goals} onChange={e => handleChange(activeTier,"goals",e.target.value)} />
+              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.goals?"true":undefined}>
+                <textarea className="jp-textarea" style={{ ...jp.input, ...jp.textarea, ...(errs.goals?jp.inputErr:{}) }} placeholder="What are you hoping to gain from your Ellevation membership? *" value={form.goals} onChange={e => handleChange(activeTier,"goals",e.target.value)} />
                 {errs.goals && <span style={jp.errMsg}>{errs.goals}</span>}
               </div>
-              {/* Agree */}
               <div style={jp.agreeRow} data-error={errs.agree?"true":undefined}>
                 <label style={jp.agreeLabel}>
                   <input type="checkbox" checked={form.agree} onChange={e => handleChange(activeTier,"agree",e.target.checked)} style={jp.checkbox} />
-                  <span style={jp.agreeText}>I agree to the Ellevation <a href="#" style={{ ...jp.agreeLink, color: meta.color }}>Community Guidelines</a> and <a href="#" style={{ ...jp.agreeLink, color: meta.color }}>Terms of Membership</a>.</span>
+                  <span className="jp-agree-text" style={jp.agreeText}>I agree to the Ellevation <a href="#" style={{ ...jp.agreeLink, color: meta.color }}>Community Guidelines</a> and <a href="#" style={{ ...jp.agreeLink, color: meta.color }}>Terms of Membership</a>.</span>
                 </label>
                 {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
               </div>
@@ -493,8 +479,8 @@ function JoinPage() {
 
 function Field({ label, value, error, onChange, type="text" }: { label:string; value:string; error?:string; onChange:(v:string)=>void; type?:string }) {
   return (
-    <div style={jp.fieldWrap} data-error={error?"true":undefined}>
-      <input style={{ ...jp.input, ...(error?jp.inputErr:{}) }} placeholder={label} type={type} value={value} onChange={e => onChange(e.target.value)} />
+    <div className="jp-field-wrap" style={jp.fieldWrap} data-error={error?"true":undefined}>
+      <input className="jp-input" style={{ ...jp.input, ...(error?jp.inputErr:{}) }} placeholder={label} type={type} value={value} onChange={e => onChange(e.target.value)} />
       {error && <span style={jp.errMsg}>{error}</span>}
     </div>
   );
@@ -541,13 +527,24 @@ const jp: Record<string, React.CSSProperties> = {
 export default function EllevationPage() {
   const [page, setPage] = useState<Page>("home");
 
+  // ✅ Sync React state with whatever theme the navbar has already set
+  // This runs once on mount so the page reflects the saved theme immediately
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) {
+      document.documentElement.setAttribute("data-theme", saved);
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, []);
+
   const nav = (p: Page) => {
     setPage(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div style={{ fontFamily:"'Jost',sans-serif", background:"#fdf6f9", minHeight:"100vh", color:"#2d1f3d" }}>
+    <div className="ms-ellevation-root" style={{ fontFamily:"'Jost',sans-serif", background:"#fdf6f9", minHeight:"100vh", color:"#2d1f3d" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500;600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;}
@@ -557,6 +554,101 @@ export default function EllevationPage() {
         @keyframes fadeSlideUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
         @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,10px) scale(0.97);}}
         button:hover{opacity:0.88;}
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .ms-ellevation-root {
+          background: #0f0a1a !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .ms-nav {
+          background: rgba(24, 20, 31, 0.9) !important;
+        }
+        [data-theme="dark"] .ns-inner {
+          background: rgba(30, 20, 45, 0.88) !important;
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3) !important;
+        }
+        [data-theme="dark"] .ns-link {
+          color: #e9deff !important;
+        }
+        [data-theme="dark"] .hp-bg-grad {
+          background: linear-gradient(rgba(15, 10, 26, 0.85), rgba(15, 10, 26, 0.85)), url(${banner4}) !important;
+          background-size: cover !important;
+        }
+        [data-theme="dark"] .hp-headline,
+        [data-theme="dark"] .ab-banner-title,
+        [data-theme="dark"] .sv-title,
+        [data-theme="dark"] .st-banner-title,
+        [data-theme="dark"] .jp-banner-title {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .hp-sub,
+        [data-theme="dark"] .ab-banner-sub,
+        [data-theme="dark"] .sv-sub,
+        [data-theme="dark"] .st-banner-sub {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .hp-card,
+        [data-theme="dark"] .ab-feat-card,
+        [data-theme="dark"] .sv-card,
+        [data-theme="dark"] .st-card,
+        [data-theme="dark"] .jp-card {
+          background: #1a1226 !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4) !important;
+        }
+        [data-theme="dark"] .hp-feat,
+        [data-theme="dark"] .ab-feat-desc,
+        [data-theme="dark"] .sv-list-item,
+        [data-theme="dark"] .st-quote,
+        [data-theme="dark"] .jp-form-sub,
+        [data-theme="dark"] .jp-agree-text {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .hp-card-desc,
+        [data-theme="dark"] .ab-feat-title,
+        [data-theme="dark"] .ab-t-title,
+        [data-theme="dark"] .sv-card-title:not([style*="color:#fff"]),
+        [data-theme="dark"] .st-name,
+        [data-theme="dark"] .jp-form-title {
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .ab-stories-teaser-bg,
+        [data-theme="dark"] .sv-section,
+        [data-theme="dark"] .st-section,
+        [data-theme="dark"] .jp-form-section {
+          background: #140a1a !important;
+        }
+        [data-theme="dark"] .ab-t-sub {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .sv-banner-bg {
+          background: linear-gradient(135deg, #1a0f1f 0%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .st-banner-bg {
+          background: linear-gradient(160deg, #1a0a2e 0%, #140a1a 100%) !important;
+        }
+        [data-theme="dark"] .jp-banner-bg {
+          background: radial-gradient(ellipse 80% 80% at 50% 50%, #2d1a4e 0%, #1a0a2e 100%) !important;
+        }
+        [data-theme="dark"] .jp-input,
+        [data-theme="dark"] .jp-select,
+        [data-theme="dark"] .jp-textarea {
+          background: #0f0a1a !important;
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #f3ebff !important;
+        }
+        [data-theme="dark"] .jp-input::placeholder,
+        [data-theme="dark"] .jp-textarea::placeholder {
+          color: rgba(243, 235, 255, 0.4) !important;
+        }
+        [data-theme="dark"] .jp-tabBtn {
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .ab-banner-bg {
+          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${banner5}) !important;
+          background-size: cover !important;
+        }
       `}</style>
 
       <Navbar current={page} nav={nav} />
