@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import aboutBg from "../assets/about1-image.jpg"; // Keeping the layout images intact
+
 
 import heroBg from "../assets/banner6.avif"; // Single banner background image
 
@@ -20,13 +20,7 @@ function useInView(threshold = 0.15) {
   return { ref, inView };
 }
 
-function fade(inView: boolean, delay = 0): CSSProperties {
-  return {
-    opacity: inView ? 1 : 0,
-    transform: inView ? "translateY(28px)" : "translateY(28px)", // Restores baseline layout standard mechanics
-    transition: `opacity 0.75s ease ${delay}ms, transform 0.75s ease ${delay}ms`,
-  };
-}
+
 
 function scrollToStoryForm() {
   document.getElementById("submit-story")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -177,112 +171,7 @@ function Hero() {
   );
 }
 
-/* ══════════════════════════════════════
-   FOUNDER / STORY PHILOSOPHY SECTION
-══════════════════════════════════════ */
-function PhilosophySection() {
-  const left  = useInView(0.15);
-  const right = useInView(0.15);
 
-  return (
-    <section 
-      className="about-founder"
-      style={{
-        background: "#fff",
-        padding: "80px 24px",
-        borderBottom: "1px solid rgba(180,160,210,0.15)",
-      }}>
-      <div style={{
-        maxWidth: 1080, margin: "0 auto",
-        display: "flex", flexWrap: "wrap",
-        alignItems: "center", gap: "56px 72px", justifyContent: "center",
-      }}>
-        {/* LEFT: Core Image Visual Context Frame */}
-        <div ref={left.ref} style={{
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 20, flexShrink: 0,
-        }}>
-          <div style={{ position: "relative", width: 320, height: 320 }}>
-            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", padding: 6 }}>
-              <div style={{ width: "100%", height: "100%", borderRadius: "50%", background: "#fff", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <img
-                  src={aboutBg}
-                  alt="A Woman Sitting in a Coffee Shop and Writing"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.style.display = "none";
-                    const parent = target.parentElement;
-                    if (parent && !parent.querySelector(".initials-fallback")) {
-                      const fallback = document.createElement("div");
-                      fallback.className = "initials-fallback";
-                      fallback.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#f2dff0 0%,#ddd0f0 100%);font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:600;color:#9b7db8;";
-                      fallback.textContent = "ME";
-                      parent.appendChild(fallback);
-                    }
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 17, fontWeight: 700, color: "#c0609a", margin: "0 0 4px" }}>Transformational Stories</p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 500, color: "#6b5880", letterSpacing: "0.06em", textTransform: "uppercase", margin: 0 }}>Every Woman's Journey</p>
-          </div>
-        </div>
-
-        {/* RIGHT: Context fields */}
-        <div ref={right.ref} style={{ flex: "1 1 380px", maxWidth: 620 }}>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#c0609a", margin: "0 0 14px" }}>
-            This Is Your Platform
-          </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(28px,4.5vw,46px)", fontWeight: 500, color: "#1c1630", lineHeight: 1.2, margin: "0 0 28px" }}>
-            Boundless Potential Through <span style={{ color: "#9b7db8" }}>Shared Resilience</span>
-          </h2>
-          
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px,1.6vw,15.5px)", color: "#3a2e50", lineHeight: 1.82, margin: "0 0 18px" }}>
-            At Ms. Ellevation, we believe that every woman's journey is unique, important, and worth sharing. Your voice, your challenges, and your triumphs carry the power to uplift and inspire others. That's why we created Ellevation Stories — a safe and supportive platform where women from culturally and linguistically diverse (CALD) backgrounds in Australia can share their experiences.
-          </p>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px,1.6vw,15.5px)", color: "#3a2e50", lineHeight: 1.82, margin: "0 0 18px" }}>
-            Whether you choose to be named or remain anonymous, your story can shine a light of hope for another woman walking a similar path. From the struggles of adjusting to a new culture, to the pride of building a business or career, to the resilience it takes to overcome personal challenges — your words, your art, or even your voice can make a difference.
-          </p>
-
-          {/* ── Pipeline Matrix component mapping layout ── */}
-          <div 
-            style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "8px", 
-              flexWrap: "wrap",
-              background: "rgba(155, 125, 184, 0.06)",
-              padding: "14px 20px",
-              borderRadius: "12px",
-              border: "1px solid rgba(155, 125, 184, 0.15)",
-              margin: "24px 0"
-            }}
-          >
-            {["Connect", "Share", "Support", "See", "Hear", "Transform"].map((stage, idx, arr) => (
-              <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span 
-                  style={{ 
-                    fontFamily: "'DM Sans', sans-serif", 
-                    fontSize: "14px", 
-                    fontWeight: idx === 5 ? 600 : 500, 
-                    color: idx === 5 ? "#c0609a" : "#1c1630" 
-                  }}
-                >
-                  {stage}
-                </span>
-                {idx < arr.length - 1 && (
-                  <span style={{ color: "rgba(155, 125, 184, 0.6)", fontSize: "12px", fontWeight: 700 }}>→</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ══════════════════════════════════════
    VISION SECTION
@@ -343,8 +232,9 @@ function ConversationCard({ item, index }: { item: typeof conversationContent[0]
 }
 
 function ConversationSection() {
-  const { ref, inView } = useInView(0.1);
+  const { ref } = useInView(0.1);
   return (
+
     <section className="about-vmv" style={{ background: "#f5eef8", padding: "72px 24px 88px" }}>
       <div ref={ref} style={{ textAlign: "center", marginBottom: 44 }}>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b7db8" }}>Ellevation Conversations</p>
@@ -399,8 +289,9 @@ function FormatCard({ item, index }: { item: typeof submissionFormats[0]; index:
 }
 
 function FormatsSection() {
-  const { ref, inView } = useInView(0.1);
+  const { ref } = useInView(0.1);
   return (
+
     <section className="about-who-we-serve" style={{ background: "#f5eef8", padding: "20px 24px 88px" }}>
       <div ref={ref} style={{ textAlign: "center", marginBottom: 44 }}>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b7db8", margin: "20px 0 12px" }}>Submission Modalities</p>
@@ -469,6 +360,7 @@ function labelStyle(): CSSProperties {
 function StorySubmissionSection() {
   const { ref, inView } = useInView(0.1);
   const [form, setForm] = useState<StoryFormState>(initialStoryForm);
+
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
   const [focusField, setFocusField] = useState<string | null>(null);
@@ -733,8 +625,9 @@ function CTABtn({ label, primary, onClick }: { label: string; primary: boolean; 
 }
 
 function CTASection() {
-  const { ref, inView } = useInView(0.2);
+  const { ref } = useInView(0.2);
   return (
+
     <section className="about-cta" style={{ background: "linear-gradient(150deg,#f0d8ee 0%,#e2d0f0 40%,#d4c8f8 75%,#e0d4f8 100%)", padding: "88px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
       <div className="blob cta-blob-1" />
       <div className="blob cta-blob-2" />
