@@ -3,29 +3,37 @@ import { Link } from "react-router-dom";
 
 const footerLinks = [
   {
-    heading: "Ellevation",
+    heading: "Main Website",
     links: [
-      { label: "About", href: "/about" },
+      { label: "Home", href: "/" },
+      { label: "About Ellevation", href: "/about" },
+      { label: "YouTube Content", href: "/content/youtube" },
+      { label: "Social Media Pages", href: "/content/social-media" },
+      { label: "Join Us Ellevation", href: "/get-involved/join" },
+      { label: "Alliances", href: "/get-involved/alliances" },
+      { label: "Professional Membership Directories", href: "/get-involved/directories" },
       { label: "Events", href: "/events" },
       { label: "Contact", href: "/contact" },
-      { label: "Professional Directories", href: "/get-involved/directories" },
     ],
   },
   {
     heading: "Ms. Ellevation",
     links: [
       { label: "Home", href: "/ms-ellevation" },
+      { label: "About", href: "/ms-ellevation#about" },
       { label: "Services", href: "/ms-ellevation#services" },
-      { label: "Stories", href: "/ms-ellevation#stories" },
+      { label: "Transformational Stories", href: "/ms-ellevation#stories" },
       { label: "Start Your Journey", href: "/ms-ellevation#join" },
     ],
   },
   {
     heading: "Ellevation Hub",
     links: [
-      { label: "Ecosystem", href: "/hub#ecosystem" },
+      { label: "Home", href: "/hub" },
+      { label: "About", href: "/hub#about" },
+      { label: "Community", href: "/hub#ecosystem" },
       { label: "Membership", href: "/hub#membership" },
-      { label: "Impact", href: "/hub#impact" },
+      { label: "Professional", href: "/hub#impact" },
       { label: "Connect", href: "/hub#connect" },
     ],
   },
@@ -53,12 +61,6 @@ const MailIcon = () => (
   </svg>
 );
 
-// const SparkleIcon = () => (
-//   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-//     <path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.2L12 16.4l-6.2 4.5 2.4-7.2L2 9.2h7.6L12 2z" />
-//   </svg>
-// );
-
 const ArrowRight = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 12h14M13 6l6 6-6 6" />
@@ -67,9 +69,8 @@ const ArrowRight = () => (
 
 const socialIcons = [
   { icon: <InstagramIcon />, label: "Instagram", href: "https://www.instagram.com/ms_ellevation/" },
-  { icon: <YoutubeIcon />, label: "YouTube" },
-  { icon: <MailIcon />, label: "Email" },
-  // { icon: <SparkleIcon />, label: "More" },
+  { icon: <YoutubeIcon />, label: "YouTube", href: "/content/youtube" },
+  { icon: <MailIcon />, label: "Email", href: "/contact" },
 ];
 
 export default function EllevationFooter() {
@@ -83,15 +84,25 @@ export default function EllevationFooter() {
         .footer-link {
           color: rgba(255,255,255,0.65);
           font-family: 'DM Sans', sans-serif;
-          font-size: 20px;
+          font-size: 15px;
           font-weight: 400;
           text-decoration: none;
           display: block;
-          padding: 5px 0;
+          padding: 6px 0;
           transition: color 0.18s;
           cursor: pointer;
         }
         .footer-link:hover { color: #fff; }
+        
+        .footer-utility-link {
+          color: rgba(255,255,255,0.45);
+          font-family: 'DM Sans', sans-serif;
+          font-size: 13px;
+          text-decoration: none;
+          transition: color 0.18s;
+        }
+        .footer-utility-link:hover { color: #fff; }
+
         .social-btn {
           width: 40px;
           height: 40px;
@@ -115,7 +126,7 @@ export default function EllevationFooter() {
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] footer {
-          background: #080510 !important; /* Deeper black for footer in dark mode */
+          background: #080510 !important;
           transition: background 0.4s ease;
         }
         [data-theme="dark"] .footer-logo-img {
@@ -144,7 +155,7 @@ export default function EllevationFooter() {
           fontFamily: "'DM Sans', sans-serif",
         }}
       >
-        {/* Subtle background glow */}
+        {/* Decorative background gradients */}
         <div style={{
           position: "absolute", top: "-80px", right: "10%",
           width: "500px", height: "400px", borderRadius: "50%",
@@ -158,54 +169,39 @@ export default function EllevationFooter() {
           pointerEvents: "none",
         }} />
 
-        {/* Main footer content */}
         <div
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "56px 48px 40px",
+            padding: "64px 48px 48px",
             display: "grid",
             gridTemplateColumns: "1fr auto",
-            gap: "48px",
+            gap: "64px",
             alignItems: "start",
           }}
         >
-          {/* Left: Logo + description + buttons */}
-          <div style={{ maxWidth: "480px" }}>
-            {/* Logo */}
-            <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "28px" }}>
-              <div style={{
-                width: "150px", height: "100px", 
-                
-                display: "flex", alignItems: "center", justifyContent: "center",
-                flexShrink: 0,
-                overflow: "hidden",
-              }}>
-                <img src={logo} alt="Ellevation Logo" className="footer-logo-img" style={{ width: "100%", height: "90%", objectFit: "cover",background:"white", }} />
-              </div>
-              <div>
-                
-                
+          {/* Left Column: Brand profile info */}
+          <div style={{ maxWidth: "420px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "24px" }}>
+              <div style={{ width: "150px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                <img src={logo} alt="Ellevation Logo" className="footer-logo-img" style={{ width: "100%", height: "100%", objectFit: "contain", background: "white" }} />
               </div>
             </div>
 
-            {/* Description */}
             <p 
               className="footer-description"
               style={{
-              fontSize: "15px",
-              lineHeight: 1.75,
-              color: "rgba(255,255,255,0.72)",
-              fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 400,
-              marginBottom: "32px",
-              maxWidth: "420px",
-            }}>
+                fontSize: "15px",
+                lineHeight: 1.75,
+                color: "rgba(255,255,255,0.72)",
+                fontWeight: 400,
+                marginBottom: "32px",
+              }}
+            >
               A premium community ecosystem for personal transformation, professional
               pathways, strategic alliances, and impact-centered belonging.
             </p>
 
-            {/* CTA Buttons */}
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <Link to="/get-involved/join" style={{ textDecoration: "none" }}>
                 <button
@@ -219,7 +215,6 @@ export default function EllevationFooter() {
                     background: "linear-gradient(135deg, #a87bc8 0%, #8b5bb5 100%)",
                     border: "none",
                     color: "#fff",
-                    fontFamily: "'DM Sans', sans-serif",
                     fontWeight: 600,
                     fontSize: "14px",
                     cursor: "pointer",
@@ -231,7 +226,7 @@ export default function EllevationFooter() {
                   Join Membership <ArrowRight />
                 </button>
               </Link>
-              <Link to="/get-involved/directories" style={{ textDecoration: "none" }}>
+              <Link to="/contact" style={{ textDecoration: "none" }}>
                 <button
                   className="btn-ghost"
                   style={{
@@ -243,7 +238,6 @@ export default function EllevationFooter() {
                     background: "rgba(255,255,255,0.12)",
                     border: "1px solid rgba(255,255,255,0.25)",
                     color: "#fff",
-                    fontFamily: "'DM Sans', sans-serif",
                     fontWeight: 600,
                     fontSize: "14px",
                     cursor: "pointer",
@@ -251,30 +245,31 @@ export default function EllevationFooter() {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Get Listed <ArrowRight />
+                  Contact Us <ArrowRight />
                 </button>
               </Link>
             </div>
           </div>
 
-          {/* Right: Nav columns */}
+          {/* Right Section Matrix: Generated from custom routing schema */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "56px",
+            gridTemplateColumns: "repeat(3, 200px)",
+            gap: "40px",
           }}>
             {footerLinks.map(({ heading, links }) => (
               <div key={heading}>
                 <h4 
                   className="footer-column-heading"
                   style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontWeight: 600,
-                  fontSize: "20px",
-                  color: "#c9a96e",
-                  marginBottom: "20px",
-                  letterSpacing: "0.01em",
-                }}>
+                    fontWeight: 600,
+                    fontSize: "15px",
+                    color: "#c9a96e",
+                    marginBottom: "20px",
+                    letterSpacing: "0.05em",
+                    textTransform: "uppercase"
+                  }}
+                >
                   {heading}
                 </h4>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -283,8 +278,6 @@ export default function EllevationFooter() {
                       <Link
                         to={link.href}
                         className="footer-link"
-                        target={link.href.startsWith("/ms-ellevation") || link.href.startsWith("/hub") ? "_blank" : undefined}
-                        rel={link.href.startsWith("/ms-ellevation") || link.href.startsWith("/hub") ? "noopener noreferrer" : undefined}
                       >
                         {link.label}
                       </Link>
@@ -296,62 +289,47 @@ export default function EllevationFooter() {
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "0 48px",
-        }}>
-          <div 
-            className="footer-divider"
-            style={{
-            height: "1px",
-            background: "rgba(255,255,255,0.12)",
-          }} />
+        {/* Divider rule line */}
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 48px" }}>
+          <div className="footer-divider" style={{ height: "1px", background: "rgba(255,255,255,0.12)" }} />
         </div>
 
-        {/* Bottom bar */}
-        <div style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "20px 48px 28px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}>
-          <p 
-            className="footer-bottom-text"
-            style={{
-            fontSize: "13px",
-            color: "rgba(255,255,255,0.45)",
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 400,
-          }}>
-            © 2026 Ellevation. Designed as a scalable frontend concept.
-          </p>
+        {/* Utility footer bar */}
+       <div
+  style={{
+    maxWidth: "1280px",
+    margin: "0 auto",
+    padding: "24px 48px 36px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: "20px"
+  }}
+>
+          <div style={{ display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap" }}>
+            <p className="footer-bottom-text" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", fontWeight: 400, margin: 0 }}>
+              © 2026 Ellevation. All rights reserved.
+            </p>
+            <Link to="/privacy" className="footer-utility-link">Privacy Policy</Link>
+            <Link to="/terms" className="footer-utility-link">Terms & Conditions</Link>
+          </div>
 
-          {/* Social icons */}
           <div style={{ display: "flex", gap: "10px" }}>
-            {socialIcons.map(({ icon, label, href }) => 
-              href ? (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-btn"
-                  aria-label={label}
-                  title={label}
-                  style={{ textDecoration: "none" }}
-                >
-                  {icon}
-                </a>
-              ) : (
-                <button key={label} className="social-btn" aria-label={label} title={label}>
-                  {icon}
-                </button>
-              )
-            )}
+            {socialIcons.map(({ icon, label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="social-btn"
+                aria-label={label}
+                title={label}
+                style={{ textDecoration: "none" }}
+              >
+                {icon}
+              </a>
+            ))}
           </div>
         </div>
       </footer>

@@ -159,7 +159,7 @@ export default function EllevationCards() {
               margin: 0,
             }}
           >
-            Everything you need to rise.
+Welcome to Ellevation
           </h2>
         </div>
 

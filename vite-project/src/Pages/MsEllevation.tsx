@@ -3,7 +3,7 @@ import banner4 from "../assets/banner4.avif";
 import banner5 from "../assets/banner5.avif";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Page = "home" | "about" | "services" | "stories" | "join";
+type Page = "home" | "about" | "journey" | "programs" | "events" | "stories" | "join";
 type MembershipTier = "FOUNDATION" | "ELLEVATE" | "LUMINARY";
 
 interface FormData {
@@ -19,8 +19,10 @@ interface FormErrors {
 const NAV_LINKS: { label: string; page: Page }[] = [
   { label: "Home", page: "home" },
   { label: "About", page: "about" },
-  { label: "Services", page: "services" },
-  { label: "Transformational Stories", page: "stories" },
+  { label: "Your Journey", page: "journey" },
+  { label: "Programs", page: "programs" },
+  { label: "Events", page: "events" },
+  { label: "Stories", page: "stories" },
   { label: "Start Your Journey", page: "join" },
 ];
 
@@ -96,10 +98,10 @@ const ns: Record<string, React.CSSProperties> = {
   },
   link: {
     fontFamily: "'Jost', sans-serif",
-    fontSize: "0.88rem", fontWeight: 400,
+    fontSize: "0.86rem", fontWeight: 400,
     color: "#4a3060", background: "transparent",
     border: "none", cursor: "pointer",
-    padding: "8px 18px", borderRadius: 100,
+    padding: "8px 16px", borderRadius: 100,
     transition: "all 0.2s ease", whiteSpace: "nowrap" as const,
   },
   active: {
@@ -124,7 +126,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
             A beautiful becoming for women ready to rise with softness and strength.
           </h1>
           <p className="hp-sub" style={hp.sub}>
-            A deeply personal, exquisitely curated transformation journey. Coaching, clarity, courage — and the community to hold you through it all.
+            A deeply personal, exquisitely curated transformation journey for women 17–25. Coaching, clarity, courage — and the community to hold you through it all.
           </p>
           <div style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
@@ -189,12 +191,12 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
         <div style={ab.bannerBlob1} />
         <div style={ab.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p style={ab.bannerEye}>MS. ELLEVATION</p>
+          <p style={ab.bannerEye}>MS. ELLEVATION · FOR WOMEN 17–25</p>
           <h1 className="ab-banner-title" style={ab.bannerTitle}>Become the Woman<br />You Were Born to Be</h1>
-          <p className="ab-banner-sub" style={ab.bannerSub}>A deeply personal, exquisitely curated transformation journey.<br/>Coaching, clarity, courage — and the community to hold you through it all.</p>
+          <p className="ab-banner-sub" style={ab.bannerSub}>A deeply personal, exquisitely curated transformation journey for young women finding their voice.<br/>Coaching, clarity, courage — and the community to hold you through it all.</p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32 }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-            <button style={ab.btnL} onClick={() => nav("services")}>EXPLORE MORE</button>
+            <button style={ab.btnL} onClick={() => nav("journey")}>EXPLORE MORE</button>
           </div>
         </div>
       </section>
@@ -237,9 +239,9 @@ const ab: Record<string, React.CSSProperties> = {
   },
   bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(220,140,160,0.35) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
   bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,100,140,0.3) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#e8b0a0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
+  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#e8b0a0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
   bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:540, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
+  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
   btnD: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#c0705a", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(192,112,90,0.35)" },
   btnL: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid rgba(253,240,245,0.5)", background:"transparent", color:"#fdf0f5", cursor:"pointer" },
   featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px" },
@@ -255,40 +257,100 @@ const ab: Record<string, React.CSSProperties> = {
   tBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
-// ─── SERVICES PAGE ────────────────────────────────────────────────────────────
-function ServicesPage({ nav }: { nav: (p: Page) => void }) {
-  const plans = [
-    { title:"Transformation Coaching", price:"From $299/mo", popular:false, features:["Weekly 1:1 sessions","Personalised growth plan","Email support","Resource library"] },
-    { title:"Intensive Retreat",        price:"From $1,499",   popular:true,  features:["3-day immersive experience","Group & private sessions","Luxury venue","Post-retreat support"] },
-    { title:"Group Circles",            price:"From $97/mo",   popular:false, features:["Monthly group sessions","Community forum access","Guided journaling","Accountability partners"] },
-  ];
+// ─── YOUR JOURNEY PAGE (new) ───────────────────────────────────────────────────
+const STAGES = [
+  { num: "01", title: "Identity", desc: "Rediscover who you are beneath the noise — your values, your voice, your story." },
+  { num: "02", title: "Confidence", desc: "Build the inner steadiness to trust your decisions and take up space unapologetically." },
+  { num: "03", title: "Leadership", desc: "Step into influence — leading yourself first, then your community and career." },
+];
+
+function JourneyPage({ nav }: { nav: (p: Page) => void }) {
   return (
-    <div className="sv-page-root">
-      <section className="sv-banner" style={sv.banner}>
-        <div className="sv-banner-bg" style={sv.bannerBg} />
+    <div className="jn-page-root">
+      <section className="jn-banner" style={jn.banner}>
+        <div className="jn-banner-bg" style={jn.bannerBg} />
+        <div style={jn.blob1} />
+        <div style={jn.blob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p style={sv.eye}>— OUR SERVICES —</p>
-          <h1 className="sv-title" style={sv.title}>Curated for Your Elevation</h1>
-          <p className="sv-sub" style={sv.sub}>Choose the path that speaks to where you are and where you're meant to go.</p>
+          <p style={jn.eye}>— YOUR JOURNEY —</p>
+          <h1 className="jn-banner-title" style={jn.bannerTitle}>Every Rise Has a Path</h1>
+          <p className="jn-banner-sub" style={jn.bannerSub}>A guided journey through identity, confidence, and leadership — built for women 17–25 ready to grow.</p>
         </div>
       </section>
 
-      <section className="sv-section" style={sv.section}>
-        <div style={sv.grid}>
+      <section className="jn-stages" style={jn.stagesSection}>
+        <div style={jn.stagesGrid}>
+          {STAGES.map((s) => (
+            <div key={s.title} className="jn-stage-card" style={jn.stageCard}>
+              <span style={jn.stageNum}>{s.num}</span>
+              <h3 className="jn-stage-title" style={jn.stageTitle}>{s.title}</h3>
+              <p className="jn-stage-desc" style={jn.stageDesc}>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="jn-cta" style={jn.ctaSection}>
+        <h2 className="jn-cta-title" style={jn.ctaTitle}>Ready to Begin Your Rise?</h2>
+        <button style={jn.ctaBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
+      </section>
+    </div>
+  );
+}
+
+const jn: Record<string, React.CSSProperties> = {
+  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#fdf1f7 0%,#f0e0f5 50%,#e8d8f2 100%)", zIndex:0 },
+  blob1: { position:"absolute", top:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(220,160,200,0.35) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  blob2: { position:"absolute", bottom:-70, right:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,140,220,0.3) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#9060b0", marginBottom:16, position:"relative", zIndex:1 },
+  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
+  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#5a3a7a", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
+  stagesSection: { padding:"72px 48px 80px", background:"#fdf9fc" },
+  stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
+  stageCard: { position:"relative", background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(120,80,180,0.08)", border:"1px solid #f0e0f0" },
+  stageNum: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2.4rem", fontWeight:600, color:"#d4b0d8", display:"block", marginBottom:12 },
+  stageTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#2d1f3d", marginBottom:10 },
+  stageDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#7a5a8a", lineHeight:1.7 },
+  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(150deg,#2d1f3d 0%,#3a2050 100%)" },
+  ctaTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:600, color:"#fdf0f5", marginBottom:28 },
+  ctaBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#e87db0", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(232,125,176,0.4)" },
+};
+
+// ─── PROGRAMS PAGE (renamed from Services) ─────────────────────────────────────
+function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
+  const plans = [
+    { title:"Workshops",              price:"From $49/session", popular:false, features:["Interactive group sessions","Practical growth tools","Guided community discussion","Take-home resources"] },
+    { title:"Mentorship",             price:"From $299/mo",     popular:true,  features:["1:1 mentor matching","Personalised growth plan","Monthly check-ins","Ongoing support"] },
+    { title:"Leadership Development", price:"From $1,499",       popular:false, features:["Immersive leadership intensive","Group & individual coaching","Capstone project","Alumnae network access"] },
+  ];
+  return (
+    <div className="pr-page-root">
+      <section className="pr-banner" style={pr.banner}>
+        <div className="pr-banner-bg" style={pr.bannerBg} />
+        <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
+          <p style={pr.eye}>— OUR PROGRAMS —</p>
+          <h1 className="pr-title" style={pr.title}>Curated for Your Elevation</h1>
+          <p className="pr-sub" style={pr.sub}>Workshops, mentorship, and leadership development — choose the path that speaks to where you are and where you're meant to go.</p>
+        </div>
+      </section>
+
+      <section className="pr-section" style={pr.section}>
+        <div style={pr.grid}>
           {plans.map((p) => (
-            <div key={p.title} className="sv-card" style={{ ...sv.card, ...(p.popular ? sv.cardPopular : {}) }}>
-              {p.popular && <div style={sv.popularBadge}>MOST POPULAR</div>}
-              <h3 className="sv-card-title" style={{ ...sv.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
-              <p style={{ ...sv.cardPrice, ...(p.popular ? { color:"#f0b0a0" } : {}) }}>{p.price}</p>
-              <ul style={sv.list}>
+            <div key={p.title} className="pr-card" style={{ ...pr.card, ...(p.popular ? pr.cardPopular : {}) }}>
+              {p.popular && <div style={pr.popularBadge}>MOST POPULAR</div>}
+              <h3 className="pr-card-title" style={{ ...pr.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
+              <p style={{ ...pr.cardPrice, ...(p.popular ? { color:"#f0b0a0" } : {}) }}>{p.price}</p>
+              <ul style={pr.list}>
                 {p.features.map(f => (
-                  <li key={f} className="sv-list-item" style={{ ...sv.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
-                    <span style={sv.bullet}>•</span>{f}
+                  <li key={f} className="pr-list-item" style={{ ...pr.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
+                    <span style={pr.bullet}>•</span>{f}
                   </li>
                 ))}
               </ul>
               <button
-                style={{ ...sv.bookBtn, ...(p.popular ? sv.bookBtnDark : {}) }}
+                style={{ ...pr.bookBtn, ...(p.popular ? pr.bookBtnDark : {}) }}
                 onClick={() => nav("join")}
               >BOOK NOW</button>
             </div>
@@ -299,12 +361,12 @@ function ServicesPage({ nav }: { nav: (p: Page) => void }) {
   );
 }
 
-const sv: Record<string, React.CSSProperties> = {
+const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf6f0 0%,#f5ece8 100%)", zIndex:0 },
   eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#b89c6e", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
   section: { padding:"60px 48px 96px", background:"#f8f4f0" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"#fff", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(100,60,60,0.08)", border:"1px solid #ede0d8", position:"relative", display:"flex", flexDirection:"column", gap:0 },
@@ -317,6 +379,58 @@ const sv: Record<string, React.CSSProperties> = {
   bullet: { color:"#b89c6e", fontWeight:700 },
   bookBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
   bookBtnDark: { border:"none", background:"#c0705a", color:"#fff", boxShadow:"0 4px 20px rgba(192,112,90,0.35)" },
+};
+
+// ─── EVENTS PAGE (new) ──────────────────────────────────────────────────────────
+const EVENTS = [
+  { date: "AUG 14", title: "Rise & Lead: Leadership Circle", location: "Sydney, NSW", desc: "An evening of connection and leadership coaching for young women." },
+  { date: "SEP 02", title: "Confidence Workshop",             location: "Online",     desc: "Interactive session on building unshakeable self-belief." },
+  { date: "OCT 18", title: "Ellevation Summit",                location: "Melbourne, VIC", desc: "Our flagship annual gathering for the Ellevation community." },
+];
+
+function EventsPage({ nav }: { nav: (p: Page) => void }) {
+  return (
+    <div className="ev-page-root">
+      <section className="ev-banner" style={ev.banner}>
+        <div className="ev-banner-bg" style={ev.bannerBg} />
+        <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
+          <p style={ev.eye}>— EVENTS —</p>
+          <h1 className="ev-title" style={ev.title}>Gather. Grow. Rise Together.</h1>
+          <p className="ev-sub" style={ev.sub}>Join us at upcoming events and sessions designed for connection and growth.</p>
+        </div>
+      </section>
+
+      <section className="ev-section" style={ev.section}>
+        <div style={ev.grid}>
+          {EVENTS.map(e => (
+            <div key={e.title} className="ev-card" style={ev.card}>
+              <div style={ev.dateBadge}>{e.date}</div>
+              <h3 className="ev-card-title" style={ev.cardTitle}>{e.title}</h3>
+              <p style={ev.cardLoc}>{e.location}</p>
+              <p className="ev-card-desc" style={ev.cardDesc}>{e.desc}</p>
+              <button style={ev.rsvpBtn} onClick={() => nav("join")}>RESERVE YOUR SPOT</button>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+const ev: Record<string, React.CSSProperties> = {
+  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf6f0 0%,#f5e8f0 100%)", zIndex:0 },
+  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#b89c6e", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
+  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  section: { padding:"60px 48px 96px", background:"#f8f4f0" },
+  grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
+  card: { background:"#fff", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(100,60,60,0.08)", border:"1px solid #ede0d8", display:"flex", flexDirection:"column", gap:0 },
+  dateBadge: { display:"inline-block", fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"#c0705a", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
+  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:600, color:"#2d1f3d", marginBottom:6 },
+  cardLoc: { fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#b89c6e", marginBottom:14 },
+  cardDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.65, marginBottom:22, flexGrow:1 },
+  rsvpBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"12px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
 };
 
 // ─── STORIES PAGE ─────────────────────────────────────────────────────────────
@@ -568,7 +682,7 @@ export default function EllevationPage() {
           box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3) !important;
         }
         [data-theme="dark"] .ns-link {
-          color: #e9deff !important;
+          color: #ffdee5 !important;
         }
         [data-theme="dark"] .hp-bg-grad {
           background: linear-gradient(rgba(15, 10, 26, 0.85), rgba(15, 10, 26, 0.85)), url(${banner4}) !important;
@@ -576,20 +690,26 @@ export default function EllevationPage() {
         }
         [data-theme="dark"] .hp-headline,
         [data-theme="dark"] .ab-banner-title,
-        [data-theme="dark"] .sv-title,
+        [data-theme="dark"] .jn-banner-title,
+        [data-theme="dark"] .pr-title,
+        [data-theme="dark"] .ev-title,
         [data-theme="dark"] .st-banner-title,
         [data-theme="dark"] .jp-banner-title {
           color: #f3ebff !important;
         }
         [data-theme="dark"] .hp-sub,
         [data-theme="dark"] .ab-banner-sub,
-        [data-theme="dark"] .sv-sub,
+        [data-theme="dark"] .jn-banner-sub,
+        [data-theme="dark"] .pr-sub,
+        [data-theme="dark"] .ev-sub,
         [data-theme="dark"] .st-banner-sub {
           color: #b8a8c8 !important;
         }
         [data-theme="dark"] .hp-card,
         [data-theme="dark"] .ab-feat-card,
-        [data-theme="dark"] .sv-card,
+        [data-theme="dark"] .jn-stage-card,
+        [data-theme="dark"] .pr-card,
+        [data-theme="dark"] .ev-card,
         [data-theme="dark"] .st-card,
         [data-theme="dark"] .jp-card {
           background: #1a1226 !important;
@@ -598,7 +718,9 @@ export default function EllevationPage() {
         }
         [data-theme="dark"] .hp-feat,
         [data-theme="dark"] .ab-feat-desc,
-        [data-theme="dark"] .sv-list-item,
+        [data-theme="dark"] .jn-stage-desc,
+        [data-theme="dark"] .pr-list-item,
+        [data-theme="dark"] .ev-card-desc,
         [data-theme="dark"] .st-quote,
         [data-theme="dark"] .jp-form-sub,
         [data-theme="dark"] .jp-agree-text {
@@ -607,22 +729,33 @@ export default function EllevationPage() {
         [data-theme="dark"] .hp-card-desc,
         [data-theme="dark"] .ab-feat-title,
         [data-theme="dark"] .ab-t-title,
-        [data-theme="dark"] .sv-card-title:not([style*="color:#fff"]),
+        [data-theme="dark"] .jn-stage-title,
+        [data-theme="dark"] .jn-cta-title,
+        [data-theme="dark"] .pr-card-title:not([style*="color:#fff"]),
+        [data-theme="dark"] .ev-card-title,
         [data-theme="dark"] .st-name,
         [data-theme="dark"] .jp-form-title {
           color: #f3ebff !important;
         }
         [data-theme="dark"] .ab-stories-teaser-bg,
-        [data-theme="dark"] .sv-section,
+        [data-theme="dark"] .pr-section,
+        [data-theme="dark"] .ev-section,
         [data-theme="dark"] .st-section,
+        [data-theme="dark"] .jn-stages,
         [data-theme="dark"] .jp-form-section {
           background: #140a1a !important;
         }
         [data-theme="dark"] .ab-t-sub {
           color: #b8a8c8 !important;
         }
-        [data-theme="dark"] .sv-banner-bg {
+        [data-theme="dark"] .jn-banner-bg {
+          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 50%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .pr-banner-bg {
           background: linear-gradient(135deg, #1a0f1f 0%, #0f0a1a 100%) !important;
+        }
+        [data-theme="dark"] .ev-banner-bg {
+          background: linear-gradient(135deg, #1a0f1f 0%, #180f1a 100%) !important;
         }
         [data-theme="dark"] .st-banner-bg {
           background: linear-gradient(160deg, #1a0a2e 0%, #140a1a 100%) !important;
@@ -655,7 +788,9 @@ export default function EllevationPage() {
 
       {page === "home"     && <HomePage     nav={nav} />}
       {page === "about"    && <AboutPage    nav={nav} />}
-      {page === "services" && <ServicesPage nav={nav} />}
+      {page === "journey"  && <JourneyPage  nav={nav} />}
+      {page === "programs" && <ProgramsPage nav={nav} />}
+      {page === "events"   && <EventsPage   nav={nav} />}
       {page === "stories"  && <StoriesPage />}
       {page === "join"     && <JoinPage />}
     </div>

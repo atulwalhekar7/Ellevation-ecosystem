@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"; // 1. Imported useLocation
 import logo from "../assets/Ms-Ellevation-removebg-preview.png";
 
 type DropdownItem = { label: string; href: string };
@@ -11,29 +11,18 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Ellevation", href: "/about" },
+  { label: "About", href: "/about" },
   {
-    label: "Content",
-    dropdown: [
-      { label: "YouTube", href: "/content/youtube" },
-      { label: "Social Media Pages", href: "/content/social-media" },
-    ],
-  },
-  {
-    label: "Get Involved",
-    dropdown: [
-      { label: "Join Us Ellevation", href: "/get-involved/join" },
-      { label: "Alliances", href: "/get-involved/alliances" },
-      { label: "Professional Membership Directories", href: "/get-involved/directories" },
-    ],
-  },
-  { label: "Events", href: "/events" },
-  { label: "Contact", href: "/contact" },
-  { label: "Ms. Ellevation", href: "/ms-ellevation" },
+    label: "Your Journey", href: "/your-journey"},
+  { label: "Ms Ellevation", href: "/ms-ellevation" },
   { label: "Ellevation Hub", href: "/hub" },
+  { label: "Conversations", href: "/Conversations"},
+  { label: "Connect", href: "/Connect" },
 ];
 
 function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean }) {
+  const location = useLocation(); // Track current route inside dropdown
+
   return (
     <div
       style={{
@@ -54,32 +43,41 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
         transition: "opacity 0.18s ease, transform 0.18s ease",
       }}
     >
-      {items.map((item) => (
-        <Link
-          key={item.label}
-          to={item.href}
-          style={{
-            display: "block",
-            padding: "10px 22px",
-            fontSize: "14px",
-            color: "#2d2d2d",
-            textDecoration: "none",
-            fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 400,
-            borderRadius: "6px",
-            margin: "2px 6px",
-          }}
-        >
-          {item.label}
-        </Link>
-      ))}
+      {items.map((item) => {
+        // Highlight active sub-items
+        const isSubItemActive = location.pathname === item.href;
+
+        return (
+          <Link
+            key={item.label}
+            to={item.href}
+            style={{
+              display: "block",
+              padding: "10px 22px",
+              fontSize: "14px",
+              color: isSubItemActive ? "#7c3aed" : "#2d2d2d", // Highlight text color
+              backgroundColor: isSubItemActive ? "#f5f0ff" : "transparent", // Highlight background background
+              textDecoration: "none",
+              fontFamily: "'DM Sans', sans-serif",
+              fontWeight: isSubItemActive ? 600 : 400,
+              borderRadius: "6px",
+              margin: "2px 6px",
+              transition: "background-color 0.2s ease, color 0.2s ease",
+            }}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
     </div>
   );
 }
 
 function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean }) {
   const [open, setOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false); // Controlled hover state
   const ref = useRef<HTMLDivElement>(null);
+  const location = useLocation(); 
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -89,15 +87,23 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const linkColor = darkMode ? "#e9deff" : "#2d2d2d";
+  // 2. Determine if the current route matches this item (or any route inside its dropdown)
+  const isActive = item.dropdown
+    ? item.dropdown.some((subItem) => location.pathname === subItem.href)
+    : location.pathname === item.href;
+
+  const defaultLinkColor = darkMode ? "#e9deff" : "#2d2d2d";
+  
+  // Choose purple if active or hovered; otherwise default dark/light color
+  const currentLinkColor = (isActive || isHovered) ? "#7c3aed" : defaultLinkColor;
 
   if (item.dropdown) {
     return (
       <div
         ref={ref}
         style={{ position: "relative" }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        onMouseEnter={() => { setOpen(true); setIsHovered(true); }}
+        onMouseLeave={() => { setOpen(false); setIsHovered(false); }}
       >
         <button
           onClick={() => setOpen((v) => !v)}
@@ -109,11 +115,12 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
             border: "none",
             cursor: "pointer",
             fontSize: "16px",
-            color: linkColor,
+            color: currentLinkColor,
             fontFamily: "'DM Sans', sans-serif",
-            fontWeight: 400,
+            fontWeight: isActive ? 600 : 400, // Makes parent bold if child route is active
             padding: "6px 4px",
             borderRadius: "6px",
+            transition: "color 0.2s ease",
           }}
         >
           {item.label}
@@ -125,7 +132,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
   }
 
   const shouldOpenInNewTab =
-    item.label === "Ms. Ellevation" || item.label === "Ellevation Hub";
+    item.label === "Ms Ellevation" || item.label === "Ellevation Hub";
 
   return (
     <Link
@@ -134,14 +141,16 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
         fontSize: "16px",
-        color: linkColor,
+        color: currentLinkColor,
         textDecoration: "none",
         fontFamily: "'DM Sans', sans-serif",
-        fontWeight: 400,
+        fontWeight: isActive ? 600 : 400, // Bold font weight when active
         padding: "6px 4px",
+        whiteSpace: "nowrap",
+        transition: "color 0.2s ease",
       }}
-      onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#7c3aed")}
-      onMouseLeave={(e) => ((e.target as HTMLElement).style.color = linkColor)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {item.label}
     </Link>
@@ -156,10 +165,8 @@ export default function EllevationNavbar() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navTopRef = useRef<number>(0);
 
-  // ✅ THEME LOAD (added only)
   useEffect(() => {
     const saved = localStorage.getItem("theme");
-
     if (saved) {
       document.documentElement.setAttribute("data-theme", saved);
       setDarkMode(saved === "dark");
@@ -168,7 +175,6 @@ export default function EllevationNavbar() {
     }
   }, []);
 
-  // Measure natural position of navbar wrapper after mount
   useEffect(() => {
     const measure = () => {
       if (wrapperRef.current) {
@@ -181,7 +187,6 @@ export default function EllevationNavbar() {
     return () => window.removeEventListener("resize", measure);
   }, []);
 
-  // Fix navbar when scrolled past its natural top position
   useEffect(() => {
     const onScroll = () => {
       setIsFixed(window.scrollY >= navTopRef.current);
@@ -190,7 +195,6 @@ export default function EllevationNavbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ✅ THEME TOGGLE (updated only)
   const toggleTheme = () => {
     const root = document.documentElement;
     const current = root.getAttribute("data-theme");
@@ -198,7 +202,6 @@ export default function EllevationNavbar() {
 
     root.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
-
     setDarkMode(next === "dark");
   };
 
@@ -249,7 +252,6 @@ export default function EllevationNavbar() {
               style={{
                 width: "170px",
                 height: "110px",
-                borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -264,12 +266,12 @@ export default function EllevationNavbar() {
             </div>
           </Link>
 
-          {/* Nav Links */}
+          {/* Nav Links Wrapper */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "20px",
+              gap: "24px",
               flex: 1,
               flexWrap: "nowrap",
             }}
@@ -283,10 +285,8 @@ export default function EllevationNavbar() {
             ))}
           </div>
 
-          {/* Right Actions */}
+          {/* Right Actions Block */}
           <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
-            
-            {/* Dark Mode Toggle (ONLY CHANGE HERE IS FUNCTION) */}
             <button
               onClick={toggleTheme}
               style={{
@@ -307,15 +307,13 @@ export default function EllevationNavbar() {
               {darkMode ? "Light" : "Dark"}
             </button>
 
-            {/* Get Listed */}
-            <a href="#" style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", border: "1.5px solid #d1c4e9", borderRadius: "20px", padding: "6px 16px", cursor: "pointer", fontSize: "13px", color: "#2d2d2d", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, textDecoration: "none", whiteSpace: "nowrap" }}>
+            <Link to="/get-involved/directories" style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", border: "1.5px solid #d1c4e9", borderRadius: "20px", padding: "6px 16px", cursor: "pointer", fontSize: "13px", color: "#2d2d2d", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, textDecoration: "none", whiteSpace: "nowrap" }}>
               Get Listed
-            </a>
+            </Link>
 
-            {/* Join */}
-            <a href="#" style={{ display: "flex", alignItems: "center", gap: "6px", background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)", border: "none", borderRadius: "20px", padding: "8px 20px", cursor: "pointer", fontSize: "13px", color: "#fff", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 2px 12px rgba(168,85,247,0.35)", whiteSpace: "nowrap" }}>
+            <Link to="/get-involved/join" style={{ display: "flex", alignItems: "center", gap: "6px", background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)", border: "none", borderRadius: "20px", padding: "8px 20px", cursor: "pointer", fontSize: "13px", color: "#fff", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 2px 12px rgba(168,85,247,0.35)", whiteSpace: "nowrap" }}>
               Join
-            </a>
+            </Link>
           </div>
         </nav>
       </div>

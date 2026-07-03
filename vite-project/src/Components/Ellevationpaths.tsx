@@ -13,17 +13,17 @@ interface Path {
 
 const paths: Path[] = [
   {
-    eyebrow: "Executive Leadership Track",
+    eyebrow: "Women & Young Women Focus (17–25)",
     title: "Ms. Ellevation",
     description:
-      "A high-touch leadership experience designed for women founders, executives, and changemakers ready to scale influence, confidence, and strategic impact.",
+      "Dedicated to building the modern woman. A focused space designed to cultivate authentic identity, deep character, unshakeable confidence, and strategic leadership.",
     features: [
-      "Executive Mentorship",
-      "Leadership Intensives",
-      "Private Mastermind Access",
-      "Quarterly Strategy Retreats",
+      "Leadership Workshops",
+      "Mentorship (Identity, Confidence, Healing)",
+      "Women Speaking Events",
+      "Curated Community Events",
     ],
-    cta: "Apply Now",
+    cta: "Explore Programs",
     route: "/ms-ellevation",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -37,22 +37,22 @@ const paths: Path[] = [
     ),
   },
   {
-    eyebrow: "Community & Networking",
+    eyebrow: "Community Ecosystem & Pathways",
     title: "Ellevation Hub",
     description:
-      "A curated membership network connecting ambitious women through collaboration, meaningful relationships, curated events, and growth opportunities.",
+      "A dynamic membership network offering interconnected opportunity, professional alignment, and holistic wellbeing initiatives designed for the entire family unit.",
     features: [
-      "Monthly Networking Events",
-      "Industry Peer Groups",
-      "Business Collaboration",
-      "Member Resource Library",
+      "1:1 Consultation and Coaching",
+      "Children, Youth (5–16) & Men Programs",
+      "Community Wellbeing & Shared Spaces",
+      "Professional & Business Development",
     ],
     cta: "Become a Member",
     route: "/hub",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
         <path
-          d="M12 3L14.8 8.5L21 9.4L16.5 13.8L17.6 20L12 17L6.4 20L7.5 13.8L3 9.4L9.2 8.5L12 3Z"
+          d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2T12 3l9 18z"
           stroke="white"
           strokeWidth="1.8"
           strokeLinejoin="round"
@@ -103,7 +103,7 @@ export default function EllevationPaths() {
           background: rgba(255,255,255,0.78);
           border: 1px solid rgba(200,190,225,0.55);
           border-radius: 24px;
-          padding: 32px 32px 32px;
+          padding: 32px;
           cursor: default;
           display: flex;
           flex-direction: column;
@@ -121,7 +121,7 @@ export default function EllevationPaths() {
 
         /* Expanded on hover */
         .path-card:hover {
-          height: 460px;
+          height: 480px; /* Slight adjust for text length padding */
           transform: translateY(-8px);
           background: rgba(255,255,255,0.99);
           box-shadow:
@@ -264,16 +264,16 @@ export default function EllevationPaths() {
         }
         .cta-btn:hover { transform: scale(1.04); }
 
-        @media (max-width: 680px) {
+        @media (max-width: 768px) {
           .paths-grid { grid-template-columns: 1fr !important; }
           .path-card { height: auto !important; }
           .path-card:hover { height: auto !important; transform: none !important; }
           .path-hidden { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
         }
 
-        /* ── Dark Mode Overrides (Referencing index.css variables) ── */
+        /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .paths-section {
-          background: #0f0a1a; /* Overriding var(--bg-color) for brand consistency */
+          background: #0f0a1a;
         }
         [data-theme="dark"] .path-card {
           background: rgba(30, 20, 45, 0.7);
@@ -311,7 +311,7 @@ export default function EllevationPaths() {
         ref={sectionRef}
         className="paths-section"
         style={{
-          padding: "30px 56px 80px",
+          padding: "60px 24px 100px",
           boxSizing: "border-box",
           fontFamily: "'DM Sans', sans-serif",
         }}
@@ -329,14 +329,14 @@ export default function EllevationPaths() {
           <p 
             className="paths-header-eyebrow"
             style={{
-            fontSize: "15px",
-            fontWeight: 700,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            margin: "0 0 16px",
-            fontFamily: "'DM Sans', serif",
-          }}>
-            Choose Your Path
+              fontSize: "15px",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              margin: "0 0 16px",
+            }}
+          >
+            Choose Your Ecosystem Path
           </p>
         </div>
 
@@ -346,8 +346,8 @@ export default function EllevationPaths() {
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: "20px",
-            maxWidth: "980px",
+            gap: "24px",
+            maxWidth: "1040px",
             margin: "0 auto",
           }}
         >
@@ -361,7 +361,7 @@ export default function EllevationPaths() {
                 animationDelay: `${0.2 + i * 0.15}s`,
               }}
             >
-              {/* ── Always visible: top row + title ── */}
+              {/* Always visible header tier */}
               <div style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -369,7 +369,7 @@ export default function EllevationPaths() {
               }}>
                 <p style={{
                   fontSize: "11px",
-                  fontWeight: 500,
+                  fontWeight: 600,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   color: "#9b6dbe",
@@ -382,7 +382,7 @@ export default function EllevationPaths() {
 
               <h3 className="path-title">{p.title}</h3>
 
-              {/* ── Hidden until hover ── */}
+              {/* Hidden structural body until hover */}
               <div className="path-hidden" style={{ display: "flex", flexDirection: "column", flex: 1 }}>
                 <p className="path-desc">{p.description}</p>
 

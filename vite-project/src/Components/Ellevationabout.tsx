@@ -115,37 +115,54 @@ export default function FounderSection() {
               margin: "0 0 28px",
             }}
           >
-            Empowering Women to Rise,{" "}
-            <span style={{ color: "#9b7db8" }}>Shine and Thrive</span>
+           Building Confidence, Wellbeing, and{" "}
+            <span style={{ color: "#9b7db8" }}>Accessible Opportunities</span>
           </h2>
 
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-color)" }}>
-            Ms Ellevation is a community-driven organisation supporting CALD
-            women in Australia to integrate, thrive, and achieve financial
-            independence.
+           Ellevation is a community-led ecosystem dedicated to nurturing wellbeing, leadership, and accessible pathways into opportunity across every stage of life.
           </p>
 
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-color)" }}>
-            Founded by Hannah Gongar, whose journey through war, migration, and
-            adversity shaped her resilience, we support women through finance,
-            education, and empowerment programs.
+            We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their unique identities, rich cultures, or lived experiences.
           </p>
 
           <p style={{ fontSize: 15, lineHeight: 1.8, color: "var(--text-color)" }}>
-            Through micro-finance, business development, and community support,
-            we help women regain confidence and build stability.
+          By connecting community safety networks, personal growth frameworks, and strategic economic channels, we transform distinct milestones into a single, integrated lifecycle matrix.
           </p>
 
-          <p
-            style={{
-              fontSize: 15,
-              lineHeight: 1.8,
-              color: "var(--text-secondary, #6b5880)",
-            }}
-          >
-            At Ms Ellevation, we believe that when women rise, communities rise.
-          </p>
-
+          {/* ── Integrated Ecosystem Lifecycle Pipeline ── */}
+  <div 
+    style={{
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  flexWrap: "wrap",
+  background: "rgba(155, 125, 184, 0.06)",
+  padding: "14px 20px",
+  borderRadius: "12px",
+  border: "1px solid rgba(155, 125, 184, 0.15)",
+  margin: "24px 0"
+}}
+  >
+    {["Children", "Youth", "Women", "Men", "Community", "Economy"].map((stage, idx, arr) => (
+      <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span 
+          style={{ 
+            fontFamily: "'DM Sans', sans-serif", 
+            fontSize: "14px", 
+            fontWeight: idx === 5 ? 600 : 500, 
+            color: idx === 5 ? "#c0609a" : "#1c1630" 
+          }}
+        >
+          {stage}
+        </span>
+        {idx < arr.length - 1 && (
+          <span style={{ color: "rgba(155, 125, 184, 0.6)", fontSize: "12px", fontWeight: 700 }}>→</span>
+        )}
+      </div>
+    ))}
+  </div>
           <Link
             to="/about"
             style={{

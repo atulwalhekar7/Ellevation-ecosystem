@@ -35,15 +35,64 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 const vmv = [
   {
     title: "Vision",
-    body: "A world where every woman steps fully into her power, surrounded by a community that celebrates and supports her rise.",
+    body: "To build accessible, culturally grounded pathways that support CALD communities to grow in confidence, develop leadership, and access real opportunities for long-term economic participation.",
   },
   {
     title: "Mission",
-    body: "To provide the tools, connections, and community that empower women to transform their lives and elevate their communities.",
+    body: "A future where individuals and communities thrive with confidence, identity, and opportunity — without leaving culture or lived experience behind.",
   },
   {
     title: "Values",
     body: "Authenticity. Excellence. Compassion. Community. Courage. These are not just words — they are the foundation of everything we do.",
+  },
+];
+
+/* ── Core Model data (new) ── */
+const coreModel = [
+  {
+    label: "Ms. Ellevation",
+    title: "Builds the Woman",
+    body: "Her Voice, Identity, Confidence, Healing, and Leadership.",
+    tags: ["Voice", "Identity", "Confidence", "Healing", "Leadership"],
+    accent: "#c0609a",
+    bg: "linear-gradient(135deg,#fdf1f7 0%,#f7e6f0 100%)",
+  },
+  {
+    label: "Ellevation Hub",
+    title: "Builds the Ecosystem",
+    body: "Pathways, systems, impact, and opportunities around her and the wider community.",
+    tags: ["Pathways", "Systems", "Impact", "Opportunity", "Community"],
+    accent: "#7a5ea0",
+    bg: "linear-gradient(135deg,#f3eefc 0%,#ece3f7 100%)",
+  },
+];
+
+/* ── Who We Serve data (new) ── */
+const whoWeServe = [
+  {
+    title: "CALD Communities",
+    body: "Culturally and linguistically diverse communities building belonging, identity, and connection.",
+    icon: "✿",
+  },
+  {
+    title: "Migrants & International Students",
+    body: "New arrivals navigating settlement, study, and pathways into everyday Australian life.",
+    icon: "◈",
+  },
+  {
+    title: "Women & Young Women (17–25)",
+    body: "Rising leaders building confidence, voice, and access to opportunity.",
+    icon: "✦",
+  },
+  {
+    title: "Men & Families",
+    body: "Allyship, development, and support pathways for men and the families around them.",
+    icon: "◎",
+  },
+  {
+    title: "Children & Youth (5–16)",
+    body: "Early mentorship and development programs that build a strong foundation for the future.",
+    icon: "❖",
   },
 ];
 
@@ -346,23 +395,63 @@ function FounderSection() {
         </div>
 
         {/* RIGHT: text */}
-        <div ref={right.ref} style={{ flex: "1 1 380px", maxWidth: 620 }}>
-          <p style={{ ...fade(right.inView, 60), fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#c0609a", margin: "0 0 14px" }}>MS ELLEVATION</p>
-          <h2 style={{ ...fade(right.inView, 130), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(28px,4.5vw,46px)", fontWeight: 500, color: "#1c1630", lineHeight: 1.2, margin: "0 0 28px" }}>
-            Empowering Women to Rise,{" "}
-            <span style={{ color: "#9b7db8" }}>Shine and Thrive</span>
-          </h2>
-          {[
-            { delay: 200, text: "Ms Ellevation is a community-driven organisation supporting CALD women in Australia to integrate, thrive, and achieve financial independence." },
-            { delay: 280, text: "Founded by Hannah Gongar, whose journey through war, migration, and adversity shaped her resilience, Ms Ellevation offers women from diverse backgrounds guidance in finance, education, and navigating Australian society." },
-            { delay: 360, text: "Through programs in micro-finance, business development, and community support, we empower women to regain confidence, build stability, and step fully into their potential." },
-          ].map((p, i) => (
-            <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px,1.6vw,15.5px)", color: "#3a2e50", lineHeight: 1.82, margin: i < 2 ? "0 0 18px" : "0 0 24px" }}>{p.text}</p>
-          ))}
-          <div style={{ ...fade(right.inView, 440), display: "flex", alignItems: "center", gap: 10 }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: "#6b5880", margin: 0, lineHeight: 1.6 }}>At Ms Ellevation, we believe that when women rise, communities rise.</p>
-          </div>
-        </div>
+      <div ref={right.ref} style={{ flex: "1 1 380px", maxWidth: 620 }}>
+  <p style={{ ...fade(right.inView, 60), fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#c0609a", margin: "0 0 14px" }}>
+    Ecosystem Pathway
+  </p>
+  <h2 style={{ ...fade(right.inView, 130), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(28px,4.5vw,46px)", fontWeight: 500, color: "#1c1630", lineHeight: 1.2, margin: "0 0 28px" }}>
+    Building Confidence, Wellbeing, and{" "}
+    <span style={{ color: "#9b7db8" }}>Accessible Opportunities</span>
+  </h2>
+  
+  {[
+    { delay: 200, text: "Ellevation is a community-led ecosystem dedicated to nurturing wellbeing, leadership, and accessible pathways into opportunity across every stage of life." },
+    { delay: 280, text: "We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their unique identities, rich cultures, or lived experiences." },
+    { delay: 360, text: "By connecting community safety networks, personal growth frameworks, and strategic economic channels, we transform distinct milestones into a single, integrated lifecycle matrix." },
+  ].map((p, i) => (
+    <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px,1.6vw,15.5px)", color: "#3a2e50", lineHeight: 1.82, margin: "0 0 18px" }}>
+      {p.text}
+    </p>
+  ))}
+
+  {/* ── Integrated Ecosystem Lifecycle Pipeline ── */}
+  <div 
+    style={{ 
+      ...fade(right.inView, 420), 
+      display: "flex", 
+      alignItems: "center", 
+      gap: "8px", 
+      flexWrap: "wrap",
+      background: "rgba(155, 125, 184, 0.06)",
+      padding: "14px 20px",
+      borderRadius: "12px",
+      border: "1px solid rgba(155, 125, 184, 0.15)",
+      margin: "24px 0"
+    }}
+  >
+    {["Children", "Youth", "Women", "Men", "Community", "Economy"].map((stage, idx, arr) => (
+      <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span 
+          style={{ 
+            fontFamily: "'DM Sans', sans-serif", 
+            fontSize: "14px", 
+            fontWeight: idx === 5 ? 600 : 500, 
+            color: idx === 5 ? "#c0609a" : "#1c1630" 
+          }}
+        >
+          {stage}
+        </span>
+        {idx < arr.length - 1 && (
+          <span style={{ color: "rgba(155, 125, 184, 0.6)", fontSize: "12px", fontWeight: 700 }}>→</span>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div style={{ ...fade(right.inView, 480), display: "flex", alignItems: "center", gap: 10 }}>
+   
+  </div>
+</div>
       </div>
     </section>
   );
@@ -451,6 +540,222 @@ function VMVSection() {
 }
 
 /* ══════════════════════════════════════
+   CORE MODEL  (new)
+══════════════════════════════════════ */
+function CoreModelCard({ item, index }: { item: typeof coreModel[0]; index: number }) {
+  const { ref, inView } = useInView();
+  const [hov, setHov] = useState(false);
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        flex: "1 1 340px", maxWidth: 440, minWidth: 260,
+        background: item.bg,
+        border: "1.5px solid",
+        borderColor: hov ? `${item.accent}80` : "rgba(180,160,210,0.22)",
+        borderRadius: 22, padding: "36px 34px 32px",
+        boxShadow: hov ? "0 22px 54px rgba(140,110,180,0.2)" : "0 2px 16px rgba(140,110,180,0.07)",
+        transition: "all 0.45s cubic-bezier(.34,1.56,.64,1)",
+        transform: !inView ? "translateY(40px) scale(0.97)" : hov ? "translateY(-8px) scale(1.015)" : "translateY(0) scale(1)",
+        opacity: inView ? 1 : 0,
+        transitionDelay: inView ? `${index * 150}ms` : "0ms",
+        position: "relative", overflow: "hidden",
+      }}
+    >
+      <div style={{ position: "absolute", top: 0, left: 0, height: 3, borderRadius: "22px 22px 0 0", background: item.accent, width: hov ? "100%" : "0%", transition: "width 0.45s cubic-bezier(.4,0,.2,1)" }} />
+      <p style={{
+        fontFamily: "'DM Sans',sans-serif", fontSize: 12.5, fontWeight: 700,
+        letterSpacing: "0.18em", textTransform: "uppercase", color: item.accent,
+        margin: "0 0 10px",
+      }}>
+        {item.label}
+      </p>
+      <h3 style={{
+        fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 600,
+        color: "#1c1630", margin: "0 0 14px", lineHeight: 1.2,
+      }}>
+        {item.title}
+      </h3>
+      <p style={{
+        fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, lineHeight: 1.76,
+        color: "#3a2e50", margin: "0 0 22px",
+      }}>
+        {item.body}
+      </p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        {item.tags.map((tag) => (
+          <span key={tag} style={{
+            fontFamily: "'DM Sans',sans-serif", fontSize: 11.5, fontWeight: 600,
+            color: item.accent, background: "rgba(255,255,255,0.7)",
+            border: `1px solid ${item.accent}33`,
+            borderRadius: 999, padding: "6px 14px",
+          }}>
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CoreModelSection() {
+  const head = useInView(0.1);
+  const arrow = useInView(0.1);
+
+  return (
+    <section
+      className="about-core-model"
+      style={{ background: "#fdf9fc", padding: "0 24px 88px" }}
+    >
+      <div
+  ref={head.ref}
+  style={{
+    ...fade(head.inView, 0),
+    textAlign: "center",
+    marginTop: "70px",   // 👈 Increase this value as needed
+    marginBottom: "44px",
+  }}
+>
+  <p
+    style={{
+      fontFamily: "'DM Sans',sans-serif",
+      fontSize: 15,
+      fontWeight: 700,
+      letterSpacing: "0.22em",
+      textTransform: "uppercase",
+      color: "#9b7db8",
+      margin: "10px 0 12px",
+    }}
+  >
+    Core Model
+  </p>
+
+  <h2
+    style={{
+      fontFamily: "'Cormorant Garamond',serif",
+      fontSize: "clamp(28px,5vw,46px)",
+      fontWeight: 500,
+      color: "#1c1630",
+      margin: 0,
+    }}
+  >
+One mission. Two pathways.
+  </h2>
+</div>
+
+      <div style={{
+        display: "flex", flexWrap: "wrap", gap: 20, maxWidth: 1000, margin: "0 auto",
+        justifyContent: "center", alignItems: "stretch",
+      }}>
+        <CoreModelCard item={coreModel[0]} index={0} />
+
+        <div
+          ref={arrow.ref}
+          style={{
+            ...fade(arrow.inView, 260),
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 40, height: 40, borderRadius: "50%",
+            background: "rgba(155,125,184,0.12)", color: "#9b7db8",
+            fontSize: 18, fontWeight: 700, flexShrink: 0, alignSelf: "center",
+          }}
+        >
+          →
+        </div>
+
+        <CoreModelCard item={coreModel[1]} index={1} />
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════
+   WHO WE SERVE  (new)
+══════════════════════════════════════ */
+function WhoWeServeCard({ item, index }: { item: typeof whoWeServe[0]; index: number }) {
+  const { ref, inView } = useInView();
+  const [hov, setHov] = useState(false);
+
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        flex: "1 1 220px", maxWidth: 250, minWidth: 200,
+        background: hov ? "#fff" : "#fdfaff",
+        border: "1.5px solid",
+        borderColor: hov ? "rgba(155,125,184,0.5)" : "rgba(180,160,210,0.22)",
+        borderRadius: 20, padding: "32px 24px 28px", textAlign: "left",
+        boxShadow: hov ? "0 18px 46px rgba(140,110,180,0.16)" : "0 2px 16px rgba(140,110,180,0.06)",
+        transition: "all 0.45s cubic-bezier(.34,1.56,.64,1)",
+        transform: !inView ? "translateY(36px) scale(0.97)" : hov ? "translateY(-8px) scale(1.02)" : "translateY(0) scale(1)",
+        opacity: inView ? 1 : 0,
+        transitionDelay: inView ? `${index * 110}ms` : "0ms",
+        position: "relative", overflow: "hidden", cursor: "default",
+      }}
+    >
+      <div style={{
+        width: 44, height: 44, borderRadius: "50%",
+        background: "rgba(155,125,184,0.12)", color: "#9b7db8",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 18, marginBottom: 18,
+        transition: "transform 0.35s ease",
+        transform: hov ? "scale(1.08)" : "scale(1)",
+      }}>
+        {item.icon}
+      </div>
+      <h3 style={{
+        fontFamily: "'Cormorant Garamond',serif", fontSize: 20, fontWeight: 600,
+        color: "#1c1630", margin: "0 0 10px", lineHeight: 1.25,
+      }}>
+        {item.title}
+      </h3>
+      <p style={{
+        fontFamily: "'DM Sans',sans-serif", fontSize: 13.5, lineHeight: 1.7,
+        color: "#3a2e50", margin: 0,
+      }}>
+        {item.body}
+      </p>
+    </div>
+  );
+}
+
+function WhoWeServeSection() {
+  const { ref, inView } = useInView(0.1);
+  return (
+    <section
+      className="about-who-we-serve"
+      style={{ background: "#f5eef8", padding: "20px 24px 88px" }}
+    >
+      <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 44 }}>
+      <p
+  style={{
+    fontFamily: "'DM Sans',sans-serif",
+    fontSize: 15,
+    fontWeight: 700,
+    letterSpacing: "0.22em",
+    textTransform: "uppercase",
+    color: "#9b7db8",
+    margin: "20px 0 12px", // Top Right/Left Bottom
+  }}
+>
+  Who We Serve
+</p>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(28px,5vw,46px)", fontWeight: 500, color: "#1c1630", margin: 0 }}>
+          A Community That Spans Every Generation
+        </h2>
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 20, maxWidth: 1180, margin: "0 auto", justifyContent: "center" }}>
+        {whoWeServe.map((item, i) => <WhoWeServeCard key={item.title} item={item} index={i} />)}
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════
    TEAM  (unchanged)
 ══════════════════════════════════════ */
 function TeamMember({ m, index }: { m: typeof team[0]; index: number }) {
@@ -524,7 +829,7 @@ function CTASection() {
 }
 
 /* ══════════════════════════════════════
-   PAGE  (unchanged)
+   PAGE  (unchanged, Core Model inserted below VMV)
 ══════════════════════════════════════ */
 export default function AboutPage() {
   return (
@@ -613,6 +918,8 @@ export default function AboutPage() {
         }
         @media (max-width: 640px) {
           .founder-layout { flex-direction: column !important; }
+          .about-core-model > div:last-child { flex-direction: column; }
+          .about-core-model > div:last-child > div:nth-child(2) { transform: rotate(90deg); }
         }
 
         /* ── Dark Mode Overrides ── */
@@ -627,13 +934,19 @@ export default function AboutPage() {
         [data-theme="dark"] .about-vision h2,
         [data-theme="dark"] .about-team h2,
         [data-theme="dark"] .about-cta h2,
+        [data-theme="dark"] .about-core-model h2,
+        [data-theme="dark"] .about-core-model h3,
+        [data-theme="dark"] .about-who-we-serve h2,
+        [data-theme="dark"] .about-who-we-serve h3,
         [data-theme="dark"] .team-member p:first-of-type {
           color: #f3ebff !important;
         }
         [data-theme="dark"] .about-hero p,
         [data-theme="dark"] .about-founder p,
         [data-theme="dark"] .about-vision p,
-        [data-theme="dark"] .about-vmv p:last-child {
+        [data-theme="dark"] .about-vmv p:last-child,
+        [data-theme="dark"] .about-core-model p,
+        [data-theme="dark"] .about-who-we-serve p {
           color: #b8a8c8 !important;
         }
         [data-theme="dark"] .about-founder,
@@ -646,6 +959,20 @@ export default function AboutPage() {
         }
         [data-theme="dark"] .about-vmv {
           background: #1a1226 !important;
+        }
+        [data-theme="dark"] .about-core-model {
+          background: #0f0a1a !important;
+        }
+        [data-theme="dark"] .about-core-model > div:last-child > div:not([style*="border-radius: 50%"]) {
+          background: rgba(30, 20, 45, 0.6) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .about-who-we-serve {
+          background: #1a1226 !important;
+        }
+        [data-theme="dark"] .about-who-we-serve > div:last-child > div {
+          background: rgba(30, 20, 45, 0.6) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
         }
         [data-theme="dark"] .about-cta {
           background: linear-gradient(150deg, #2d1a4e 0%, #1a0a2e 100%) !important;
@@ -689,6 +1016,8 @@ export default function AboutPage() {
       <FounderSection />
       <VisionSection />
       <VMVSection />
+      <CoreModelSection />
+      <WhoWeServeSection />
       <TeamSection />
       <CTASection />
     </>
