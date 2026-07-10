@@ -646,6 +646,11 @@ function VMVSection() {
   );
 }
 
+// Note: VMVSection is currently not rendered on the page.
+// Keep it for future use, but avoid TS6133 unused-local errors.
+void VMVSection;
+
+
 /* ══════════════════════════════════════
    CORE MODEL  (new)
 ══════════════════════════════════════ */
@@ -902,6 +907,14 @@ function TeamSection() {
     </section>
   );
 }
+
+// Note: TeamSection is currently not rendered on the page.
+void TeamSection;
+
+/* Make TS6133 happy even if the code above changes/gets optimized */
+
+
+
 
 /* ══════════════════════════════════════
    CTA  (unchanged)

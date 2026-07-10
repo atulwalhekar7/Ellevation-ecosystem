@@ -20,6 +20,15 @@ function useInView(threshold = 0.15) {
   return { ref, inView };
 }
 
+function fade(inView: boolean, delay = 0): CSSProperties {
+  return {
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(28px)",
+    transition: `opacity 0.75s ease ${delay}ms, transform 0.75s ease ${delay}ms`,
+  };
+}
+
+
 
 
 function scrollToStoryForm() {
@@ -757,7 +766,8 @@ function CTABtn({ label, primary, onClick }: { label: string; primary: boolean; 
 }
 
 function CTASection() {
-  const { ref } = useInView(0.2);
+  // Need `inView` for fade() styles
+  const { ref, inView } = useInView(0.2);
   return (
 
     <section className="about-cta" style={{ background: "linear-gradient(150deg,#f0d8ee 0%,#e2d0f0 40%,#d4c8f8 75%,#e0d4f8 100%)", padding: "88px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
@@ -788,6 +798,7 @@ function CTASection() {
     </section>
   );
 }
+
 
 /* ══════════════════════════════════════
    MAIN INTERFACE COMPONENT EXPORT
