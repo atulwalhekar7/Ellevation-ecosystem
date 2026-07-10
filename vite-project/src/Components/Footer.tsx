@@ -316,14 +316,34 @@ export default function EllevationFooter() {
     gap: "20px"
   }}
 >
-          <div style={{ display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap" }}>
-            <p className="footer-bottom-text" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", fontWeight: 400, margin: 0 }}>
-              © 2026 Ellevation. All rights reserved.
-            </p>
-            <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer" className="footer-utility-link">Privacy Policy</a>
-            <a href={TERMS_CONDITIONS_URL} target="_blank" rel="noopener noreferrer" className="footer-utility-link">Terms & Conditions</a>
-          </div>
+         <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "24px",
+    flexWrap: "wrap",
+  }}
+>
+  <p
+    className="footer-bottom-text"
+    style={{
+      fontSize: "13px",
+      color: "rgba(255,255,255,0.45)",
+      fontWeight: 400,
+      margin: 0,
+    }}
+  >
+    © 2026 Ellevation. All rights reserved.
+  </p>
 
+  <Link to="/privacy-policy" className="footer-utility-link">
+    Privacy Policy
+  </Link>
+
+  <Link to="/terms-condition" className="footer-utility-link">
+    Terms & Conditions
+  </Link>
+</div>
           <div style={{ display: "flex", gap: "10px" }}>
             {socialIcons.map(({ icon, label, href }) => (
               <a
