@@ -1,15 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 
-import img1 from "../assets/banner7.avif";
+import img1 from "../assets/_74A8820.jpg";
 import img2 from "../assets/banner1.avif";
 import img3 from "../assets/banner3.avif";
-import img4 from "../assets/banner4.avif";
+// import img4 from "../assets/banner4.avif";
 
 const slides = [
   { src: img1 },
   { src: img2 },
   { src: img3 },
-  { src: img4 },
+  // { src: img4 },
 ];
 
 export default function EllevationHero() {

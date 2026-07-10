@@ -42,6 +42,60 @@ const conversationContent = [
   },
 ];
 
+/* ── Social channels for Ellevation Conversations ── */
+const SOCIAL_LINKS = [
+  {
+    label: "Instagram",
+    href: "https://instagram.com/msellevation",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/msellevation",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M15 3h-3a4 4 0 0 0-4 4v3H5v4h3v7h4v-7h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+      </svg>
+    ),
+  },
+  {
+    label: "TikTok",
+    href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16.5 2c.3 2.1 1.8 3.8 4 4.2v3a7.1 7.1 0 0 1-4-1.2v6.4a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v3.1a2.8 2.8 0 1 0 2 2.7V2z" />
+      </svg>
+    ),
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/company/msellevation",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5A5.98 5.98 0 0 1 16 8z" />
+        <rect x="2" y="9" width="4" height="12" />
+        <circle cx="4" cy="4" r="2" />
+      </svg>
+    ),
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/@EllevationOfficial",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="5" width="20" height="14" rx="4" />
+        <path d="M10 9.5v5l4.5-2.5z" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+];
+
 /* ── Submission Formats grid ── */
 const submissionFormats = [
   {
@@ -66,6 +120,7 @@ const storyFormatOptions = [
   "Audio Recording",
   "Video Recording",
   "Digital Art or Photography",
+  "Link to Hosted Media",
 ];
 
 /* ══════════════════════════════════════
@@ -231,6 +286,53 @@ function ConversationCard({ item, index }: { item: typeof conversationContent[0]
   );
 }
 
+/* ── Follow Along: social icons row shown under Ellevation Conversations ── */
+function SocialFollowRow() {
+  const { ref, inView } = useInView(0.2);
+  return (
+    <div
+      ref={ref}
+      style={{
+        marginTop: 48,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 16,
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0)" : "translateY(20px)",
+        transition: "opacity 0.7s ease, transform 0.7s ease",
+      }}
+    >
+      <p style={{
+        fontFamily: "'DM Sans',sans-serif", fontSize: 12.5, fontWeight: 700,
+        letterSpacing: "0.18em", textTransform: "uppercase", color: "#6b5880",
+      }}>
+        Follow the Conversation
+      </p>
+      <div style={{ display: "flex", gap: 12 }}>
+        {SOCIAL_LINKS.map((s) => (
+          <a
+            key={s.label}
+            href={s.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={s.label}
+            className="social-icon-link"
+            style={{
+              width: 42, height: 42, borderRadius: "50%",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: "#fff", border: "1.5px solid rgba(155,125,184,0.28)",
+              color: "#9b7db8", transition: "all 0.2s ease",
+            }}
+          >
+            {s.icon}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ConversationSection() {
   const { ref } = useInView(0.1);
   return (
@@ -242,6 +344,7 @@ function ConversationSection() {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20, maxWidth: 1060, margin: "0 auto", justifyContent: "center" }}>
         {conversationContent.map((item, i) => <ConversationCard key={i} item={item} index={i} />)}
       </div>
+      <SocialFollowRow />
     </section>
   );
 }
@@ -272,16 +375,6 @@ function FormatCard({ item, index }: { item: typeof submissionFormats[0]; index:
         position: "relative", overflow: "hidden", cursor: "default",
       }}
     >
-      {/* <div style={{
-        width: 44, height: 44, borderRadius: "50%",
-        background: "rgba(155,125,184,0.12)", color: "#9b7db8",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 18, marginBottom: 18,
-        transition: "transform 0.35s ease",
-        transform: hov ? "scale(1.08)" : "scale(1)",
-      }}>
-        {item.icon}
-      </div> */}
       <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 20, fontWeight: 600, color: "#1c1630", margin: "0 0 10px", lineHeight: 1.25 }}>{item.title}</h3>
       <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13.5, lineHeight: 1.7, color: "#3a2e50", margin: 0 }}>{item.body}</p>
     </div>
@@ -315,6 +408,7 @@ type StoryFormState = {
   title: string;
   story: string;
   file: File | null;
+  link: string;
   consent: boolean;
 };
 
@@ -326,6 +420,7 @@ const initialStoryForm: StoryFormState = {
   title: "",
   story: "",
   file: null,
+  link: "",
   consent: false,
 };
 
@@ -365,6 +460,8 @@ function StorySubmissionSection() {
   const [submitted, setSubmitted] = useState(false);
   const [focusField, setFocusField] = useState<string | null>(null);
 
+  const isLinkFormat = form.format === "Link to Hosted Media";
+
   const update = <K extends keyof StoryFormState>(key: K, value: StoryFormState[K]) => {
     setForm((f) => ({ ...f, [key]: value }));
   };
@@ -375,6 +472,7 @@ function StorySubmissionSection() {
     if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email)) nextErrors.email = true;
     if (!form.title.trim()) nextErrors.title = true;
     if (!form.story.trim()) nextErrors.story = true;
+    if (isLinkFormat && !form.link.trim()) nextErrors.link = true;
     if (!form.consent) nextErrors.consent = true;
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -412,7 +510,7 @@ function StorySubmissionSection() {
             Submit Your Story
           </h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "#3a2e50", lineHeight: 1.7, maxWidth: 540, margin: "0 auto" }}>
-            Fill in the details below and attach your written reflection, audio, video, or artwork. By submitting, you're giving Ms. Ellevation permission to share your experience on our platform.
+            Fill in the details below and attach your written reflection, audio, video, or artwork — or paste a link if it's already hosted somewhere. By submitting, you're giving Ms. Ellevation permission to share your experience across our platform.
           </p>
         </div>
 
@@ -552,8 +650,25 @@ function StorySubmissionSection() {
                 {errors.story && <p style={{ color: "#c0609a", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please share a little about your story.</p>}
               </div>
 
-              {/* File upload */}
-              <div style={{ marginBottom: 30 }}>
+              {/* Link to hosted media — shown when that format is selected */}
+              {isLinkFormat && (
+                <div style={{ marginBottom: 22 }}>
+                  <label style={labelStyle()}>Link to Your Media</label>
+                  <input
+                    type="url"
+                    value={form.link}
+                    onFocus={() => setFocusField("link")}
+                    onBlur={() => setFocusField(null)}
+                    onChange={(e) => update("link", e.target.value)}
+                    placeholder="Paste a YouTube, Google Drive, Dropbox, or other link"
+                    style={{ ...inputStyle(!!errors.link), ...borderFocus("link") }}
+                  />
+                  {errors.link && <p style={{ color: "#c0609a", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please add a link so we can access your media.</p>}
+                </div>
+              )}
+
+              {/* File upload — always available as an alternative to a link */}
+              <div style={{ marginBottom: 12 }}>
                 <label style={labelStyle()}>Attach Audio, Video, Art, or Photo (optional)</label>
                 <label
                   htmlFor="story-file"
@@ -577,6 +692,23 @@ function StorySubmissionSection() {
                 />
               </div>
 
+              {/* Optional link — always available even outside the "Link" format */}
+              {!isLinkFormat && (
+                <div style={{ marginBottom: 30 }}>
+                  <label style={labelStyle()}>Or Share a Link (optional)</label>
+                  <input
+                    type="url"
+                    value={form.link}
+                    onFocus={() => setFocusField("link-optional")}
+                    onBlur={() => setFocusField(null)}
+                    onChange={(e) => update("link", e.target.value)}
+                    placeholder="YouTube, Google Drive, Dropbox, or other link"
+                    style={{ ...inputStyle(false), ...borderFocus("link-optional") }}
+                  />
+                </div>
+              )}
+              {isLinkFormat && <div style={{ marginBottom: 30 }} />}
+
               {/* Consent */}
               <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 30 }}>
                 <input
@@ -587,7 +719,7 @@ function StorySubmissionSection() {
                   style={{ width: 18, height: 18, marginTop: 2, accentColor: "#9b7db8", cursor: "pointer" }}
                 />
                 <label htmlFor="consent" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13.5, color: "#3a2e50", lineHeight: 1.6, cursor: "pointer" }}>
-                  I give Ms. Ellevation permission to share my story and any attached media on this platform.
+                  I give Ms. Ellevation permission to share my story and any attached media or linked content across the full Ms. Ellevation ecosystem — including this website, Ellevation Hub, our social media channels, newsletters, and community events.
                 </label>
               </div>
               {errors.consent && <p style={{ color: "#c0609a", fontSize: 12, marginTop: -20, marginBottom: 20, fontFamily: "'DM Sans',sans-serif" }}>Please confirm your consent before submitting.</p>}
@@ -633,13 +765,25 @@ function CTASection() {
       <div className="blob cta-blob-2" />
       <div className="cta-shimmer" />
       <div ref={ref} style={{ position: "relative", zIndex: 1 }}>
-        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(38px,6vw,66px)", fontWeight: 500, color: "#1c1630", margin: "0 0 16px" }}>Ready to share?</h2>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", color: "#1c1630", fontSize: 16, marginBottom: 42, maxWidth: 580, marginLeft: "auto", marginRight: "auto" }}>
-          Submit your story today and be part of a movement that uplifts women, honours diversity, and builds community.
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-          <CTABtn label="Submit Your Story" primary onClick={scrollToStoryForm} />
-        </div>
+        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(38px,6vw,66px)", fontWeight: 500, color: "#1c1630", margin: "0 0 16px" }}>Join Our Ecosystem</h2>
+       
+        <div
+  style={{
+    ...fade(inView, 160),
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 16,
+    justifyContent: "center",
+  }}
+>
+  <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
+    <CTABtn label="Explore Ms. Ellevation" primary />
+  </a>
+
+  <a href="/hub" style={{ textDecoration: "none" }}>
+    <CTABtn label="Join Ellevation Hub" primary={false} />
+  </a>
+</div>
       </div>
     </section>
   );
@@ -682,6 +826,14 @@ export default function ConversationsPage() {
           0%   { background-position: 200% center; }
           100% { background-position: -200% center; }
         }
+
+        .social-icon-link:hover {
+          background: #9b7db8 !important;
+          border-color: #9b7db8 !important;
+          color: #fff !important;
+          transform: translateY(-3px);
+        }
+
         @media (max-width: 640px) {
           .about-hero h1 { font-size: 34px !important; }
           .about-submit form > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
@@ -709,6 +861,8 @@ export default function ConversationsPage() {
         [data-theme="dark"] .about-cta { background: linear-gradient(150deg, #2d1a4e 0%, #1a0a2e 100%) !important; }
         [data-theme="dark"] .about-vmv > div + div > div { background: rgba(30, 20, 45, 0.5) !important; border-color: rgba(155, 109, 190, 0.2) !important; }
         [data-theme="dark"] button[style*="transparent"] { color: #f3ebff !important; border-color: #f3ebff !important; }
+        [data-theme="dark"] .about-vmv p[style*="6b5880"],
+        [data-theme="dark"] .social-icon-link { background: #1a1226 !important; border-color: rgba(155,109,190,0.3) !important; color: #c9b8e0 !important; }
       `}</style>
 
       <Hero />

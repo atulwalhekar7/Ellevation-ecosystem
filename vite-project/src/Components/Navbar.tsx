@@ -12,11 +12,12 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  {
-    label: "Your Journey", href: "/your-journey"},
+  // {label: "Your Journey", href: "/your-journey"},
   { label: "Ms Ellevation", href: "/ms-ellevation" },
   { label: "Ellevation Hub", href: "/hub" },
   { label: "Conversations", href: "/Conversations"},
+    { label: "Event", href: "/Event"},
+
   { label: "Connect", href: "/Connect" },
 ];
 
@@ -222,8 +223,9 @@ export default function EllevationNavbar() {
             alignItems: "center",
             gap: "24px",
             padding: "0 24px",
-            height: `${NAV_HEIGHT}px`,
-            background: darkMode ? "rgba(24,20,31,0.97)" : "rgba(255,255,255,0.97)",
+
+            height: `${NAV_HEIGHT}px`,         
+            background: darkMode ? "rgba(24,20,31,0.97)" : "rgba(245,240,255,0.97)", // #f5f0ff — matches your dropdown hover color
             borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f0eaf8",
             boxShadow: isFixed
               ? "0 4px 24px rgba(120,80,180,0.13)"

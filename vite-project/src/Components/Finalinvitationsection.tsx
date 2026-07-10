@@ -239,10 +239,10 @@ const FinalInvitationSection = () => {
 
           <div className="fi-buttons">
             <a href="/ms-ellevation" className="fi-btn-primary">
-              Enter Ms. Ellevation <span className="fi-arrow">→</span>
+              Ms. Ellevation <span className="fi-arrow">→</span>
             </a>
             <a href="/hub" className="fi-btn-secondary">
-              Join Membership <span className="fi-arrow">→</span>
+              Ellevation hub <span className="fi-arrow">→</span>
             </a>
           </div>
         </div>

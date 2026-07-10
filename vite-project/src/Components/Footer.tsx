@@ -6,14 +6,12 @@ const footerLinks = [
     heading: "Main Website",
     links: [
       { label: "Home", href: "/" },
-      { label: "About Ellevation", href: "/about" },
-      { label: "YouTube Content", href: "/content/youtube" },
-      { label: "Social Media Pages", href: "/content/social-media" },
-      { label: "Join Us Ellevation", href: "/get-involved/join" },
-      { label: "Alliances", href: "/get-involved/alliances" },
-      { label: "Professional Membership Directories", href: "/get-involved/directories" },
-      { label: "Events", href: "/events" },
-      { label: "Contact", href: "/contact" },
+      { label: "About", href: "/about" },
+      { label: "Ms Ellevation", href: "/ms-ellevation" },
+      { label: "Ellevation Hub", href: "/hub" },
+      { label: "Conversations", href: "/Conversations" },
+      { label: "Event", href: "/Event" },
+      { label: "Connect", href: "/Connect" },
     ],
   },
   {
@@ -54,6 +52,12 @@ const YoutubeIcon = () => (
   </svg>
 );
 
+const TiktokIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M16.5 2c.3 2.1 1.8 3.8 4 4.2v3a7.1 7.1 0 0 1-4-1.2v6.4a5.9 5.9 0 1 1-5.9-5.9c.3 0 .6 0 .9.1v3.1a2.8 2.8 0 1 0 2 2.7V2z" />
+  </svg>
+);
+
 const MailIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -69,9 +73,14 @@ const ArrowRight = () => (
 
 const socialIcons = [
   { icon: <InstagramIcon />, label: "Instagram", href: "https://www.instagram.com/ms_ellevation/" },
-  { icon: <YoutubeIcon />, label: "YouTube", href: "/content/youtube" },
+  { icon: <YoutubeIcon />, label: "YouTube", href: "https://www.youtube.com/@EllevationOfficial" },
+  { icon: <TiktokIcon />, label: "TikTok", href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs" },
   { icon: <MailIcon />, label: "Email", href: "/contact" },
 ];
+
+// External policy documents (provided by Hannah)
+const PRIVACY_POLICY_URL = "https://www.womanevolve.com/our-polices";
+const TERMS_CONDITIONS_URL = "https://www.bpw.com.au/index.cfm?module=TERMS_AND_CONDITIONS";
 
 export default function EllevationFooter() {
   return (
@@ -311,8 +320,8 @@ export default function EllevationFooter() {
             <p className="footer-bottom-text" style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", fontWeight: 400, margin: 0 }}>
               © 2026 Ellevation. All rights reserved.
             </p>
-            <Link to="/privacy" className="footer-utility-link">Privacy Policy</Link>
-            <Link to="/terms" className="footer-utility-link">Terms & Conditions</Link>
+            <a href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer" className="footer-utility-link">Privacy Policy</a>
+            <a href={TERMS_CONDITIONS_URL} target="_blank" rel="noopener noreferrer" className="footer-utility-link">Terms & Conditions</a>
           </div>
 
           <div style={{ display: "flex", gap: "10px" }}>

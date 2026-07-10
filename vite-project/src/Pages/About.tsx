@@ -286,43 +286,65 @@ function Hero() {
             transformation, professional visibility, impact pathways, events, and membership.
           </p>
 
-          <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36 }}>
-            <button
-              onMouseEnter={() => setGoldHov(true)}
-              onMouseLeave={() => setGoldHov(false)}
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                padding: "12px 22px", borderRadius: 100,
-                background: "linear-gradient(135deg,#d4a96a,#c9906a)",
-                color: "#fff", fontFamily: "'DM Sans',sans-serif",
-                fontWeight: 600, fontSize: 13, border: "none", cursor: "pointer",
-                boxShadow: "0 4px 18px rgba(201,144,106,0.38)",
-                opacity: goldHov ? 0.88 : 1,
-                transform: goldHov ? "scale(1.02)" : "scale(1)",
-                transition: "opacity 0.15s, transform 0.15s",
-              }}
-            >
-              Enter Ms. Ellevation →
-            </button>
-            <button
-              onMouseEnter={() => setDarkHov(true)}
-              onMouseLeave={() => setDarkHov(false)}
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                padding: "12px 22px", borderRadius: 100,
-                background: "#1a0a2e",
-                color: "#fff", fontFamily: "'DM Sans',sans-serif",
-                fontWeight: 600, fontSize: 13, border: "none", cursor: "pointer",
-                boxShadow: "0 4px 18px rgba(26,10,46,0.22)",
-                opacity: darkHov ? 0.88 : 1,
-                transform: darkHov ? "scale(1.02)" : "scale(1)",
-                transition: "opacity 0.15s, transform 0.15s",
-              }}
-            >
-              Join Membership →
-            </button>
-          </div>
+        <div
+  className={visible ? "elv-animate-4" : ""}
+  style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 36 }}
+>
+  <a
+    href="/ms-ellevation"
+    onMouseEnter={() => setGoldHov(true)}
+    onMouseLeave={() => setGoldHov(false)}
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      padding: "12px 22px",
+      borderRadius: 100,
+      background: "linear-gradient(135deg,#d4a96a,#c9906a)",
+      color: "#fff",
+      fontFamily: "'DM Sans',sans-serif",
+      fontWeight: 600,
+      fontSize: 13,
+      textDecoration: "none",
+      border: "none",
+      cursor: "pointer",
+      boxShadow: "0 4px 18px rgba(201,144,106,0.38)",
+      opacity: goldHov ? 0.88 : 1,
+      transform: goldHov ? "scale(1.02)" : "scale(1)",
+      transition: "opacity 0.15s, transform 0.15s",
+    }}
+  >
+    Enter Ms. Ellevation →
+  </a>
 
+  <a
+    href="/hub"
+    onMouseEnter={() => setDarkHov(true)}
+    onMouseLeave={() => setDarkHov(false)}
+    style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
+      padding: "12px 22px",
+      borderRadius: 100,
+      background: "#1a0a2e",
+      color: "#fff",
+      fontFamily: "'DM Sans',sans-serif",
+      fontWeight: 600,
+      fontSize: 13,
+      textDecoration: "none",
+      border: "none",
+      cursor: "pointer",
+      boxShadow: "0 4px 18px rgba(26,10,46,0.22)",
+      opacity: darkHov ? 0.88 : 1,
+      transform: darkHov ? "scale(1.02)" : "scale(1)",
+      transition: "opacity 0.15s, transform 0.15s",
+    }}
+  >
+    Enter Ellevation Hub →
+  </a>
+
+</div>
          
         </div>
 
@@ -469,27 +491,112 @@ function VisionSection() {
   return (
     <section 
       className="about-vision"
-      style={{ background: "#fdf9fc", padding: "88px 24px 72px", textAlign: "center" }}>
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        <div ref={h.ref}>
-          <h2 style={{ ...fade(h.inView, 0), fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(28px,5vw,50px)", fontWeight: 500, lineHeight: 1.22, margin: "0 0 48px", color: "#1c1630" }}>
-            A Vision for Every Woman,{" "}<span style={{ color: "#9b7db8" }}>A Platform for the Collective</span>
+      style={{ 
+        background: "radial-gradient(circle at 50% 0%, #fefbfe 0%, #fdf9fc 100%)",
+        padding: "120px 24px",
+        position: "relative",
+        overflow: "hidden"
+      }}
+    >
+      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        
+        {/* Section Header */}
+        <div ref={h.ref} style={{ textAlign: "center", marginBottom: "80px" }}>
+          <span style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "12px",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.2em",
+            color: "#9b7db8",
+            display: "block",
+            marginBottom: "16px"
+          }}>
+            Our Purpose
+          </span>
+          <h2 style={{ 
+            ...fade(h.inView, 0), 
+            fontFamily: "'Cormorant Garamond', serif", 
+            fontSize: "clamp(32px, 4.5vw, 54px)", 
+            fontWeight: 400, 
+            lineHeight: 1.15, 
+            color: "#1c1630",
+            maxWidth: "850px",
+            margin: "0 auto"
+          }}>
+            A Vision for Every Woman,{" "}
+            <span style={{ color: "#9b7db8", fontStyle: "italic" }}>
+              A Platform for the Collective
+            </span>
           </h2>
         </div>
-        {[
-          { r: p1, d: 0,   t: "Ellevation was founded on a simple but profound truth: women thrive when they are seen, supported, and connected to a community that believes in their power." },
-          { r: p2, d: 110, t: "From the boardroom to the community hall, from personal healing to professional mastery — Ellevation exists to serve every dimension of a woman's life and ambition." },
-          { r: p3, d: 220, t: "Through Ms. Ellevation and Ellevation Hub — we create a living ecosystem where transformation is not a destination, but a way of being." },
-        ].map((item, i) => (
-          <div ref={item.r.ref} key={i} style={{ marginBottom: i < 2 ? 26 : 0 }}>
-            <p style={{ ...fade(item.r.inView, item.d), fontFamily: "'DM Sans',sans-serif", fontSize: "clamp(15px,1.8vw,17px)", color: "#3a2e50", lineHeight: 1.82, margin: 0 }}>{item.t}</p>
-          </div>
-        ))}
+
+        {/* Narrative Grid */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "48px",
+          paddingTop: "16px"
+        }}>
+          {[
+            { 
+              r: p1, 
+              d: 0,   
+              num: "01",
+              t: "Ellevation was founded on a simple but profound truth: women thrive when they are seen, supported, and connected to a community that believes in their power." 
+            },
+            { 
+              r: p2, 
+              d: 110, 
+              num: "02",
+              t: "From the boardroom to the community hall, from personal healing to professional mastery — Ellevation exists to serve every dimension of a woman's life and ambition." 
+            },
+            { 
+              r: p3, 
+              d: 220, 
+              num: "03",
+              t: "Through Ms. Ellevation and Ellevation Hub — we create a living ecosystem where transformation is not a destination, but a way of being." 
+            },
+          ].map((item, i) => (
+            <div 
+              ref={item.r.ref} 
+              key={i} 
+              style={{ 
+                ...fade(item.r.inView, item.d),
+                borderTop: "1px solid rgba(155, 125, 184, 0.3)",
+                paddingTop: "32px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px"
+              }}
+            >
+              <span style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "24px",
+                fontStyle: "italic",
+                color: "#9b7db8",
+                fontWeight: 500
+              }}>
+                {item.num}
+              </span>
+              <p style={{ 
+                fontFamily: "'DM Sans', sans-serif", 
+                fontSize: "16px", 
+                color: "#3a2e50", 
+                lineHeight: 1.8, 
+                margin: 0,
+                fontWeight: 400
+              }}>
+                {item.t}
+              </p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
 }
-
 /* ══════════════════════════════════════
    VMV CARDS  (unchanged)
 ══════════════════════════════════════ */
@@ -819,10 +926,23 @@ function CTASection() {
       <div className="cta-shimmer" />
       <div ref={ref} style={{ position: "relative", zIndex: 1 }}>
         <h2 style={{ ...fade(inView, 0), fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(38px,6vw,66px)", fontWeight: 500, color: "#1c1630", margin: "0 0 42px" }}>Join Our Ecosystem</h2>
-        <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-          <CTABtn label="Explore Ms. Ellevation" primary />
-          <CTABtn label="Join Ellevation Hub" primary={false} />
-        </div>
+     <div
+  style={{
+    ...fade(inView, 160),
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 16,
+    justifyContent: "center",
+  }}
+>
+  <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
+    <CTABtn label="Enter Ms. Ellevation" primary />
+  </a>
+
+  <a href="/hub" style={{ textDecoration: "none" }}>
+    <CTABtn label="Join Ellevation Hub" primary={false} />
+  </a>
+</div>
       </div>
     </section>
   );
@@ -1013,12 +1133,14 @@ export default function AboutPage() {
       `}</style>
 
       <Hero />
+       <WhoWeServeSection />
+        <CoreModelSection />
       <FounderSection />
       <VisionSection />
-      <VMVSection />
-      <CoreModelSection />
-      <WhoWeServeSection />
-      <TeamSection />
+      {/* <VMVSection /> */}
+     
+     
+      {/* <TeamSection /> */}
       <CTASection />
     </>
   );

@@ -15,6 +15,7 @@ import Contact from './Pages/Contact';
 import MsEllevation from './Pages/MsEllevation';
 import EllevationHub from './Pages/EllevationHub';
 import Journey from './Pages/your-journey';
+import Event from './Pages/Event';
 
 import ScrollToUp from "./Components/ScrollToTop";
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/ms-ellevation" element={<MsEllevation />} />
         <Route path="/hub" element={<EllevationHub />} />
         <Route path="/your-journey" element={<Journey />} />
+        <Route path="/Event" element={<Event />} />
       </Routes>
       <Footer />
     </>
