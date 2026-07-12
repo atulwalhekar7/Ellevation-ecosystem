@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState, type CSSProperties } from "react";
-
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 const testimonials = [
   {
     id: 1,

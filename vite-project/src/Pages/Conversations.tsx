@@ -258,7 +258,7 @@ function VisionSection() {
 /* ══════════════════════════════════════
    CONTENT CATEGORIES
 ══════════════════════════════════════ */
-function ConversationCard({ item }: { item: typeof conversationContent[0]; index: number }) {
+function ConversationCard({ item }: { item: typeof conversationContent[0] }) {
   const { ref } = useInView();
   const [hov, setHov] = useState(false);
 
@@ -339,7 +339,7 @@ function ConversationSection() {
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Ellevation Conversations</p>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto", justifyContent: "center" }}>
-        {conversationContent.map((item, i) => <ConversationCard key={i} item={item} index={i} />)}
+        {conversationContent.map((item, i) => <ConversationCard key={i} item={item} />)}
       </div>
       <SocialFollowRow />
     </section>
@@ -349,8 +349,8 @@ function ConversationSection() {
 /* ══════════════════════════════════════
    SUBMISSION FORMATS SECTION
 ══════════════════════════════════════ */
-function FormatCard({ item, index }: { item: typeof submissionFormats[0]; index: number }) {
-  const { ref, inView } = useInView();
+function FormatCard({ item }: { item: typeof submissionFormats[0] }) {
+  const { ref } = useInView();
   const [hov, setHov] = useState(false);
 
   return (
@@ -394,7 +394,7 @@ function FormatsSection() {
         <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#d11a8e", margin: 0 }}>We Welcome Stories in Many Forms</h2>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1140, margin: "0 auto", justifyContent: "center" }}>
-        {submissionFormats.map((item, i) => <FormatCard key={item.title} item={item} index={i} />)}
+        {submissionFormats.map((item) => <FormatCard key={item.title} item={item} />)}
       </div>
     </section>
   );

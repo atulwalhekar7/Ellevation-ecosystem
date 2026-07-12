@@ -130,7 +130,6 @@ const SECTIONS: Section[] = [
   },
 ];
 
-const LAST_UPDATED = "July 2026";
 
 /* ══════════════════════════════════════
    HERO

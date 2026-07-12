@@ -31,22 +31,6 @@ function fade(inView: boolean, delay = 0): CSSProperties {
   };
 }
 
-/* ── data ── */
-const vmv = [
-  {
-    title: "Vision",
-    body: "To build accessible, culturally grounded pathways that support CALD communities to grow in confidence, develop leadership, and access real opportunities for long-term economic participation.",
-  },
-  {
-    title: "Mission",
-    body: "A future where individuals and communities thrive with confidence, identity, and opportunity — without leaving culture or lived experience behind.",
-  },
-  {
-    title: "Values",
-    body: "Authenticity. Excellence. Compassion. Community. Courage. These are not just words — they are the foundation of everything we do.",
-  },
-];
-
 /* ── Core Model data ── */
 const coreModel = [
   {
@@ -90,12 +74,6 @@ const whoWeServe = [
     icon: "◎",
   },
   
-];
-
-const team = [
-  { name: "Victoria Rhodes", role: "Founder & CEO",        initials: "VR", grad: "linear-gradient(135deg,#662369 0%,#5a3fa0 100%)" },
-  { name: "Aisha Okafor",    role: "Director of Programs", initials: "AO", grad: "linear-gradient(135deg,#d11a8e 0%,#662369 100%)" },
-  { name: "Carmen Santos",   role: "Head of Community",    initials: "CS", grad: "linear-gradient(135deg,#5a3fa0 0%,#4c2882 100%)" },
 ];
 
 const slides = [
@@ -543,8 +521,8 @@ function VisionSection() {
 }
 
 /* ── CORE MODEL SECTION ── */
-function CoreModelCard({ item, index }: { item: typeof coreModel[0]; index: number }) {
-  const { ref, inView } = useInView();
+function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
+  const { ref } = useInView();
   const [hov, setHov] = useState(false);
 
   return (
@@ -631,7 +609,7 @@ function CoreModelSection() {
         display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto",
         justifyContent: "center", alignItems: "stretch",
       }}>
-        <CoreModelCard item={coreModel[0]} index={0} />
+        <CoreModelCard item={coreModel[0]} />
 
         <div
           ref={arrow.ref}
@@ -646,15 +624,15 @@ function CoreModelSection() {
           →
         </div>
 
-        <CoreModelCard item={coreModel[1]} index={1} />
+        <CoreModelCard item={coreModel[1]} />
       </div>
     </section>
   );
 }
 
 /* ── WHO WE SERVE SECTION ── */
-function WhoWeServeCard({ item, index }: { item: typeof whoWeServe[0]; index: number }) {
-  const { ref, inView } = useInView();
+function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
+  const { ref } = useInView();
   const [hov, setHov] = useState(false);
 
   return (
@@ -718,7 +696,7 @@ function WhoWeServeSection() {
         </h2>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1140, margin: "0 auto", justifyContent: "center" }}>
-        {whoWeServe.map((item, i) => <WhoWeServeCard key={item.title} item={item} index={i} />)}
+        {whoWeServe.map((item) => <WhoWeServeCard key={item.title} item={item} />)}
       </div>
     </section>
   );
