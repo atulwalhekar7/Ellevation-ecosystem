@@ -134,7 +134,7 @@ function LegalHero({ title, eyebrow }: { title: string; eyebrow: string }) {
       <div style={{ ...fade(visible, 0), position: "relative", zIndex: 1, maxWidth: 760, margin: "0 auto" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 20 }}>
           <span style={{ width: 40, height: 1, background: "#7a5a8a" }} />
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.26em", color: "#7a5a8a" }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.26em", color: "#d11a8e" }}>
             {eyebrow}
           </span>
           <span style={{ width: 40, height: 1, background: "#7a5a8a" }} />
@@ -150,9 +150,9 @@ function LegalHero({ title, eyebrow }: { title: string; eyebrow: string }) {
         }}>
           {title}
         </h1>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#5a4070", letterSpacing: "0.02em" }}>
+        {/* <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#5a4070", letterSpacing: "0.02em" }}>
           Last updated: {LAST_UPDATED}
-        </p>
+        </p> */}
       </div>
     </section>
   );
@@ -169,7 +169,7 @@ function SectionBlock({ section, index }: { section: Section; index: number }) {
         fontFamily: "'Cormorant Garamond',serif",
         fontSize: "1.55rem",
         fontWeight: 600,
-        color: "#1c1630",
+        color: "#d11a8e",
         marginBottom: 6,
         paddingBottom: 12,
         borderBottom: "1px solid rgba(155,125,184,0.18)",

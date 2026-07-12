@@ -449,7 +449,7 @@ function Hero() {
           gap: 12, marginBottom: 24,
         }}>
           <div className={mounted ? "line-draw" : ""} style={{ width: 40, height: 1, background: "rgba(255,255,255,0.6)", transformOrigin: "right center" }} />
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", color: "#fff" }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", color: "#d11a8e" }}>
             Connect With Us
           </span>
           <div className={mounted ? "line-draw" : ""} style={{ width: 40, height: 1, background: "rgba(255,255,255,0.6)", transformOrigin: "left center" }} />
@@ -469,7 +469,7 @@ function Hero() {
           ...fade(mounted, 260),
           fontFamily: "'DM Sans',sans-serif",
           fontSize: "clamp(15px,1.8vw,17px)",
-          color: "rgba(255,255,255,0.9)", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
+          color: "rgba(8, 8, 8, 0.9)", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
         }}>
           Whether you are looking to collaborate, seek programmatic guidance, or establish community connections, let us build pathways together.
         </p>
@@ -503,7 +503,7 @@ function CommonEnquiryForm() {
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b7db8", margin: "0 0 12px" }}>
             Get in Touch
           </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(30px,4.5vw,44px)", fontWeight: 500, color: "#1c1630", margin: 0 }}>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(30px,4.5vw,44px)", fontWeight: 500, color: "#d11a8e", margin: 0 }}>
 Reach Out to Us          </h2>
         </div>
 
@@ -531,7 +531,7 @@ Reach Out to Us          </h2>
               
               {/* Specialized Radio Segment Fields */}
               <div>
-                <label style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#9b7db8", marginBottom: 12 }}>
+                <label style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#d11a8e", marginBottom: 12 }}>
                   Enquiry Stream
                 </label>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
@@ -624,7 +624,7 @@ Reach Out to Us          </h2>
                     padding: "14px 36px",
                     borderRadius: 999,
                     border: "none",
-                    background: submitHov ? "#7a5ea0" : "#9b7db8",
+                    background: submitHov ? "#7a5ea0" : "#d11a8e",
                     color: "#fff",
                     fontFamily: "'DM Sans',sans-serif",
                     fontSize: 13,

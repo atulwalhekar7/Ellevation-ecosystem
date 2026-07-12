@@ -28,9 +28,9 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
-  FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#b89c6e" },
-  ELLEVATE:   { label: "Ellevate",   tagline: "Step into an elevated circle of ambitious women.",    color: "#b07fb4" },
-  LUMINARY:   { label: "Luminary",   tagline: "Lead, inspire, and illuminate from the pinnacle.",    color: "#e87db0" },
+  FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#662369" },
+  ELLEVATE:   { label: "Ellevate",   tagline: "Step into an elevated circle of ambitious women.",    color: "#b51279" },
+  LUMINARY:   { label: "Luminary",   tagline: "Lead, inspire, and illuminate from the pinnacle.",    color: "#e028a0" },
 };
 const REFERRAL_OPTIONS = ["Social Media","Friend or Colleague","Event","Search Engine","Press / Media","Other"];
 const emptyForm = (): FormData => ({ firstName:"",lastName:"",email:"",phone:"",location:"",profession:"",referral:"",goals:"",agree:false });
@@ -60,7 +60,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   }, []);
 
   return (
-    <nav className="ms-nav" style={{ ...ns.nav, boxShadow: scrolled ? "0 4px 32px rgba(180,120,200,0.13)" : "0 2px 16px rgba(180,120,200,0.07)" }}>
+    <nav className="ms-nav" style={{ ...ns.nav, boxShadow: scrolled ? "0 4px 32px rgba(102,35,105,0.18)" : "0 2px 16px rgba(102,35,105,0.08)" }}>
       <div className="ns-inner" style={ns.inner}>
         {NAV_LINKS.map(({ label, page }) => (
           <button
@@ -89,25 +89,25 @@ const ns: Record<string, React.CSSProperties> = {
   },
   inner: {
     display: "flex", alignItems: "center", gap: 4,
-    background: "rgba(255,255,255,0.88)",
+    background: "rgba(255,255,255,0.92)",
     backdropFilter: "blur(16px)",
     borderRadius: 100,
     padding: "8px 12px",
-    boxShadow: "0 2px 24px rgba(180,120,200,0.10)",
+    boxShadow: "0 2px 24px rgba(102,35,105,0.12)",
     flexWrap: "wrap" as const,
   },
   link: {
     fontFamily: "'Jost', sans-serif",
     fontSize: "0.86rem", fontWeight: 400,
-    color: "#4a3060", background: "transparent",
+    color: "#662369", background: "transparent",
     border: "none", cursor: "pointer",
     padding: "8px 16px", borderRadius: 100,
     transition: "all 0.2s ease", whiteSpace: "nowrap" as const,
   },
   active: {
-    background: "#2d1f3d", color: "#fff",
+    background: "#d11a8e", color: "#fff",
     fontWeight: 500,
-    boxShadow: "0 2px 12px rgba(45,31,61,0.25)",
+    boxShadow: "0 2px 12px rgba(26,10,46,0.25)",
   },
 };
 
@@ -136,7 +136,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 
         <div className="hp-card" style={hp.card}>
           <div style={hp.cardTop}>
-            <div style={hp.cardIcon}>☆</div>
+            {/* <div style={hp.cardIcon}>☆</div> */}
             <span style={hp.cardBadge}>Ms. Ellevation</span>
           </div>
           <p className="hp-card-desc" style={hp.cardDesc}>
@@ -157,29 +157,29 @@ const hp: Record<string, React.CSSProperties> = {
   page: { position:"relative", overflow:"hidden", minHeight:"90vh", display:"flex", alignItems:"center", padding:"60px 48px 80px" },
   bgGrad: {
     position:"absolute", inset:0,
-    background:`linear-gradient(rgba(252, 232, 240, 0.8), rgba(232, 210, 250, 0.8)), url(${banner4})`,
+    background:`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner4})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     zIndex:0
   },
-  blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,200,220,0.5) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
-  blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(200,170,240,0.45) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
+  blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
+  blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"center", maxWidth:1200, margin:"0 auto", width:"100%", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
   left: { display:"flex", flexDirection:"column", gap:24 },
-  eyebrow: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#9060b0" },
-  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#2d1f3d", lineHeight:1.12, margin:0 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#5a3a7a", lineHeight:1.75, maxWidth:460 },
+  eyebrow: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#ffffff" },
+  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#ffffff", lineHeight:1.12, margin:0 },
+  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#ffffff", lineHeight:1.75, maxWidth:460 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
-  btnPrimary: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#2d1f3d", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(45,31,61,0.3)" },
-  btnSecondary: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", transition:"all 0.2s ease" },
-  card: { background:"rgba(255,255,255,0.82)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(120,80,180,0.14)", border:"1px solid rgba(255,255,255,0.7)" },
+  btnPrimary: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(209,26,142,0.35)" },
+  btnSecondary: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid #ffffff", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
+  card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
   cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
-  cardIcon: { width:48, height:48, borderRadius:"50%", background:"#2d1f3d", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
-  cardBadge: { fontFamily:"'Jost',sans-serif", fontSize:"0.8rem", fontWeight:500, color:"#9060b0", background:"rgba(180,130,220,0.15)", padding:"5px 14px", borderRadius:100 },
-  cardDesc: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:500, color:"#2d1f3d", lineHeight:1.5, marginBottom:20 },
+  cardIcon: { width:48, height:48, borderRadius:"50%", background:"#662369", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
+  cardBadge: { fontFamily:"'Jost',sans-serif", fontSize:"0.8rem", fontWeight:500, color:"#1a0a2e", background:"rgba(209,26,142,0.10)", padding:"5px 14px", borderRadius:100 },
+  cardDesc: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:500, color:"#1a0a2e", lineHeight:1.5, marginBottom:20 },
   cardFeatures: { display:"flex", flexDirection:"column", gap:10 },
-  feat: { fontFamily:"'Jost',sans-serif", fontSize:"0.85rem", color:"#5a3a6a", display:"flex", alignItems:"center", gap:10 },
-  check: { color:"#9060b0", fontWeight:700, fontSize:"0.9rem" },
+  feat: { fontFamily:"'Jost',sans-serif", fontSize:"0.85rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
+  check: { color:"#d11a8e", fontWeight:700, fontSize:"0.9rem" },
 };
 
 // ─── ABOUT PAGE ───────────────────────────────────────────────────────────────
@@ -237,24 +237,24 @@ const ab: Record<string, React.CSSProperties> = {
     backgroundPosition: "center",
     zIndex:0
   },
-  bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(220,140,160,0.35) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,100,140,0.3) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#e8b0a0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
+  bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(209,26,142,0.30) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.28) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#e0a8d6", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
   bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
   bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
-  btnD: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#c0705a", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(192,112,90,0.35)" },
+  btnD: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#d11a8e", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(209,26,142,0.35)" },
   btnL: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid rgba(253,240,245,0.5)", background:"transparent", color:"#fdf0f5", cursor:"pointer" },
   featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px" },
-  featCard: { background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(120,60,120,0.08)", border:"1px solid #f0e0f0", transition:"transform 0.2s ease" },
-  featIcon: { fontSize:"1.6rem", color:"#b07fb4", marginBottom:16 },
-  featTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.3rem", fontWeight:600, color:"#2d1f3d", marginBottom:10 },
-  featDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#7a5a8a", lineHeight:1.65 },
+  featCard: { background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", transition:"transform 0.2s ease" },
+  featIcon: { fontSize:"1.6rem", color:"#d11a8e", marginBottom:16 },
+  featTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.3rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
+  featDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.65 },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
-  storiesTeaserBg: { position:"absolute", inset:0, background:"#f8f4f0", zIndex:0 },
-  tEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#b89c6e", marginBottom:16, position:"relative", zIndex:1 },
-  tTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
-  tSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#7a6a5a", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
-  tBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", position:"relative", zIndex:1 },
+  storiesTeaserBg: { position:"absolute", inset:0, background:"#f6f3fa", zIndex:0 },
+  tEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  tTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  tSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#554866", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
+  tBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #d11a8e", background:"#d11a8e", color:"#1a0a2e", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
 // ─── YOUR JOURNEY PAGE (new) ───────────────────────────────────────────────────
@@ -300,21 +300,21 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
 
 const jn: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#fdf1f7 0%,#f0e0f5 50%,#e8d8f2 100%)", zIndex:0 },
-  blob1: { position:"absolute", top:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(220,160,200,0.35) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  blob2: { position:"absolute", bottom:-70, right:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(180,140,220,0.3) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#9060b0", marginBottom:16, position:"relative", zIndex:1 },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#5a3a7a", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#fdf9fc 0%,#f6f3fa 50%,#ede7f5 100%)", zIndex:0 },
+  blob1: { position:"absolute", top:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(209,26,142,0.22) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  blob2: { position:"absolute", bottom:-70, right:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.20) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
   stagesSection: { padding:"72px 48px 80px", background:"#fdf9fc" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
-  stageCard: { position:"relative", background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(120,80,180,0.08)", border:"1px solid #f0e0f0" },
-  stageNum: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2.4rem", fontWeight:600, color:"#d4b0d8", display:"block", marginBottom:12 },
-  stageTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#2d1f3d", marginBottom:10 },
-  stageDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#7a5a8a", lineHeight:1.7 },
-  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(150deg,#2d1f3d 0%,#3a2050 100%)" },
+  stageCard: { position:"relative", background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
+  stageNum: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2.4rem", fontWeight:600, color:"#e0a8d6", display:"block", marginBottom:12 },
+  stageTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
+  stageDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
+  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(150deg,#1a0a2e 0%,#662369 100%)" },
   ctaTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:600, color:"#fdf0f5", marginBottom:28 },
-  ctaBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#e87db0", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(232,125,176,0.4)" },
+  ctaBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#d11a8e", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(209,26,142,0.4)" },
 };
 
 // ─── PROGRAMS PAGE (renamed from Services) ─────────────────────────────────────
@@ -341,7 +341,7 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
             <div key={p.title} className="pr-card" style={{ ...pr.card, ...(p.popular ? pr.cardPopular : {}) }}>
               {p.popular && <div style={pr.popularBadge}>MOST POPULAR</div>}
               <h3 className="pr-card-title" style={{ ...pr.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
-              <p style={{ ...pr.cardPrice, ...(p.popular ? { color:"#f0b0a0" } : {}) }}>{p.price}</p>
+              <p style={{ ...pr.cardPrice, ...(p.popular ? { color:"#e0a8d6" } : {}) }}>{p.price}</p>
               <ul style={pr.list}>
                 {p.features.map(f => (
                   <li key={f} className="pr-list-item" style={{ ...pr.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
@@ -363,22 +363,22 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
 
 const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf6f0 0%,#f5ece8 100%)", zIndex:0 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#b89c6e", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#f8f4f0" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf9fc 0%,#f6f3fa 100%)", zIndex:0 },
+  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
+  section: { padding:"60px 48px 96px", background:"#f6f3fa" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
-  card: { background:"#fff", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(100,60,60,0.08)", border:"1px solid #ede0d8", position:"relative", display:"flex", flexDirection:"column", gap:0 },
-  cardPopular: { background:"#3a2040", border:"none", boxShadow:"0 8px 48px rgba(58,32,64,0.30)" },
-  popularBadge: { position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.18em", background:"#c0705a", color:"#fff", padding:"5px 18px", borderRadius:100 },
-  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#2d1f3d", marginBottom:8 },
-  cardPrice: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:500, color:"#b89c6e", marginBottom:24 },
+  card: { background:"#fff", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", position:"relative", display:"flex", flexDirection:"column", gap:0 },
+  cardPopular: { background:"#1a0a2e", border:"none", boxShadow:"0 8px 48px rgba(26,10,46,0.30)" },
+  popularBadge: { position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.18em", background:"#d11a8e", color:"#fff", padding:"5px 18px", borderRadius:100 },
+  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
+  cardPrice: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:500, color:"#8a5a97", marginBottom:24 },
   list: { listStyle:"none", display:"flex", flexDirection:"column", gap:12, marginBottom:32, padding:0 },
-  listItem: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", color:"#5a3a3a", display:"flex", alignItems:"center", gap:10 },
-  bullet: { color:"#b89c6e", fontWeight:700 },
-  bookBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
-  bookBtnDark: { border:"none", background:"#c0705a", color:"#fff", boxShadow:"0 4px 20px rgba(192,112,90,0.35)" },
+  listItem: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
+  bullet: { color:"#d11a8e", fontWeight:700 },
+  bookBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
+  bookBtnDark: { border:"none", background:"#d11a8e", color:"#fff", boxShadow:"0 4px 20px rgba(209,26,142,0.35)" },
 };
 
 // ─── EVENTS PAGE (new) ──────────────────────────────────────────────────────────
@@ -419,18 +419,18 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
 
 const ev: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf6f0 0%,#f5e8f0 100%)", zIndex:0 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#b89c6e", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#2d1f3d", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#f8f4f0" },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf9fc 0%,#f6f3fa 100%)", zIndex:0 },
+  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  section: { padding:"60px 48px 96px", background:"#f6f3fa" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
-  card: { background:"#fff", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(100,60,60,0.08)", border:"1px solid #ede0d8", display:"flex", flexDirection:"column", gap:0 },
-  dateBadge: { display:"inline-block", fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"#c0705a", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
-  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:600, color:"#2d1f3d", marginBottom:6 },
-  cardLoc: { fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#b89c6e", marginBottom:14 },
-  cardDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#7a5a4a", lineHeight:1.65, marginBottom:22, flexGrow:1 },
-  rsvpBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"12px", borderRadius:100, border:"2px solid #2d1f3d", background:"transparent", color:"#2d1f3d", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
+  card: { background:"#fff", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
+  dateBadge: { display:"inline-block", fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"#d11a8e", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
+  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
+  cardLoc: { fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:14 },
+  cardDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
+  rsvpBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"12px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
 };
 
 // ─── STORIES PAGE ─────────────────────────────────────────────────────────────
@@ -472,17 +472,17 @@ function StoriesPage() {
 
 const st: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(160deg,#2e1f22 0%,#3d2828 50%,#2e1f22 100%)", zIndex:0 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(160deg,#1a0a2e 0%,#662369 50%,#1a0a2e 100%)", zIndex:0 },
   bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", marginBottom:16, position:"relative", zIndex:1 },
   bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(253,240,245,0.7)", position:"relative", zIndex:1 },
-  section: { background:"#f8f4f0", padding:"72px 48px 96px" },
+  section: { background:"#f6f3fa", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
-  card: { background:"#fff", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(100,60,60,0.07)", border:"1px solid #ede0d8", display:"flex", flexDirection:"column", gap:20 },
-  quoteIcon: { fontFamily:"'Cormorant Garamond',serif", fontSize:"3rem", color:"#d4b896", lineHeight:1, height:32, display:"block" },
-  quote: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.15rem", fontStyle:"italic", color:"#2d1f3d", lineHeight:1.75, flexGrow:1 },
-  author: { borderTop:"1px solid #f0e0d0", paddingTop:20 },
-  name: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:600, color:"#2d1f3d", marginBottom:4 },
-  role: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:500, letterSpacing:"0.14em", color:"#9a8a7a" },
+  card: { background:"#fff", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(102,35,105,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
+  quoteIcon: { fontFamily:"'Cormorant Garamond',serif", fontSize:"3rem", color:"#e0a8d6", lineHeight:1, height:32, display:"block" },
+  quote: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.15rem", fontStyle:"italic", color:"#1a0a2e", lineHeight:1.75, flexGrow:1 },
+  author: { borderTop:"1px solid #ede7f5", paddingTop:20 },
+  name: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:600, color:"#1a0a2e", marginBottom:4 },
+  role: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:500, letterSpacing:"0.14em", color:"#8a5a97" },
 };
 
 // ─── JOIN PAGE (Membership Form) ──────────────────────────────────────────────
@@ -561,7 +561,7 @@ function JoinPage() {
               <Field label="City, State, Country *" value={form.location} error={errs.location} onChange={v => handleChange(activeTier,"location",v)} />
               <Field label="Profession / Industry *" value={form.profession} error={errs.profession} onChange={v => handleChange(activeTier,"profession",v)} />
               <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.referral?"true":undefined}>
-                <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.referral?"#2d1f3d":"#b89fae" }} value={form.referral} onChange={e => handleChange(activeTier,"referral",e.target.value)}>
+                <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.referral?"#1a0a2e":"#b09fc0" }} value={form.referral} onChange={e => handleChange(activeTier,"referral",e.target.value)}>
                   <option value="" disabled>How did you hear about us? *</option>
                   {REFERRAL_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
@@ -602,39 +602,39 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 
 const jp: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:260, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 80% at 50% 50%,#f0d6f5 0%,#e8d0f0 30%,#d8c0ee 60%,#c8b0e8 100%)", zIndex:0 },
-  blobL: { position:"absolute", top:-60, left:-80, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(255,182,210,0.45) 0%,transparent 70%)", animation:"floatBlob 8s ease-in-out infinite", zIndex:1 },
-  blobR: { position:"absolute", bottom:-80, right:-60, width:380, height:380, borderRadius:"50%", background:"radial-gradient(circle,rgba(182,140,210,0.38) 0%,transparent 70%)", animation:"floatBlob 11s ease-in-out infinite reverse", zIndex:1 },
+  bannerBg: { position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 80% at 50% 50%,#fbe4f2 0%,#f3dcef 30%,#e6d0ec 60%,#d3b3e0 100%)", zIndex:0 },
+  blobL: { position:"absolute", top:-60, left:-80, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(209,26,142,0.28) 0%,transparent 70%)", animation:"floatBlob 8s ease-in-out infinite", zIndex:1 },
+  blobR: { position:"absolute", bottom:-80, right:-60, width:380, height:380, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.25) 0%,transparent 70%)", animation:"floatBlob 11s ease-in-out infinite reverse", zIndex:1 },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16 },
-  line: { display:"inline-block", width:40, height:1, background:"#7a5a8a" },
-  eyebrowTxt: { fontFamily:"'Jost',sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#7a5a8a" },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:600, color:"#2d1f3d" },
+  line: { display:"inline-block", width:40, height:1, background:"#662369" },
+  eyebrowTxt: { fontFamily:"'Jost',sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#662369" },
+  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:600, color:"#1a0a2e" },
   formSection: { maxWidth:780, margin:"0 auto", padding:"64px 24px 96px", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s both" },
   tabsRow: { display:"flex", justifyContent:"center", gap:12, marginBottom:36, flexWrap:"wrap" as const },
-  tabBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #d4bcd0", background:"transparent", color:"#8a6a8a", cursor:"pointer", transition:"all 0.25s ease" },
-  tabActive: { color:"#fff", border:"1.5px solid transparent", boxShadow:"0 4px 20px rgba(180,100,160,0.28)", transform:"translateY(-1px)" },
-  card: { background:"#fff", borderRadius:20, padding:"48px 52px 52px", boxShadow:"0 8px 60px rgba(100,60,120,0.10),0 2px 16px rgba(100,60,120,0.06)" },
+  tabBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#662369", cursor:"pointer", transition:"all 0.25s ease" },
+  tabActive: { color:"#fff", border:"1.5px solid transparent", boxShadow:"0 4px 20px rgba(102,35,105,0.28)", transform:"translateY(-1px)" },
+  card: { background:"#fff", borderRadius:20, padding:"48px 52px 52px", boxShadow:"0 8px 60px rgba(102,35,105,0.10),0 2px 16px rgba(102,35,105,0.06)" },
   formHeader: { textAlign:"center", marginBottom:40 },
-  formTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, color:"#2d1f3d", marginBottom:8 },
-  formSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", color:"#9a8aaa", fontWeight:300, marginBottom:8 },
+  formTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
+  formSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", color:"#8a5a97", fontWeight:300, marginBottom:8 },
   tagline: { fontFamily:"'Jost',sans-serif", fontSize:"0.82rem", fontWeight:500, letterSpacing:"0.05em", marginTop:6 },
   row: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 },
   fieldWrap: { display:"flex", flexDirection:"column", marginBottom:16 },
-  input: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:400, padding:"13px 16px", borderRadius:10, border:"1.5px solid #e8d8e8", background:"#fdf8fc", color:"#2d1f3d", transition:"border-color 0.2s,box-shadow 0.2s", width:"100%" },
-  inputErr: { borderColor:"#e06090", background:"#fff8f9" },
-  select: { appearance:"none", WebkitAppearance:"none", cursor:"pointer", backgroundImage:"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239a7ab0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")", backgroundRepeat:"no-repeat", backgroundPosition:"right 16px center", paddingRight:40 },
+  input: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:400, padding:"13px 16px", borderRadius:10, border:"1.5px solid #ede7f5", background:"#fdf9fc", color:"#1a0a2e", transition:"border-color 0.2s,box-shadow 0.2s", width:"100%" },
+  inputErr: { borderColor:"#e0609a", background:"#fff8f9" },
+  select: { appearance:"none", WebkitAppearance:"none", cursor:"pointer", backgroundImage:"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23662369' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")", backgroundRepeat:"no-repeat", backgroundPosition:"right 16px center", paddingRight:40 },
   textarea: { resize:"vertical", minHeight:110, lineHeight:1.6 },
-  errMsg: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", color:"#d0507a", marginTop:5, paddingLeft:4 },
+  errMsg: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", color:"#d1108e", marginTop:5, paddingLeft:4 },
   agreeRow: { marginBottom:28, marginTop:4 },
   agreeLabel: { display:"flex", alignItems:"flex-start", gap:10, cursor:"pointer" },
-  checkbox: { marginTop:3, accentColor:"#c07090", width:15, height:15, flexShrink:0 },
-  agreeText: { fontFamily:"'Jost',sans-serif", fontSize:"0.83rem", color:"#7a6a8a", lineHeight:1.5 },
+  checkbox: { marginTop:3, accentColor:"#d11a8e", width:15, height:15, flexShrink:0 },
+  agreeText: { fontFamily:"'Jost',sans-serif", fontSize:"0.83rem", color:"#554866", lineHeight:1.5 },
   agreeLink: { textDecoration:"underline", textUnderlineOffset:"2px" },
-  submitBtn: { width:"100%", fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(180,100,150,0.30)" },
+  submitBtn: { width:"100%", fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(102,35,105,0.30)" },
   successBox: { textAlign:"center", padding:"40px 24px" },
   successIcon: { fontSize:"2.5rem", marginBottom:16, display:"block" },
   successTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
-  successText: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", color:"#7a6a8a", lineHeight:1.7, marginBottom:32 },
+  successText: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
 };
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
@@ -658,34 +658,34 @@ export default function EllevationPage() {
   };
 
   return (
-    <div className="ms-ellevation-root" style={{ fontFamily:"'Jost',sans-serif", background:"#fdf6f9", minHeight:"100vh", color:"#2d1f3d" }}>
+    <div className="ms-ellevation-root" style={{ fontFamily:"'Jost',sans-serif", background:"#fdf9fc", minHeight:"100vh", color:"#1a0a2e" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500;600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;}
-        input::placeholder,textarea::placeholder{color:#b89fae;}
-        select option{color:#2d1f3d;}
-        input:focus,textarea:focus,select:focus{outline:none;border-color:#d4a0c0!important;box-shadow:0 0 0 3px rgba(212,160,192,0.15);}
+        input::placeholder,textarea::placeholder{color:#b09fc0;}
+        select option{color:#1a0a2e;}
+        input:focus,textarea:focus,select:focus{outline:none;border-color:#662369!important;box-shadow:0 0 0 3px rgba(209,26,142,0.12);}
         @keyframes fadeSlideUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
         @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,10px) scale(0.97);}}
         button:hover{opacity:0.88;}
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .ms-ellevation-root {
-          background: #0f0a1a !important;
-          color: #f3ebff !important;
+          background: #0d0614 !important;
+          color: #e8e0f8 !important;
         }
         [data-theme="dark"] .ms-nav {
-          background: rgba(24, 20, 31, 0.9) !important;
+          background: transparent !important;
         }
         [data-theme="dark"] .ns-inner {
-          background: rgba(30, 20, 45, 0.88) !important;
-          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.3) !important;
+          background: rgba(22, 13, 34, 0.92) !important;
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
         }
         [data-theme="dark"] .ns-link {
-          color: #ffdee5 !important;
+          color: #d9a8cd !important;
         }
         [data-theme="dark"] .hp-bg-grad {
-          background: linear-gradient(rgba(15, 10, 26, 0.85), rgba(15, 10, 26, 0.85)), url(${banner4}) !important;
+          background: linear-gradient(rgba(13, 6, 20, 0.75), rgba(13, 6, 20, 0.75)), url(${banner4}) !important;
           background-size: cover !important;
         }
         [data-theme="dark"] .hp-headline,
@@ -695,7 +695,7 @@ export default function EllevationPage() {
         [data-theme="dark"] .ev-title,
         [data-theme="dark"] .st-banner-title,
         [data-theme="dark"] .jp-banner-title {
-          color: #f3ebff !important;
+          color: #e8e0f8 !important;
         }
         [data-theme="dark"] .hp-sub,
         [data-theme="dark"] .ab-banner-sub,
@@ -703,7 +703,7 @@ export default function EllevationPage() {
         [data-theme="dark"] .pr-sub,
         [data-theme="dark"] .ev-sub,
         [data-theme="dark"] .st-banner-sub {
-          color: #b8a8c8 !important;
+          color: #d9a8cd !important;
         }
         [data-theme="dark"] .hp-card,
         [data-theme="dark"] .ab-feat-card,
@@ -712,9 +712,9 @@ export default function EllevationPage() {
         [data-theme="dark"] .ev-card,
         [data-theme="dark"] .st-card,
         [data-theme="dark"] .jp-card {
-          background: #1a1226 !important;
-          border-color: rgba(155, 109, 190, 0.2) !important;
-          box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4) !important;
+          background: #1f1330 !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+          box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5) !important;
         }
         [data-theme="dark"] .hp-feat,
         [data-theme="dark"] .ab-feat-desc,
@@ -724,7 +724,7 @@ export default function EllevationPage() {
         [data-theme="dark"] .st-quote,
         [data-theme="dark"] .jp-form-sub,
         [data-theme="dark"] .jp-agree-text {
-          color: #b8a8c8 !important;
+          color: #d9a8cd !important;
         }
         [data-theme="dark"] .hp-card-desc,
         [data-theme="dark"] .ab-feat-title,
@@ -735,7 +735,7 @@ export default function EllevationPage() {
         [data-theme="dark"] .ev-card-title,
         [data-theme="dark"] .st-name,
         [data-theme="dark"] .jp-form-title {
-          color: #f3ebff !important;
+          color: #e8e0f8 !important;
         }
         [data-theme="dark"] .ab-stories-teaser-bg,
         [data-theme="dark"] .pr-section,
@@ -743,40 +743,40 @@ export default function EllevationPage() {
         [data-theme="dark"] .st-section,
         [data-theme="dark"] .jn-stages,
         [data-theme="dark"] .jp-form-section {
-          background: #140a1a !important;
+          background: #160d22 !important;
         }
         [data-theme="dark"] .ab-t-sub {
-          color: #b8a8c8 !important;
+          color: #d9a8cd !important;
         }
         [data-theme="dark"] .jn-banner-bg {
-          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 50%, #0f0a1a 100%) !important;
+          background: linear-gradient(150deg, #160d22 0%, #1a0a2e 50%, #0d0614 100%) !important;
         }
         [data-theme="dark"] .pr-banner-bg {
-          background: linear-gradient(135deg, #1a0f1f 0%, #0f0a1a 100%) !important;
+          background: linear-gradient(135deg, #160d22 0%, #0d0614 100%) !important;
         }
         [data-theme="dark"] .ev-banner-bg {
-          background: linear-gradient(135deg, #1a0f1f 0%, #180f1a 100%) !important;
+          background: linear-gradient(135deg, #160d22 0%, #140a1c 100%) !important;
         }
         [data-theme="dark"] .st-banner-bg {
-          background: linear-gradient(160deg, #1a0a2e 0%, #140a1a 100%) !important;
+          background: linear-gradient(160deg, #1a0a2e 0%, #662369 50%, #0d0614 100%) !important;
         }
         [data-theme="dark"] .jp-banner-bg {
-          background: radial-gradient(ellipse 80% 80% at 50% 50%, #2d1a4e 0%, #1a0a2e 100%) !important;
+          background: radial-gradient(ellipse 80% 80% at 50% 50%, #2d1740 0%, #1a0a2e 100%) !important;
         }
         [data-theme="dark"] .jp-input,
         [data-theme="dark"] .jp-select,
         [data-theme="dark"] .jp-textarea {
-          background: #0f0a1a !important;
+          background: #0d0614 !important;
           border-color: rgba(155, 109, 190, 0.3) !important;
-          color: #f3ebff !important;
+          color: #e8e0f8 !important;
         }
         [data-theme="dark"] .jp-input::placeholder,
         [data-theme="dark"] .jp-textarea::placeholder {
-          color: rgba(243, 235, 255, 0.4) !important;
+          color: rgba(232, 224, 248, 0.35) !important;
         }
         [data-theme="dark"] .jp-tabBtn {
           border-color: rgba(155, 109, 190, 0.3) !important;
-          color: #b8a8c8 !important;
+          color: #d9a8cd !important;
         }
         [data-theme="dark"] .ab-banner-bg {
           background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${banner5}) !important;

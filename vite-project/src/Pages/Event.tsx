@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 
@@ -192,12 +192,12 @@ const EVENT_INFO = [
 function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegister: (e: EventItem) => void }) {
   return (
     <div className="hub-events-card" style={evs.card}>
-      <span style={evs.dateBadge}>{e.day} {e.month}</span>
-      <span style={evs.categoryPill}>{e.category}</span>
-      <span style={evs.category}>{e.tag} · {e.location} · {e.price}</span>
+      <span className="hub-events-date-badge" style={evs.dateBadge}>{e.day} {e.month}</span>
+      <span className="hub-events-category-pill" style={evs.categoryPill}>{e.category}</span>
+      <span className="hub-events-category" style={evs.category}>{e.tag} · {e.location} · {e.price}</span>
       <h3 className="hub-events-card-title" style={evs.cardTitle}>{e.title}</h3>
       <p className="hub-events-card-text" style={evs.cardText}>{e.desc}</p>
-      <button style={evs.rsvpBtn} onClick={() => onRegister(e)}>REGISTER NOW</button>
+      <button className="hub-events-rsvp-btn" style={evs.rsvpBtn} onClick={() => onRegister(e)}>REGISTER NOW</button>
     </div>
   );
 }
@@ -218,13 +218,13 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
       onClick={(ev) => { if (ev.target === ev.currentTarget) onClose(); }}
     >
       <div className="hub-events-modal" style={evs.modalCard}>
-        <button aria-label="Close" onClick={onClose} style={evs.modalClose}>✕</button>
+        <button aria-label="Close" className="hub-events-modal-close" onClick={onClose} style={evs.modalClose}>✕</button>
 
         {submitted ? (
           <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
-            <h3 style={evs.modalTitle}>You're on the list</h3>
-            <p style={evs.modalSub}>
+            <h3 className="hub-events-modal-title" style={evs.modalTitle}>You're on the list</h3>
+            <p className="hub-events-modal-sub" style={evs.modalSub}>
               Your quick registration for <strong>{event.title}</strong> has been received. Continue below to complete your official spot on the event's registration page.
             </p>
             <a
@@ -238,9 +238,9 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
           </div>
         ) : (
           <>
-            <span style={evs.modalDateBadge}>{event.day} {event.month} · {event.location}</span>
-            <h3 className="hub-events-card-title" style={evs.modalTitle}>{event.title}</h3>
-            <p style={evs.modalSub}>Quick registration — we'll confirm your spot and send you the full event details.</p>
+            <span className="hub-events-modal-date-badge" style={evs.modalDateBadge}>{event.day} {event.month} · {event.location}</span>
+            <h3 className="hub-events-card-title hub-events-modal-title" style={evs.modalTitle}>{event.title}</h3>
+            <p className="hub-events-modal-sub" style={evs.modalSub}>Quick registration — we'll confirm your spot and send you the full event details.</p>
 
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
               <input className="form-input" required placeholder="Full Name" />
@@ -273,11 +273,11 @@ function EventsSection({ events = [] }: { events?: EventItem[] }) {
   return (
     <section className="hub-events-section" style={{ ...evs.section, position: "relative", overflow: "hidden" }}>
       {/* Decorative ambient blurs */}
-      <div style={{ position: "absolute", top: "-10%", left: "-5%", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(212,168,212,0.15) 0%, transparent 70%)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: "-10%", right: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(155,125,184,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div className="hub-events-blob-1" style={{ position: "absolute", top: "-10%", left: "-5%", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(212,168,212,0.15) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div className="hub-events-blob-2" style={{ position: "absolute", bottom: "-10%", right: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(155,125,184,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
 
       <div style={{ ...evs.container, position: "relative", zIndex: 1 }}>
-        <p style={evs.eye}>UPCOMING EVENTS · PERTH</p>
+        <p className="hub-events-eye" style={evs.eye}>UPCOMING EVENTS · PERTH</p>
         <h2 className="hub-events-title" style={evs.title}>Gather Across the Ecosystem</h2>
         <p className="hub-events-sub" style={evs.sub}>
           Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one calendar. Listings below are demo events pending final confirmation.
@@ -297,7 +297,7 @@ function EventsSection({ events = [] }: { events?: EventItem[] }) {
         </div>
 
         {filteredEvents.length === 0 ? (
-          <p style={{ fontFamily: "'DM Sans',sans-serif", color: "#5a4070", padding: "24px 0" }}>
+          <p className="hub-events-empty" style={{ fontFamily: "'DM Sans',sans-serif", color: "#5a4070", padding: "24px 0" }}>
             No events in this category yet — check back soon.
           </p>
         ) : (
@@ -363,7 +363,7 @@ function EventDetailAndRSVP() {
       </section>
 
       {/* ── EVENT INFO STRIP ── */}
-      <section style={ev.infoSection}>
+      <section className="hub-event-info-section" style={ev.infoSection}>
         <div className="hub-event-info-grid" style={ev.infoGrid}>
           {EVENT_INFO.map((item) => (
             <div key={item.label} className="hub-event-info-strip" style={ev.infoCard}>
@@ -375,7 +375,7 @@ function EventDetailAndRSVP() {
       </section>
 
       {/* ── HIGHLIGHTS ── */}
-      <section style={ev.section}>
+      <section className="hub-event-highlights-section" style={ev.section}>
         <p className="hub-event-section-eye" style={ev.eyebrowLabel}>WHAT TO EXPECT</p>
         <h2 className="hub-event-section-title" style={ev.sectionTitle}>
           A Night Built With Intention
@@ -393,7 +393,7 @@ function EventDetailAndRSVP() {
       </section>
 
       {/* ── SCHEDULE ── */}
-      <section style={{ ...ev.section, background: "#f8f6fc" }}>
+      <section className="hub-event-schedule-section" style={{ ...ev.section, background: "#f8f6fc" }}>
         <p className="hub-event-section-eye" style={ev.eyebrowLabel}>RUN OF SHOW</p>
         <h2 className="hub-event-section-title" style={ev.sectionTitle}>
           The Evening, Hour by Hour
@@ -406,7 +406,7 @@ function EventDetailAndRSVP() {
                 <span className="hub-event-timeline-time" style={ev.timelineTime}>{item.time}</span>
               </div>
               <div style={ev.timelineMarkerCol}>
-                <span style={ev.timelineDot} />
+                <span className="hub-event-timeline-dot" style={ev.timelineDot} />
                 {i !== SCHEDULE.length - 1 && (
                   <span className="hub-event-timeline-line" style={ev.timelineLine} />
                 )}
@@ -421,7 +421,7 @@ function EventDetailAndRSVP() {
       </section>
 
       {/* ── RSVP FORM ── */}
-      <section id="rsvp" style={ev.formSection}>
+      <section id="rsvp" className="hub-event-form-section" style={ev.formSection}>
         <div style={{ maxWidth: 640, margin: "0 auto", width: "100%" }}>
           <p className="hub-event-section-eye" style={ev.eyebrowLabel}>RSVP</p>
           <h2 className="hub-event-section-title" style={{ ...ev.sectionTitle, marginBottom: 12 }}>
@@ -436,8 +436,8 @@ function EventDetailAndRSVP() {
             {submitted ? (
               <div style={{ textAlign: "center", padding: "24px 8px" }}>
                 <div style={ev.successIcon}>✦</div>
-                <h3 style={ev.successTitle}>You're On The List</h3>
-                <p style={ev.successText}>
+                <h3 className="hub-event-success-title" style={ev.successTitle}>You're On The List</h3>
+                <p className="hub-event-success-text" style={ev.successText}>
                   Thank you, <strong>{form.firstName}</strong>. A confirmation
                   is on its way to <strong>{form.email}</strong>. We can't
                   wait to see you at The Rise Summit.
@@ -558,15 +558,21 @@ function EventDetailAndRSVP() {
 
 /* ─── Root page: Hub-style Events listing + full detail/RSVP for the featured event ── */
 export default function EllevationEventsPage() {
+  // ✅ Sync with the theme saved by EllevationNavbar on mount (same pattern as About page)
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    document.documentElement.setAttribute("data-theme", saved ?? "light");
+  }, []);
+
   return (
-    <div style={{ fontFamily: "'DM Sans',sans-serif", background: "#fdfaff", minHeight: "100vh", color: "#1a0a2e" }}>
+    <div className="hub-events-root" style={{ fontFamily: "'DM Sans',sans-serif", background: "#fdfaff", minHeight: "100vh", color: "#1a0a2e" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;}
-        input:focus, select:focus, textarea:focus { border-color: #5a4070!important; box-shadow: 0 0 0 3px rgba(90,64,112,0.1); outline:none; }
+        input:focus, select:focus, textarea:focus { border-color: #d11a8e!important; box-shadow: 0 0 0 3px rgba(209,26,142,0.1); outline:none; }
         button:hover { opacity: 0.92; }
         .hub-event-highlight-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-        .hub-event-highlight-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,10,46,0.10); }
+        .hub-event-highlight-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(124,92,191,0.12); }
 
         @keyframes floatBlob { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(20px,-15px) scale(1.04); } 66% { transform: translate(-10px,10px) scale(0.97); } }
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
@@ -576,7 +582,7 @@ export default function EllevationEventsPage() {
           width: 100%;
           padding: 13px 16px;
           border-radius: 12px;
-          border: 1.5px solid rgba(180,160,210,0.25);
+          border: 1.5px solid rgba(124,92,191,0.15);
           background: #fdfbfe;
           font-family: 'DM Sans', sans-serif;
           font-size: 14px;
@@ -584,13 +590,192 @@ export default function EllevationEventsPage() {
           outline: none;
           transition: all 0.2s ease;
         }
-        .form-input:focus { border-color: #9b7db8; background: #fff; box-shadow: 0 4px 12px rgba(155,125,184,0.06); }
+        .form-input:focus { border-color: #d11a8e; background: #fff; box-shadow: 0 4px 12px rgba(209,26,142,0.08); }
 
         @media (max-width: 720px) {
           .hub-event-info-grid { grid-template-columns: repeat(2, 1fr) !important; }
           .hub-event-highlights-grid { grid-template-columns: 1fr !important; }
           .hub-event-row { grid-template-columns: 1fr !important; }
           .hub-events-section .hub-events-title ~ div[style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .hub-events-root {
+          background: #0d0614 !important;
+          color: #e8e0f8 !important;
+        }
+
+        /* Events listing section */
+        [data-theme="dark"] .hub-events-section {
+          background: #0d0614 !important;
+        }
+        [data-theme="dark"] .hub-events-blob-1,
+        [data-theme="dark"] .hub-events-blob-2 {
+          opacity: 0.6;
+        }
+        [data-theme="dark"] .hub-events-eye {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-events-title {
+          color: #e028a0 !important;
+        }
+        [data-theme="dark"] .hub-events-sub {
+          color: #b8a8c8 !important;
+        }
+        [data-theme="dark"] .hub-events-empty {
+          color: #d9a8cd !important;
+        }
+
+        /* Filter buttons */
+        [data-theme="dark"] .hub-events-filter {
+          background: #1f1330 !important;
+          border-color: rgba(155, 109, 190, 0.3) !important;
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-events-filter.active {
+          background: linear-gradient(135deg, #e028a0 0%, #d11a8e 100%) !important;
+          border-color: #d11a8e !important;
+          color: #fff !important;
+        }
+
+        /* Event cards */
+        [data-theme="dark"] .hub-events-card {
+          background: rgba(31, 19, 48, 0.85) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important;
+        }
+        [data-theme="dark"] .hub-events-date-badge {
+          background: #e028a0 !important;
+        }
+        [data-theme="dark"] .hub-events-category-pill {
+          color: #f3c6e6 !important;
+          background: rgba(209,26,142,0.18) !important;
+          border-color: rgba(209,26,142,0.35) !important;
+        }
+        [data-theme="dark"] .hub-events-category {
+          color: #c9a3d8 !important;
+        }
+        [data-theme="dark"] .hub-events-card-title {
+          color: #f3c6e6 !important;
+        }
+        [data-theme="dark"] .hub-events-card-text {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-events-rsvp-btn {
+          border-color: #e028a0 !important;
+          color: #e028a0 !important;
+        }
+        [data-theme="dark"] .hub-events-rsvp-btn:hover {
+          background: rgba(224,40,160,0.12) !important;
+        }
+
+        /* Quick registration modal */
+        [data-theme="dark"] .hub-events-modal {
+          background: #1f1330 !important;
+          box-shadow: 0 24px 64px rgba(0,0,0,0.55) !important;
+        }
+        [data-theme="dark"] .hub-events-modal-close {
+          background: #2a1c3d !important;
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-events-modal-date-badge {
+          color: #c9a3d8 !important;
+        }
+        [data-theme="dark"] .hub-events-modal-title {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-events-modal-sub {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .form-input {
+          background: #140c1f !important;
+          border-color: rgba(155, 109, 190, 0.25) !important;
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .form-input::placeholder {
+          color: rgba(232, 224, 248, 0.35) !important;
+        }
+        [data-theme="dark"] .form-input:focus {
+          background: #1a1129 !important;
+        }
+
+        /* ── Full event detail + RSVP page (currently unmounted, styled for future use) ── */
+        [data-theme="dark"] .hub-event-info-section,
+        [data-theme="dark"] .hub-event-highlights-section {
+          background: #0d0614 !important;
+        }
+        [data-theme="dark"] .hub-event-schedule-section {
+          background: #160d22 !important;
+        }
+        [data-theme="dark"] .hub-event-form-section {
+          background: #0d0614 !important;
+        }
+        [data-theme="dark"] .hub-event-section-eye {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-event-section-title {
+          color: #e028a0 !important;
+        }
+        [data-theme="dark"] .hub-event-info-strip {
+          background: rgba(31, 19, 48, 0.85) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+        }
+        [data-theme="dark"] .hub-event-info-label {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-event-info-value {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-event-highlight-card {
+          background: rgba(31, 19, 48, 0.85) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        [data-theme="dark"] .hub-event-highlight-title {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-event-highlight-text {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-event-timeline-time {
+          color: #e028a0 !important;
+        }
+        [data-theme="dark"] .hub-event-timeline-dot {
+          background: #e028a0 !important;
+        }
+        [data-theme="dark"] .hub-event-timeline-line {
+          background: rgba(155, 109, 190, 0.25) !important;
+        }
+        [data-theme="dark"] .hub-event-timeline-title {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-event-timeline-detail {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-event-form-intro {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-event-form-card {
+          background: rgba(31, 19, 48, 0.9) !important;
+          border-color: rgba(155, 109, 190, 0.2) !important;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+        }
+        [data-theme="dark"] .hub-event-input {
+          background: #140c1f !important;
+          border-color: rgba(155, 109, 190, 0.25) !important;
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-event-input::placeholder {
+          color: rgba(232, 224, 248, 0.35) !important;
+        }
+        [data-theme="dark"] .hub-event-agree-text {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-event-success-title {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-event-success-text {
+          color: #d9a8cd !important;
         }
       `}</style>
 
@@ -600,103 +785,104 @@ export default function EllevationEventsPage() {
   );
 }
 
-// ─── STYLES: evs = Hub's Events section tokens (copied 1:1) ────────────────
+// ─── STYLES: evs = Hub's Events section tokens (retoned to match the Conversations page palette) ────────────────
 const evs: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "#fff" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
-  eye: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#b4a0d0", letterSpacing: "0.2em", marginBottom: 16 },
-  title: { fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#1a0a2e", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'DM Sans',sans-serif", fontSize: "1rem", color: "#5a4070", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
+  eye: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" },
+  title: { fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#d11a8e", marginBottom: 16, lineHeight: 1.1 },
+  sub: { fontFamily: "'DM Sans',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
   grid: { display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 24, textAlign: "left" },
-  card: { padding: "28px 26px", background: "#f8f6fc", borderRadius: 18, border: "1px solid #ede8f5", display: "flex", flexDirection: "column", gap: 0 },
+  card: { padding: "28px 26px", background: "rgba(255,255,255,0.75)", borderRadius: 24, border: "1px solid rgba(124, 92, 191, 0.15)", display: "flex", flexDirection: "column", gap: 0, boxShadow: "0 10px 30px rgba(124, 92, 191, 0.02)" },
   dateBadge: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", color: "#fff", background: "#1a0a2e", padding: "5px 12px", borderRadius: 100, marginBottom: 12, width: "fit-content" },
-  categoryPill: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#5a4070", background: "rgba(90,64,112,0.08)", border: "1px solid rgba(90,64,112,0.18)", padding: "4px 11px", borderRadius: 100, marginBottom: 10, width: "fit-content" },
-  category: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#b4a0d0", marginBottom: 8 },
-  cardTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
-  cardText: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.88rem", color: "#5a4070", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
-  rsvpBtn: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #1a0a2e", background: "transparent", color: "#1a0a2e", cursor: "pointer", marginTop: "auto" },
+  categoryPill: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#662369", background: "rgba(209,26,142,0.08)", border: "1px solid rgba(209,26,142,0.18)", padding: "4px 11px", borderRadius: 100, marginBottom: 10, width: "fit-content" },
+  category: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#9b7db8", marginBottom: 8 },
+  cardTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.25rem", color: "#d11a8e", marginBottom: 8 },
+  cardText: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
+  rsvpBtn: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #d11a8e", background: "transparent", color: "#d11a8e", cursor: "pointer", marginTop: "auto", transition: "all 0.2s ease" },
   filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
-  filterBtn: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#5a4070", cursor: "pointer", transition: "all 0.2s ease" },
-  filterBtnActive: { background: "#1a0a2e", borderColor: "#1a0a2e", color: "#fff", boxShadow: "0 4px 16px rgba(26,10,46,0.25)" },
+  filterBtn: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid rgba(124, 92, 191, 0.2)", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
+  filterBtnActive: { background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", borderColor: "#d11a8e", color: "#fff", boxShadow: "0 4px 16px rgba(209,26,142,0.3)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(20,10,34,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
-  modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(26,10,46,0.35)" },
-  modalClose: { position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "none", background: "#f8f6fc", color: "#5a4070", fontSize: "0.85rem", cursor: "pointer" },
-  modalDateBadge: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#b4a0d0", marginBottom: 10 },
+  modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(124,92,191,0.18)" },
+  modalClose: { position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "none", background: "#f6f3fa", color: "#662369", fontSize: "0.85rem", cursor: "pointer" },
+  modalDateBadge: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#9b7db8", marginBottom: 10 },
   modalTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
-  modalSub: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.85rem", color: "#5a4070", lineHeight: 1.6, textAlign: "left" },
-  modalSubmitBtn: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#1a0a2e", color: "#fff", cursor: "pointer", marginTop: 4 },
-  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#1a0a2e", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
+  modalSub: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, textAlign: "left" },
+  modalSubmitBtn: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", color: "#fff", cursor: "pointer", marginTop: 4, boxShadow: "0 4px 14px rgba(209, 26, 142, 0.25)" },
+  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
 };
 
-// ─── STYLES: ev = full event detail / RSVP page tokens (matched 1:1 to evs) ─
+// ─── STYLES: ev = full event detail / RSVP page tokens (retoned to match the Conversations page palette) ─
 const NAVY = "#1a0a2e";
+const PINK = "#d11a8e";
 
 const ev: Record<string, React.CSSProperties> = {
-  root: { fontFamily: "'DM Sans', sans-serif", background: "#fdfaff", color: NAVY, overflowX: "hidden" },
+  root: { fontFamily: "'DM Sans', sans-serif", background: "#fdf9fc", color: NAVY, overflowX: "hidden" },
 
   hero: {
     position: "relative", overflow: "hidden", padding: "140px 24px 90px", textAlign: "center",
     display: "flex", alignItems: "center", justifyContent: "center", background: NAVY,
   },
-  heroOverlay: { position: "absolute", inset: 0, background: "linear-gradient(160deg, #1a0a2e 0%, #26123f 55%, #1a0a2e 100%)", zIndex: 0 },
-  heroBlobTL: { position: "absolute", top: -100, left: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(155,125,184,0.25) 0%, transparent 70%)", animation: "floatBlob 10s ease-in-out infinite", zIndex: 1 },
-  heroBlobBR: { position: "absolute", bottom: -100, right: -70, width: 380, height: 380, borderRadius: "50%", background: "radial-gradient(circle, rgba(90,64,112,0.3) 0%, transparent 70%)", animation: "floatBlob 13s ease-in-out infinite reverse", zIndex: 1 },
+  heroOverlay: { position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(22,10,34,0.85) 0%, rgba(38,18,63,0.55) 100%)", zIndex: 0 },
+  heroBlobTL: { position: "absolute", top: -100, left: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(209,26,142,0.22) 0%, transparent 70%)", animation: "floatBlob 10s ease-in-out infinite", zIndex: 1 },
+  heroBlobBR: { position: "absolute", bottom: -100, right: -70, width: 380, height: 380, borderRadius: "50%", background: "radial-gradient(circle, rgba(124,92,191,0.28) 0%, transparent 70%)", animation: "floatBlob 13s ease-in-out infinite reverse", zIndex: 1 },
   heroContent: { position: "relative", zIndex: 2, maxWidth: 720 },
 
   badgeRow: { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: 22, flexWrap: "wrap" as const },
   dateBadge: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", color: "#fff", background: NAVY, padding: "5px 12px", borderRadius: 100, border: "1px solid rgba(255,255,255,0.25)" },
-  categoryPill: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#e8def2", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.22)", padding: "4px 11px", borderRadius: 100 },
+  categoryPill: { display: "inline-block", fontFamily: "'DM Sans',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#fbe4f3", background: "rgba(209,26,142,0.18)", border: "1px solid rgba(209,26,142,0.35)", padding: "4px 11px", borderRadius: 100 },
 
-  eyebrowText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.2em", color: "#b4a0d0", marginBottom: 16, textTransform: "uppercase" as const },
+  eyebrowText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.2em", color: "#e8b8dc", marginBottom: 16, textTransform: "uppercase" as const },
   heroTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.8rem, 6vw, 4.6rem)", fontWeight: 500, color: "#fff", lineHeight: 1.08, marginBottom: 18, letterSpacing: "-0.01em" },
   heroSub: { fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", fontWeight: 400, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, maxWidth: 520, margin: "0 auto" },
 
   infoSection: { maxWidth: 1000, margin: "0 auto", padding: "0 24px", transform: "translateY(-40px)" },
   infoGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 },
-  infoCard: { display: "flex", flexDirection: "column", gap: 6, background: "#f8f6fc", border: "1px solid #ede8f5", borderRadius: 18, padding: "20px 22px", boxShadow: "0 8px 32px rgba(26,10,46,0.08)" },
-  infoLabel: { fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", color: "#b4a0d0" },
+  infoCard: { display: "flex", flexDirection: "column", gap: 6, background: "rgba(255,255,255,0.9)", border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 18, padding: "20px 22px", boxShadow: "0 8px 32px rgba(124,92,191,0.1)" },
+  infoLabel: { fontFamily: "'DM Sans', sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: "0.16em", color: "#662369" },
   infoValue: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem", fontWeight: 600, color: NAVY },
 
   section: { padding: "100px 48px", background: "#fff", textAlign: "center" },
-  eyebrowLabel: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#b4a0d0", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" as const },
-  sectionTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 3.2rem)", fontWeight: 500, color: NAVY, marginBottom: 48, lineHeight: 1.1 },
+  eyebrowLabel: { fontFamily: "'DM Sans',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" as const },
+  sectionTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2.2rem, 5vw, 3.2rem)", fontWeight: 500, color: PINK, marginBottom: 48, lineHeight: 1.1 },
 
   highlightsGrid: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, maxWidth: 1000, margin: "0 auto" },
-  highlightCard: { background: "#f8f6fc", border: "1px solid #ede8f5", borderRadius: 18, padding: "28px 26px", textAlign: "left" },
-  highlightIcon: { fontSize: "1.5rem", color: NAVY, marginBottom: 14 },
+  highlightCard: { background: "rgba(255,255,255,0.75)", border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 24, padding: "28px 26px", textAlign: "left" },
+  highlightIcon: { fontSize: "1.5rem", color: PINK, marginBottom: 14 },
   highlightTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", fontWeight: 600, color: NAVY, marginBottom: 8 },
-  highlightText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem", fontWeight: 400, color: "#5a4070", lineHeight: 1.6 },
+  highlightText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem", fontWeight: 400, color: "#554866", lineHeight: 1.6 },
 
   timeline: { display: "flex", flexDirection: "column", maxWidth: 680, margin: "0 auto" },
   timelineRow: { display: "grid", gridTemplateColumns: "84px 22px 1fr", textAlign: "left" },
   timelineTimeCol: { display: "flex", justifyContent: "flex-end", paddingRight: 16, paddingTop: 2 },
-  timelineTime: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.76rem", fontWeight: 700, letterSpacing: "0.04em", color: "#9b7db8", whiteSpace: "nowrap" },
+  timelineTime: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.76rem", fontWeight: 700, letterSpacing: "0.04em", color: PINK, whiteSpace: "nowrap" },
   timelineMarkerCol: { display: "flex", flexDirection: "column", alignItems: "center" },
-  timelineDot: { width: 9, height: 9, borderRadius: "50%", background: NAVY, marginTop: 5, flexShrink: 0 },
-  timelineLine: { width: 1.5, flex: 1, background: "#ede8f5", marginTop: 4, marginBottom: 4 },
+  timelineDot: { width: 9, height: 9, borderRadius: "50%", background: PINK, marginTop: 5, flexShrink: 0 },
+  timelineLine: { width: 1.5, flex: 1, background: "rgba(124, 92, 191, 0.2)", marginTop: 4, marginBottom: 4 },
   timelineContentCol: { paddingBottom: 30, paddingLeft: 4 },
   timelineTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem", fontWeight: 600, color: NAVY, marginBottom: 4 },
-  timelineDetail: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.86rem", fontWeight: 400, color: "#5a4070", lineHeight: 1.6 },
+  timelineDetail: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.86rem", fontWeight: 400, color: "#554866", lineHeight: 1.6 },
 
   formSection: { padding: "100px 24px 120px", background: "#fff", display: "flex", justifyContent: "center", textAlign: "center" },
-  formIntro: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.92rem", fontWeight: 400, color: "#5a4070", maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.8 },
-  formCard: { background: "#f8f6fc", borderRadius: 18, padding: "44px 40px", boxShadow: "0 10px 40px rgba(26,10,46,0.08)", border: "1px solid #ede8f5", textAlign: "left" },
+  formIntro: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.92rem", fontWeight: 400, color: "#554866", maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.8 },
+  formCard: { background: "rgba(255,255,255,0.9)", borderRadius: 24, padding: "44px 40px", boxShadow: "0 10px 30px rgba(124, 92, 191, 0.08)", border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left" },
   row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
   fieldWrap: { display: "flex", flexDirection: "column", marginBottom: 16 },
-  input: { width: "100%", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", padding: "13px 16px", borderRadius: 12, border: "1px solid #ede8f5", background: "#fcfaff", color: NAVY, transition: "all 0.2s ease" },
+  input: { width: "100%", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", padding: "13px 16px", borderRadius: 14, border: "1.5px solid rgba(124, 92, 191, 0.15)", background: "#fdfbfe", color: NAVY, transition: "all 0.2s ease" },
   inputError: { borderColor: "#c0705a !important" as any, background: "#fff8f6" },
   select: { appearance: "none" as const, cursor: "pointer" },
   errorMsg: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", color: "#c0705a", marginTop: 5, paddingLeft: 4 },
 
   agreeRow: { marginBottom: 26, marginTop: 4 },
   agreeLabel: { display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" },
-  checkbox: { marginTop: 3, accentColor: "#5a4070", width: 15, height: 15, flexShrink: 0 },
-  agreeText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem", color: "#5a4070", lineHeight: 1.5 },
-  agreeLink: { textDecoration: "underline", textUnderlineOffset: "2px", color: NAVY, fontWeight: 600 },
+  checkbox: { marginTop: 3, accentColor: PINK, width: 15, height: 15, flexShrink: 0 },
+  agreeText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.83rem", color: "#554866", lineHeight: 1.5 },
+  agreeLink: { textDecoration: "underline", textUnderlineOffset: "2px", color: PINK, fontWeight: 600 },
 
-  submitBtn: { width: "100%", fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", color: "#fff", border: "none", borderRadius: 100, padding: "16px 24px", cursor: "pointer", background: NAVY, boxShadow: "0 4px 20px rgba(26,10,46,0.25)", transition: "all 0.2s ease" },
+  submitBtn: { width: "100%", fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", color: "#fff", border: "none", borderRadius: 100, padding: "16px 24px", cursor: "pointer", background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", boxShadow: "0 4px 14px rgba(209, 26, 142, 0.25)", transition: "all 0.2s ease" },
 
-  successIcon: { fontSize: "2.2rem", marginBottom: 14, color: NAVY },
+  successIcon: { fontSize: "2.2rem", marginBottom: 14, color: PINK },
   successTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.8rem", fontWeight: 500, color: NAVY, marginBottom: 12 },
-  successText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.92rem", color: "#5a4070", lineHeight: 1.7, marginBottom: 28 },
+  successText: { fontFamily: "'DM Sans', sans-serif", fontSize: "0.92rem", color: "#554866", lineHeight: 1.7, marginBottom: 28 },
 };

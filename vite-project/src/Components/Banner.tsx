@@ -14,19 +14,39 @@ const slides = [
 
 export default function EllevationHero() {
   const [cur, setCur] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true); // Moved up to fix initialization order
   const timerRef = useRef<number | null>(null);
 
   const goTo = (n: number) => {
     const next = (n + slides.length) % slides.length;
     setCur(next);
-    if (timerRef.current !== null) clearInterval(timerRef.current);
-    timerRef.current = window.setInterval(() => setCur((c) => (c + 1) % slides.length), 3800);
+
+    if (!isPlaying) return;
+
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    timerRef.current = window.setInterval(() => {
+      setCur((c) => (c + 1) % slides.length);
+    }, 3800);
+  };
+
+  const toggleCarousel = () => {
+    setIsPlaying((prev) => !prev);
   };
 
   useEffect(() => {
-    timerRef.current = window.setInterval(() => setCur((c) => (c + 1) % slides.length), 3800);
-    return () => { if (timerRef.current !== null) clearInterval(timerRef.current); };
-  }, []);
+    if (timerRef.current) clearInterval(timerRef.current);
+
+    if (isPlaying) {
+      timerRef.current = window.setInterval(() => {
+        setCur((c) => (c + 1) % slides.length);
+      }, 3800);
+    }
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPlaying]);
 
   return (
     <section style={{
@@ -52,7 +72,10 @@ export default function EllevationHero() {
           }}>
             <img
               src={slide.src}
-              alt=""
+              alt={`Banner ${i + 1}`}
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={i === 0 ? "high" : "auto"}
               style={{
                 width: "100%",
                 height: "100%",
@@ -102,20 +125,56 @@ export default function EllevationHero() {
         onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.72)")}
       >›</button>
 
-      {/* Dot indicators */}
+      {/* Controls Container (Dots + Play/Pause Below) */}
       <div style={{
-        position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
-        display: "flex", gap: 8, zIndex: 10,
+        position: "absolute",
+        bottom: 20,
+        left: "50%",
+        transform: "translateX(-50%)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 12,
+        zIndex: 10,
       }}>
-        {slides.map((_, i) => (
-          <button key={i} onClick={() => goTo(i)} style={{
-            width: i === cur ? 22 : 8,
-            height: 8, borderRadius: 999,
-            border: "none", cursor: "pointer", padding: 0,
-            background: i === cur ? "#fff" : "rgba(255,255,255,0.45)",
-            transition: "width 0.35s cubic-bezier(.45,.05,.35,.95), background 0.3s",
-          }} />
-        ))}
+        {/* Dot indicators row */}
+        <div style={{ display: "flex", gap: 8 }}>
+          {slides.map((_, i) => (
+            <button key={i} onClick={() => goTo(i)} style={{
+              width: i === cur ? 22 : 8,
+              height: 8, borderRadius: 999,
+              border: "none", cursor: "pointer", padding: 0,
+              background: i === cur ? "#fff" : "rgba(255,255,255,0.45)",
+              transition: "width 0.35s cubic-bezier(.45,.05,.35,.95), background 0.3s",
+            }} />
+          ))}
+        </div>
+
+        {/* Play/Pause Button cleanly centered below the dots */}
+        <button
+          onClick={toggleCarousel}
+          aria-label={isPlaying ? "Pause Carousel" : "Play Carousel"}
+          style={{
+            width: 32,
+            height: 32,
+            borderRadius: "50%",
+            border: "none",
+            background: "rgba(255,255,255,0.85)",
+            color: "#1a0a2e",
+            cursor: "pointer",
+            fontSize: "12px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 10px rgba(0,0,0,.15)",
+            backdropFilter: "blur(8px)",
+            transition: "all .2s ease",
+          }}
+          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,1)")}
+          onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.85)")}
+        >
+          {isPlaying ? "❚❚" : "▶"}
+        </button>
       </div>
     </section>
   );

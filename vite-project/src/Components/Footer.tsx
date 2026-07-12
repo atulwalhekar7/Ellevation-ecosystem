@@ -18,21 +18,26 @@ const footerLinks = [
     heading: "Ms. Ellevation",
     links: [
       { label: "Home", href: "/ms-ellevation" },
-      { label: "About", href: "/ms-ellevation#about" },
-      { label: "Services", href: "/ms-ellevation#services" },
-      { label: "Transformational Stories", href: "/ms-ellevation#stories" },
-      { label: "Start Your Journey", href: "/ms-ellevation#join" },
+      { label: "About", href: "/ms-ellevation?page=about" },
+      { label: "Journey", href: "/ms-ellevation?page=journey" },
+      { label: "Programs", href: "/ms-ellevation?page=programs" },
+      { label: "Events", href: "/ms-ellevation?page=events" },
+      { label: "Stories", href: "/ms-ellevation?page=stories" },
+      { label: "Join", href: "/ms-ellevation?page=join" },
     ],
   },
   {
     heading: "Ellevation Hub",
     links: [
       { label: "Home", href: "/hub" },
-      { label: "About", href: "/hub#about" },
-      { label: "Community", href: "/hub#ecosystem" },
-      { label: "Membership", href: "/hub#membership" },
-      { label: "Professional", href: "/hub#impact" },
-      { label: "Connect", href: "/hub#connect" },
+      { label: "About", href: "/hub?page=about" },
+      { label: "Membership", href: "/hub?page=membership" },
+      { label: "Directory", href: "/hub?page=directory" },
+      { label: "Programs", href: "/hub?page=programs" },
+      { label: "Opportunities", href: "/hub?page=opportunities" },
+      { label: "Events", href: "/hub?page=events" },
+      { label: "Impact", href: "/hub?page=impact" },
+      { label: "Connect", href: "/hub?page=connect" },
     ],
   },
 ];
@@ -78,122 +83,224 @@ const socialIcons = [
   { icon: <MailIcon />, label: "Email", href: "/contact" },
 ];
 
-// External policy documents (provided by Hannah)
-const PRIVACY_POLICY_URL = "https://www.womanevolve.com/our-polices";
-const TERMS_CONDITIONS_URL = "https://www.bpw.com.au/index.cfm?module=TERMS_AND_CONDITIONS";
-
 export default function EllevationFooter() {
   return (
     <>
       <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
       />
       <style>{`
         .footer-link {
-          color: rgba(255,255,255,0.65);
+          color: #000;
           font-family: 'DM Sans', sans-serif;
           font-size: 15px;
-          font-weight: 400;
+          font-weight: 500;
           text-decoration: none;
           display: block;
           padding: 6px 0;
-          transition: color 0.18s;
+          transition: color 0.18s, transform 0.18s;
           cursor: pointer;
         }
-        .footer-link:hover { color: #fff; }
+        .footer-link:hover { 
+          color: #d11a8e;
+          transform: translateX(2px);
+        }
         
         .footer-utility-link {
-          color: rgba(255,255,255,0.45);
+          color: #000;
           font-family: 'DM Sans', sans-serif;
           font-size: 13px;
+          font-weight: 500;
           text-decoration: none;
           transition: color 0.18s;
         }
-        .footer-utility-link:hover { color: #fff; }
+        .footer-utility-link:hover { color: #d11a8e; }
 
         .social-btn {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.22);
-          background: rgba(255,255,255,0.07);
+          border: 1px solid rgba(209, 26, 142, 0.25);
+          background: rgba(209, 26, 142, 0.05);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: rgba(255,255,255,0.7);
+          color: #000;
           cursor: pointer;
-          transition: background 0.18s, color 0.18s, border-color 0.18s;
+          transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
         .social-btn:hover {
-          background: rgba(192,132,252,0.2);
-          border-color: rgba(192,132,252,0.5);
-          color: #fff;
+          background: #d11a8e;
+          border-color: #d11a8e;
+          color: #ffffff;
+          transform: translateY(-3px);
+          box-shadow: 0 8px 18px rgba(209, 26, 142, 0.35);
         }
-        .btn-purple:hover { opacity: 0.88; }
-        .btn-ghost:hover { background: rgba(255,255,255,0.18) !important; }
+
+        .btn-purple {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 28px;
+          border-radius: 14px;
+          background: #d11a8e;
+          border: none;
+          color: #ffffff;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 600;
+          font-size: 13px;
+          letter-spacing: 0.05em;
+          cursor: pointer;
+          box-shadow: 0 4px 14px rgba(209, 26, 142, 0.25);
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+          white-space: nowrap;
+        }
+        .btn-purple:hover {
+          background: #b51279;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(209, 26, 142, 0.35);
+        }
+
+        .btn-ghost {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 28px;
+          border-radius: 14px;
+          background: rgba(209, 26, 142, 0.04);
+          border: 1px solid rgba(209, 26, 142, 0.3);
+          color: #403452;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 600;
+          font-size: 13px;
+          letter-spacing: 0.05em;
+          cursor: pointer;
+          transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+          white-space: nowrap;
+        }
+        .btn-ghost:hover {
+          background: #ffffff;
+          border-color: #d11a8e;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(209, 26, 142, 0.2);
+        }
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] footer {
-          background: #080510 !important;
-          transition: background 0.4s ease;
+          background: linear-gradient(180deg, #0d0614 0%, #08040d 100%) !important;
+          box-shadow: inset 0 0 140px 20px rgba(209, 26, 142, 0.4), inset 0 0 60px 0px rgba(209, 26, 142, 0.25) !important;
         }
         [data-theme="dark"] .footer-logo-img {
-          background: transparent !important;
-          filter: brightness(1.2);
+          filter: brightness(1.15) !important;
         }
-        [data-theme="dark"] .footer-description {
-          color: rgba(255, 255, 255, 0.5) !important;
+        [data-theme="dark"] .footer-description,
+        [data-theme="dark"] .footer-link {
+          color: #cbd5e1 !important;
+        }
+        [data-theme="dark"] .footer-link:hover {
+          color: #d11a8e !important;
         }
         [data-theme="dark"] .footer-column-heading {
-          color: #a78bfa !important;
+          color: #c084fc !important;
         }
-        [data-theme="dark"] .footer-bottom-text {
-          color: rgba(255, 255, 255, 0.3) !important;
+        [data-theme="dark"] .footer-bottom-text,
+        [data-theme="dark"] .footer-utility-link {
+          color: rgba(255, 255, 255, 0.4) !important;
+        }
+        [data-theme="dark"] .footer-utility-link:hover {
+          color: #d11a8e !important;
         }
         [data-theme="dark"] .footer-divider {
           background: rgba(255, 255, 255, 0.08) !important;
+        }
+        [data-theme="dark"] .btn-ghost {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(255, 255, 255, 0.15);
+          color: #ffffff;
+        }
+        [data-theme="dark"] .btn-ghost:hover {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.3);
+        }
+        [data-theme="dark"] .social-btn {
+          border-color: rgba(255, 255, 255, 0.15);
+          background: rgba(255, 255, 255, 0.05);
+          color: rgba(255, 255, 255, 0.7);
+        }
+        [data-theme="dark"] .social-btn:hover {
+          background: rgba(209, 26, 142, 0.15);
+          border-color: rgba(209, 26, 142, 0.4);
+          color: #ffffff;
+        }
+
+        @media (max-width: 968px) {
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+          }
+          .links-matrix {
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+            width: 100% !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .footer-brand-actions {
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+          }
+          .btn-purple, .btn-ghost {
+            width: 100%;
+            justify-content: center;
+          }
         }
       `}</style>
 
       <footer
         style={{
-          background: "linear-gradient(135deg, #140826 0%, #1e0d38 25%, #2a1250 50%, #341868 70%, #3d1f7a 100%)",
+          background: "#ffffff",
           position: "relative",
           overflow: "hidden",
           fontFamily: "'DM Sans', sans-serif",
+          boxShadow:
+            "inset 0 0 140px 20px rgba(209, 26, 142, 0.55), inset 0 0 60px 0px rgba(209, 26, 142, 0.35)",
         }}
       >
-        {/* Decorative background gradients */}
         <div style={{
-          position: "absolute", top: "-80px", right: "10%",
+          position: "absolute", top: "-100px", right: "5%",
           width: "500px", height: "400px", borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(120,60,180,0.12) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
-        <div style={{
-          position: "absolute", bottom: "0", left: "20%",
-          width: "400px", height: "300px", borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(90,40,160,0.1) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(209,26,142,0.08) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
 
         <div
+          className="footer-grid"
           style={{
             maxWidth: "1280px",
             margin: "0 auto",
-            padding: "64px 48px 48px",
+            padding: "80px 24px 48px",
             display: "grid",
             gridTemplateColumns: "1fr auto",
-            gap: "64px",
+            gap: "100px",
             alignItems: "start",
           }}
         >
-          {/* Left Column: Brand profile info */}
-          <div style={{ maxWidth: "420px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "14px", marginBottom: "24px" }}>
-              <div style={{ width: "150px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-                <img src={logo} alt="Ellevation Logo" className="footer-logo-img" style={{ width: "100%", height: "100%", objectFit: "contain", background: "white" }} />
+          {/* Left Block: Brand Signature */}
+          <div style={{ maxWidth: "440px" }}>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "28px" }}>
+              <div style={{ width: "180px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                <img 
+                  src={logo} 
+                  alt="Ellevation Logo" 
+                  className="footer-logo-img" 
+                  style={{ 
+                    width: "100%", 
+                    height: "100%", 
+                    objectFit: "contain",
+                    filter: "drop-shadow(0px 4px 12px rgba(209, 26, 142, 0.25)) drop-shadow(0px 1px 2px rgba(209, 26, 142, 0.15))"
+                  }} 
+                />
               </div>
             </div>
 
@@ -201,69 +308,34 @@ export default function EllevationFooter() {
               className="footer-description"
               style={{
                 fontSize: "15px",
-                lineHeight: 1.75,
-                color: "rgba(255,255,255,0.72)",
+                lineHeight: 1.7,
+                color: "#000",
                 fontWeight: 400,
-                marginBottom: "32px",
+                marginBottom: "36px",
               }}
             >
               A premium community ecosystem for personal transformation, professional
               pathways, strategic alliances, and impact-centered belonging.
             </p>
 
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <div className="footer-brand-actions" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <Link to="/get-involved/join" style={{ textDecoration: "none" }}>
-                <button
-                  className="btn-purple"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "12px 22px",
-                    borderRadius: "100px",
-                    background: "linear-gradient(135deg, #a87bc8 0%, #8b5bb5 100%)",
-                    border: "none",
-                    color: "#fff",
-                    fontWeight: 600,
-                    fontSize: "14px",
-                    cursor: "pointer",
-                    boxShadow: "0 4px 20px rgba(100,50,160,0.35)",
-                    transition: "opacity 0.18s",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <button className="btn-purple">
                   Join Membership <ArrowRight />
                 </button>
               </Link>
               <Link to="/contact" style={{ textDecoration: "none" }}>
-                <button
-                  className="btn-ghost"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "12px 22px",
-                    borderRadius: "100px",
-                    background: "rgba(255,255,255,0.12)",
-                    border: "1px solid rgba(255,255,255,0.25)",
-                    color: "#fff",
-                    fontWeight: 600,
-                    fontSize: "14px",
-                    cursor: "pointer",
-                    transition: "background 0.18s",
-                    whiteSpace: "nowrap",
-                  }}
-                >
+                <button className="btn-ghost">
                   Contact Us <ArrowRight />
                 </button>
               </Link>
             </div>
           </div>
 
-          {/* Right Section Matrix: Generated from custom routing schema */}
-          <div style={{
+          {/* Right Block: Categorized Matrix */}
+          <div className="links-matrix" style={{
             display: "grid",
-            gridTemplateColumns: "repeat(3, 200px)",
+            gridTemplateColumns: "repeat(3, 180px)",
             gap: "40px",
           }}>
             {footerLinks.map(({ heading, links }) => (
@@ -271,11 +343,12 @@ export default function EllevationFooter() {
                 <h4 
                   className="footer-column-heading"
                   style={{
-                    fontWeight: 600,
-                    fontSize: "15px",
-                    color: "#c9a96e",
-                    marginBottom: "20px",
-                    letterSpacing: "0.05em",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "12px",
+                    color: "#662369",
+                    marginBottom: "24px",
+                    letterSpacing: "0.08em",
                     textTransform: "uppercase"
                   }}
                 >
@@ -298,53 +371,54 @@ export default function EllevationFooter() {
           </div>
         </div>
 
-        {/* Divider rule line */}
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 48px" }}>
-          <div className="footer-divider" style={{ height: "1px", background: "rgba(255,255,255,0.12)" }} />
+        {/* Structural Section Break */}
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
+          <div className="footer-divider" style={{ height: "1px", background: "rgba(209, 26, 142, 0.15)" }} />
         </div>
 
-        {/* Utility footer bar */}
-       <div
-  style={{
-    maxWidth: "1280px",
-    margin: "0 auto",
-    padding: "24px 48px 36px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: "20px"
-  }}
->
-         <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "24px",
-    flexWrap: "wrap",
-  }}
->
-  <p
-    className="footer-bottom-text"
-    style={{
-      fontSize: "13px",
-      color: "rgba(255,255,255,0.45)",
-      fontWeight: 400,
-      margin: 0,
-    }}
-  >
-    © 2026 Ellevation. All rights reserved.
-  </p>
+        {/* Utility / Compliance row */}
+        <div
+          style={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            padding: "32px 24px 40px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "24px"
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "28px",
+              flexWrap: "wrap",
+            }}
+          >
+            <p
+              className="footer-bottom-text"
+              style={{
+                fontSize: "13px",
+                color: "#000",
+                fontWeight: 500,
+                margin: 0,
+              }}
+            >
+              © 2026 Ellevation. All rights reserved.
+            </p>
 
-  <Link to="/privacy-policy" className="footer-utility-link">
-    Privacy Policy
-  </Link>
+            <Link to="/privacy-policy" className="footer-utility-link">
+              Privacy Policy
+            </Link>
 
-  <Link to="/terms-condition" className="footer-utility-link">
-    Terms & Conditions
-  </Link>
-</div>
-          <div style={{ display: "flex", gap: "10px" }}>
+            <Link to="/terms-condition" className="footer-utility-link">
+              Terms & Conditions
+            </Link>
+          </div>
+
+          <div style={{ display: "flex", gap: "12px" }}>
             {socialIcons.map(({ icon, label, href }) => (
               <a
                 key={label}

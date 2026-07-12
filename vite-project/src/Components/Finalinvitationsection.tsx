@@ -5,70 +5,31 @@ const FinalInvitationSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(timer);
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
-.fi-eyebrow {
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color:  rgb(124, 92, 191);
-  margin: 0 0 16px;
-  text-align: center;
-}
         .final-invitation-section {
           width: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: linear-gradient(
-            135deg,
-            #f5e6e8 0%,
-            #f0dde8 20%,
-            #e8d5e8 40%,
-            #ddd0e8 55%,
-            #e8d5d8 70%,
-            #f0ddd5 85%,
-            #f5e8e0 100%
-          );
+          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
           position: relative;
           overflow: hidden;
-          font-family: 'Playfair Display', Georgia, serif;
-          padding: 60px 40px;
+          padding: 100px 24px;
           box-sizing: border-box;
-          transition: background 0.4s ease;
-        }
-
-        /* Soft ambient blobs for depth */
-        .final-invitation-section::before {
-          content: '';
-          position: absolute;
-          top: -60px;
-          left: -80px;
-          width: 400px;
-          height: 400px;
-          background: radial-gradient(circle, rgba(255, 220, 210, 0.55) 0%, transparent 70%);
-          border-radius: 50%;
-          pointer-events: none;
-        }
-
-        .final-invitation-section::after {
-          content: '';
-          position: absolute;
-          bottom: -80px;
-          right: -60px;
-          width: 380px;
-          height: 380px;
-          background: radial-gradient(circle, rgba(200, 180, 230, 0.45) 0%, transparent 70%);
-          border-radius: 50%;
-          pointer-events: none;
         }
 
         .fi-content {
@@ -76,12 +37,11 @@ const FinalInvitationSection = () => {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 32px;
           position: relative;
           z-index: 1;
           opacity: 0;
-          transform: translateY(18px);
-          transition: opacity 0.75s ease, transform 0.75s ease;
+          transform: translateY(30px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .fi-content.visible {
@@ -89,160 +49,161 @@ const FinalInvitationSection = () => {
           transform: translateY(0);
         }
 
-        
+        .fi-eyebrow {
+          font-family: 'DM Sans', sans-serif;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #662369;
+          margin: 0 0 12px 0;
+        }
 
         .fi-heading {
-          font-family: "Cormorant Garamond", serif;;
-          font-size: clamp(36px, 5.5vw, 68px);
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 52px;
           font-weight: 700;
+          color: #d11a8e;
+          margin: 0 0 48px 0;
           line-height: 1.15;
-          color: #1a1525;
-          margin: 0;
-          max-width: 760px;
           letter-spacing: -0.01em;
+          max-width: 800px;
         }
 
         .fi-buttons {
           display: flex;
           flex-wrap: wrap;
-          gap: 14px;
+          gap: 16px;
           justify-content: center;
           align-items: center;
         }
 
-        /* Primary button — dark pill */
+        /* Primary button */
         .fi-btn-primary {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           padding: 14px 28px;
-          background: #1a1525;
-          color: #fff;
+          background: #d11a8e;
+          color: #ffffff;
           border: none;
-          border-radius: 999px;
+          border-radius: 14px;
           font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          font-weight: 500;
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
           cursor: pointer;
           text-decoration: none;
-          letter-spacing: 0.01em;
-          transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+          box-shadow: 0 4px 14px rgba(90, 63, 160, 0.2);
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s, gap 0.2s;
           white-space: nowrap;
         }
 
         .fi-btn-primary:hover {
-          background: #2c2140;
-          transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(26, 21, 37, 0.28);
+          background: #4c2882;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(76, 40, 130, 0.3);
+          gap: 12px;
         }
 
-        .fi-btn-primary:active {
-          transform: translateY(0);
-        }
-
-        /* Secondary button — soft lavender pill with border */
+        /* Secondary button */
         .fi-btn-secondary {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 13px 26px;
-          background: rgba(200, 180, 230, 0.22);
-          color: #3d2f5a;
-          border: 1.5px solid rgba(160, 130, 210, 0.45);
-          border-radius: 999px;
+          gap: 8px;
+          padding: 14px 28px;
+          background: #d11a8e;
+          color: #ffffff;
+          border: none;
+          border-radius: 14px;
           font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          font-weight: 500;
+          font-size: 13px;
+          font-weight: 600;
+          letter-spacing: 0.05em;
           cursor: pointer;
           text-decoration: none;
-          letter-spacing: 0.01em;
-          backdrop-filter: blur(6px);
-          transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+          box-shadow: 0 4px 14px rgba(90, 63, 160, 0.2);
+          transition: background 0.2s, transform 0.2s, box-shadow 0.2s, gap 0.2s;
           white-space: nowrap;
         }
 
         .fi-btn-secondary:hover {
-          background: rgba(200, 180, 230, 0.38);
-          border-color: rgba(160, 130, 210, 0.7);
-          transform: translateY(-1px);
-        }
-
-        .fi-btn-secondary:active {
-          transform: translateY(0);
+           background: #4c2882;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(76, 40, 130, 0.3);
+          gap: 12px;
         }
 
         .fi-arrow {
-          font-size: 15px;
+          font-size: 14px;
           line-height: 1;
+          transition: transform 0.2s ease;
+        }
+
+        @media (max-width: 868px) {
+          .fi-heading { font-size: 38px !important; margin-bottom: 36px !important; }
+          .final-invitation-section { padding: 80px 24px !important; }
         }
 
         @media (max-width: 600px) {
           .fi-buttons {
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
+            width: 100%;
           }
-
           .fi-btn-primary,
           .fi-btn-secondary {
-            width: 220px;
+            width: 100%;
+            max-width: 280px;
             justify-content: center;
           }
         }
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .final-invitation-section {
-          background: linear-gradient(
-            135deg,
-            #1a0f1f 0%,
-            #140a1a 40%,
-            #0f0a1a 100%
-          );
-        }
-        [data-theme="dark"] .final-invitation-section::before {
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
-        }
-        [data-theme="dark"] .final-invitation-section::after {
-          background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 70%);
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
         }
         [data-theme="dark"] .fi-eyebrow {
           color: #a78bfa;
         }
         [data-theme="dark"] .fi-heading {
-          color: #f3ebff;
+          color: #d11a8e;
         }
         [data-theme="dark"] .fi-btn-primary {
-          background: #d8ccf4;
-          color: #1a0a2e;
+           background: #a855f7;
+          color: #ffffff;
+          border-color: rgba(155, 109, 190, 0.2);
         }
         [data-theme="dark"] .fi-btn-primary:hover {
-          background: #ffffff;
-          box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+          background: #1f142e;
+          border-color: rgba(155, 109, 190, 0.4);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         [data-theme="dark"] .fi-btn-secondary {
-          background: rgba(167, 139, 250, 0.1);
-          color: #d8ccf4;
-          border-color: rgba(167, 139, 250, 0.3);
+          background: #a855f7;
+          color: #ffffff;
+          border-color: rgba(155, 109, 190, 0.2);
         }
         [data-theme="dark"] .fi-btn-secondary:hover {
-          background: rgba(167, 139, 250, 0.2);
-          border-color: rgba(167, 139, 250, 0.5);
+          background: #1f142e;
+          border-color: rgba(155, 109, 190, 0.4);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
       `}</style>
 
       <section className="final-invitation-section" ref={sectionRef}>
         <div className={`fi-content${visible ? " visible" : ""}`}>
-          <p className="fi-eyebrow">Final Invitation</p>
 
-          {/* <h2 className="fi-heading">
-            Enter the ecosystem. Find your pathway. Rise with us.
-          </h2> */}
+          <h2 className="fi-heading">
+            Enter the ecosystem. Find your pathway.
+          </h2>
 
           <div className="fi-buttons">
             <a href="/ms-ellevation" className="fi-btn-primary">
               Ms. Ellevation <span className="fi-arrow">→</span>
             </a>
             <a href="/hub" className="fi-btn-secondary">
-              Ellevation hub <span className="fi-arrow">→</span>
+              Ellevation Hub <span className="fi-arrow">→</span>
             </a>
           </div>
         </div>

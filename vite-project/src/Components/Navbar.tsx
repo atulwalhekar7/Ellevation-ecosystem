@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom"; // 1. Imported useLocation
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/Ms-Ellevation-removebg-preview.png";
 
 type DropdownItem = { label: string; href: string };
@@ -12,40 +12,38 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  // {label: "Your Journey", href: "/your-journey"},
   { label: "Ms Ellevation", href: "/ms-ellevation" },
   { label: "Ellevation Hub", href: "/hub" },
-  { label: "Conversations", href: "/Conversations"},
-    { label: "Event", href: "/Event"},
-
+  { label: "Conversations", href: "/Conversations" },
+  { label: "Event", href: "/Event" },
   { label: "Connect", href: "/Connect" },
 ];
 
 function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean }) {
-  const location = useLocation(); // Track current route inside dropdown
+  const location = useLocation();
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "calc(100% + 8px)",
-        left: "50%",
-        background: "#fff",
-        borderRadius: "12px",
-        boxShadow: "0 8px 32px rgba(120,80,180,0.13), 0 2px 8px rgba(0,0,0,0.07)",
-        padding: "8px 0",
-        minWidth: "210px",
-        zIndex: 1000,
-        opacity: open ? 1 : 0,
-        pointerEvents: open ? "all" : "none",
-        transform: open
-          ? "translateX(-50%) translateY(0)"
-          : "translateX(-50%) translateY(-6px)",
-        transition: "opacity 0.18s ease, transform 0.18s ease",
-      }}
-    >
+   <div
+  style={{
+    position: "absolute",
+    top: "calc(100% + 8px)",
+    left: "50%",
+    background: "#fff",
+    borderRadius: "12px",
+  boxShadow:
+  "0 18px 50px rgba(184,180,205,0.55), 0 6px 18px rgba(0,0,0,0.08)",
+  padding: "8px 0",
+    minWidth: "210px",
+    zIndex: 1000,
+    opacity: open ? 1 : 0,
+    pointerEvents: open ? "all" : "none",
+    transform: open
+      ? "translateX(-50%) translateY(0)"
+      : "translateX(-50%) translateY(-6px)",
+    transition: "opacity 0.18s ease, transform 0.18s ease",
+  }}
+>
       {items.map((item) => {
-        // Highlight active sub-items
         const isSubItemActive = location.pathname === item.href;
 
         return (
@@ -56,8 +54,8 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
               display: "block",
               padding: "10px 22px",
               fontSize: "14px",
-              color: isSubItemActive ? "#7c3aed" : "#2d2d2d", // Highlight text color
-              backgroundColor: isSubItemActive ? "#f5f0ff" : "transparent", // Highlight background background
+              color: isSubItemActive ? "#d11a8e" : "#2d2d2d",
+              backgroundColor: isSubItemActive ? "rgba(209, 26, 142, 0.05)" : "transparent",
               textDecoration: "none",
               fontFamily: "'DM Sans', sans-serif",
               fontWeight: isSubItemActive ? 600 : 400,
@@ -76,7 +74,7 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
 
 function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean }) {
   const [open, setOpen] = useState(false);
-  const [isHovered, setIsHovered] = useState(false); // Controlled hover state
+  const [isHovered, setIsHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const location = useLocation(); 
 
@@ -88,15 +86,12 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 2. Determine if the current route matches this item (or any route inside its dropdown)
   const isActive = item.dropdown
     ? item.dropdown.some((subItem) => location.pathname === subItem.href)
     : location.pathname === item.href;
 
   const defaultLinkColor = darkMode ? "#e9deff" : "#2d2d2d";
-  
-  // Choose purple if active or hovered; otherwise default dark/light color
-  const currentLinkColor = (isActive || isHovered) ? "#7c3aed" : defaultLinkColor;
+  const currentLinkColor = (isActive || isHovered) ? "#d11a8e" : defaultLinkColor;
 
   if (item.dropdown) {
     return (
@@ -118,7 +113,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
             fontSize: "16px",
             color: currentLinkColor,
             fontFamily: "'DM Sans', sans-serif",
-            fontWeight: isActive ? 600 : 400, // Makes parent bold if child route is active
+            fontWeight: isActive ? 600 : 400,
             padding: "6px 4px",
             borderRadius: "6px",
             transition: "color 0.2s ease",
@@ -145,7 +140,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
         color: currentLinkColor,
         textDecoration: "none",
         fontFamily: "'DM Sans', sans-serif",
-        fontWeight: isActive ? 600 : 400, // Bold font weight when active
+        fontWeight: isActive ? 600 : 400,
         padding: "6px 4px",
         whiteSpace: "nowrap",
         transition: "color 0.2s ease",
@@ -206,12 +201,33 @@ export default function EllevationNavbar() {
     setDarkMode(next === "dark");
   };
 
+  // Light vs Dark Mode peripheral box-shadow styling configuration
+  const getBoxShadow = () => {
+    if (!isFixed) {
+      return darkMode 
+        ? "0 4px 14px rgba(0, 0, 0, 0.4)" 
+        : "0 5px 18px rgba(184, 180, 205, 0.3)";
+    }
+    
+    // Light mode remains deep/vibrant lavender, Dark mode uses soft, low-intensity deep shadows
+    return darkMode
+      ? "0 12px 40px rgba(0, 0, 0, 0.55), -6px 0 24px rgba(15, 10, 25, 0.3), 6px 0 24px rgba(15, 10, 25, 0.3)"
+      : "0 12px 40px rgba(184, 180, 205, 0.75), -8px 0 28px rgba(184, 180, 205, 0.35), 8px 0 28px rgba(184, 180, 205, 0.35)";
+  };
+
   return (
     <>
       <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet"
       />
+
+      <style>{`
+        @keyframes navOvalPulse {
+          0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.55; }
+          50%       { transform: translateX(-50%) scale(1.08); opacity: 0.8; }
+        }
+      `}</style>
 
       <div
         ref={wrapperRef}
@@ -223,22 +239,44 @@ export default function EllevationNavbar() {
             alignItems: "center",
             gap: "24px",
             padding: "0 24px",
-
-            height: `${NAV_HEIGHT}px`,         
-            background: darkMode ? "rgba(24,20,31,0.97)" : "rgba(245,240,255,0.97)", // #f5f0ff — matches your dropdown hover color
-            borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f0eaf8",
-            boxShadow: isFixed
-              ? "0 4px 24px rgba(120,80,180,0.13)"
-              : "0 1px 0 rgba(120,80,180,0.07)",
-            backdropFilter: isFixed ? "blur(12px)" : "none",
+            height: `${NAV_HEIGHT}px`,          
+            background: darkMode ? "rgba(18,14,24,0.96)" : "rgba(253, 251, 255, 0.96)",
+            borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f2ecf9",
+            boxShadow: getBoxShadow(),
+            backdropFilter: isFixed ? "blur(16px)" : "none",
             position: isFixed ? "fixed" : "absolute",
             top: 0,
             left: 0,
             right: 0,
             zIndex: 100,
+            overflow: "hidden",
             transition: "box-shadow 0.25s, backdrop-filter 0.25s, background 0.25s",
           }}
         >
+          {/* Decorative oval #d11a8e glow shade, centered behind nav content */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              width: "680px",
+              height: "130px",
+              background: darkMode
+                ? "radial-gradient(ellipse at center, rgba(209,26,142,0.30) 0%, rgba(209,26,142,0.14) 45%, rgba(209,26,142,0) 75%)"
+                : "radial-gradient(ellipse at center, rgba(209,26,142,0.55) 0%, rgba(209,26,142,0.28) 45%, rgba(209,26,142,0) 78%)",
+              borderRadius: "50%",
+              transform: "translate(-50%, -50%)",
+              filter: darkMode ? "blur(6px)" : "blur(4px)",
+              boxShadow: darkMode
+                ? "none"
+                : "0 10px 34px rgba(209,26,142,0.35)",
+              pointerEvents: "none",
+              zIndex: 0,
+              animation: "navOvalPulse 6s ease-in-out infinite",
+            }}
+          />
+
           {/* Logo */}
           <Link
             to="/"
@@ -248,6 +286,8 @@ export default function EllevationNavbar() {
               gap: "10px",
               textDecoration: "none",
               flexShrink: 0,
+              position: "relative",
+              zIndex: 1,
             }}
           >
             <div
@@ -276,6 +316,8 @@ export default function EllevationNavbar() {
               gap: "24px",
               flex: 1,
               flexWrap: "nowrap",
+              position: "relative",
+              zIndex: 1,
             }}
           >
             {navItems.map((item) => (
@@ -288,32 +330,97 @@ export default function EllevationNavbar() {
           </div>
 
           {/* Right Actions Block */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, position: "relative", zIndex: 1 }}>
             <button
               onClick={toggleTheme}
               style={{
                 display: "flex",
                 alignItems: "center",
                 gap: "6px",
-                background: darkMode ? "#2a1a4e" : "#f5f0ff",
-                border: "1.5px solid #e0d4f7",
+                background: darkMode ? "#2a1a4e" : "#ffffff",
+                border: darkMode ? "1.5px solid rgba(167, 139, 250, 0.25)" : "1.5px solid rgba(184, 180, 205, 0.5)",
                 borderRadius: "20px",
                 padding: "6px 14px",
                 cursor: "pointer",
                 fontSize: "13px",
-                color: darkMode ? "#c4a8ff" : "#5b21b6",
+                color: darkMode ? "#e9d5ff" : "#554866",
                 fontFamily: "'DM Sans', sans-serif",
                 fontWeight: 500,
+                transition: "all 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#d11a8e";
+                e.currentTarget.style.color = "#d11a8e";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = darkMode ? "rgba(167, 139, 250, 0.25)" : "rgba(184, 180, 205, 0.5)";
+                e.currentTarget.style.color = darkMode ? "#e9d5ff" : "#554866";
               }}
             >
               {darkMode ? "Light" : "Dark"}
             </button>
 
-            <Link to="/get-involved/directories" style={{ display: "flex", alignItems: "center", gap: "6px", background: "#fff", border: "1.5px solid #d1c4e9", borderRadius: "20px", padding: "6px 16px", cursor: "pointer", fontSize: "13px", color: "#2d2d2d", fontFamily: "'DM Sans', sans-serif", fontWeight: 500, textDecoration: "none", whiteSpace: "nowrap" }}>
+            <Link 
+              to="/get-involved/directories" 
+              style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "6px", 
+                background: "#fff", 
+                border: "1.5px solid rgba(184, 180, 205, 0.5)", 
+                borderRadius: "20px", 
+                padding: "6px 16px", 
+                cursor: "pointer", 
+                fontSize: "13px", 
+                color: "#2d2d2d", 
+                fontFamily: "'DM Sans', sans-serif", 
+                fontWeight: 500, 
+                textDecoration: "none", 
+                whiteSpace: "nowrap",
+                transition: "all 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#d11a8e";
+                e.currentTarget.style.color = "#d11a8e";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(184, 180, 205, 0.5)";
+                e.currentTarget.style.color = "#2d2d2d";
+              }}
+            >
               Get Listed
             </Link>
 
-            <Link to="/get-involved/join" style={{ display: "flex", alignItems: "center", gap: "6px", background: "linear-gradient(135deg, #c084fc 0%, #a855f7 100%)", border: "none", borderRadius: "20px", padding: "8px 20px", cursor: "pointer", fontSize: "13px", color: "#fff", fontFamily: "'DM Sans', sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 2px 12px rgba(168,85,247,0.35)", whiteSpace: "nowrap" }}>
+            {/* Premium Signature Pink Action Button */}
+            <Link 
+              to="/get-involved/join" 
+              style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "6px", 
+                background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", 
+                border: "none", 
+                borderRadius: "20px", 
+                padding: "8px 22px", 
+                cursor: "pointer", 
+                fontSize: "13px", 
+                color: "#fff", 
+                fontFamily: "'DM Sans', sans-serif", 
+                fontWeight: 600, 
+                textDecoration: "none", 
+                boxShadow: "0 4px 14px rgba(209, 26, 142, 0.35)", 
+                whiteSpace: "nowrap",
+                transition: "all 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-1px)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(209, 26, 142, 0.55)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 14px rgba(209, 26, 142, 0.35)";
+              }}
+            >
               Join
             </Link>
           </div>
