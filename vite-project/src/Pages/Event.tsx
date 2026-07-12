@@ -317,7 +317,9 @@ function EventsSection({ events = [] }: { events?: EventItem[] }) {
 }
 
 /* ─── Full event detail + RSVP page (featured event) ───────────────────── */
-function EventDetailAndRSVP() {
+/* Not yet mounted on the page below — kept ready (and exported) for when
+   the featured-event flow is wired back in. */
+export function EventDetailAndRSVP() {
   const [form, setForm] = useState<RSVPForm>(emptyForm());
   const [errors, setErrors] = useState<RSVPErrors>({});
   const [submitted, setSubmitted] = useState(false);
