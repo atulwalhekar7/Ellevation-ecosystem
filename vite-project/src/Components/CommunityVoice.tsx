@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import React, { useEffect, useRef, useState, type CSSProperties } from "react";
 
 const testimonials = [
   {
@@ -25,11 +25,28 @@ const testimonials = [
     role: "Corporate Leader",
     image: "https://randomuser.me/api/portraits/women/32.jpg",
   },
+  {
+    id: 4,
+    quote:
+      "Aligned partnerships, actionable wisdom, and a true safe space to scale your leadership vision sustainably.",
+    name: "Khadijah R.",
+    role: "Tech Founder",
+    image: "https://randomuser.me/api/portraits/women/50.jpg",
+  },
+  {
+    id: 5,
+    quote:
+      "Finding spaces that cater beautifully to both family integration and high-tier personal growth is ultra rare.",
+    name: "Elena V.",
+    role: "Creative Director",
+    image: "https://randomuser.me/api/portraits/women/26.jpg",
+  },
 ];
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -40,41 +57,30 @@ function useInView(threshold = 0.15) {
     obs.observe(el);
     return () => obs.disconnect();
   }, [threshold]);
+
   return { ref, inView };
 }
 
-function TestimonialCard({
-  t,
-  delay,
-}: {
-  t: (typeof testimonials)[0];
-  delay: number;
-}) {
-  const { ref, inView } = useInView();
+function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
   const [hovered, setHovered] = useState(false);
 
   const cardStyle: CSSProperties = {
-    background: hovered ? "#ffffff" : "#faf8f4",
-    borderRadius: 16,
-    padding: "36px 32px 32px",
-    flex: "1 1 280px",
-    maxWidth: 360,
-    minWidth: 260,
+    background: hovered ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    border: hovered ? "1px solid rgba(124, 92, 191, 0.3)" : "1px solid rgba(124, 92, 191, 0.12)",
+    borderRadius: 24,
+    padding: "36px 32px",
+    width: "340px",
+    flexShrink: 0,
     boxShadow: hovered
-      ? "0 16px 48px rgba(180,140,80,0.16), 0 2px 8px rgba(0,0,0,0.05)"
-      : "0 2px 16px rgba(0,0,0,0.06)",
+      ? "0 25px 50px rgba(124, 92, 191, 0.1)"
+      : "0 10px 30px rgba(124, 92, 191, 0.02)",
     transition:
-      "opacity 0.65s ease, transform 0.5s cubic-bezier(.34,1.56,.64,1), box-shadow 0.35s ease, background 0.3s ease",
-    transform: !inView
-      ? "translateY(32px)"
-      : hovered
-      ? "translateY(-8px) scale(1.015)"
-      : "translateY(0) scale(1)",
-    opacity: inView ? 1 : 0,
-    transitionDelay: inView && !hovered ? `${delay}ms` : "0ms",
+      "transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, background 0.3s ease, border-color 0.3s ease",
+    transform: hovered ? "translateY(-6px)" : "translateY(0)",
     display: "flex",
     flexDirection: "column",
-    gap: 0,
     cursor: "default",
     position: "relative",
     overflow: "hidden",
@@ -82,53 +88,47 @@ function TestimonialCard({
 
   return (
     <div
-      ref={ref}
       className="testimonial-card"
       style={cardStyle}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-     
+      {/* Premium accent border indicator */}
       <div
         style={{
           position: "absolute",
-          bottom: 0,
+          top: 0,
           left: 0,
-          height: 3,
-          borderRadius: "0 0 16px 16px",
-          background: "linear-gradient(90deg, rgb(var(--gold)/0.9), rgb(var(--gold)/0.3))",
+          right: 0,
+          height: 4,
+          background: "linear-gradient(90deg, #662369, #d11a8e)",
           width: hovered ? "100%" : "0%",
-          transition: "width 0.45s cubic-bezier(.4,0,.2,1)",
+          transition: "width 0.4s cubic-bezier(0.25, 1, 0.5, 1)",
         }}
       />
 
-    
       <div
         style={{
-          fontSize: 40,
+          fontSize: 48,
           lineHeight: 1,
-          color: "rgb(var(--gold) / 0.75)",
-          fontFamily: "Georgia, serif",
-          marginBottom: 16,
-          textAlign: "center",
+          color: "#d11a8e",
+          opacity: 0.15,
+          fontFamily: "'Cormorant Garamond', Georgia, serif",
+          marginBottom: -5,
+          marginTop: -10,
           userSelect: "none",
-          transition: "transform 0.35s ease",
-          transform: hovered ? "scale(1.15)" : "scale(1)",
         }}
       >
-        "
+        “
       </div>
 
-  
       <p
         className="testimonial-quote"
         style={{
-          fontSize: 15,
-          lineHeight: 1.75,
-          color: "#5a4070",
+          fontSize: "15px",
+          lineHeight: 1.65,
+          color: "#403452",
           fontFamily: "'DM Sans', sans-serif",
-          
-          textAlign: "center",
           margin: "0 0 28px 0",
           flex: 1,
         }}
@@ -141,35 +141,32 @@ function TestimonialCard({
           display: "flex",
           alignItems: "center",
           gap: 14,
-          borderTop: "1px solid var(--border-color, #ede8df)",
+          borderTop: "1px solid rgba(124, 92, 191, 0.12)",
           paddingTop: 20,
-          transition: "transform 0.35s ease",
-          transform: hovered ? "translateY(-2px)" : "translateY(0)",
         }}
       >
         <img
-  src={t.image}
-  alt={t.name}
-  style={{
-    width: 48,
-    height: 48,
-    borderRadius: "50%",
-    objectFit: "cover",
-    flexShrink: 0,
-    border: "2px solid rgba(184, 94, 164, 0.18)",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-  }}
-/>
-       
-        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          src={t.image}
+          alt={t.name}
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: "50%",
+            objectFit: "cover",
+            flexShrink: 0,
+            border: "2px solid rgba(209, 26, 142, 0.15)",
+          }}
+        />
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <p
             className="testimonial-name"
             style={{
               margin: 0,
-              fontSize: 14,
+              fontSize: "14.5px",
               fontWeight: 700,
-              color: "#5a4070",
-              fontFamily: "'DM Sans', Georgia, sans-serif",
+              color: "#1a0a2e",
+              fontFamily: "'DM Sans', sans-serif",
             }}
           >
             {t.name}
@@ -178,11 +175,11 @@ function TestimonialCard({
             className="testimonial-role"
             style={{
               margin: 0,
-              fontSize: 10,
+              fontSize: "10.5px",
               fontWeight: 600,
-              color: "#a89880",
+              color: "#705294",
               textTransform: "uppercase",
-              letterSpacing: "0.12em",
+              letterSpacing: "0.08em",
               fontFamily: "'DM Sans', sans-serif",
             }}
           >
@@ -199,39 +196,110 @@ export default function CommunityVoices() {
 
   return (
     <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Cormorant+Garamond:wght@500;600&display=swap');
-
         .community-section {
-          background: #f5f0e8;
-          transition: background 0.4s ease;
+          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
+        }
+
+        .community-header-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 52px;
+          font-weight: 700;
+          color: #d11a8e;
+          margin: 0;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+        }
+
+        /* Infinite Slider Animation Engine */
+        .slider-viewport {
+          width: 100%;
+          overflow: hidden;
+          position: relative;
+          padding: 20px 0;
+        }
+
+        /* Creating a masking gradient overlay to softly blend left and right edges */
+        .slider-viewport::before,
+        .slider-viewport::after {
+          content: "";
+          height: 100%;
+          width: 150px;
+          position: absolute;
+          zIndex: 4;
+          top: 0;
+          pointer-events: none;
+        }
+        .slider-viewport::before {
+          left: 0;
+          background: linear-gradient(90deg, #f6f3fa 0%, transparent 100%);
+        }
+        .slider-viewport::after {
+          right: 0;
+          background: linear-gradient(-90deg, #ede7f5 0%, transparent 100%);
+        }
+
+        .slider-track {
+          display: flex;
+          gap: 32px;
+          width: max-content;
+          animation: loopInfinite 35s linear infinite;
+        }
+
+        /* Pause sliding translation safely when user interacts */
+        .slider-track:hover {
+          animation-play-state: paused;
+        }
+
+        @keyframes loopInfinite {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            /* Safely translates precisely halfway through the duplicated array */
+            transform: translateX(calc(-50% - 16px)); 
+          }
         }
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .community-section {
-          background: #0f0a1a; /* Matching brand dark background */
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
+        }
+        [data-theme="dark"] .slider-viewport::before {
+          background: linear-gradient(90deg, #0d0614 0%, transparent 100%);
+        }
+        [data-theme="dark"] .slider-viewport::after {
+          background: linear-gradient(-90deg, #160d22 0%, transparent 100%);
         }
         [data-theme="dark"] .testimonial-card {
-          background: rgba(30, 20, 45, 0.7) !important;
-          border-color: rgba(155, 109, 190, 0.2) !important;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+          background: rgba(25, 16, 38, 0.6) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
         }
         [data-theme="dark"] .testimonial-card:hover {
-          background: rgba(45, 30, 65, 0.98) !important;
-          box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+          background: #1f142e !important;
+          border-color: rgba(155, 109, 190, 0.35) !important;
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
         }
-        [data-theme="dark"] .testimonial-quote,
+        [data-theme="dark"] .testimonial-quote {
+          color: #cbd5e1 !important;
+        }
         [data-theme="dark"] .testimonial-name {
-          color: #d8ccf4 !important;
+          color: #ffffff !important;
         }
         [data-theme="dark"] .testimonial-role {
-          color: #a89880 !important; /* Keep gold-muted role for elegance */
-        }
-        [data-theme="dark"] .community-eyebrow {
           color: #a78bfa !important;
         }
         [data-theme="dark"] .testimonial-card > div:last-child {
           border-top-color: rgba(155, 109, 190, 0.2) !important;
+        }
+        
+        @media (max-width: 868px) {
+          .community-header-title { font-size: 38px !important; }
+          .slider-viewport::before, .slider-viewport::after { width: 50px; }
         }
       `}</style>
 
@@ -239,65 +307,36 @@ export default function CommunityVoices() {
         className="community-section"
         style={{
           width: "100%",
-          padding: "30px 24px 96px",
+          padding: "100px 0",
           boxSizing: "border-box",
           position: "relative",
           overflow: "hidden",
         }}
       >
-       
+        {/* Synced Header Section */}
         <div
           ref={headerRef}
           style={{
             textAlign: "center",
-            marginBottom: 48,
+            maxWidth: "700px",
+            margin: "0 auto 48px",
+            padding: "0 24px",
             opacity: headerIn ? 1 : 0,
-            transform: headerIn ? "translateY(0)" : "translateY(24px)",
-            transition: "opacity 0.7s ease, transform 0.7s ease",
+            transform: headerIn ? "translateY(0)" : "translateY(20px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
           }}
         >
-          <p
-            className="community-eyebrow"
-            style={{
-              fontSize: 15,
-              fontWeight: 700,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              marginBottom: 14,
-              fontFamily: "'DM Sans', sans-serif",
-            }}
-          >
-            Stories of Transformation
-          </p>
-          {/* <h2
-            style={{
-              fontSize: "clamp(30px, 4.5vw, 50px)",
-              fontWeight: 600,
-              color: "rgb(26, 10, 46)",
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              lineHeight: 1.2,
-              margin: 0,
-            }}
-          >
-            A premium space with real warmth.
-          </h2> */}
+          <h2 className="community-header-title">Stories of Transformation</h2>
         </div>
 
-       
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 20,
-            maxWidth: 1140,
-            margin: "0 auto",
-            justifyContent: "center",
-            alignItems: "stretch",
-          }}
-        >
-          {testimonials.map((t, i) => (
-            <TestimonialCard key={t.id} t={t} delay={i * 150} />
-          ))}
+        {/* Carousel Viewport Wrapper */}
+        <div className="slider-viewport">
+          {/* Double mapped array ensures visual gapless snapping */}
+          <div className="slider-track">
+            {Object.freeze([...testimonials, ...testimonials]).map((t, idx) => (
+              <TestimonialCard key={`${t.id}-${idx}`} t={t} />
+            ))}
+          </div>
         </div>
       </section>
     </>

@@ -16,6 +16,9 @@ import MsEllevation from './Pages/MsEllevation';
 import EllevationHub from './Pages/EllevationHub';
 import Journey from './Pages/your-journey';
 import Event from './Pages/Event';
+import PrivacyPolicy from './Components/Privacy-Policy';
+import TermsCondition from './Components/TermsCondition';
+
 
 import ScrollToUp from "./Components/ScrollToTop";
 
@@ -45,6 +48,8 @@ function App() {
         <Route path="/hub" element={<EllevationHub />} />
         <Route path="/your-journey" element={<Journey />} />
         <Route path="/Event" element={<Event />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-condition" element={<TermsCondition />} />
       </Routes>
       <Footer />
     </>
