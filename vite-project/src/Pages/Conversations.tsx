@@ -147,7 +147,7 @@ function Hero() {
       style={{
         position: "relative", overflow: "hidden",
         minHeight: "100vh", display: "flex", alignItems: "center",
-        fontFamily: "'DM Sans',sans-serif",
+        fontFamily: "'Montserrat',sans-serif",
       }}
     >
       <img
@@ -172,15 +172,15 @@ function Hero() {
       }}>
         <div style={{ opacity: visible ? 1 : 0, maxWidth: 650 }}>
           <h1 className={visible ? "elv-animate-2" : ""} style={{
-            fontFamily: "'Cormorant Garamond',serif",
+            fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(36px,5vw,56px)",
             fontWeight: 700, lineHeight: 1.15,
             color: "#fff", marginBottom: 24, letterSpacing: "-0.01em",
           }}>
-            When women connect, <br />share, and support, <br /><span style={{ color: "#d11a8e" }}>communities transform.</span>
+            When women connect, <br />share, and support, <br /><span style={{ color: "#c98fd6" }}>communities transform.</span>
           </h1>
 
-          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 16, lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
+          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 16, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
             This new initiative provides a platform for women in the community to share their personal and professional journeys. Submit your story through video, audio, a written letter, or digital art and photography with an accompanying written explanation — and help inspire other women living in Australia.
           </p>
 
@@ -192,10 +192,10 @@ function Hero() {
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 padding: "14px 28px", borderRadius: 14,
-                background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)",
-                color: "#fff", fontFamily: "'DM Sans',sans-serif",
+                background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
+                color: "#fff", fontFamily: "'Montserrat',sans-serif",
                 fontWeight: 600, fontSize: 13, border: "none", cursor: "pointer",
-                boxShadow: "0 4px 14px rgba(209, 26, 142, 0.25)",
+                boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
                 transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
                 transition: "transform 0.2s, box-shadow 0.2s",
               }}
@@ -212,7 +212,7 @@ function Hero() {
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
                 border: "1.5px solid rgba(255,255,255,0.3)",
-                color: "#fff", fontFamily: "'DM Sans',sans-serif",
+                color: "#fff", fontFamily: "'Montserrat',sans-serif",
                 fontWeight: 600, fontSize: 13, cursor: "pointer",
                 transform: darkHov ? "translateY(-2px)" : "translateY(0)",
                 transition: "transform 0.2s",
@@ -237,17 +237,17 @@ function VisionSection() {
     <section className="about-vision" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "40px 24px 100px", textAlign: "center" }}>
       <div style={{ maxWidth: 740, margin: "0 auto" }}>
         <div ref={h.ref} style={fade(h.inView, 0)}>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
+          <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
             Our Purpose
           </span>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(32px,4.5vw,52px)", fontWeight: 700, lineHeight: 1.2, marginBottom: "32px", color: "#1a0a2e" }}>
-            A Blueprint of Inspiration For <span style={{ color: "#d11a8e", fontStyle: "italic" }}>CALD Backgrounds</span>
+          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,52px)", fontWeight: 700, lineHeight: 1.2, marginBottom: "32px", color: "#1a0a2e" }}>
+            A Blueprint of Inspiration For CALD Backgrounds
           </h2>
         </div>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
           By sharing your story, you're giving Ms. Ellevation permission to share your experiences on our platform — not only contributing to a growing community of strength, but also helping create a circle of support where women can feel seen, heard, and connected.
         </p>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: 0 }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: 0 }}>
           Your journey could be the spark of encouragement someone else needs. Together, these stories weave a powerful tapestry of resilience, courage, and possibility — showing every CALD woman in Australia that she is not alone, and that success, belonging, and confidence are within reach.
         </p>
       </div>
@@ -273,7 +273,7 @@ function ConversationCard({ item, index }: { item: typeof conversationContent[0]
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid",
-        borderColor: hov ? "rgba(209, 26, 142, 0.3)" : "rgba(124, 92, 191, 0.15)",
+        borderColor: hov ? "rgba(75, 30, 86, 0.3)" : "rgba(124, 92, 191, 0.15)",
         borderRadius: 24, padding: "40px 28px 36px", textAlign: "center",
         boxShadow: hov ? "0 22px 54px rgba(124, 92, 191, 0.12)" : "0 10px 30px rgba(124, 92, 191, 0.02)",
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease",
@@ -281,9 +281,9 @@ function ConversationCard({ item, index }: { item: typeof conversationContent[0]
         position: "relative", overflow: "hidden", cursor: "default",
       }}
     >
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: hov ? "#d11a8e" : "transparent", transition: "background 0.3s" }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: hov ? "#4B1E56" : "transparent", transition: "background 0.3s" }} />
       <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 700, color: "#662369", margin: "0 0 18px" }}>{item.title}</h3>
-      <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, lineHeight: 1.65, color: "#554866", margin: 0 }}>{item.body}</p>
+      <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14.5, lineHeight: 1.65, color: "#554866", margin: 0 }}>{item.body}</p>
     </div>
   );
 }
@@ -303,8 +303,8 @@ function SocialFollowRow() {
       }}
     >
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600,
-        letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: 0
+        fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600,
+        letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: 0
       }}>
         Follow the Conversation
       </p>
@@ -321,7 +321,7 @@ function SocialFollowRow() {
               width: 42, height: 42, borderRadius: "50%",
               display: "flex", alignItems: "center", justifyContent: "center",
               background: "#fff", border: "1.5px solid rgba(124, 92, 191, 0.15)",
-              color: "#662369", transition: "all 0.2s ease",
+              color: "#4B1E56", transition: "all 0.2s ease",
             }}
           >
             {s.icon}
@@ -336,7 +336,7 @@ function ConversationSection() {
   return (
     <section className="about-vmv" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Ellevation Conversations</p>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>Ellevation Conversations</p>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto", justifyContent: "center" }}>
         {conversationContent.map((item, i) => <ConversationCard key={i} item={item} index={i} />)}
@@ -364,7 +364,7 @@ function FormatCard({ item, index }: { item: typeof submissionFormats[0]; index:
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid",
-        borderColor: hov ? "rgba(209, 26, 142, 0.3)" : "rgba(124, 92, 191, 0.15)",
+        borderColor: hov ? "rgba(75, 30, 86, 0.3)" : "rgba(124, 92, 191, 0.15)",
         borderRadius: 24, padding: "32px 24px", textAlign: "left",
         boxShadow: hov ? "0 22px 54px rgba(124, 92, 191, 0.1)" : "0 10px 30px rgba(124, 92, 191, 0.02)",
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease",
@@ -372,16 +372,8 @@ function FormatCard({ item, index }: { item: typeof submissionFormats[0]; index:
         position: "relative", overflow: "hidden", cursor: "default",
       }}
     >
-      {/* <div style={{
-        width: 44, height: 44, borderRadius: 14,
-        background: "rgba(209, 26, 142, 0.08)", color: "#d11a8e",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 18, marginBottom: 20,
-      }}>
-        {item.icon}
-      </div> */}
-      <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 700, color: "#1a0a2e", margin: "0 0 10px", lineHeight: 1.2 }}>{item.title}</h3>
-      <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, lineHeight: 1.6, color: "#554866", margin: 0 }}>{item.body}</p>
+      <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 700, color: "#4B1E56", margin: "0 0 10px", lineHeight: 1.2 }}>{item.title}</h3>
+      <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14.5, lineHeight: 1.6, color: "#4B1E56", margin: 0 }}>{item.body}</p>
     </div>
   );
 }
@@ -390,8 +382,8 @@ function FormatsSection() {
   return (
     <section className="about-who-we-serve" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Submission Modalities</p>
-        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#d11a8e", margin: 0 }}>We Welcome Stories in Many Forms</h2>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Submission Modalities</p>
+        <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>We Welcome Stories in Many Forms</h2>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1140, margin: "0 auto", justifyContent: "center" }}>
         {submissionFormats.map((item, i) => <FormatCard key={item.title} item={item} index={i} />)}
@@ -434,9 +426,9 @@ function inputStyle(hasError: boolean): CSSProperties {
     borderRadius: 14,
     border: `1.5px solid ${hasError ? "#e11d48" : "rgba(124, 92, 191, 0.15)"}`,
     background: "#fff",
-    fontFamily: "'DM Sans',sans-serif",
+    fontFamily: "'Montserrat',sans-serif",
     fontSize: 14.5,
-    color: "#1a0a2e",
+    color: "#4B1E56",
     outline: "none",
     transition: "border-color 0.2s",
   };
@@ -445,12 +437,12 @@ function inputStyle(hasError: boolean): CSSProperties {
 function labelStyle(): CSSProperties {
   return {
     display: "block",
-    fontFamily: "'DM Sans',sans-serif",
+    fontFamily: "'Montserrat',sans-serif",
     fontSize: 12,
     fontWeight: 600,
     letterSpacing: "0.08em",
     textTransform: "uppercase",
-    color: "#662369",
+    color: "#4B1E56",
     marginBottom: 8,
   };
 }
@@ -493,7 +485,7 @@ function StorySubmissionSection() {
   };
 
   const borderFocus = (field: string): CSSProperties =>
-    focusField === field ? { borderColor: "#d11a8e", boxShadow: "0 0 0 4px rgba(209, 26, 142, 0.1)" } : {};
+    focusField === field ? { borderColor: "#4B1E56", boxShadow: "0 0 0 4px rgba(75, 30, 86, 0.1)" } : {};
 
   return (
     <section
@@ -504,13 +496,13 @@ function StorySubmissionSection() {
     >
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 44, opacity: inView ? 1 : 0, transition: "opacity 0.7s ease" }}>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Share Your Journey
           </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#d11a8e", margin: "0 0 16px" }}>
+          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: "0 0 16px" }}>
             Submit Your Story
           </h2>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15.5, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto" }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15.5, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto" }}>
             Fill in the details below and attach your written reflection, audio, video, or artwork — or paste a link if it's already hosted somewhere. By submitting, you're giving Ms. Ellevation permission to share your experience across our platform.
           </p>
         </div>
@@ -533,14 +525,14 @@ function StorySubmissionSection() {
               <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 28, fontWeight: 700, color: "#1a0a2e", margin: "0 0 12px" }}>
                 Thank you for sharing.
               </h3>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: "#554866", lineHeight: 1.65, maxWidth: 440, margin: "0 auto 28px" }}>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15, color: "#554866", lineHeight: 1.65, maxWidth: 440, margin: "0 auto 28px" }}>
                 Your story has been received. Our team will be in touch before anything is shared publicly.
               </p>
               <button
                 onClick={resetForm}
                 style={{
                   padding: "14px 28px", borderRadius: 14, border: "1.5px solid rgba(124, 92, 191, 0.3)",
-                  background: "transparent", color: "#5a3fa0", fontFamily: "'DM Sans',sans-serif",
+                  background: "transparent", color: "#4B1E56", fontFamily: "'Montserrat',sans-serif",
                   fontWeight: 600, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase",
                   cursor: "pointer", transition: "all 0.2s ease"
                 }}
@@ -556,9 +548,9 @@ function StorySubmissionSection() {
                   id="anonymous"
                   checked={form.anonymous}
                   onChange={(e) => update("anonymous", e.target.checked)}
-                  style={{ width: 18, height: 18, accentColor: "#d11a8e", cursor: "pointer" }}
+                  style={{ width: 18, height: 18, accentColor: "#4B1E56", cursor: "pointer" }}
                 />
-                <label htmlFor="anonymous" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, color: "#554866", cursor: "pointer" }}>
+                <label htmlFor="anonymous" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14.5, color: "#554866", cursor: "pointer" }}>
                   I'd like to share my story anonymously
                 </label>
               </div>
@@ -576,7 +568,7 @@ function StorySubmissionSection() {
                     placeholder="Your name"
                     style={{ ...inputStyle(!!errors.name), ...borderFocus("name") }}
                   />
-                  {errors.name && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please enter your name, or choose to submit anonymously.</p>}
+                  {errors.name && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'Montserrat',sans-serif" }}>Please enter your name, or choose to submit anonymously.</p>}
                 </div>
                 <div>
                   <label style={labelStyle()}>Email Address</label>
@@ -589,7 +581,7 @@ function StorySubmissionSection() {
                     placeholder="you@example.com"
                     style={{ ...inputStyle(!!errors.email), ...borderFocus("email") }}
                   />
-                  {errors.email && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please enter a valid email address.</p>}
+                  {errors.email && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'Montserrat',sans-serif" }}>Please enter a valid email address.</p>}
                 </div>
               </div>
 
@@ -604,10 +596,10 @@ function StorySubmissionSection() {
                       style={{
                         padding: "10px 16px",
                         borderRadius: 100,
-                        border: `1.5px solid ${form.format === opt ? "#d11a8e" : "rgba(124, 92, 191, 0.15)"}`,
-                        background: form.format === opt ? "#d11a8e" : "#fff",
+                        border: `1.5px solid ${form.format === opt ? "#4B1E56" : "rgba(124, 92, 191, 0.15)"}`,
+                        background: form.format === opt ? "#4B1E56" : "#fff",
                         color: form.format === opt ? "#fff" : "#554866",
-                        fontFamily: "'DM Sans',sans-serif",
+                        fontFamily: "'Montserrat',sans-serif",
                         fontSize: 13, fontWeight: 600, cursor: "pointer",
                         transition: "all 0.2s",
                       }}
@@ -629,7 +621,7 @@ function StorySubmissionSection() {
                   placeholder="Give your story a title"
                   style={{ ...inputStyle(!!errors.title), ...borderFocus("title") }}
                 />
-                {errors.title && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please add a title for your story.</p>}
+                {errors.title && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'Montserrat',sans-serif" }}>Please add a title for your story.</p>}
               </div>
 
               <div style={{ marginBottom: 22 }}>
@@ -643,7 +635,7 @@ function StorySubmissionSection() {
                   rows={6}
                   style={{ ...inputStyle(!!errors.story), ...borderFocus("story"), resize: "vertical", lineHeight: 1.6 }}
                 />
-                {errors.story && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please share a little about your story.</p>}
+                {errors.story && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'Montserrat',sans-serif" }}>Please share a little about your story.</p>}
               </div>
 
               {isLinkFormat && (
@@ -658,7 +650,7 @@ function StorySubmissionSection() {
                     placeholder="Paste a YouTube, Google Drive, Dropbox, or other link"
                     style={{ ...inputStyle(!!errors.link), ...borderFocus("link") }}
                   />
-                  {errors.link && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'DM Sans',sans-serif" }}>Please add a link so we can access your media.</p>}
+                  {errors.link && <p style={{ color: "#e11d48", fontSize: 12, marginTop: 6, fontFamily: "'Montserrat',sans-serif" }}>Please add a link so we can access your media.</p>}
                 </div>
               )}
 
@@ -671,7 +663,7 @@ function StorySubmissionSection() {
                     padding: "22px 16px", borderRadius: 14,
                     border: "1.5px dashed rgba(124, 92, 191, 0.3)",
                     background: "rgba(124, 92, 191, 0.04)",
-                    fontFamily: "'DM Sans',sans-serif", fontSize: 13.5, color: "#554866",
+                    fontFamily: "'Montserrat',sans-serif", fontSize: 13.5, color: "#554866",
                     cursor: "pointer", textAlign: "center",
                   }}
                 >
@@ -708,22 +700,22 @@ function StorySubmissionSection() {
                   id="consent"
                   checked={form.consent}
                   onChange={(e) => update("consent", e.target.checked)}
-                  style={{ width: 18, height: 18, marginTop: 2, accentColor: "#d11a8e", cursor: "pointer" }}
+                  style={{ width: 18, height: 18, marginTop: 2, accentColor: "#4B1E56", cursor: "pointer" }}
                 />
-                <label htmlFor="consent" style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13.5, color: "#554866", lineHeight: 1.6, cursor: "pointer" }}>
+                <label htmlFor="consent" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13.5, color: "#554866", lineHeight: 1.6, cursor: "pointer" }}>
 I give Ms. Ellevation permission to share my story and any attached media or linked content across the full Ms. Ellevation and Ellevation Ecosystem— including this website, Ellevation Hub, our social media channels, newsletters, and community events.
                 </label>
               </div>
-              {errors.consent && <p style={{ color: "#e11d48", fontSize: 12, marginTop: -20, marginBottom: 20, fontFamily: "'DM Sans',sans-serif" }}>Please confirm your consent before submitting.</p>}
+              {errors.consent && <p style={{ color: "#e11d48", fontSize: 12, marginTop: -20, marginBottom: 20, fontFamily: "'Montserrat',sans-serif" }}>Please confirm your consent before submitting.</p>}
 
               <button
                 type="submit"
                 style={{
                   width: "100%", padding: "15px 26px", borderRadius: 14, border: "none",
-                  background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)",
-                  color: "#fff", fontFamily: "'DM Sans',sans-serif",
+                  background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
+                  color: "#fff", fontFamily: "'Montserrat',sans-serif",
                   fontWeight: 700, fontSize: 14, letterSpacing: "0.04em", cursor: "pointer",
-                  boxShadow: "0 4px 14px rgba(209, 26, 142, 0.25)",
+                  boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
                 }}
               >
                 Submit Your Story →
@@ -750,17 +742,17 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
         borderRadius: 14,
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
         background: primary 
-          ? (hov ? "#b51279" : "#d11a8e") 
+          ? (hov ? "#35143d" : "#4B1E56") 
           : (hov ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.05)"),
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
-        fontFamily: "'DM Sans',sans-serif",
+        fontFamily: "'Montserrat',sans-serif",
         fontSize: 13,
         fontWeight: 600,
         letterSpacing: "0.05em",
         cursor: "pointer",
-        boxShadow: primary && hov ? "0 6px 20px rgba(209, 26, 142, 0.45)" : "none",
+        boxShadow: primary && hov ? "0 6px 20px rgba(75, 30, 86, 0.45)" : "none",
         transform: hov ? "translateY(-2px)" : "translateY(0)",
         transition: "all 0.2s ease",
       }}
@@ -790,14 +782,14 @@ function CTASection() {
         <h2 
           style={{ 
             ...fade(inView, 0),
-            fontFamily: "'Cormorant Garamond',serif", 
+            fontFamily: "'Astrid Regular', serif", 
             fontSize: "clamp(38px,6vw,60px)", 
             fontWeight: 700, 
             color: "#ffffff", 
             margin: "0 0 40px" 
           }}
         >
-          Join Our <span style={{ color: "#d11a8e" }}>Ecosystem</span>
+          Join Our <span style={{ color: "#4B1E56" }}>Ecosystem</span>
         </h2>
         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
           <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
@@ -819,7 +811,19 @@ export default function ConversationsPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
+
+        /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
+           Replace the src url below with the path to your actual font file. */
+        @font-face {
+          font-family: 'Astrid Regular';
+          src: url('/fonts/AstridRegular.woff2') format('woff2'),
+               url('/fonts/AstridRegular.otf') format('opentype');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #fdf9fc; }
 
@@ -841,7 +845,7 @@ export default function ConversationsPage() {
         .elv-animate-4 { animation: fadeUp 1s cubic-bezier(0.25,1,0.5,1) both; animation-delay: 0.55s; }
 
         .blob { position: absolute; border-radius: 50%; pointer-events: none; }
-        .cta-blob-1 { top: -80px; right: -60px; width: 380px; height: 380px; background: radial-gradient(circle,rgba(209,26,142,0.1) 0%,transparent 70%); }
+        .cta-blob-1 { top: -80px; right: -60px; width: 380px; height: 380px; background: radial-gradient(circle,rgba(75,30,86,0.1) 0%,transparent 70%); }
         .cta-blob-2 { bottom: -60px; left: -40px; width: 320px; height: 320px; background: radial-gradient(circle,rgba(124,92,191,0.08) 0%,transparent 70%); }
 
         .cta-shimmer { position: absolute; inset: 0; background: linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.18) 50%,transparent 60%); background-size: 200% 100%; animation: shimmerSweep 5s linear infinite; pointer-events: none; z-index: 0; }
@@ -851,8 +855,8 @@ export default function ConversationsPage() {
         }
 
         .social-icon-link:hover {
-          background: #d11a8e !important;
-          border-color: #d11a8e !important;
+          background: #4B1E56 !important;
+          border-color: #4B1E56 !important;
           color: #fff !important;
           transform: translateY(-3px);
         }

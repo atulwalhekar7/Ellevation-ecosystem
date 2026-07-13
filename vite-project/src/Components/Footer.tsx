@@ -93,7 +93,7 @@ export default function EllevationFooter() {
       <style>{`
         .footer-link {
           color: #000;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-size: 15px;
           font-weight: 500;
           text-decoration: none;
@@ -103,26 +103,26 @@ export default function EllevationFooter() {
           cursor: pointer;
         }
         .footer-link:hover { 
-          color: #d11a8e;
+          color: #4B1E56;
           transform: translateX(2px);
         }
         
         .footer-utility-link {
           color: #000;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-size: 13px;
           font-weight: 500;
           text-decoration: none;
           transition: color 0.18s;
         }
-        .footer-utility-link:hover { color: #d11a8e; }
+        .footer-utility-link:hover { color: #4B1E56; }
 
         .social-btn {
           width: 40px;
           height: 40px;
           border-radius: 50%;
           border: 1px solid rgba(209, 26, 142, 0.25);
-          background: rgba(209, 26, 142, 0.05);
+          background:  rgba(75, 30, 86, 0.05);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -131,8 +131,8 @@ export default function EllevationFooter() {
           transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
         .social-btn:hover {
-          background: #d11a8e;
-          border-color: #d11a8e;
+          background: #4B1E56;
+          border-color: #4B1E56;
           color: #ffffff;
           transform: translateY(-3px);
           box-shadow: 0 8px 18px rgba(209, 26, 142, 0.35);
@@ -144,10 +144,10 @@ export default function EllevationFooter() {
           gap: 8px;
           padding: 14px 28px;
           border-radius: 14px;
-          background: #d11a8e;
+          background: #4B1E56;
           border: none;
           color: #ffffff;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-weight: 600;
           font-size: 13px;
           letter-spacing: 0.05em;
@@ -157,7 +157,7 @@ export default function EllevationFooter() {
           white-space: nowrap;
         }
         .btn-purple:hover {
-          background: #b51279;
+          background: #3A1744;
           transform: translateY(-2px);
           box-shadow: 0 6px 20px rgba(209, 26, 142, 0.35);
         }
@@ -171,7 +171,7 @@ export default function EllevationFooter() {
           background: rgba(209, 26, 142, 0.04);
           border: 1px solid rgba(209, 26, 142, 0.3);
           color: #403452;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-weight: 600;
           font-size: 13px;
           letter-spacing: 0.05em;
@@ -181,7 +181,7 @@ export default function EllevationFooter() {
         }
         .btn-ghost:hover {
           background: #ffffff;
-          border-color: #d11a8e;
+          border-color: #4B1E56;
           transform: translateY(-2px);
           box-shadow: 0 10px 25px rgba(209, 26, 142, 0.2);
         }
@@ -189,7 +189,7 @@ export default function EllevationFooter() {
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] footer {
           background: linear-gradient(180deg, #0d0614 0%, #08040d 100%) !important;
-          box-shadow: inset 0 0 140px 20px rgba(209, 26, 142, 0.4), inset 0 0 60px 0px rgba(209, 26, 142, 0.25) !important;
+          box-shadow: inset 0 0 140px 20px rgba(75, 30, 86, 0.35), inset 0 0 60px 0px rgba(75, 30, 86, 0.25) !important;
         }
         [data-theme="dark"] .footer-logo-img {
           filter: brightness(1.15) !important;
@@ -199,7 +199,7 @@ export default function EllevationFooter() {
           color: #cbd5e1 !important;
         }
         [data-theme="dark"] .footer-link:hover {
-          color: #d11a8e !important;
+          color: #4B1E56 !important;
         }
         [data-theme="dark"] .footer-column-heading {
           color: #c084fc !important;
@@ -209,7 +209,7 @@ export default function EllevationFooter() {
           color: rgba(255, 255, 255, 0.4) !important;
         }
         [data-theme="dark"] .footer-utility-link:hover {
-          color: #d11a8e !important;
+          color: #4B1E56 !important;
         }
         [data-theme="dark"] .footer-divider {
           background: rgba(255, 255, 255, 0.08) !important;
@@ -229,7 +229,7 @@ export default function EllevationFooter() {
           color: rgba(255, 255, 255, 0.7);
         }
         [data-theme="dark"] .social-btn:hover {
-          background: rgba(209, 26, 142, 0.15);
+          background: rgba(75, 30, 86, 0.15);
           border-color: rgba(209, 26, 142, 0.4);
           color: #ffffff;
         }
@@ -262,9 +262,9 @@ export default function EllevationFooter() {
           background: "#ffffff",
           position: "relative",
           overflow: "hidden",
-          fontFamily: "'DM Sans', sans-serif",
-          boxShadow:
-            "inset 0 0 140px 20px rgba(209, 26, 142, 0.55), inset 0 0 60px 0px rgba(209, 26, 142, 0.35)",
+          fontFamily: "'Montserrat', sans-serif",
+         boxShadow:
+"inset 0 0 140px 20px rgba(75,30,86,.45), inset 0 0 60px 0 rgba(75,30,86,.25)"
         }}
       >
         <div style={{
@@ -343,10 +343,10 @@ export default function EllevationFooter() {
                 <h4 
                   className="footer-column-heading"
                   style={{
-                    fontFamily: "'DM Sans', sans-serif",
+                    fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 700,
                     fontSize: "12px",
-                    color: "#662369",
+                    color: "#4B1E56",
                     marginBottom: "24px",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase"

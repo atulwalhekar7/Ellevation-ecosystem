@@ -54,8 +54,8 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
               display: "block",
               padding: "10px 22px",
               fontSize: "14px",
-              color: isSubItemActive ? "#d11a8e" : "#2d2d2d",
-              backgroundColor: isSubItemActive ? "rgba(209, 26, 142, 0.05)" : "transparent",
+              color: isSubItemActive ? "#4B1E56" : "#2d2d2d",
+              backgroundColor: isSubItemActive ? "rgba(75, 30, 86, 0.05)" : "transparent",
               textDecoration: "none",
               fontFamily: "'DM Sans', sans-serif",
               fontWeight: isSubItemActive ? 600 : 400,
@@ -91,7 +91,7 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
     : location.pathname === item.href;
 
   const defaultLinkColor = darkMode ? "#e9deff" : "#2d2d2d";
-  const currentLinkColor = (isActive || isHovered) ? "#d11a8e" : defaultLinkColor;
+  const currentLinkColor = (isActive || isHovered) ? "#4B1E56" : defaultLinkColor;
 
   if (item.dropdown) {
     return (
@@ -253,7 +253,7 @@ export default function EllevationNavbar() {
             transition: "box-shadow 0.25s, backdrop-filter 0.25s, background 0.25s",
           }}
         >
-          {/* Decorative oval #d11a8e glow shade, centered behind nav content */}
+          {/* Decorative oval #4B1E56 glow shade, centered behind nav content */}
           <div
             aria-hidden="true"
             style={{
@@ -262,15 +262,15 @@ export default function EllevationNavbar() {
               left: "50%",
               width: "680px",
               height: "130px",
-              background: darkMode
-                ? "radial-gradient(ellipse at center, rgba(209,26,142,0.30) 0%, rgba(209,26,142,0.14) 45%, rgba(209,26,142,0) 75%)"
-                : "radial-gradient(ellipse at center, rgba(209,26,142,0.55) 0%, rgba(209,26,142,0.28) 45%, rgba(209,26,142,0) 78%)",
-              borderRadius: "50%",
+             background: darkMode
+  ? "radial-gradient(ellipse at center, rgba(75,30,86,0.30) 0%, rgba(75,30,86,0.14) 45%, rgba(75,30,86,0) 75%)"
+  : "radial-gradient(ellipse at center, rgba(75,30,86,0.55) 0%, rgba(75,30,86,0.28) 45%, rgba(75,30,86,0) 78%)",
+borderRadius: "50%",
               transform: "translate(-50%, -50%)",
               filter: darkMode ? "blur(6px)" : "blur(4px)",
               boxShadow: darkMode
                 ? "none"
-                : "0 10px 34px rgba(209,26,142,0.35)",
+                : "0 10px 34px rgba(75,30,86,0.35)",
               pointerEvents: "none",
               zIndex: 0,
               animation: "navOvalPulse 6s ease-in-out infinite",
@@ -349,8 +349,8 @@ export default function EllevationNavbar() {
                 transition: "all 0.2s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#d11a8e";
-                e.currentTarget.style.color = "#d11a8e";
+                e.currentTarget.style.borderColor = "#4B1E56";
+                e.currentTarget.style.color = "#4B1E56";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = darkMode ? "rgba(167, 139, 250, 0.25)" : "rgba(184, 180, 205, 0.5)";
@@ -380,8 +380,8 @@ export default function EllevationNavbar() {
                 transition: "all 0.2s ease"
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#d11a8e";
-                e.currentTarget.style.color = "#d11a8e";
+                e.currentTarget.style.borderColor = "#4B1E56";
+                e.currentTarget.style.color = "#4B1E56";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = "rgba(184, 180, 205, 0.5)";
@@ -391,14 +391,14 @@ export default function EllevationNavbar() {
               Get Listed
             </Link>
 
-            {/* Premium Signature Pink Action Button */}
+            {/* Premium Signature Deep Purple Action Button */}
             <Link 
               to="/get-involved/join" 
               style={{ 
                 display: "flex", 
                 alignItems: "center", 
                 gap: "6px", 
-                background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", 
+                background: "linear-gradient(135deg, #4B1E56 0%, #4B1E56 100%)", 
                 border: "none", 
                 borderRadius: "20px", 
                 padding: "8px 22px", 
@@ -408,17 +408,17 @@ export default function EllevationNavbar() {
                 fontFamily: "'DM Sans', sans-serif", 
                 fontWeight: 600, 
                 textDecoration: "none", 
-                boxShadow: "0 4px 14px rgba(209, 26, 142, 0.35)", 
+                boxShadow: "0 4px 14px rgba(75, 30, 86, 0.35)", 
                 whiteSpace: "nowrap",
                 transition: "all 0.2s ease"
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = "translateY(-1px)";
-                e.currentTarget.style.boxShadow = "0 6px 20px rgba(209, 26, 142, 0.55)";
+                e.currentTarget.style.boxShadow = "0 6px 20px rgba(75, 30, 86, 0.55)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 14px rgba(209, 26, 142, 0.35)";
+                e.currentTarget.style.boxShadow = "0 4px 14px rgba(75, 30, 86, 0.35)";
               }}
             >
               Join

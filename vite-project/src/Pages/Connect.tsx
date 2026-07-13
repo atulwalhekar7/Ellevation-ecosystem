@@ -449,7 +449,7 @@ function Hero() {
           gap: 12, marginBottom: 24,
         }}>
           <div className={mounted ? "line-draw" : ""} style={{ width: 40, height: 1, background: "rgba(255,255,255,0.6)", transformOrigin: "right center" }} />
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", color: "#d11a8e" }}>
+          <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", color: "#4B1E56" }}>
             Connect With Us
           </span>
           <div className={mounted ? "line-draw" : ""} style={{ width: 40, height: 1, background: "rgba(255,255,255,0.6)", transformOrigin: "left center" }} />
@@ -457,19 +457,19 @@ function Hero() {
 
         <h1 style={{
           ...fade(mounted, 130),
-          fontFamily: "'Cormorant Garamond',serif", 
-          fontSize: "clamp(44px,7.5vw,82px)",
-          fontWeight: 500,
-          color: "#fff", margin: "0 0 20px", lineHeight: 1.1,
-        }}>
-          Ecosystem Hub Enquiry
+            fontFamily: "'Astrid Regular', serif",
+            fontSize: "clamp(36px,5vw,56px)",
+            fontWeight: 700, lineHeight: 1.15,
+            color: "#fff", marginBottom: 24, letterSpacing: "-0.01em",
+          }}>
+          Ecosystem Hub <span style={{ color: "#c98fd6" }}>Enquiry</span>
         </h1>
 
         <p style={{
           ...fade(mounted, 260),
-          fontFamily: "'DM Sans',sans-serif",
+          fontFamily: "'Montserrat',sans-serif",
           fontSize: "clamp(15px,1.8vw,17px)",
-          color: "rgba(8, 8, 8, 0.9)", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
+          color: "#fff", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
         }}>
           Whether you are looking to collaborate, seek programmatic guidance, or establish community connections, let us build pathways together.
         </p>
@@ -500,10 +500,10 @@ function CommonEnquiryForm() {
         
         {/* Section Heading Typography Grid */}
         <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#9b7db8", margin: "0 0 12px" }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Get in Touch
           </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(30px,4.5vw,44px)", fontWeight: 500, color: "#d11a8e", margin: 0 }}>
+          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,52px)", fontWeight: 700, lineHeight: 1.2, marginBottom: "32px", color: "#1a0a2e" }}>
 Reach Out to Us          </h2>
         </div>
 
@@ -521,8 +521,8 @@ Reach Out to Us          </h2>
           {formSubmitted ? (
             <div style={{ textAlign: "center", padding: "40px 0" }}>
               <div style={{ fontSize: 48, marginBottom: 16 }}>✨</div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, color: "#1c1630", marginBottom: 12 }}>Thank You</h3>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", color: "#5a4a6a", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
+              <h3 style={{ fontFamily: "'Astrid Regular', serif", fontSize: 32, color: "#1c1630", marginBottom: 12 }}>Thank You</h3>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#5a4a6a", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
                 Your request has been successfully synchronized with our leadership network. We will get back to you shortly.
               </p>
             </div>
@@ -531,7 +531,7 @@ Reach Out to Us          </h2>
               
               {/* Specialized Radio Segment Fields */}
               <div>
-                <label style={{ display: "block", fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#d11a8e", marginBottom: 12 }}>
+                <label style={{ display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", marginBottom: 12 }}>
                   Enquiry Stream
                 </label>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 12 }}>
@@ -624,7 +624,7 @@ Reach Out to Us          </h2>
                     padding: "14px 36px",
                     borderRadius: 999,
                     border: "none",
-                    background: submitHov ? "#7a5ea0" : "#d11a8e",
+                    background: submitHov ? "#7a5ea0" : "#1a0a2e",
                     color: "#fff",
                     fontFamily: "'DM Sans',sans-serif",
                     fontSize: 13,

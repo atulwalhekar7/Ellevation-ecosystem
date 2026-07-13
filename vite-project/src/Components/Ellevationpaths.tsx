@@ -94,21 +94,19 @@ function ImpactStatementSection() {
           Why We Exist
         </p>
 
-        <h2
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? "translateY(0)" : "translateY(24px)",
-            transition: "opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s",
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "clamp(42px, 7vw, 76px)",
-            fontWeight: 700,
-            lineHeight: 1.1,
-            color: "#d11a8e",
-            margin: "0 0 40px",
-          }}
-        >
-          Her Potential. Her Impact.
-        </h2>
+       <h2
+  style={{
+    fontFamily: "'Astrid Regular', serif",
+    fontSize: "52px",
+    fontWeight: 700,
+    lineHeight: 1.1,
+    color: "#4B1E56",
+    margin: "0 0 40px",
+  }}
+>
+  Her Potential. Her Impact.
+</h2>
+         
 
         {/* Floating glass statement card */}
         <div
@@ -131,10 +129,10 @@ function ImpactStatementSection() {
         >
           <h3
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "clamp(24px, 3vw, 30px)",
+             fontFamily: "'Montserrat', sans-serif",
+color: "#662369",
+              fontSize: "20px",
               fontWeight: 700,
-              color: "#1a0a2e",
               margin: "0 0 16px",
               lineHeight: 1.3,
             }}
@@ -143,10 +141,11 @@ function ImpactStatementSection() {
           </h3>
           <p
             style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 15.5,
-              lineHeight: 1.7,
-              color: "#554866",
+            fontFamily: "'Montserrat', sans-serif",
+fontSize: "15.5px",
+lineHeight: 1.7,
+color: "#554866",
+            
               margin: 0,
             }}
           >
@@ -161,8 +160,11 @@ function ImpactStatementSection() {
               { n: "Confidence", i: "❀" },
             ].map((tag) => (
               <div key={tag.n} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ color: "#d11a8e", fontSize: 15 }}>{tag.i}</span>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13.5, fontWeight: 600, color: "#662369" }}>
+                <span style={{ color: "#662369", fontSize: 15 }}>{tag.i}</span>
+                <span style={{ fontFamily: "'Astrid Regular', serif",
+fontSize: "16px",
+fontWeight: 700,
+color: "#1a0a2e", }}>
                   {tag.n}
                 </span>
               </div>

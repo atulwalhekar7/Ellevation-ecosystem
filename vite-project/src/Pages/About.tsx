@@ -64,7 +64,7 @@ const coreModel = [
     title: "Builds the Woman",
     body: "Her Voice, Identity, Confidence, Healing, and Leadership.",
     tags: ["Voice", "Identity", "Confidence", "Healing", "Leadership"],
-    accent: "#d11a8e",
+    accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
   {
@@ -72,7 +72,7 @@ const coreModel = [
     title: "Builds the Ecosystem",
     body: "Pathways, systems, impact, and opportunities around her and the wider community.",
     tags: ["Pathways", "Systems", "Impact", "Opportunity", "Community"],
-    accent: "#d11a8e",
+    accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
 ];
@@ -116,7 +116,7 @@ const slides = [
 const CrownIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
     <path d="M2 19h20M3 9l4 5 5-8 5 8 4-5v9a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"
-      stroke="#d11a8e" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      stroke="#4B1E56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -151,7 +151,7 @@ function Carousel() {
           boxShadow: "0 10px 30px rgba(124, 92, 191, 0.04)",
         }}
       >
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#d11a8e", marginBottom: 6, fontFamily: "'DM Sans',sans-serif" }}>
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#4B1E56", marginBottom: 6, fontFamily: "'Montserrat',sans-serif" }}>
           Signature Ecosystem
         </p>
         <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 13, fontWeight: 600, color: "#1a0a2e", lineHeight: 1.35, marginBottom: 10 }}>
@@ -159,7 +159,7 @@ function Carousel() {
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5 }}>
           {["Growth", "Access", "Impact", "Belonging"].map((item) => (
-            <div key={item} style={{ borderRadius: 9, background: "rgba(245,240,255,0.9)", padding: "6px 9px", fontSize: 11, fontFamily: "'DM Sans',sans-serif", fontWeight: 600, color: "#5a3fa0" }}>
+            <div key={item} style={{ borderRadius: 9, background: "rgba(245,240,255,0.9)", padding: "6px 9px", fontSize: 11, fontFamily: "'Montserrat',sans-serif", fontWeight: 600, color: "#5a3fa0" }}>
               {item}
             </div>
           ))}
@@ -191,7 +191,7 @@ function Carousel() {
               )}
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(26,10,46,0.04) 0%, rgba(26,10,46,0.42) 100%)" }} />
               <div style={{ position: "absolute", bottom: 28, left: 0, right: 0, textAlign: "center", padding: "0 24px" }}>
-                <div style={{ fontSize: 14, color: "rgba(255,255,255,0.95)", fontFamily: "'DM Sans',sans-serif" }}>{slide.sub}</div>
+                <div style={{ fontSize: 14, color: "rgba(255,255,255,0.95)", fontFamily: "'Montserrat',sans-serif" }}>{slide.sub}</div>
               </div>
             </div>
           ))}
@@ -220,7 +220,7 @@ function Carousel() {
         }}
       >
         <div style={{ marginBottom: 6 }}><CrownIcon /></div>
-        <p style={{ fontSize: 12.5, lineHeight: 1.5, color: "rgba(255,255,255,0.8)", fontFamily: "'DM Sans',sans-serif", margin: 0 }}>
+        <p style={{ fontSize: 12.5, lineHeight: 1.5, color: "rgba(255,255,255,0.8)", fontFamily: "'Montserrat',sans-serif", margin: 0 }}>
           Premium spaces for coaching, memberships, alliances, and events.
         </p>
       </div>
@@ -245,11 +245,11 @@ function Hero() {
         position: "relative", overflow: "hidden",
         background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
         minHeight: "100vh", display: "flex", flexDirection: "column",
-        fontFamily: "'DM Sans',sans-serif",
+        fontFamily: "'Montserrat',sans-serif",
       }}
     >
       <div style={{ position: "absolute", top: -60, right: -60, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,92,191,0.15) 0%,transparent 70%)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", bottom: 60, left: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(209,26,142,0.06) 0%,transparent 70%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: 60, left: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(75,30,86,0.06) 0%,transparent 70%)", pointerEvents: "none" }} />
 
       <div style={{
         flex: 1,
@@ -262,15 +262,15 @@ function Hero() {
       }}>
         <div style={{ opacity: visible ? 1 : 0 }}>
           <h1 className={visible ? "elv-animate-2" : ""} style={{
-            fontFamily: "'Cormorant Garamond',serif",
+            fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(36px,4.5vw,56px)",
             fontWeight: 700, lineHeight: 1.15,
             color: "#1a0a2e", marginBottom: 22, letterSpacing: "-0.01em",
           }}>
-            Born from a belief <br />every woman deserves <br /><span style={{color: "#d11a8e"}}>a space to rise.</span>
+            Born from a belief <br />every woman deserves <br />a space to rise.
           </h1>
 
-          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 15.5, lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
+          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 15.5, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
             Ellevation is a luxury feminine, community-driven ecosystem uniting personal
             transformation, professional visibility, impact pathways, events, and membership.
           </p>
@@ -286,13 +286,13 @@ function Hero() {
                 gap: 8,
                 padding: "14px 28px",
                 borderRadius: 14,
-                background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)",
+                background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
                 color: "#fff",
-                fontFamily: "'DM Sans',sans-serif",
+                fontFamily: "'Montserrat'",
                 fontWeight: 600,
                 fontSize: 13,
                 textDecoration: "none",
-                boxShadow: "0 4px 14px rgba(209, 26, 142, 0.25)",
+                boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
                 transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
                 transition: "transform 0.2s, box-shadow 0.2s",
               }}
@@ -310,9 +310,9 @@ function Hero() {
                 gap: 8,
                 padding: "14px 28px",
                 borderRadius: 14,
-                background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)",
+                background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
                 color: "#fff",
-                fontFamily: "'DM Sans',sans-serif",
+                fontFamily: "'Montserrat',sans-serif",
                 fontWeight: 600,
                 fontSize: 13,
                 textDecoration: "none",
@@ -365,7 +365,7 @@ function OverviewCard({
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid",
-        borderColor: hov ? "rgba(209, 26, 142, 0.35)" : "rgba(124, 92, 191, 0.15)",
+        borderColor: hov ? "rgba(75, 30, 86, 0.35)" : "rgba(124, 92, 191, 0.15)",
         borderRadius: 22, padding: "28px 24px",
         boxShadow: hov ? "0 26px 54px rgba(124, 92, 191, 0.1)" : "0 10px 30px rgba(124, 92, 191, 0.02)",
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease",
@@ -373,14 +373,14 @@ function OverviewCard({
       }}
     >
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600,
-        letterSpacing: "0.08em", textTransform: "uppercase", color: "#d11a8e",
+        fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600,
+        letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56",
         margin: "0 0 10px",
       }}>
         {item.label}
       </p>
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 14, lineHeight: 1.65,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 14, lineHeight: 1.65,
         color: "#554866", margin: 0,
       }}>
         {item.text}
@@ -401,17 +401,17 @@ function WhoWeAreSection() {
   return (
     <section
       className="about-who-we-are"
-      style={{ background: "linear-gradient(180deg, #ede7f5 0%, #ffffff 100%)", padding: "80px 24px" }}
+      style={{ background: "#AEAAD5", padding: "80px 24px" }}
     >
       <div style={{ maxWidth: 1140, margin: "0 auto" }}>
         {/* Header */}
         <div ref={head.ref} style={{ ...fade(head.inView, 0), textAlign: "center", marginBottom: 40 }}>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Who We Are
           </p>
-          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#1a0a2e", margin: 0 }}>
+          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#1a0a2e", margin: 0 }}>
             An Ecosystem Built for{" "}
-            <span style={{ color: "#d11a8e" }}>Every Stage of Life</span>
+            <span style={{ color: "#4B1E56" }}>Every Stage of Life</span>
           </h2>
         </div>
 
@@ -423,7 +423,7 @@ function WhoWeAreSection() {
             maxWidth: 760,
             margin: "0 auto 48px",
             textAlign: "left",
-            borderLeft: "3px solid rgba(209, 26, 142, 0.35)",
+            borderLeft: "3px solid rgba(75, 30, 86, 0.35)",
             paddingLeft: 24,
           }}
         >
@@ -431,7 +431,7 @@ function WhoWeAreSection() {
             <p
               key={i}
               style={{
-                fontFamily: "'DM Sans',sans-serif",
+                fontFamily: "'Montserrat',sans-serif",
                 fontSize: 15.5,
                 lineHeight: 1.75,
                 color: "#554866",
@@ -466,15 +466,15 @@ function WhoWeAreSection() {
             <div key={stage} style={{ display: "inline-flex", alignItems: "center" }}>
               <span
                 style={{
-                  fontFamily: "'DM Sans',sans-serif",
+                  fontFamily: "'Montserrat',sans-serif",
                   fontSize: 13.5,
                   fontWeight: 600,
                   lineHeight: 1,
                   whiteSpace: "nowrap",
                   padding: "8px 14px",
                   borderRadius: 999,
-                  background: idx === arr.length - 1 ? "rgba(209, 26, 142, 0.1)" : "transparent",
-                  color: idx === arr.length - 1 ? "#d11a8e" : "#1a0a2e",
+                  background: idx === arr.length - 1 ? "rgba(75, 30, 86, 0.1)" : "transparent",
+                  color: idx === arr.length - 1 ? "#4B1E56" : "#1a0a2e",
                 }}
               >
                 {stage}
@@ -571,19 +571,19 @@ function FounderSection() {
             </div>
           </div>
           <div style={{ textAlign: "center" }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16.5, fontWeight: 700, color: "#1a0a2e", margin: "0 0 4px" }}>Ms Hannah Gongar</p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, fontWeight: 600, color: "#662369", letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Founder</p>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16.5, fontWeight: 700, color: "#1a0a2e", margin: "0 0 4px" }}>Ms Hannah Gongar</p>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, fontWeight: 600, color: "#662369", letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Founder</p>
           </div>
         </div>
 
         {/* RIGHT: text */}
         <div ref={right.ref} style={{ flex: "1 1 380px", maxWidth: 640 }}>
-          <p style={{ ...fade(right.inView, 60), fontFamily: "'DM Sans', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+          <p style={{ ...fade(right.inView, 60), fontFamily: "'Montserrat', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Ecosystem Pathway
           </p>
-          <h2 style={{ ...fade(right.inView, 130), fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,4.5vw,46px)", fontWeight: 700, color: "#1a0a2e", lineHeight: 1.2, margin: "0 0 24px" }}>
+          <h2 style={{ ...fade(right.inView, 130), fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,46px)", fontWeight: 700, color: "#4B1E56", lineHeight: 1.2, margin: "0 0 24px" }}>
             Building Confidence, Wellbeing, and{" "}
-            <span style={{ color: "#d11a8e" }}>Accessible Opportunities</span>
+            <span style={{ color: "#4B1E56" }}>Accessible Opportunities</span>
           </h2>
 
           {[
@@ -591,7 +591,7 @@ function FounderSection() {
             { delay: 280, text: "We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their unique identities, rich cultures, or lived experiences." },
             { delay: 360, text: "By connecting community safety networks, personal growth frameworks, and strategic economic channels, we transform distinct milestones into a single, integrated lifecycle matrix." },
           ].map((p, i) => (
-            <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'DM Sans', sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
+            <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'Montserrat', sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
               {p.text}
             </p>
           ))}
@@ -609,14 +609,26 @@ function FounderSection() {
               borderRadius: "14px",
               border: "1px solid rgba(124, 92, 191, 0.12)",
               margin: "28px 0",
-              color: "#d11a8e",
+              color: "#4B1E56",
             }}
           >
             {["Children", "Youth", "Women", "Men", "Community", "Economy"].map((stage, idx, arr) => (
               <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "13.5px", fontWeight: 600, color: idx === 5 ? "#d11a8e" : "#1a0a2e" }}>
-                  {stage}
-                </span>
+<span
+  style={{
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: "13.5px",
+    fontWeight: 600,
+    color:
+      document.documentElement.getAttribute("data-theme") === "dark"
+        ? "#ffffff"
+        : idx === arr.length - 1
+        ? "#4B1E56"
+        : "#1a0a2e",
+  }}
+>
+  {stage}
+</span>                 
                 {idx < arr.length - 1 && (
                   <span style={{ color: "rgba(124, 92, 191, 0.4)", fontSize: "12px", fontWeight: 700 }}>→</span>
                 )}
@@ -639,7 +651,7 @@ function VisionSection() {
     <section
       className="about-vision"
       style={{
-        background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)",
+        background: "#AEAAD5",
         padding: "80px 24px",
         position: "relative",
         overflow: "hidden"
@@ -649,7 +661,7 @@ function VisionSection() {
         {/* Section Header */}
         <div ref={h.ref} style={{ textAlign: "center", marginBottom: "56px" }}>
           <span style={{
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "'Montserrat', sans-serif",
             fontSize: "12px",
             fontWeight: 600,
             textTransform: "uppercase",
@@ -662,18 +674,18 @@ function VisionSection() {
           </span>
           <h2 style={{
             ...fade(h.inView, 0),
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(36px, 4.5vw, 52px)",
             fontWeight: 700,
             lineHeight: 1.2,
-            color: "#1a0a2e",
+            color: "#4B1E56",
             maxWidth: "850px",
             margin: "0 auto"
           }}>
             A Vision for Every Woman,{" "}
-            <span style={{ color: "#d11a8e", fontStyle: "italic" }}>
+           
               A Platform for the Collective
-            </span>
+           
           </h2>
         </div>
 
@@ -719,13 +731,13 @@ function VisionSection() {
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: "24px",
                 fontStyle: "italic",
-                color: "#d11a8e",
+                color: "#4B1E56",
                 fontWeight: 700
               }}>
                 {item.num}
               </span>
               <p style={{
-                fontFamily: "'DM Sans', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontSize: "15.5px",
                 color: "#554866",
                 lineHeight: 1.65,
@@ -769,7 +781,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: hov ? item.accent : "transparent", transition: "background 0.3s" }} />
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600,
         letterSpacing: "0.08em", textTransform: "uppercase", color: item.accent,
         margin: "0 0 10px",
       }}>
@@ -782,7 +794,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
         {item.title}
       </h3>
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 15, lineHeight: 1.65,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 15, lineHeight: 1.65,
         color: "#554866", margin: "0 0 24px",
       }}>
         {item.body}
@@ -790,7 +802,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
         {item.tags.map((tag) => (
           <span key={tag} style={{
-            fontFamily: "'DM Sans',sans-serif", fontSize: 11.5, fontWeight: 600,
+            fontFamily: "'Montserrat',sans-serif", fontSize: 11.5, fontWeight: 600,
             color: item.accent, background: "#ffffff",
             border: `1px solid rgba(124, 92, 191, 0.15)`,
             borderRadius: 999, padding: "6px 14px",
@@ -810,7 +822,7 @@ function CoreModelSection() {
   return (
     <section
       className="about-core-model"
-      style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px" }}
+      style={{ background: "#AEAAD5", padding: "80px 24px" }}
     >
       <div
         ref={head.ref}
@@ -820,17 +832,17 @@ function CoreModelSection() {
           marginBottom: "48px",
         }}
       >
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
           Core Model
         </p>
-        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#d11a8e", margin: 0 }}>
+        <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
           One mission. Two pathways.
         </h2>
       </div>
 
       <div style={{
         display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto",
-        justifyContent: "center", alignItems: "stretch",
+        justifyContent: "center", alignItems: "stretch",fontFamily: "'Astrid Regular',serif",
       }}>
         <CoreModelCard item={coreModel[0]} />
 
@@ -870,7 +882,7 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid",
-        borderColor: hov ? "rgba(209, 26, 142, 0.3)" : "rgba(124, 92, 191, 0.15)",
+        borderColor: hov ? "rgba(75, 30, 86, 0.3)" : "rgba(124, 92, 191, 0.15)",
         borderRadius: 18, padding: "20px 16px", textAlign: "left",
         boxShadow: hov ? "0 18px 40px rgba(124, 92, 191, 0.1)" : "0 8px 22px rgba(124, 92, 191, 0.02)",
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease",
@@ -880,7 +892,7 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
     >
       <div style={{
         width: 34, height: 34, borderRadius: 11,
-        background: "rgba(209, 26, 142, 0.08)", color: "#d11a8e",
+        background: "rgba(75, 30, 86, 0.08)", color: "#4B1E56",
         display: "flex", alignItems: "center", justifyContent: "center",
         fontSize: 15, marginBottom: 13,
         transition: "transform 0.35s ease",
@@ -895,7 +907,7 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
         {item.title}
       </h3>
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 12, lineHeight: 1.55,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 12, lineHeight: 1.55,
         color: "#554866", margin: 0,
       }}>
         {item.body}
@@ -912,10 +924,10 @@ function WhoWeServeSection() {
       style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "80px 24px" }}
     >
       <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
-        <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
           Who We Serve
         </p>
-        <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#d11a8e", margin: 0 }}>
+        <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
           A Community That Spans Every Generation
         </h2>
       </div>
@@ -948,17 +960,17 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
         borderRadius: 14,
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
         background: primary
-          ? (hov ? "#b51279" : "#d11a8e")
+          ? (hov ? "#35143d" : "#4B1E56")
           : (hov ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.05)"),
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
-        fontFamily: "'DM Sans',sans-serif",
+        fontFamily: "'Montserrat',sans-serif",
         fontSize: 13,
         fontWeight: 600,
         letterSpacing: "0.05em",
         cursor: "pointer",
-        boxShadow: primary && hov ? "0 6px 20px rgba(209, 26, 142, 0.45)" : "none",
+        boxShadow: primary && hov ? "0 6px 20px rgba(75, 30, 86, 0.45)" : "none",
         transform: hov ? "translateY(-2px)" : "translateY(0)",
         transition: "all 0.2s ease",
       }}
@@ -988,14 +1000,14 @@ function CTASection() {
         <h2
           style={{
             ...fade(inView, 0),
-            fontFamily: "'Cormorant Garamond',serif",
+            fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(38px,6vw,60px)",
             fontWeight: 700,
             color: "#ffffff",
             margin: "0 0 40px"
           }}
         >
-          Join Our <span style={{ color: "#d11a8e" }}>Ecosystem</span>
+          Join Our <span style={{ color: "#4B1E56" }}>Ecosystem</span>
         </h2>
         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
           <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
@@ -1014,7 +1026,19 @@ export default function AboutPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
+
+        /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
+           Replace the src url below with the path to your actual font file. */
+        @font-face {
+          font-family: 'Astrid Regular';
+          src: url('/fonts/AstridRegular.woff2') format('woff2'),
+               url('/fonts/AstridRegular.otf') format('opentype');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #fdf9fc; }
 
@@ -1044,6 +1068,15 @@ export default function AboutPage() {
           animation: fadeSlideInTop 1.2s cubic-bezier(0.25,1,0.5,1) forwards;
           animation-delay: 0.9s;
         }
+          /* Pipeline text in dark mode */
+[data-theme="dark"] .about-who-we-are span {
+  color: #ffffff !important;
+}
+
+/* Keep the arrows purple */
+[data-theme="dark"] .about-who-we-are span[style*="rgba(124, 92, 191"] {
+  color: rgba(180, 150, 255, 0.7) !important;
+}
         .elv-float-card-bottom {
           opacity: 0;
           animation: fadeSlideInBottom 1.2s cubic-bezier(0.25,1,0.5,1) forwards;
@@ -1051,7 +1084,7 @@ export default function AboutPage() {
         }
 
         .blob { position: absolute; border-radius: 50%; pointer-events: none; }
-        .cta-blob-1 { top: -80px; right: -60px; width: 380px; height: 380px; background: radial-gradient(circle,rgba(209,26,142,0.1) 0%,transparent 70%); animation: floatB 10s ease-in-out infinite; }
+        .cta-blob-1 { top: -80px; right: -60px; width: 380px; height: 380px; background: radial-gradient(circle,rgba(75,30,86,0.1) 0%,transparent 70%); animation: floatB 10s ease-in-out infinite; }
         .cta-blob-2 { bottom: -60px; left: -40px; width: 320px; height: 320px; background: radial-gradient(circle,rgba(124,92,191,0.08) 0%,transparent 70%); animation: floatA 12s ease-in-out infinite 3s; }
 
         @keyframes floatA {
