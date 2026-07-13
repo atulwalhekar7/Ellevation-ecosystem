@@ -1,4 +1,8 @@
-import { useState, useEffect, useRef } from "react";import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+
+// TODO: apni asli image yahan daalo (jaisa AboutPage.tsx mein aboutBg use hua hai)
+import welcomeImg from "../assets/banner2.avif";
 
 interface Path {
   eyebrow: string;
@@ -40,6 +44,337 @@ const paths: Path[] = [
   },
 ];
 
+/* ══════════════════════════════════════════════
+   SECTION 1 — "Her Potential. Her Impact."
+   Hero-style statement with a floating glass card
+   ══════════════════════════════════════════════ */
+function ImpactStatementSection() {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className="impact-section"
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)",
+        padding: "110px 24px 130px",
+      }}
+    >
+      {/* ambient blobs, consistent with rest of site */}
+      <div className="impact-blob impact-blob-1" />
+      <div className="impact-blob impact-blob-2" />
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+        <p
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "#662369",
+            marginBottom: 18,
+          }}
+        >
+          Why We Exist
+        </p>
+
+        <h2
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(24px)",
+            transition: "opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(42px, 7vw, 76px)",
+            fontWeight: 700,
+            lineHeight: 1.1,
+            color: "#d11a8e",
+            margin: "0 0 40px",
+          }}
+        >
+          Her Potential. Her Impact.
+        </h2>
+
+        {/* Floating glass statement card */}
+        <div
+          className="impact-glass-card"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(30px)",
+            transition: "opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s",
+            display: "inline-block",
+            maxWidth: 640,
+            margin: "0 auto",
+            background: "rgba(255, 255, 255, 0.7)",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)",
+            border: "1px solid rgba(124, 92, 191, 0.15)",
+            borderRadius: 28,
+            padding: "40px 44px",
+            boxShadow: "0 20px 50px rgba(124, 92, 191, 0.1)",
+          }}
+        >
+          <h3
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(24px, 3vw, 30px)",
+              fontWeight: 700,
+              color: "#1a0a2e",
+              margin: "0 0 16px",
+              lineHeight: 1.3,
+            }}
+          >
+            Building Holistic Success for Women in Australia.
+          </h3>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 15.5,
+              lineHeight: 1.7,
+              color: "#554866",
+              margin: 0,
+            }}
+          >
+            Beyond every obstacle and uncertainty, Ms. Ellevation empowers her to claim her space,
+            amplify her voice, and truly flourish.
+          </p>
+
+          <div style={{ display: "flex", justifyContent: "center", gap: 28, marginTop: 28, flexWrap: "wrap" }}>
+            {[
+              { n: "Voice", i: "◈" },
+              { n: "Identity", i: "✦" },
+              { n: "Confidence", i: "❀" },
+            ].map((tag) => (
+              <div key={tag.n} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ color: "#d11a8e", fontSize: 15 }}>{tag.i}</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13.5, fontWeight: 600, color: "#662369" }}>
+                  {tag.n}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════
+   SECTION 2 — "Your Harbour of Empowerment"
+   Split layout: text + image with floating brand badge
+   ══════════════════════════════════════════════ */
+function WelcomeSection() {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className="welcome-section"
+      style={{
+        background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
+        padding: "50px 24px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1140,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 56,
+          alignItems: "center",
+        }}
+        className="welcome-grid"
+      >
+        {/* LEFT — text */}
+        <div
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(24px)",
+            transition: "opacity 0.7s ease, transform 0.7s ease",
+          }}
+        >
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#662369",
+              margin: "0 0 14px",
+            }}
+          >
+            A Space For Women, By Women
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "clamp(34px, 4.5vw, 50px)",
+              fontWeight: 700,
+              lineHeight: 1.18,
+              color: "#1a0a2e",
+              margin: "0 0 22px",
+            }}
+          >
+            Welcome to Your{" "}
+            <span style={{ color: "#d11a8e" }}>Harbour of Empowerment</span>
+          </h2>
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 15.5,
+              lineHeight: 1.75,
+              color: "#554866",
+              margin: "0 0 32px",
+              maxWidth: 460,
+            }}
+          >
+            Welcome to Ms. Ellevation — for new beginnings, bold journeys, and dreams taking
+            flight. Find your place. Lift your voice. Shine. Flourish in every part of your life.
+          </p>
+
+          <Link
+            to="/ms-ellevation"
+            className="welcome-cta"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "14px 28px",
+              borderRadius: 14,
+              background: "linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)",
+              color: "#fff",
+              fontFamily: "'DM Sans', sans-serif",
+              fontWeight: 600,
+              fontSize: 13,
+              letterSpacing: "0.03em",
+              textDecoration: "none",
+              boxShadow: "0 4px 14px rgba(209, 26, 142, 0.25)",
+              transition: "transform 0.2s, box-shadow 0.2s",
+            }}
+          >
+            Find Your Place
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </Link>
+        </div>
+
+        {/* RIGHT — image with floating brand badge */}
+        <div
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(24px)",
+            transition: "opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              borderRadius: 28,
+              overflow: "hidden",
+              aspectRatio: "4 / 3.4",
+              boxShadow: "0 24px 60px rgba(124, 92, 191, 0.14)",
+              border: "1px solid rgba(124, 92, 191, 0.15)",
+            }}
+          >
+            <img
+              src={welcomeImg}
+              alt="Welcome to Ms. Ellevation"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = "none";
+                const parent = target.parentElement;
+                if (parent && !parent.querySelector(".welcome-fallback")) {
+                  const fb = document.createElement("div");
+                  fb.className = "welcome-fallback";
+                  fb.style.cssText =
+                    "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ede7f5 0%,#f6f3fa 100%);font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#662369;text-align:center;padding:24px;";
+                  fb.textContent = "Ms. Ellevation";
+                  parent.appendChild(fb);
+                }
+              }}
+            />
+          </div>
+
+          {/* Floating brand badge — same language as Carousel's floating cards */}
+          <div
+            className="welcome-badge"
+            style={{
+              position: "absolute",
+              bottom: -22,
+              left: -22,
+              background: "#1a0a2e",
+              borderRadius: 18,
+              padding: "16px 22px",
+              boxShadow: "0 14px 34px rgba(0,0,0,0.22)",
+              border: "1px solid rgba(255,255,255,0.06)",
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: "50%",
+                background: "rgba(209, 26, 142, 0.15)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l1.8 5.6H20l-4.6 3.4 1.8 5.6L12 13.2 6.8 16.6l1.8-5.6L4 8h6.2z" fill="#d11a8e" />
+              </svg>
+            </div>
+            <div>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.2 }}>
+                Ms. Ellevation
+              </p>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "rgba(255,255,255,0.65)", margin: 0 }}>
+                A space for women, by women
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════
+   EXISTING — Ellevation Paths grid
+   ══════════════════════════════════════════════ */
 export default function EllevationPaths() {
   const [visible, setVisible] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -63,6 +398,27 @@ export default function EllevationPaths() {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(30px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Section 1: Impact Statement ── */
+        .impact-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+        .impact-blob-1 {
+          top: -100px; right: -80px; width: 380px; height: 380px;
+          background: radial-gradient(circle, rgba(209,26,142,0.08) 0%, transparent 70%);
+        }
+        .impact-blob-2 {
+          bottom: -60px; left: -100px; width: 340px; height: 340px;
+          background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%);
+        }
+        .impact-glass-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
+        .impact-glass-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16);
+        }
+
+        .welcome-cta:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(209, 26, 142, 0.35);
         }
 
         .paths-section {
@@ -262,7 +618,37 @@ export default function EllevationPaths() {
           .paths-header-title { font-size: 38px !important; }
         }
 
+        @media (max-width: 868px) {
+          .welcome-grid { grid-template-columns: 1fr !important; gap: 60px !important; }
+          .welcome-badge { left: 12px !important; bottom: -18px !important; }
+        }
+
+        @media (max-width: 640px) {
+          .impact-section { padding: 80px 20px 100px !important; }
+          .welcome-section { padding: 70px 20px !important; }
+          .impact-glass-card { padding: 28px 24px !important; }
+        }
+
         /* ── Dark Mode ── */
+        [data-theme="dark"] .impact-section {
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
+        }
+        [data-theme="dark"] .impact-section h2,
+        [data-theme="dark"] .impact-section h3 { color: #ffffff; }
+        [data-theme="dark"] .impact-glass-card {
+          background: rgba(25, 16, 38, 0.7);
+          border-color: rgba(155, 109, 190, 0.15);
+        }
+        [data-theme="dark"] .impact-glass-card p {
+          color: #cbd5e1;
+        }
+
+        [data-theme="dark"] .welcome-section {
+          background: linear-gradient(180deg, #160d22 0%, #0d0614 100%);
+        }
+        [data-theme="dark"] .welcome-section h2 { color: #ffffff; }
+        [data-theme="dark"] .welcome-section p { color: #cbd5e1; }
+
         [data-theme="dark"] .paths-section {
           background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
         }
@@ -301,6 +687,13 @@ export default function EllevationPaths() {
         }
       `}</style>
 
+      {/* NEW SECTION 1 */}
+      <ImpactStatementSection />
+
+      {/* NEW SECTION 2 */}
+      <WelcomeSection />
+
+      {/* EXISTING PATHS GRID SECTION */}
       <section
         ref={sectionRef}
         className="paths-section"
@@ -332,6 +725,7 @@ export default function EllevationPaths() {
             gap: "32px",
             maxWidth: "1140px",
             margin: "0 auto",
+            alignItems: "start",
           }}
         >
           {paths.map((p: Path, i: number) => (

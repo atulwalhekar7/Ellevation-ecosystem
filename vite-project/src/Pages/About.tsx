@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 import aboutBg from "../assets/about1-image.jpg";
 
 import img1 from "../assets/img1.jpg";
@@ -23,15 +23,41 @@ function useInView(threshold = 0.15) {
   return { ref, inView };
 }
 
+// FIX: animation direction thi ulti (inView=true par translateY(30px) ho raha tha).
+// Ab normal fade-up hai: shuru mein neeche + invisible, phir upar aakar visible.
 function fade(inView: boolean, delay = 0): CSSProperties {
   return {
     opacity: inView ? 1 : 0,
-    transform: inView ? "translateY(30px)" : "translateY(0)",
+    transform: inView ? "translateY(0)" : "translateY(30px)",
     transition: `opacity 0.6s ease ${delay}ms, transform 0.6s ease ${delay}ms`,
   };
 }
 
-/* ── Core Model data ── */
+/* ── Who We Are data ── */
+const whoWeAreParagraphs = [
+  "Ellevation is a community-led ecosystem building confidence, wellbeing, leadership, and accessible pathways into opportunity across every stage of life.",
+  "We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their identities, cultures, or lived experiences.",
+  "We connect community, personal growth, leadership, and economic pathways into one integrated system.",
+];
+
+const pipelineStages = ["Children", "Youth", "Women", "Men", "Community", "Economy"];
+
+const overviewCards = [
+  {
+    label: "Mission",
+    text: "To build accessible, culturally grounded pathways that support CALD communities to grow in confidence, develop leadership, and access real opportunities for long-term economic participation.",
+  },
+  {
+    label: "Vision",
+    text: "A future where individuals and communities thrive with confidence, identity, and opportunity — without leaving culture or lived experience behind.",
+  },
+  {
+    label: "Core Model",
+    text: "MS. ELLEVATION builds the woman — her Voice, Identity, Confidence, Healing, and Leadership. ELLEVATION HUB builds pathways, systems, impact, and opportunities around her and the wider community.",
+  },
+];
+
+/* ── Core Model data (detailed section) ── */
 const coreModel = [
   {
     label: "Ms. Ellevation",
@@ -73,7 +99,11 @@ const whoWeServe = [
     body: "Allyship, development, and support pathways for men and the families around them.",
     icon: "◎",
   },
-  
+  {
+    title: "Children & Youth (5–16)",
+    body: "Early foundations for confidence, identity, and belonging, nurtured from the very start.",
+    icon: "❀",
+  },
 ];
 
 const slides = [
@@ -209,7 +239,7 @@ function Hero() {
   }, []);
 
   return (
-    <section 
+    <section
       className="about-hero"
       style={{
         position: "relative", overflow: "hidden",
@@ -304,16 +334,208 @@ function Hero() {
   );
 }
 
+/* ── WHO WE ARE SECTION ── */
+function OverviewCard({
+  item,
+  cardRef,
+  inView,
+  delay,
+}: {
+  item: typeof overviewCards[0];
+  cardRef: RefObject<HTMLDivElement>;
+  inView: boolean;
+  delay: number;
+}) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div
+      ref={cardRef}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        ...fade(inView, delay),
+        // FIX: yeh div ab seedha flex item hai (koi extra wrapper nahi),
+        // isliye parent ka default stretch teeno cards ko same height dega.
+        flex: "1 1 280px",
+        minWidth: 240,
+        maxWidth: 360,
+        display: "flex",
+        flexDirection: "column",
+        background: "rgba(255, 255, 255, 0.75)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        border: "1px solid",
+        borderColor: hov ? "rgba(209, 26, 142, 0.35)" : "rgba(124, 92, 191, 0.15)",
+        borderRadius: 22, padding: "28px 24px",
+        boxShadow: hov ? "0 26px 54px rgba(124, 92, 191, 0.1)" : "0 10px 30px rgba(124, 92, 191, 0.02)",
+        transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease",
+        transform: hov ? "translateY(-4px)" : "translateY(0)",
+      }}
+    >
+      <p style={{
+        fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600,
+        letterSpacing: "0.08em", textTransform: "uppercase", color: "#d11a8e",
+        margin: "0 0 10px",
+      }}>
+        {item.label}
+      </p>
+      <p style={{
+        fontFamily: "'DM Sans',sans-serif", fontSize: 14, lineHeight: 1.65,
+        color: "#554866", margin: 0,
+      }}>
+        {item.text}
+      </p>
+    </div>
+  );
+}
+
+function WhoWeAreSection() {
+  const head = useInView(0.1);
+  const body = useInView(0.15);
+  const pipeline = useInView(0.15);
+  const card0 = useInView(0.15);
+  const card1 = useInView(0.15);
+  const card2 = useInView(0.15);
+  const cardRefs = [card0, card1, card2];
+
+  return (
+    <section
+      className="about-who-we-are"
+      style={{ background: "linear-gradient(180deg, #ede7f5 0%, #ffffff 100%)", padding: "80px 24px" }}
+    >
+      <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+        {/* Header */}
+        <div ref={head.ref} style={{ ...fade(head.inView, 0), textAlign: "center", marginBottom: 40 }}>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+            Who We Are
+          </p>
+          <h2 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#1a0a2e", margin: 0 }}>
+            An Ecosystem Built for{" "}
+            <span style={{ color: "#d11a8e" }}>Every Stage of Life</span>
+          </h2>
+        </div>
+
+        {/* Intro paragraphs — left aligned block */}
+        <div
+          ref={body.ref}
+          style={{
+            ...fade(body.inView, 100),
+            maxWidth: 760,
+            margin: "0 auto 48px",
+            textAlign: "left",
+            borderLeft: "3px solid rgba(209, 26, 142, 0.35)",
+            paddingLeft: 24,
+          }}
+        >
+          {whoWeAreParagraphs.map((p, i) => (
+            <p
+              key={i}
+              style={{
+                fontFamily: "'DM Sans',sans-serif",
+                fontSize: 15.5,
+                lineHeight: 1.75,
+                color: "#554866",
+                margin: i === whoWeAreParagraphs.length - 1 ? 0 : "0 0 16px",
+              }}
+            >
+              {p}
+            </p>
+          ))}
+        </div>
+
+        {/* Pipeline */}
+        <div
+          ref={pipeline.ref}
+          style={{
+            ...fade(pipeline.inView, 160),
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            rowGap: 14,
+            columnGap: 0,
+            background: "rgba(124, 92, 191, 0.05)",
+            padding: "18px 28px",
+            borderRadius: 16,
+            border: "1px solid rgba(124, 92, 191, 0.12)",
+            maxWidth: 760,
+            margin: "0 auto 48px",
+          }}
+        >
+          {pipelineStages.map((stage, idx, arr) => (
+            <div key={stage} style={{ display: "inline-flex", alignItems: "center" }}>
+              <span
+                style={{
+                  fontFamily: "'DM Sans',sans-serif",
+                  fontSize: 13.5,
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  whiteSpace: "nowrap",
+                  padding: "8px 14px",
+                  borderRadius: 999,
+                  background: idx === arr.length - 1 ? "rgba(209, 26, 142, 0.1)" : "transparent",
+                  color: idx === arr.length - 1 ? "#d11a8e" : "#1a0a2e",
+                }}
+              >
+                {stage}
+              </span>
+              {idx < arr.length - 1 && (
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1,
+                    color: "rgba(124, 92, 191, 0.5)",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    padding: "0 4px",
+                  }}
+                >
+                  →
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Mission / Vision / Core Model — single row, equal height, no scroll */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 20,
+            justifyContent: "center",
+            alignItems: "stretch", // FIX: teeno cards ki height barabar rakhega
+            maxWidth: 1080,
+            margin: "0 auto",
+          }}
+        >
+          {overviewCards.map((item, i) => (
+            <OverviewCard
+              key={item.label}
+              item={item}
+              cardRef={cardRefs[i].ref}
+              inView={cardRefs[i].inView}
+              delay={i * 120}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FounderSection() {
   const left  = useInView(0.15);
   const right = useInView(0.15);
 
   return (
-    <section 
+    <section
       className="about-founder"
       style={{
         background: "#fff",
-        padding: "100px 24px",
+        padding: "80px 24px",
         borderBottom: "1px solid #f2ecf9",
       }}
     >
@@ -363,7 +585,7 @@ function FounderSection() {
             Building Confidence, Wellbeing, and{" "}
             <span style={{ color: "#d11a8e" }}>Accessible Opportunities</span>
           </h2>
-          
+
           {[
             { delay: 200, text: "Ellevation is a community-led ecosystem dedicated to nurturing wellbeing, leadership, and accessible pathways into opportunity across every stage of life." },
             { delay: 280, text: "We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their unique identities, rich cultures, or lived experiences." },
@@ -375,12 +597,12 @@ function FounderSection() {
           ))}
 
           {/* Pipeline matrix tier */}
-          <div 
-            style={{ 
-              ...fade(right.inView, 420), 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "8px", 
+          <div
+            style={{
+              ...fade(right.inView, 420),
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
               flexWrap: "wrap",
               background: "rgba(124, 92, 191, 0.04)",
               padding: "14px 20px",
@@ -414,18 +636,18 @@ function VisionSection() {
   const p3 = useInView(0.15);
 
   return (
-    <section 
+    <section
       className="about-vision"
-      style={{ 
+      style={{
         background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)",
-        padding: "100px 24px",
+        padding: "80px 24px",
         position: "relative",
         overflow: "hidden"
       }}
     >
       <div style={{ maxWidth: "1140px", margin: "0 auto" }}>
         {/* Section Header */}
-        <div ref={h.ref} style={{ textAlign: "center", marginBottom: "64px" }}>
+        <div ref={h.ref} style={{ textAlign: "center", marginBottom: "56px" }}>
           <span style={{
             fontFamily: "'DM Sans', sans-serif",
             fontSize: "12px",
@@ -438,12 +660,12 @@ function VisionSection() {
           }}>
             Our Purpose
           </span>
-          <h2 style={{ 
-            ...fade(h.inView, 0), 
-            fontFamily: "'Cormorant Garamond', serif", 
-            fontSize: "clamp(36px, 4.5vw, 52px)", 
-            fontWeight: 700, 
-            lineHeight: 1.2, 
+          <h2 style={{
+            ...fade(h.inView, 0),
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(36px, 4.5vw, 52px)",
+            fontWeight: 700,
+            lineHeight: 1.2,
             color: "#1a0a2e",
             maxWidth: "850px",
             margin: "0 auto"
@@ -462,29 +684,29 @@ function VisionSection() {
           gap: "40px",
         }}>
           {[
-            { 
-              r: p1, 
-              d: 0,   
+            {
+              r: p1,
+              d: 0,
               num: "01",
-              t: "Ellevation was founded on a simple but profound truth: women thrive when they are seen, supported, and connected to a community that believes in their power." 
+              t: "Ellevation was founded on a simple but profound truth: women thrive when they are seen, supported, and connected to a community that believes in their power."
             },
-            { 
-              r: p2, 
-              d: 110, 
+            {
+              r: p2,
+              d: 110,
               num: "02",
-              t: "From the boardroom to the community hall, from personal healing to professional mastery — Ellevation exists to serve every dimension of a woman's life and ambition." 
+              t: "From the boardroom to the community hall, from personal healing to professional mastery — Ellevation exists to serve every dimension of a woman's life and ambition."
             },
-            { 
-              r: p3, 
-              d: 220, 
+            {
+              r: p3,
+              d: 220,
               num: "03",
-              t: "Through Ms. Ellevation and Ellevation Hub — we create a living ecosystem where transformation is not a destination, but a way of being." 
+              t: "Through Ms. Ellevation and Ellevation Hub — we create a living ecosystem where transformation is not a destination, but a way of being."
             },
           ].map((item, i) => (
-            <div 
-              ref={item.r.ref} 
-              key={i} 
-              style={{ 
+            <div
+              ref={item.r.ref}
+              key={i}
+              style={{
                 ...fade(item.r.inView, item.d),
                 borderTop: "1px solid rgba(124, 92, 191, 0.2)",
                 paddingTop: "28px",
@@ -502,11 +724,11 @@ function VisionSection() {
               }}>
                 {item.num}
               </span>
-              <p style={{ 
-                fontFamily: "'DM Sans', sans-serif", 
-                fontSize: "15.5px", 
-                color: "#554866", 
-                lineHeight: 1.65, 
+              <p style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "15.5px",
+                color: "#554866",
+                lineHeight: 1.65,
                 margin: 0,
                 fontWeight: 400
               }}>
@@ -520,7 +742,7 @@ function VisionSection() {
   );
 }
 
-/* ── CORE MODEL SECTION ── */
+/* ── CORE MODEL SECTION (detailed) ── */
 function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
   const { ref } = useInView();
   const [hov, setHov] = useState(false);
@@ -542,6 +764,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease",
         transform: hov ? "translateY(-6px)" : "translateY(0)",
         position: "relative", overflow: "hidden",
+        display: "flex", flexDirection: "column",
       }}
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: hov ? item.accent : "transparent", transition: "background 0.3s" }} />
@@ -564,7 +787,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
       }}>
         {item.body}
       </p>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
         {item.tags.map((tag) => (
           <span key={tag} style={{
             fontFamily: "'DM Sans',sans-serif", fontSize: 11.5, fontWeight: 600,
@@ -587,14 +810,14 @@ function CoreModelSection() {
   return (
     <section
       className="about-core-model"
-      style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "100px 24px" }}
+      style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px" }}
     >
       <div
         ref={head.ref}
         style={{
           ...fade(head.inView, 0),
           textAlign: "center",
-          marginBottom: "56px",
+          marginBottom: "48px",
         }}
       >
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
@@ -641,37 +864,38 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        flex: "1 1 240px", maxWidth: 260, minWidth: 220,
+        flex: "1 1 0",
+        minWidth: 0,
         background: hov ? "#fff" : "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid",
         borderColor: hov ? "rgba(209, 26, 142, 0.3)" : "rgba(124, 92, 191, 0.15)",
-        borderRadius: 24, padding: "32px 24px", textAlign: "left",
-        boxShadow: hov ? "0 22px 54px rgba(124, 92, 191, 0.1)" : "0 10px 30px rgba(124, 92, 191, 0.02)",
+        borderRadius: 18, padding: "20px 16px", textAlign: "left",
+        boxShadow: hov ? "0 18px 40px rgba(124, 92, 191, 0.1)" : "0 8px 22px rgba(124, 92, 191, 0.02)",
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease",
-        transform: hov ? "translateY(-6px)" : "translateY(0)",
+        transform: hov ? "translateY(-5px)" : "translateY(0)",
         position: "relative", overflow: "hidden", cursor: "default",
       }}
     >
       <div style={{
-        width: 44, height: 44, borderRadius: 14,
+        width: 34, height: 34, borderRadius: 11,
         background: "rgba(209, 26, 142, 0.08)", color: "#d11a8e",
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 18, marginBottom: 20,
+        fontSize: 15, marginBottom: 13,
         transition: "transform 0.35s ease",
         transform: hov ? "scale(1.05)" : "scale(1)",
       }}>
         {item.icon}
       </div>
       <h3 style={{
-        fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 700,
-        color: "#1a0a2e", margin: "0 0 10px", lineHeight: 1.2,
+        fontFamily: "'Cormorant Garamond',serif", fontSize: 16.5, fontWeight: 700,
+        color: "#1a0a2e", margin: "0 0 7px", lineHeight: 1.25,
       }}>
         {item.title}
       </h3>
       <p style={{
-        fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, lineHeight: 1.6,
+        fontFamily: "'DM Sans',sans-serif", fontSize: 12, lineHeight: 1.55,
         color: "#554866", margin: 0,
       }}>
         {item.body}
@@ -685,9 +909,9 @@ function WhoWeServeSection() {
   return (
     <section
       className="about-who-we-serve"
-      style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "100px 24px" }}
+      style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "80px 24px" }}
     >
-      <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 56 }}>
+      <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
           Who We Serve
         </p>
@@ -695,7 +919,16 @@ function WhoWeServeSection() {
           A Community That Spans Every Generation
         </h2>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1140, margin: "0 auto", justifyContent: "center" }}>
+      <div
+        className="who-we-serve-row"
+        style={{
+          display: "flex",
+          flexWrap: "nowrap",
+          gap: 16,
+          maxWidth: 1180,
+          margin: "0 auto",
+        }}
+      >
         {whoWeServe.map((item) => <WhoWeServeCard key={item.title} item={item} />)}
       </div>
     </section>
@@ -703,7 +936,6 @@ function WhoWeServeSection() {
 }
 
 /* ── CTA SECTION ── */
-
 
 function CTABtn({ label, primary }: { label: string; primary: boolean }) {
   const [hov, setHov] = useState(false);
@@ -714,10 +946,9 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
       style={{
         padding: "14px 28px",
         borderRadius: 14,
-        // Configured borders to look beautiful on dark background spaces
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
-        background: primary 
-          ? (hov ? "#b51279" : "#d11a8e") 
+        background: primary
+          ? (hov ? "#b51279" : "#d11a8e")
           : (hov ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.05)"),
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
@@ -740,29 +971,28 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
 function CTASection() {
   const { ref, inView } = useInView(0.2);
   return (
-    <section 
+    <section
       className="about-cta"
-      style={{ 
-        // Deepened to a premium dark background setup
-        background: "linear-gradient(180deg, #2a163a 0%, #160d22 100%)", 
-        padding: "100px 24px", 
-        textAlign: "center", 
-        position: "relative", 
-        overflow: "hidden" 
+      style={{
+        background: "linear-gradient(180deg, #2a163a 0%, #160d22 100%)",
+        padding: "80px 24px",
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden"
       }}
     >
       <div className="blob cta-blob-1" />
       <div className="blob cta-blob-2" />
       <div className="cta-shimmer" />
       <div ref={ref} style={{ position: "relative", zIndex: 1 }}>
-        <h2 
-          style={{ 
-            ...fade(inView, 0), 
-            fontFamily: "'Cormorant Garamond',serif", 
-            fontSize: "clamp(38px,6vw,60px)", 
-            fontWeight: 700, 
-            color: "#ffffff", 
-            margin: "0 0 40px" 
+        <h2
+          style={{
+            ...fade(inView, 0),
+            fontFamily: "'Cormorant Garamond',serif",
+            fontSize: "clamp(38px,6vw,60px)",
+            fontWeight: 700,
+            color: "#ffffff",
+            margin: "0 0 40px"
           }}
         >
           Join Our <span style={{ color: "#d11a8e" }}>Ecosystem</span>
@@ -779,6 +1009,7 @@ function CTASection() {
     </section>
   );
 }
+
 export default function AboutPage() {
   return (
     <>
@@ -844,21 +1075,47 @@ export default function AboutPage() {
           .about-core-model > div:last-child > div:nth-child(2) { transform: rotate(90deg); }
         }
 
+        /* Who We Serve: keep single row, shrink further on small screens */
+        @media (max-width: 900px) {
+          .who-we-serve-row { gap: 10px !important; }
+        }
+        @media (max-width: 640px) {
+          .who-we-serve-row h3 { font-size: 13px !important; }
+          .who-we-serve-row p { display: none; }
+          .who-we-serve-row { gap: 8px !important; }
+        }
+
+        /* Mobile: thoda aur compact padding taaki gap zyada na lage */
+        @media (max-width: 640px) {
+          .about-hero, .about-who-we-are, .about-founder,
+          .about-vision, .about-core-model, .about-who-we-serve, .about-cta {
+            padding: 56px 20px !important;
+          }
+        }
+
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] body { background: #0d0614 !important; }
         [data-theme="dark"] .about-hero { background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important; }
         [data-theme="dark"] .about-hero h1,
+        [data-theme="dark"] .about-who-we-are h2,
         [data-theme="dark"] .about-founder h2,
         [data-theme="dark"] .about-vision h2,
         [data-theme="dark"] .about-core-model h2,
         [data-theme="dark"] .about-who-we-serve h2,
         [data-theme="dark"] .about-cta h2 { color: #ffffff !important; }
-        
+
         [data-theme="dark"] .about-hero p,
+        [data-theme="dark"] .about-who-we-are p,
         [data-theme="dark"] .about-founder p,
         [data-theme="dark"] .about-vision p,
         [data-theme="dark"] .about-core-model p,
         [data-theme="dark"] .about-who-we-serve p { color: #cbd5e1 !important; }
+
+        [data-theme="dark"] .about-who-we-are { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .about-who-we-are > div > div:nth-last-child(1) > div {
+          background: rgba(25, 16, 38, 0.6) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+        }
 
         [data-theme="dark"] .about-founder { background: #160d22 !important; border-bottom-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .about-vision { background: #0d0614 !important; }
@@ -870,7 +1127,7 @@ export default function AboutPage() {
         [data-theme="dark"] .about-who-we-serve h3 { color: #ffffff !important; }
 
         [data-theme="dark"] .about-core-model > div:last-child > div:not([style*="border-radius: 50%"]),
-        [data-theme="dark"] .about-who-we-serve > div:last-child > div {
+        [data-theme="dark"] .who-we-serve-row > div {
           background: rgba(25, 16, 38, 0.6) !important;
           border-color: rgba(155, 109, 190, 0.15) !important;
         }
@@ -880,6 +1137,7 @@ export default function AboutPage() {
       `}</style>
 
       <Hero />
+      <WhoWeAreSection />
       <WhoWeServeSection />
       <CoreModelSection />
       <FounderSection />

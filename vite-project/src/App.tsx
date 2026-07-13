@@ -24,11 +24,14 @@ import ScrollToUp from "./Components/ScrollToTop";
 
 function App() {
   const { pathname } = useLocation();
-
-  return (
+const hideNavbar = [
+  "/",
+  "/hub",
+  "/ms-ellevation",
+].includes(pathname);  return (
     <>
     <ScrollToUp />
-      {pathname !== "/" && <EllevationNavbar />}
+{!hideNavbar && <EllevationNavbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         

@@ -223,7 +223,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
-
+  
   return (
     <nav
       className="hub-nav"
@@ -1176,6 +1176,8 @@ export default function EllevationHub() {
     document.documentElement.setAttribute("data-theme", saved ?? "light");
   }, []);
 
+
+  
   const nav = (p: Page) => {
     setPage(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
