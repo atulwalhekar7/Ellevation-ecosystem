@@ -1,5 +1,6 @@
-import logo from "../assets/Ms-Ellevation-removebg-preview.png";
+import logo from "../assets/Logo.png";
 import { Link } from "react-router-dom";
+
 
 const footerLinks = [
   {
@@ -289,19 +290,29 @@ export default function EllevationFooter() {
           {/* Left Block: Brand Signature */}
           <div style={{ maxWidth: "440px" }}>
             <div style={{ display: "flex", alignItems: "center", marginBottom: "28px" }}>
-              <div style={{ width: "180px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-                <img 
-                  src={logo} 
-                  alt="Ellevation Logo" 
-                  className="footer-logo-img" 
-                  style={{ 
-                    width: "100%", 
-                    height: "100%", 
-                    objectFit: "contain",
-                    filter: "drop-shadow(0px 4px 12px rgba(209, 26, 142, 0.25)) drop-shadow(0px 1px 2px rgba(209, 26, 142, 0.15))"
-                  }} 
-                />
-              </div>
+              <div
+  style={{
+    width: "280px",   // Increased from 200px
+    height: "140px",  // Increased from 100px
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  }}
+>
+  <img
+    src={logo}
+    alt="Ellevation Logo"
+    className="footer-logo-img"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      filter:
+        "drop-shadow(0px 4px 12px rgba(209, 26, 142, 0.25)) drop-shadow(0px 1px 2px rgba(209, 26, 142, 0.15))",
+    }}
+  />
+</div>
             </div>
 
             <p 
