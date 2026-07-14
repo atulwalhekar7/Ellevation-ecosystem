@@ -234,7 +234,7 @@ function VisionSection() {
   const h = useInView(0.15);
 
   return (
-    <section className="about-vision" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "40px 24px 100px", textAlign: "center" }}>
+    <section className="about-vision" style={{ background: "#AEAAD5", padding: "40px 24px 100px", textAlign: "center" }}>
       <div style={{ maxWidth: 740, margin: "0 auto" }}>
         <div ref={h.ref} style={fade(h.inView, 0)}>
           <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
@@ -380,7 +380,7 @@ function FormatCard({ item, index }: { item: typeof submissionFormats[0]; index:
 
 function FormatsSection() {
   return (
-    <section className="about-who-we-serve" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "40px 24px 100px" }}>
+    <section className="about-who-we-serve" style={{ background: "#AEAAD5", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Submission Modalities</p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>We Welcome Stories in Many Forms</h2>

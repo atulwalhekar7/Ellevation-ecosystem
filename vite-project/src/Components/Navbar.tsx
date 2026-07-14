@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/Ms-Ellevation-removebg-preview.png";
+import logo from "../assets/Logo.png";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = {
@@ -292,8 +292,8 @@ borderRadius: "50%",
           >
             <div
               style={{
-                width: "170px",
-                height: "110px",
+                width: "190px",
+                height: "150px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -303,7 +303,7 @@ borderRadius: "50%",
               <img
                 src={logo}
                 alt="Ellevation Logo"
-                style={{ width: "80%", height: "100%", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </div>
           </Link>

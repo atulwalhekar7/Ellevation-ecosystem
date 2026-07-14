@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import banner4 from "../assets/banner4.avif";
 import banner5 from "../assets/banner5.avif";
+import banner2 from "../assets/banner2.avif";
+import logo from "../assets/Ms-Ellevation-removebg-preview.png";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "events" | "stories" | "join";
@@ -28,9 +31,9 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
-  FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#662369" },
-  ELLEVATE:   { label: "Ellevate",   tagline: "Step into an elevated circle of ambitious women.",    color: "#b51279" },
-  LUMINARY:   { label: "Luminary",   tagline: "Lead, inspire, and illuminate from the pinnacle.",    color: "#e028a0" },
+  FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#4B1E56" },
+  ELLEVATE:   { label: "Ellevate",   tagline: "Step into an elevated circle of ambitious women.",    color: "#662369" },
+  LUMINARY:   { label: "Luminary",   tagline: "Lead, inspire, and illuminate from the pinnacle.",    color: "#6b2f7a" },
 };
 const REFERRAL_OPTIONS = ["Social Media","Friend or Colleague","Event","Search Engine","Press / Media","Other"];
 const emptyForm = (): FormData => ({ firstName:"",lastName:"",email:"",phone:"",location:"",profession:"",referral:"",goals:"",agree:false });
@@ -53,6 +56,8 @@ function validateForm(data: FormData): FormErrors {
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const routerNavigate = useNavigate(); // ✅ react-router navigation (same tab)
+
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", h, { passive: true });
@@ -60,13 +65,55 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   }, []);
 
   return (
-    <nav className="ms-nav" style={{ ...ns.nav, boxShadow: scrolled ? "0 4px 32px rgba(102,35,105,0.18)" : "0 2px 16px rgba(102,35,105,0.08)" }}>
-      <div className="ns-inner" style={ns.inner}>
+  <div className="ms-nav-row" style={ns.navRow}>
+    {/* ✅ Back to Home button — OUTSIDE the pill navbar, on the left. Navigates to "/" route in the SAME tab */}
+    <button
+      onClick={() => routerNavigate("/")}
+      className="ns-back-home"
+      style={ns.backHome}
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      <span>Back to Home</span>
+    </button>
+
+    <nav
+      className="ms-nav"
+      style={{
+        ...ns.nav,
+        boxShadow: scrolled
+          ? "0 4px 32px rgba(75,30,86,0.18)"
+          : "0 2px 16px rgba(75,30,86,0.08)",
+      }}
+    >
+    <div className="ns-inner" style={ns.inner}>
+      {/* Logo */}
+      <img
+        src={logo}
+        alt="Ellevation Logo"
+        onClick={() => nav("home")} // "home" ki jagah apna home page name use karo
+        style={{
+          width: "140px",
+          height: "auto",
+          objectFit: "contain",
+          cursor: "pointer",
+        }}
+      />
+
+      {/* Navigation Links */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "20px",
+        }}
+      >
         {NAV_LINKS.map(({ label, page }) => (
           <button
             key={page}
             onClick={() => nav(page)}
-            className={`ns-link ${current === page ? 'active' : ''}`}
+            className={`ns-link ${current === page ? "active" : ""}`}
             style={{
               ...ns.link,
               ...(current === page ? ns.active : {}),
@@ -76,16 +123,25 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
           </button>
         ))}
       </div>
+    </div>
     </nav>
-  );
+  </div>
+);
 }
 
 const ns: Record<string, React.CSSProperties> = {
+  navRow: {
+    position: "sticky", top: 0, zIndex: 100,
+    display: "flex", alignItems: "center", justifyContent: "center",
+    gap: 16,
+    padding: "16px 24px 0",
+    margin: 0,
+  },
   nav: {
-    position: "sticky", top: 79, zIndex: 100,
     display: "flex", justifyContent: "center",
-    padding: "0 24px", margin: "16px auto 0",
+    padding: 0, margin: 0,
     transition: "box-shadow 0.3s ease",
+    flex: "0 1 auto",
   },
   inner: {
     display: "flex", alignItems: "center", gap: 4,
@@ -93,21 +149,40 @@ const ns: Record<string, React.CSSProperties> = {
     backdropFilter: "blur(16px)",
     borderRadius: 100,
     padding: "8px 12px",
-    boxShadow: "0 2px 24px rgba(102,35,105,0.12)",
+    boxShadow: "0 2px 24px rgba(75,30,86,0.12)",
     flexWrap: "wrap" as const,
   },
   link: {
-    fontFamily: "'Jost', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
     fontSize: "0.86rem", fontWeight: 400,
-    color: "#662369", background: "transparent",
+    color: "#4B1E56", background: "transparent",
     border: "none", cursor: "pointer",
     padding: "8px 16px", borderRadius: 100,
     transition: "all 0.2s ease", whiteSpace: "nowrap" as const,
   },
   active: {
-    background: "#d11a8e", color: "#fff",
+    background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color: "#fff",
     fontWeight: 500,
     boxShadow: "0 2px 12px rgba(26,10,46,0.25)",
+  },
+  backHome: {
+    display: "flex",
+    alignItems: "center",
+    gap: 6,
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: "0.8rem",
+    fontWeight: 500,
+    color: "#4B1E56",
+    background: "rgba(255,255,255,0.92)",
+    backdropFilter: "blur(16px)",
+    border: "1.5px solid rgba(75,30,86,0.15)",
+    cursor: "pointer",
+    padding: "10px 18px",
+    borderRadius: 100,
+    boxShadow: "0 2px 24px rgba(75,30,86,0.12)",
+    transition: "all 0.2s ease",
+    whiteSpace: "nowrap" as const,
+    flexShrink: 0,
   },
 };
 
@@ -157,30 +232,198 @@ const hp: Record<string, React.CSSProperties> = {
   page: { position:"relative", overflow:"hidden", minHeight:"90vh", display:"flex", alignItems:"center", padding:"60px 48px 80px" },
   bgGrad: {
     position:"absolute", inset:0,
-    background:`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner4})`,
+    background:`linear-gradient(rgba(26, 10, 46, 0.55), rgba(26, 10, 46, 0.55)), url(${banner4})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     zIndex:0
   },
-  blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
+  blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
   blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"center", maxWidth:1200, margin:"0 auto", width:"100%", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
   left: { display:"flex", flexDirection:"column", gap:24 },
-  eyebrow: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#ffffff" },
-  headline: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:600, color:"#ffffff", lineHeight:1.12, margin:0 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#ffffff", lineHeight:1.75, maxWidth:460 },
+  eyebrow: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#ffffff" },
+  headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#ffffff", lineHeight:1.12, margin:0 },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#ffffff", lineHeight:1.75, maxWidth:460 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
-  btnPrimary: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"linear-gradient(135deg, #e028a0 0%, #d11a8e 100%)", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(209,26,142,0.35)" },
-  btnSecondary: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid #ffffff", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
+  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid #ffffff", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
   card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
   cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
-  cardIcon: { width:48, height:48, borderRadius:"50%", background:"#662369", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
-  cardBadge: { fontFamily:"'Jost',sans-serif", fontSize:"0.8rem", fontWeight:500, color:"#1a0a2e", background:"rgba(209,26,142,0.10)", padding:"5px 14px", borderRadius:100 },
+  cardIcon: { width:48, height:48, borderRadius:"50%", background:"#4B1E56", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
+  cardBadge: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.8rem", fontWeight:500, color:"#1a0a2e", background:"rgba(75,30,86,0.10)", padding:"5px 14px", borderRadius:100 },
   cardDesc: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:500, color:"#1a0a2e", lineHeight:1.5, marginBottom:20 },
   cardFeatures: { display:"flex", flexDirection:"column", gap:10 },
-  feat: { fontFamily:"'Jost',sans-serif", fontSize:"0.85rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
-  check: { color:"#d11a8e", fontWeight:700, fontSize:"0.9rem" },
+  feat: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.85rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
+  check: { color:"#4B1E56", fontWeight:700, fontSize:"0.9rem" },
 };
+
+/* ══════════════════════════════════════════════
+   HOME PAGE — EXTRA SECTION 1 — "Her Potential. Her Impact."
+   Sits directly below the Home page hero banner.
+   ══════════════════════════════════════════════ */
+function ImpactStatementSection() {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section ref={ref} className="impact-section">
+      {/* ambient blobs, consistent with rest of site */}
+      <div className="impact-blob impact-blob-1" />
+      <div className="impact-blob impact-blob-2" />
+
+      <div className="impact-inner">
+        <p
+          className="impact-eyebrow"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 0.6s ease, transform 0.6s ease",
+          }}
+        >
+          Why We Exist
+        </p>
+
+        <h2 className="impact-title">
+          Her Potential. Her Impact.
+        </h2>
+
+        {/* Floating glass statement card */}
+        <div
+          className="impact-glass-card"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(30px)",
+            transition: "opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s",
+          }}
+        >
+          <h3 className="impact-card-title">
+            Building Holistic Success for Women in Australia.
+          </h3>
+          <p className="impact-card-desc">
+            Beyond every obstacle and uncertainty, Ms. Ellevation empowers her to claim her space,
+            amplify her voice, and truly flourish.
+          </p>
+
+          <div className="impact-tags">
+            {[
+              { n: "Voice", i: "◈" },
+              { n: "Identity", i: "✦" },
+              { n: "Confidence", i: "❀" },
+            ].map((tag) => (
+              <div key={tag.n} className="impact-tag">
+                <span className="impact-tag-icon">{tag.i}</span>
+                <span className="impact-tag-name">{tag.n}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════
+   HOME PAGE — EXTRA SECTION 2 — "Your Harbour of Empowerment"
+   Sits directly below the Impact statement section.
+   ══════════════════════════════════════════════ */
+function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.15 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section ref={ref} className="welcome-section">
+      <div className="welcome-grid">
+        {/* LEFT — text */}
+        <div
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(24px)",
+            transition: "opacity 0.7s ease, transform 0.7s ease",
+          }}
+        >
+          <p className="welcome-eyebrow">A Space For Women, By Women</p>
+          <h2 className="welcome-title">
+            Welcome to Your{" "}
+            <span className="welcome-title-accent">Harbour of Empowerment</span>
+          </h2>
+          <p className="welcome-desc">
+            Welcome to Ms. Ellevation — for new beginnings, bold journeys, and dreams taking
+            flight. Find your place. Lift your voice. Shine. Flourish in every part of your life.
+          </p>
+
+          <button onClick={() => nav("join")} className="welcome-cta">
+            Find Your Place
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        {/* RIGHT — image with floating brand badge */}
+        <div
+          className="welcome-image-wrap"
+          style={{
+            opacity: visible ? 1 : 0,
+            transform: visible ? "translateY(0)" : "translateY(24px)",
+            transition: "opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s",
+          }}
+        >
+          <div className="welcome-image-frame">
+            <img
+              src={banner2}
+              alt="Welcome to Ms. Ellevation"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = "none";
+                const parent = target.parentElement;
+                if (parent && !parent.querySelector(".welcome-fallback")) {
+                  const fb = document.createElement("div");
+                  fb.className = "welcome-fallback";
+                  fb.style.cssText =
+                    "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ede7f5 0%,#f6f3fa 100%);font-family:'Astrid Regular',serif;font-size:26px;font-weight:600;color:#662369;text-align:center;padding:24px;";
+                  fb.textContent = "Ms. Ellevation";
+                  parent.appendChild(fb);
+                }
+              }}
+            />
+          </div>
+
+          {/* Floating brand badge — same language as other floating cards */}
+          <div className="welcome-badge">
+            <div className="welcome-badge-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l1.8 5.6H20l-4.6 3.4 1.8 5.6L12 13.2 6.8 16.6l1.8-5.6L4 8h6.2z" fill="#4B1E56" />
+              </svg>
+            </div>
+            <div>
+              <p className="welcome-badge-title">Ms. Ellevation</p>
+              <p className="welcome-badge-sub">A space for women, by women</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 // ─── ABOUT PAGE ───────────────────────────────────────────────────────────────
 function AboutPage({ nav }: { nav: (p: Page) => void }) {
@@ -232,29 +475,29 @@ const ab: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", minHeight:520, display:"flex", alignItems:"center", justifyContent:"center", padding:"80px 48px" },
   bannerBg: {
     position:"absolute", inset:0,
-    background:`linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${banner5})`,
+    background:`linear-gradient(rgba(26, 10, 46, 0.6), rgba(26, 10, 46, 0.6)), url(${banner5})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     zIndex:0
   },
-  bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(209,26,142,0.30) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.30) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
   bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.28) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#e0a8d6", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
-  btnD: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#d11a8e", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(209,26,142,0.35)" },
-  btnL: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid rgba(253,240,245,0.5)", background:"transparent", color:"#fdf0f5", cursor:"pointer" },
+  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#d9c3e0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
+  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#4B1E56", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid rgba(253,240,245,0.5)", background:"transparent", color:"#fdf0f5", cursor:"pointer" },
   featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px" },
-  featCard: { background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", transition:"transform 0.2s ease" },
-  featIcon: { fontSize:"1.6rem", color:"#d11a8e", marginBottom:16 },
+  featCard: { background:"rgba(255, 255, 255, 0.75)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", transition:"transform 0.2s ease" },
+  featIcon: { fontSize:"1.6rem", color:"#4B1E56", marginBottom:16 },
   featTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.3rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
-  featDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.65 },
+  featDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.65 },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
-  storiesTeaserBg: { position:"absolute", inset:0, background:"#f6f3fa", zIndex:0 },
-  tEye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  tTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  tSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#554866", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
-  tBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #d11a8e", background:"#d11a8e", color:"#1a0a2e", cursor:"pointer", position:"relative", zIndex:1 },
+  storiesTeaserBg: { position:"absolute", inset:0, background:"#AEAAD5", zIndex:0 },
+  tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  tTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  tSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#443355", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
+  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #4B1E56", background:"#4B1E56", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
 // ─── YOUR JOURNEY PAGE (new) ───────────────────────────────────────────────────
@@ -301,20 +544,20 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
 const jn: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#fdf9fc 0%,#f6f3fa 50%,#ede7f5 100%)", zIndex:0 },
-  blob1: { position:"absolute", top:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(209,26,142,0.22) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  blob1: { position:"absolute", top:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.22) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
   blob2: { position:"absolute", bottom:-70, right:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.20) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
-  stagesSection: { padding:"72px 48px 80px", background:"#fdf9fc" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
+  stagesSection: { padding:"72px 48px 80px", background:"#AEAAD5" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
-  stageCard: { position:"relative", background:"#fff", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
-  stageNum: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2.4rem", fontWeight:600, color:"#e0a8d6", display:"block", marginBottom:12 },
+  stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
+  stageNum: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
   stageTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
-  stageDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
-  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(150deg,#1a0a2e 0%,#662369 100%)" },
-  ctaTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:600, color:"#fdf0f5", marginBottom:28 },
-  ctaBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#d11a8e", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(209,26,142,0.4)" },
+  stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
+  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(180deg, #2a163a 0%, #160d22 100%)" },
+  ctaTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:700, color:"#fdf0f5", marginBottom:28 },
+  ctaBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(75,30,86,0.4)" },
 };
 
 // ─── PROGRAMS PAGE (renamed from Services) ─────────────────────────────────────
@@ -341,7 +584,7 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
             <div key={p.title} className="pr-card" style={{ ...pr.card, ...(p.popular ? pr.cardPopular : {}) }}>
               {p.popular && <div style={pr.popularBadge}>MOST POPULAR</div>}
               <h3 className="pr-card-title" style={{ ...pr.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
-              <p style={{ ...pr.cardPrice, ...(p.popular ? { color:"#e0a8d6" } : {}) }}>{p.price}</p>
+              <p style={{ ...pr.cardPrice, ...(p.popular ? { color:"#d9c3e0" } : {}) }}>{p.price}</p>
               <ul style={pr.list}>
                 {p.features.map(f => (
                   <li key={f} className="pr-list-item" style={{ ...pr.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
@@ -364,21 +607,21 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
 const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf9fc 0%,#f6f3fa 100%)", zIndex:0 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#f6f3fa" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
+  section: { padding:"60px 48px 96px", background:"#AEAAD5" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
-  card: { background:"#fff", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", position:"relative", display:"flex", flexDirection:"column", gap:0 },
+  card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", position:"relative", display:"flex", flexDirection:"column", gap:0 },
   cardPopular: { background:"#1a0a2e", border:"none", boxShadow:"0 8px 48px rgba(26,10,46,0.30)" },
-  popularBadge: { position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", fontFamily:"'Jost',sans-serif", fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.18em", background:"#d11a8e", color:"#fff", padding:"5px 18px", borderRadius:100 },
+  popularBadge: { position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", fontFamily:"'Montserrat', sans-serif", fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.18em", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", padding:"5px 18px", borderRadius:100 },
   cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
-  cardPrice: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:500, color:"#8a5a97", marginBottom:24 },
+  cardPrice: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:500, color:"#8a5a97", marginBottom:24 },
   list: { listStyle:"none", display:"flex", flexDirection:"column", gap:12, marginBottom:32, padding:0 },
-  listItem: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
-  bullet: { color:"#d11a8e", fontWeight:700 },
-  bookBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
-  bookBtnDark: { border:"none", background:"#d11a8e", color:"#fff", boxShadow:"0 4px 20px rgba(209,26,142,0.35)" },
+  listItem: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
+  bullet: { color:"#4B1E56", fontWeight:700 },
+  bookBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
+  bookBtnDark: { border:"none", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
 };
 
 // ─── EVENTS PAGE (new) ──────────────────────────────────────────────────────────
@@ -420,17 +663,30 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
 const ev: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf9fc 0%,#f6f3fa 100%)", zIndex:0 },
-  eye: { fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:600, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Jost',sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#f6f3fa" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  section: { padding:"60px 48px 96px", background:"#AEAAD5" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
-  card: { background:"#fff", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(102,35,105,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
-  dateBadge: { display:"inline-block", fontFamily:"'Jost',sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"#d11a8e", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
+  card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
+  dateBadge: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
   cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
-  cardLoc: { fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:14 },
-  cardDesc: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
-  rsvpBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"12px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
+  cardLoc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:14 },
+  cardDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
+  rsvpBtn: {
+    fontFamily: "'Montserrat',sans-serif",
+    fontSize: "0.72rem",
+    fontWeight: 700,
+    letterSpacing: "0.1em",
+    padding: "12px",
+    borderRadius: 100,
+    border: "2px solid #662369",
+    background: "transparent",
+    color: "#662369",
+    cursor: "pointer",
+    marginTop: "auto",
+    transition: "all 0.2s ease",
+  },
 };
 
 // ─── STORIES PAGE ─────────────────────────────────────────────────────────────
@@ -472,17 +728,17 @@ function StoriesPage() {
 
 const st: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(160deg,#1a0a2e 0%,#662369 50%,#1a0a2e 100%)", zIndex:0 },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:600, color:"#fdf0f5", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(253,240,245,0.7)", position:"relative", zIndex:1 },
-  section: { background:"#f6f3fa", padding:"72px 48px 96px" },
+  bannerBg: { position:"absolute", inset:0, background:"#fff", zIndex:0 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(253,240,245,0.7)", position:"relative", zIndex:1 },
+  section: { background:"#AEAAD5", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
-  card: { background:"#fff", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(102,35,105,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
-  quoteIcon: { fontFamily:"'Cormorant Garamond',serif", fontSize:"3rem", color:"#e0a8d6", lineHeight:1, height:32, display:"block" },
+  card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
+  quoteIcon: { fontFamily:"'Cormorant Garamond',serif", fontSize:"3rem", color:"#8a5a97", lineHeight:1, height:32, display:"block" },
   quote: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.15rem", fontStyle:"italic", color:"#1a0a2e", lineHeight:1.75, flexGrow:1 },
   author: { borderTop:"1px solid #ede7f5", paddingTop:20 },
-  name: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", fontWeight:600, color:"#1a0a2e", marginBottom:4 },
-  role: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:500, letterSpacing:"0.14em", color:"#8a5a97" },
+  name: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", fontWeight:600, color:"#1a0a2e", marginBottom:4 },
+  role: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:500, letterSpacing:"0.14em", color:"#8a5a97" },
 };
 
 // ─── JOIN PAGE (Membership Form) ──────────────────────────────────────────────
@@ -602,39 +858,39 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 
 const jp: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:260, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 80% at 50% 50%,#fbe4f2 0%,#f3dcef 30%,#e6d0ec 60%,#d3b3e0 100%)", zIndex:0 },
-  blobL: { position:"absolute", top:-60, left:-80, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(209,26,142,0.28) 0%,transparent 70%)", animation:"floatBlob 8s ease-in-out infinite", zIndex:1 },
+  bannerBg: { position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 80% at 50% 50%,#ede7f5 0%,#ddd0ea 30%,#c9b8dd 60%,#AEAAD5 100%)", zIndex:0 },
+  blobL: { position:"absolute", top:-60, left:-80, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.28) 0%,transparent 70%)", animation:"floatBlob 8s ease-in-out infinite", zIndex:1 },
   blobR: { position:"absolute", bottom:-80, right:-60, width:380, height:380, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.25) 0%,transparent 70%)", animation:"floatBlob 11s ease-in-out infinite reverse", zIndex:1 },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16 },
-  line: { display:"inline-block", width:40, height:1, background:"#662369" },
-  eyebrowTxt: { fontFamily:"'Jost',sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#662369" },
-  bannerTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:600, color:"#1a0a2e" },
+  line: { display:"inline-block", width:40, height:1, background:"#4B1E56" },
+  eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#4B1E56" },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:700, color:"#1a0a2e" },
   formSection: { maxWidth:780, margin:"0 auto", padding:"64px 24px 96px", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s both" },
   tabsRow: { display:"flex", justifyContent:"center", gap:12, marginBottom:36, flexWrap:"wrap" as const },
-  tabBtn: { fontFamily:"'Jost',sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#662369", cursor:"pointer", transition:"all 0.25s ease" },
-  tabActive: { color:"#fff", border:"1.5px solid transparent", boxShadow:"0 4px 20px rgba(102,35,105,0.28)", transform:"translateY(-1px)" },
-  card: { background:"#fff", borderRadius:20, padding:"48px 52px 52px", boxShadow:"0 8px 60px rgba(102,35,105,0.10),0 2px 16px rgba(102,35,105,0.06)" },
+  tabBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.25s ease" },
+  tabActive: { color:"#fff", border:"1.5px solid transparent", boxShadow:"0 4px 20px rgba(75,30,86,0.28)", transform:"translateY(-1px)" },
+  card: { background:"#fff", borderRadius:20, padding:"48px 52px 52px", boxShadow:"0 8px 60px rgba(75,30,86,0.10),0 2px 16px rgba(75,30,86,0.06)" },
   formHeader: { textAlign:"center", marginBottom:40 },
   formTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
-  formSub: { fontFamily:"'Jost',sans-serif", fontSize:"0.88rem", color:"#8a5a97", fontWeight:300, marginBottom:8 },
-  tagline: { fontFamily:"'Jost',sans-serif", fontSize:"0.82rem", fontWeight:500, letterSpacing:"0.05em", marginTop:6 },
+  formSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#8a5a97", fontWeight:300, marginBottom:8 },
+  tagline: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.82rem", fontWeight:500, letterSpacing:"0.05em", marginTop:6 },
   row: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 },
   fieldWrap: { display:"flex", flexDirection:"column", marginBottom:16 },
-  input: { fontFamily:"'Jost',sans-serif", fontSize:"0.9rem", fontWeight:400, padding:"13px 16px", borderRadius:10, border:"1.5px solid #ede7f5", background:"#fdf9fc", color:"#1a0a2e", transition:"border-color 0.2s,box-shadow 0.2s", width:"100%" },
-  inputErr: { borderColor:"#e0609a", background:"#fff8f9" },
-  select: { appearance:"none", WebkitAppearance:"none", cursor:"pointer", backgroundImage:"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23662369' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")", backgroundRepeat:"no-repeat", backgroundPosition:"right 16px center", paddingRight:40 },
+  input: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:400, padding:"13px 16px", borderRadius:10, border:"1.5px solid #ede7f5", background:"#fdf9fc", color:"#1a0a2e", transition:"border-color 0.2s,box-shadow 0.2s", width:"100%" },
+  inputErr: { borderColor:"#a04a70", background:"#fff8f9" },
+  select: { appearance:"none", WebkitAppearance:"none", cursor:"pointer", backgroundImage:"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12  8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234B1E56' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E\")", backgroundRepeat:"no-repeat", backgroundPosition:"right 16px center", paddingRight:40 },
   textarea: { resize:"vertical", minHeight:110, lineHeight:1.6 },
-  errMsg: { fontFamily:"'Jost',sans-serif", fontSize:"0.75rem", color:"#d1108e", marginTop:5, paddingLeft:4 },
+  errMsg: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", color:"#a04a70", marginTop:5, paddingLeft:4 },
   agreeRow: { marginBottom:28, marginTop:4 },
   agreeLabel: { display:"flex", alignItems:"flex-start", gap:10, cursor:"pointer" },
-  checkbox: { marginTop:3, accentColor:"#d11a8e", width:15, height:15, flexShrink:0 },
-  agreeText: { fontFamily:"'Jost',sans-serif", fontSize:"0.83rem", color:"#554866", lineHeight:1.5 },
+  checkbox: { marginTop:3, accentColor:"#4B1E56", width:15, height:15, flexShrink:0 },
+  agreeText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.83rem", color:"#554866", lineHeight:1.5 },
   agreeLink: { textDecoration:"underline", textUnderlineOffset:"2px" },
-  submitBtn: { width:"100%", fontFamily:"'Jost',sans-serif", fontSize:"0.78rem", fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(102,35,105,0.30)" },
+  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
   successBox: { textAlign:"center", padding:"40px 24px" },
   successIcon: { fontSize:"2.5rem", marginBottom:16, display:"block" },
   successTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
-  successText: { fontFamily:"'Jost',sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
+  successText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
 };
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
@@ -658,16 +914,239 @@ export default function EllevationPage() {
   };
 
   return (
-    <div className="ms-ellevation-root" style={{ fontFamily:"'Jost',sans-serif", background:"#fdf9fc", minHeight:"100vh", color:"#1a0a2e" }}>
+    <div className="ms-ellevation-root" style={{ fontFamily:"'Montserrat', sans-serif", background:"#fdf9fc", minHeight:"100vh", color:"#1a0a2e" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
+           Replace the src url below with the path to your actual font file. */
+        @font-face {
+          font-family: 'Astrid Regular';
+          src: url('/fonts/AstridRegular.woff2') format('woff2'),
+               url('/fonts/AstridRegular.otf') format('opentype');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+
         *{box-sizing:border-box;margin:0;padding:0;}
         input::placeholder,textarea::placeholder{color:#b09fc0;}
         select option{color:#1a0a2e;}
-        input:focus,textarea:focus,select:focus{outline:none;border-color:#662369!important;box-shadow:0 0 0 3px rgba(209,26,142,0.12);}
+        input:focus,textarea:focus,select:focus{outline:none;border-color:#4B1E56!important;box-shadow:0 0 0 3px rgba(75,30,86,0.12);}
         @keyframes fadeSlideUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
         @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,10px) scale(0.97);}}
         button:hover{opacity:0.88;}
+
+        /* ═══════════════════════════════════════
+           Home page extra section 1: Impact Statement
+           ═══════════════════════════════════════ */
+        .impact-section {
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%);
+          padding: 110px 24px 130px;
+        }
+        .impact-inner {
+          position: relative;
+          z-index: 1;
+          max-width: 900px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .impact-blob { position: absolute; border-radius: 50%; pointer-events: none; }
+        .impact-blob-1 {
+          top: -100px; right: -80px; width: 380px; height: 380px;
+          background: radial-gradient(circle, rgba(75,30,86,0.08) 0%, transparent 70%);
+        }
+        .impact-blob-2 {
+          bottom: -60px; left: -100px; width: 340px; height: 340px;
+          background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%);
+        }
+        .impact-eyebrow {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #662369;
+          margin-bottom: 18px;
+        }
+        .impact-title {
+          font-family: 'Astrid Regular', serif;
+          font-size: 52px;
+          font-weight: 700;
+          line-height: 1.1;
+          color: #4B1E56;
+          margin: 0 0 40px;
+        }
+        .impact-glass-card {
+          display: inline-block;
+          max-width: 640px;
+          margin: 0 auto;
+          background: rgba(255, 255, 255, 0.7);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(124, 92, 191, 0.15);
+          border-radius: 28px;
+          padding: 40px 44px;
+          box-shadow: 0 20px 50px rgba(124, 92, 191, 0.1);
+          transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .impact-glass-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16);
+        }
+        .impact-card-title {
+          font-family: 'Montserrat', sans-serif;
+          color: #662369;
+          font-size: 20px;
+          font-weight: 700;
+          margin: 0 0 16px;
+          line-height: 1.3;
+        }
+        .impact-card-desc {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 15.5px;
+          line-height: 1.7;
+          color: #554866;
+          margin: 0;
+        }
+        .impact-tags {
+          display: flex;
+          justify-content: center;
+          gap: 28px;
+          margin-top: 28px;
+          flex-wrap: wrap;
+        }
+        .impact-tag { display: flex; align-items: center; gap: 8px; }
+        .impact-tag-icon { color: #662369; font-size: 15px; }
+        .impact-tag-name {
+          font-family: 'Astrid Regular', serif;
+          font-size: 16px;
+          font-weight: 700;
+          color: #1a0a2e;
+        }
+
+        /* ═══════════════════════════════════════
+           Home page extra section 2: Welcome
+           Alternate section background → #AEAAD5
+           ═══════════════════════════════════════ */
+        .welcome-section {
+          background: #AEAAD5;
+          padding: 50px 24px;
+        }
+        .welcome-grid {
+          max-width: 1140px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 56px;
+          align-items: center;
+        }
+        .welcome-eyebrow {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #662369;
+          margin: 0 0 14px;
+        }
+        .welcome-title {
+          font-family: 'Astrid Regular', serif;
+          font-size: clamp(34px, 4.5vw, 50px);
+          font-weight: 700;
+          line-height: 1.18;
+          color: #1a0a2e;
+          margin: 0 0 22px;
+        }
+        .welcome-title-accent { color: #4B1E56; }
+        .welcome-desc {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 15.5px;
+          line-height: 1.75;
+          color: #554866;
+          margin: 0 0 32px;
+          max-width: 460px;
+        }
+        .welcome-cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 14px 28px;
+          border-radius: 14px;
+          border: none;
+          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
+          color: #fff;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          font-size: 13px;
+          letter-spacing: 0.03em;
+          text-decoration: none;
+          cursor: pointer;
+          box-shadow: 0 4px 14px rgba(75, 30, 86, 0.25);
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .welcome-cta:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(75, 30, 86, 0.35);
+        }
+        .welcome-image-wrap { position: relative; }
+        .welcome-image-frame {
+          border-radius: 28px;
+          overflow: hidden;
+          aspect-ratio: 4 / 3.4;
+          box-shadow: 0 24px 60px rgba(75, 30, 86, 0.18);
+          border: 1px solid rgba(124, 92, 191, 0.2);
+        }
+        .welcome-badge {
+          position: absolute;
+          bottom: -22px;
+          left: -22px;
+          background: #1a0a2e;
+          border-radius: 18px;
+          padding: 16px 22px;
+          box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+          border: 1px solid rgba(255,255,255,0.06);
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .welcome-badge-icon {
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: rgba(75, 30, 86, 0.15);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .welcome-badge-title {
+          font-family: 'Astrid Regular', serif;
+          font-size: 16px;
+          font-weight: 700;
+          color: #fff;
+          margin: 0;
+          line-height: 1.2;
+        }
+        .welcome-badge-sub {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 11px;
+          color: rgba(255,255,255,0.65);
+          margin: 0;
+        }
+
+        @media (max-width: 868px) {
+          .welcome-grid { grid-template-columns: 1fr !important; gap: 60px !important; }
+          .welcome-badge { left: 12px !important; bottom: -18px !important; }
+        }
+        @media (max-width: 640px) {
+          .impact-section { padding: 80px 20px 100px !important; }
+          .welcome-section { padding: 70px 20px !important; }
+          .impact-glass-card { padding: 28px 24px !important; }
+          .ns-back-home span { display: none; }
+        }
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .ms-ellevation-root {
@@ -683,6 +1162,11 @@ export default function EllevationPage() {
         }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .ns-back-home {
+          color: #d9a8cd !important;
+          background: rgba(217, 168, 205, 0.1) !important;
+          border-color: rgba(217, 168, 205, 0.25) !important;
         }
         [data-theme="dark"] .hp-bg-grad {
           background: linear-gradient(rgba(13, 6, 20, 0.75), rgba(13, 6, 20, 0.75)), url(${banner4}) !important;
@@ -737,14 +1221,6 @@ export default function EllevationPage() {
         [data-theme="dark"] .jp-form-title {
           color: #e8e0f8 !important;
         }
-        [data-theme="dark"] .ab-stories-teaser-bg,
-        [data-theme="dark"] .pr-section,
-        [data-theme="dark"] .ev-section,
-        [data-theme="dark"] .st-section,
-        [data-theme="dark"] .jn-stages,
-        [data-theme="dark"] .jp-form-section {
-          background: #160d22 !important;
-        }
         [data-theme="dark"] .ab-t-sub {
           color: #d9a8cd !important;
         }
@@ -758,7 +1234,7 @@ export default function EllevationPage() {
           background: linear-gradient(135deg, #160d22 0%, #140a1c 100%) !important;
         }
         [data-theme="dark"] .st-banner-bg {
-          background: linear-gradient(160deg, #1a0a2e 0%, #662369 50%, #0d0614 100%) !important;
+          background: linear-gradient(160deg, #1a0a2e 0%, #4B1E56 50%, #0d0614 100%) !important;
         }
         [data-theme="dark"] .jp-banner-bg {
           background: radial-gradient(ellipse 80% 80% at 50% 50%, #2d1740 0%, #1a0a2e 100%) !important;
@@ -782,11 +1258,41 @@ export default function EllevationPage() {
           background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${banner5}) !important;
           background-size: cover !important;
         }
+
+        /* ── Dark Mode for the new Home-page sections ── */
+        [data-theme="dark"] .impact-section {
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important;
+        }
+        [data-theme="dark"] .impact-eyebrow { color: #c9a3d9 !important; }
+        [data-theme="dark"] .impact-title { color: #ffffff !important; }
+        [data-theme="dark"] .impact-glass-card {
+          background: rgba(25, 16, 38, 0.7) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .impact-card-title { color: #d9b8e8 !important; }
+        [data-theme="dark"] .impact-card-desc { color: #cbd5e1 !important; }
+        [data-theme="dark"] .impact-tag-icon { color: #c9a3d9 !important; }
+        [data-theme="dark"] .impact-tag-name { color: #ffffff !important; }
+
+        [data-theme="dark"] .welcome-section {
+          background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important;
+        }
+        [data-theme="dark"] .welcome-eyebrow { color: #c9a3d9 !important; }
+        [data-theme="dark"] .welcome-title { color: #ffffff !important; }
+        [data-theme="dark"] .welcome-title-accent { color: #d9b8e8 !important; }
+        [data-theme="dark"] .welcome-desc { color: #cbd5e1 !important; }
+        [data-theme="dark"] .welcome-image-frame { border-color: rgba(155, 109, 190, 0.25) !important; }
       `}</style>
 
       <Navbar current={page} nav={nav} />
 
-      {page === "home"     && <HomePage     nav={nav} />}
+      {page === "home" && (
+        <>
+          <HomePage nav={nav} />
+          <ImpactStatementSection />
+          <WelcomeSection nav={nav} />
+        </>
+      )}
       {page === "about"    && <AboutPage    nav={nav} />}
       {page === "journey"  && <JourneyPage  nav={nav} />}
       {page === "programs" && <ProgramsPage nav={nav} />}

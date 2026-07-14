@@ -60,10 +60,10 @@ const FinalInvitationSection = () => {
         }
 
         .fi-heading {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: 'Astrid Regular', serif;
           font-size: 52px;
           font-weight: 700;
-          color: #d11a8e;
+          color: #4B1E56;
           margin: 0 0 48px 0;
           line-height: 1.15;
           letter-spacing: -0.01em;
@@ -84,11 +84,11 @@ const FinalInvitationSection = () => {
           align-items: center;
           gap: 8px;
           padding: 14px 28px;
-          background: #d11a8e;
+          background: #4B1E56;
           color: #ffffff;
           border: none;
           border-radius: 14px;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-size: 13px;
           font-weight: 600;
           letter-spacing: 0.05em;
@@ -112,11 +112,11 @@ const FinalInvitationSection = () => {
           align-items: center;
           gap: 8px;
           padding: 14px 28px;
-          background: #d11a8e;
+          background: #4B1E56;
           color: #ffffff;
           border: none;
           border-radius: 14px;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-size: 13px;
           font-weight: 600;
           letter-spacing: 0.05em;
@@ -167,10 +167,10 @@ const FinalInvitationSection = () => {
           color: #a78bfa;
         }
         [data-theme="dark"] .fi-heading {
-          color: #d11a8e;
+          color: #4B1E56;
         }
         [data-theme="dark"] .fi-btn-primary {
-           background: #a855f7;
+           background: #4B1E56;
           color: #ffffff;
           border-color: rgba(155, 109, 190, 0.2);
         }
@@ -180,7 +180,7 @@ const FinalInvitationSection = () => {
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         [data-theme="dark"] .fi-btn-secondary {
-          background: #a855f7;
+          background: #4B1E56;
           color: #ffffff;
           border-color: rgba(155, 109, 190, 0.2);
         }

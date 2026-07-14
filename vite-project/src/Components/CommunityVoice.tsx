@@ -127,7 +127,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
           fontSize: "15px",
           lineHeight: 1.65,
           color: "#403452",
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: "'Montserrat', sans-serif",
           margin: "0 0 28px 0",
           flex: 1,
         }}
@@ -165,7 +165,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
               fontSize: "14.5px",
               fontWeight: 700,
               color: "#1a0a2e",
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
             }}
           >
             {t.name}
@@ -179,7 +179,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
               color: "#705294",
               textTransform: "uppercase",
               letterSpacing: "0.08em",
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'Montserrat', sans-serif",
             }}
           >
             {t.role}
@@ -201,14 +201,14 @@ export default function CommunityVoices() {
       />
       <style>{`
         .community-section {
-          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
+          background: #AEAAD5;
         }
 
         .community-header-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: 'Astrid Regular', serif;
           font-size: 52px;
           font-weight: 700;
-          color: #d11a8e;
+          color: #4B1E56;
           margin: 0;
           line-height: 1.15;
           letter-spacing: -0.01em;
