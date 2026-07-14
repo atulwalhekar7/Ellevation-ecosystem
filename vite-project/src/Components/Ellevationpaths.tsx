@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 // TODO: apni asli image yahan daalo (jaisa AboutPage.tsx mein aboutBg use hua hai)
-import welcomeImg from "../assets/banner2.avif";
+
 
 interface Path {
   eyebrow: string;

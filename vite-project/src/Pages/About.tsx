@@ -342,7 +342,7 @@ function OverviewCard({
   delay,
 }: {
   item: typeof overviewCards[0];
-  cardRef: RefObject<HTMLDivElement>;
+  cardRef: RefObject<HTMLDivElement | null>;
   inView: boolean;
   delay: number;
 }) {
