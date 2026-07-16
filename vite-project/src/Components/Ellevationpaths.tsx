@@ -505,7 +505,7 @@ export default function EllevationPaths() {
         }
 
         .paths-section {
-          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
+          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
         }
 
         .paths-header-title {
