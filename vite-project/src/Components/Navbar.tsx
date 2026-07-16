@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/Logo.png";
+import darkModeLogo from "../assets/dark-mode-logo.png";
 
 type DropdownItem = { label: string; href: string };
 type NavItem = {
@@ -19,32 +20,69 @@ const navItems: NavItem[] = [
   { label: "Connect", href: "/Connect" },
 ];
 
-function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean }) {
+const ACCENT = "#4B1E56";
+const DARK_BG = "#2D0B36"; // matches the dark-mode-logo background swatch
+const FONT_FAMILY = "'Aster', sans-serif";
+
+// Breakpoint below which we switch to the hamburger / drawer layout.
+const MOBILE_BREAKPOINT = 1024;
+
+/** Tracks viewport width so we can branch layout logic in JS
+ *  (inline styles can't use media queries on their own). */
+function useIsMobile(breakpoint: number) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
+  );
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < breakpoint);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop dropdown (hover / click, absolutely positioned flyout)     */
+/* ------------------------------------------------------------------ */
+
+function DropdownMenu({
+  items,
+  open,
+  darkMode,
+}: {
+  items: DropdownItem[];
+  open: boolean;
+  darkMode: boolean;
+}) {
   const location = useLocation();
 
   return (
-   <div
-  style={{
-    position: "absolute",
-    top: "calc(100% + 8px)",
-    left: "50%",
-    background: "#fff",
-    borderRadius: "12px",
-  boxShadow:
-  "0 18px 50px rgba(184,180,205,0.55), 0 6px 18px rgba(0,0,0,0.08)",
-  padding: "8px 0",
-    minWidth: "210px",
-    zIndex: 1000,
-    opacity: open ? 1 : 0,
-    pointerEvents: open ? "all" : "none",
-    transform: open
-      ? "translateX(-50%) translateY(0)"
-      : "translateX(-50%) translateY(-6px)",
-    transition: "opacity 0.18s ease, transform 0.18s ease",
-  }}
->
+    <div
+      style={{
+        position: "absolute",
+        top: "calc(100% + 8px)",
+        left: "50%",
+        background: darkMode ? DARK_BG : "#fff",
+        border: darkMode ? "1px solid rgba(255,255,255,0.15)" : "1px solid #f2ecf9",
+        borderRadius: "12px",
+        padding: "8px 0",
+        minWidth: "210px",
+        zIndex: 1000,
+        opacity: open ? 1 : 0,
+        pointerEvents: open ? "all" : "none",
+        transform: open
+          ? "translateX(-50%) translateY(0)"
+          : "translateX(-50%) translateY(-6px)",
+        transition: "opacity 0.18s ease, transform 0.18s ease",
+        boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
+      }}
+    >
       {items.map((item) => {
         const isSubItemActive = location.pathname === item.href;
+        const textColor = darkMode ? "#ffffff" : ACCENT;
 
         return (
           <Link
@@ -54,10 +92,14 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
               display: "block",
               padding: "10px 22px",
               fontSize: "14px",
-              color: isSubItemActive ? "#4B1E56" : "#2d2d2d",
-              backgroundColor: isSubItemActive ? "rgba(75, 30, 86, 0.05)" : "transparent",
+              color: textColor,
+              backgroundColor: isSubItemActive
+                ? darkMode
+                  ? "rgba(255,255,255,0.12)"
+                  : "rgba(75, 30, 86, 0.08)"
+                : "transparent",
               textDecoration: "none",
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: FONT_FAMILY,
               fontWeight: isSubItemActive ? 600 : 400,
               borderRadius: "6px",
               margin: "2px 6px",
@@ -72,11 +114,17 @@ function DropdownMenu({ items, open }: { items: DropdownItem[]; open: boolean })
   );
 }
 
-function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean }) {
+function NavItemComponent({
+  item,
+  darkMode,
+}: {
+  item: NavItem;
+  darkMode: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const location = useLocation(); 
+  const location = useLocation();
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -90,8 +138,8 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
     ? item.dropdown.some((subItem) => location.pathname === subItem.href)
     : location.pathname === item.href;
 
-  const defaultLinkColor = darkMode ? "#e9deff" : "#2d2d2d";
-  const currentLinkColor = (isActive || isHovered) ? "#4B1E56" : defaultLinkColor;
+  const baseColor = darkMode ? "#ffffff" : ACCENT;
+  const currentOpacity = isActive || isHovered ? 1 : 0.82;
 
   if (item.dropdown) {
     return (
@@ -111,18 +159,19 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
             border: "none",
             cursor: "pointer",
             fontSize: "16px",
-            color: currentLinkColor,
-            fontFamily: "'DM Sans', sans-serif",
+            color: baseColor,
+            opacity: currentOpacity,
+            fontFamily: FONT_FAMILY,
             fontWeight: isActive ? 600 : 400,
             padding: "6px 4px",
             borderRadius: "6px",
-            transition: "color 0.2s ease",
+            transition: "opacity 0.2s ease",
           }}
         >
           {item.label}
         </button>
 
-        <DropdownMenu items={item.dropdown} open={open} />
+        <DropdownMenu items={item.dropdown} open={open} darkMode={darkMode} />
       </div>
     );
   }
@@ -137,13 +186,14 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
         fontSize: "16px",
-        color: currentLinkColor,
+        color: baseColor,
+        opacity: currentOpacity,
         textDecoration: "none",
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: FONT_FAMILY,
         fontWeight: isActive ? 600 : 400,
         padding: "6px 4px",
         whiteSpace: "nowrap",
-        transition: "color 0.2s ease",
+        transition: "opacity 0.2s ease",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -153,13 +203,181 @@ function NavItemComponent({ item, darkMode }: { item: NavItem; darkMode: boolean
   );
 }
 
-const NAV_HEIGHT = 110;
+/* ------------------------------------------------------------------ */
+/* Mobile drawer: full nav, stacked, with accordion-style dropdowns   */
+/* ------------------------------------------------------------------ */
+
+function MobileNavItem({
+  item,
+  darkMode,
+  onNavigate,
+}: {
+  item: NavItem;
+  darkMode: boolean;
+  onNavigate: () => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const location = useLocation();
+  const textColor = darkMode ? "#ffffff" : ACCENT;
+
+  const isActive = item.dropdown
+    ? item.dropdown.some((subItem) => location.pathname === subItem.href)
+    : location.pathname === item.href;
+
+  if (item.dropdown) {
+    return (
+      <div
+        style={{
+          borderBottom: darkMode
+            ? "1px solid rgba(255,255,255,0.1)"
+            : "1px solid #f2ecf9",
+        }}
+      >
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "17px",
+            color: textColor,
+            fontFamily: FONT_FAMILY,
+            fontWeight: isActive ? 600 : 500,
+            padding: "16px 4px",
+          }}
+        >
+          {item.label}
+          <span
+            style={{
+              display: "inline-block",
+              transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s ease",
+              fontSize: "13px",
+            }}
+          >
+            ▾
+          </span>
+        </button>
+
+        <div
+          style={{
+            maxHeight: expanded ? `${item.dropdown.length * 48 + 12}px` : "0px",
+            overflow: "hidden",
+            transition: "max-height 0.25s ease",
+          }}
+        >
+          {item.dropdown.map((sub) => {
+            const subActive = location.pathname === sub.href;
+            return (
+              <Link
+                key={sub.label}
+                to={sub.href}
+                onClick={onNavigate}
+                style={{
+                  display: "block",
+                  padding: "12px 16px",
+                  fontSize: "15px",
+                  color: textColor,
+                  opacity: subActive ? 1 : 0.75,
+                  fontWeight: subActive ? 600 : 400,
+                  textDecoration: "none",
+                  fontFamily: FONT_FAMILY,
+                }}
+              >
+                {sub.label}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  const shouldOpenInNewTab =
+    item.label === "Ms Ellevation" || item.label === "Ellevation Hub";
+
+  return (
+    <Link
+      to={item.href || "#"}
+      target={shouldOpenInNewTab ? "_blank" : undefined}
+      rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
+      onClick={onNavigate}
+      style={{
+        display: "block",
+        padding: "16px 4px",
+        fontSize: "17px",
+        color: textColor,
+        opacity: isActive ? 1 : 0.9,
+        fontWeight: isActive ? 600 : 500,
+        textDecoration: "none",
+        fontFamily: FONT_FAMILY,
+        borderBottom: darkMode
+          ? "1px solid rgba(255,255,255,0.1)"
+          : "1px solid #f2ecf9",
+      }}
+    >
+      {item.label}
+    </Link>
+  );
+}
+
+/** Simple three-line / X hamburger icon, animated between states. */
+function HamburgerIcon({ open, darkMode }: { open: boolean; darkMode: boolean }) {
+  const color = darkMode ? "#ffffff" : ACCENT;
+  const barStyle: React.CSSProperties = {
+    display: "block",
+    height: "2px",
+    width: "100%",
+    background: color,
+    borderRadius: "2px",
+    transition: "transform 0.25s ease, opacity 0.2s ease",
+  };
+  return (
+    <span
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        width: "22px",
+        height: "16px",
+      }}
+    >
+      <span
+        style={{
+          ...barStyle,
+          transform: open ? "translateY(7px) rotate(45deg)" : "none",
+        }}
+      />
+      <span style={{ ...barStyle, opacity: open ? 0 : 1 }} />
+      <span
+        style={{
+          ...barStyle,
+          transform: open ? "translateY(-7px) rotate(-45deg)" : "none",
+        }}
+      />
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Main navbar                                                        */
+/* ------------------------------------------------------------------ */
+
+const NAV_HEIGHT_DESKTOP = 110;
+const NAV_HEIGHT_MOBILE = 72;
 
 export default function EllevationNavbar() {
   const [darkMode, setDarkMode] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navTopRef = useRef<number>(0);
+  const isMobile = useIsMobile(MOBILE_BREAKPOINT);
+  const navHeight = isMobile ? NAV_HEIGHT_MOBILE : NAV_HEIGHT_DESKTOP;
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
@@ -191,6 +409,20 @@ export default function EllevationNavbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close the mobile drawer automatically if the viewport grows past
+  // the breakpoint (e.g. rotating a tablet, or resizing a browser window).
+  useEffect(() => {
+    if (!isMobile) setMenuOpen(false);
+  }, [isMobile]);
+
+  // Lock body scroll while the mobile drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const toggleTheme = () => {
     const root = document.documentElement;
     const current = root.getAttribute("data-theme");
@@ -201,85 +433,52 @@ export default function EllevationNavbar() {
     setDarkMode(next === "dark");
   };
 
-  // Light vs Dark Mode peripheral box-shadow styling configuration
-  const getBoxShadow = () => {
-    if (!isFixed) {
-      return darkMode 
-        ? "0 4px 14px rgba(0, 0, 0, 0.4)" 
-        : "0 5px 18px rgba(184, 180, 205, 0.3)";
-    }
-    
-    // Light mode remains deep/vibrant lavender, Dark mode uses soft, low-intensity deep shadows
-    return darkMode
-      ? "0 12px 40px rgba(0, 0, 0, 0.55), -6px 0 24px rgba(15, 10, 25, 0.3), 6px 0 24px rgba(15, 10, 25, 0.3)"
-      : "0 12px 40px rgba(184, 180, 205, 0.75), -8px 0 28px rgba(184, 180, 205, 0.35), 8px 0 28px rgba(184, 180, 205, 0.35)";
-  };
-
   return (
     <>
-      <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-      />
-
+      {/* If "Aster" is a custom/licensed font, load it here via @font-face
+          instead of a Google Fonts link. Example:
       <style>{`
-        @keyframes navOvalPulse {
-          0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.55; }
-          50%       { transform: translateX(-50%) scale(1.08); opacity: 0.8; }
+        @font-face {
+          font-family: 'Aster';
+          src: url('/fonts/Aster-Regular.woff2') format('woff2');
+          font-weight: 400;
+        }
+        @font-face {
+          font-family: 'Aster';
+          src: url('/fonts/Aster-SemiBold.woff2') format('woff2');
+          font-weight: 600;
         }
       `}</style>
+      */}
 
       <div
         ref={wrapperRef}
-        style={{ height: `${NAV_HEIGHT}px`, position: "relative" }}
+        style={{ height: `${navHeight}px`, position: "relative" }}
       >
         <nav
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "24px",
-            padding: "0 24px",
-            height: `${NAV_HEIGHT}px`,          
-            background: darkMode ? "rgba(18,14,24,0.96)" : "rgba(253, 251, 255, 0.96)",
-            borderBottom: darkMode ? "1px solid #2a2238" : "1px solid #f2ecf9",
-            boxShadow: getBoxShadow(),
-            backdropFilter: isFixed ? "blur(16px)" : "none",
+            gap: isMobile ? "12px" : "24px",
+            padding: isMobile ? "0 16px" : "0 24px",
+            height: `${navHeight}px`,
+            background: darkMode ? DARK_BG : "#ffffff",
+            borderBottom: darkMode ? "1px solid rgba(255,255,255,0.12)" : "1px solid #f2ecf9",
+            boxShadow: "none",
+            backdropFilter: "none",
             position: isFixed ? "fixed" : "absolute",
             top: 0,
             left: 0,
             right: 0,
             zIndex: 100,
             overflow: "hidden",
-            transition: "box-shadow 0.25s, backdrop-filter 0.25s, background 0.25s",
+            transition: "background 0.25s, height 0.25s",
           }}
         >
-          {/* Decorative oval #4B1E56 glow shade, centered behind nav content */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              width: "680px",
-              height: "130px",
-             background: darkMode
-  ? "radial-gradient(ellipse at center, rgba(75,30,86,0.30) 0%, rgba(75,30,86,0.14) 45%, rgba(75,30,86,0) 75%)"
-  : "radial-gradient(ellipse at center, rgba(75,30,86,0.55) 0%, rgba(75,30,86,0.28) 45%, rgba(75,30,86,0) 78%)",
-borderRadius: "50%",
-              transform: "translate(-50%, -50%)",
-              filter: darkMode ? "blur(6px)" : "blur(4px)",
-              boxShadow: darkMode
-                ? "none"
-                : "0 10px 34px rgba(75,30,86,0.35)",
-              pointerEvents: "none",
-              zIndex: 0,
-              animation: "navOvalPulse 6s ease-in-out infinite",
-            }}
-          />
-
           {/* Logo */}
           <Link
             to="/"
+            onClick={() => setMenuOpen(false)}
             style={{
               display: "flex",
               alignItems: "center",
@@ -292,139 +491,292 @@ borderRadius: "50%",
           >
             <div
               style={{
-                width: "190px",
-                height: "150px",
+                width: isMobile ? "120px" : "190px",
+                height: isMobile ? "56px" : "150px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 overflow: "hidden",
+                transition: "width 0.25s, height 0.25s",
               }}
             >
               <img
-                src={logo}
+                src={darkMode ? darkModeLogo : logo}
                 alt="Ellevation Logo"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
             </div>
           </Link>
 
-          {/* Nav Links Wrapper */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "24px",
-              flex: 1,
-              flexWrap: "nowrap",
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            {navItems.map((item) => (
-              <NavItemComponent
-                key={item.label}
-                item={item}
-                darkMode={darkMode}
-              />
-            ))}
-          </div>
+          {!isMobile && (
+            <>
+              {/* Nav Links Wrapper (desktop) */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "24px",
+                  flex: 1,
+                  flexWrap: "nowrap",
+                  position: "relative",
+                  zIndex: 1,
+                  minWidth: 0,
+                }}
+              >
+                {navItems.map((item) => (
+                  <NavItemComponent key={item.label} item={item} darkMode={darkMode} />
+                ))}
+              </div>
 
-          {/* Right Actions Block */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, position: "relative", zIndex: 1 }}>
-            <button
-              onClick={toggleTheme}
+              {/* Right Actions Block (desktop) */}
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, position: "relative", zIndex: 1 }}>
+                <button
+                  onClick={toggleTheme}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    background: darkMode ? "rgba(255,255,255,0.08)" : "#ffffff",
+                    border: darkMode
+                      ? "1.5px solid rgba(255,255,255,0.3)"
+                      : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                    borderRadius: "20px",
+                    padding: "6px 14px",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    color: darkMode ? "#ffffff" : ACCENT,
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 500,
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = darkMode ? "#ffffff" : ACCENT;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = darkMode
+                      ? "rgba(255,255,255,0.3)"
+                      : "rgba(75, 30, 86, 0.35)";
+                  }}
+                >
+                  {darkMode ? "Light" : "Dark"}
+                </button>
+
+                <Link
+                  to="/get-involved/directories"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    background: darkMode ? "transparent" : "#fff",
+                    border: darkMode
+                      ? "1.5px solid rgba(255,255,255,0.3)"
+                      : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                    borderRadius: "20px",
+                    padding: "6px 16px",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    color: darkMode ? "#ffffff" : ACCENT,
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 500,
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = darkMode ? "#ffffff" : ACCENT;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = darkMode
+                      ? "rgba(255,255,255,0.3)"
+                      : "rgba(75, 30, 86, 0.35)";
+                  }}
+                >
+                  Get Listed
+                </Link>
+
+                {/* Signature Action Button */}
+                <Link
+                  to="/get-involved/join"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    background: darkMode ? "#ffffff" : ACCENT,
+                    border: "none",
+                    borderRadius: "20px",
+                    padding: "8px 22px",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    color: darkMode ? ACCENT : "#ffffff",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    boxShadow: "none",
+                    whiteSpace: "nowrap",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  Join
+                </Link>
+              </div>
+            </>
+          )}
+
+          {isMobile && (
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "6px",
-                background: darkMode ? "#2a1a4e" : "#ffffff",
-                border: darkMode ? "1.5px solid rgba(167, 139, 250, 0.25)" : "1.5px solid rgba(184, 180, 205, 0.5)",
-                borderRadius: "20px",
-                padding: "6px 14px",
-                cursor: "pointer",
-                fontSize: "13px",
-                color: darkMode ? "#e9d5ff" : "#554866",
-                fontFamily: "'DM Sans', sans-serif",
-                fontWeight: 500,
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#4B1E56";
-                e.currentTarget.style.color = "#4B1E56";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = darkMode ? "rgba(167, 139, 250, 0.25)" : "rgba(184, 180, 205, 0.5)";
-                e.currentTarget.style.color = darkMode ? "#e9d5ff" : "#554866";
+                gap: "10px",
+                marginLeft: "auto",
+                flexShrink: 0,
+                position: "relative",
+                zIndex: 1,
               }}
             >
-              {darkMode ? "Light" : "Dark"}
-            </button>
+              {/* Compact theme toggle stays visible on mobile too */}
+              <button
+                onClick={toggleTheme}
+                aria-label="Toggle dark mode"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "36px",
+                  height: "36px",
+                  background: darkMode ? "rgba(255,255,255,0.08)" : "#ffffff",
+                  border: darkMode
+                    ? "1.5px solid rgba(255,255,255,0.3)"
+                    : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                  borderRadius: "50%",
+                  cursor: "pointer",
+                  fontSize: "15px",
+                }}
+              >
+                {darkMode ? "☀" : "☾"}
+              </button>
 
-            <Link 
-              to="/get-involved/directories" 
-              style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                gap: "6px", 
-                background: "#fff", 
-                border: "1.5px solid rgba(184, 180, 205, 0.5)", 
-                borderRadius: "20px", 
-                padding: "6px 16px", 
-                cursor: "pointer", 
-                fontSize: "13px", 
-                color: "#2d2d2d", 
-                fontFamily: "'DM Sans', sans-serif", 
-                fontWeight: 500, 
-                textDecoration: "none", 
-                whiteSpace: "nowrap",
-                transition: "all 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#4B1E56";
-                e.currentTarget.style.color = "#4B1E56";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(184, 180, 205, 0.5)";
-                e.currentTarget.style.color = "#2d2d2d";
-              }}
-            >
-              Get Listed
-            </Link>
-
-            {/* Premium Signature Deep Purple Action Button */}
-            <Link 
-              to="/get-involved/join" 
-              style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                gap: "6px", 
-                background: "linear-gradient(135deg, #4B1E56 0%, #4B1E56 100%)", 
-                border: "none", 
-                borderRadius: "20px", 
-                padding: "8px 22px", 
-                cursor: "pointer", 
-                fontSize: "13px", 
-                color: "#fff", 
-                fontFamily: "'DM Sans', sans-serif", 
-                fontWeight: 600, 
-                textDecoration: "none", 
-                boxShadow: "0 4px 14px rgba(75, 30, 86, 0.35)", 
-                whiteSpace: "nowrap",
-                transition: "all 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-1px)";
-                e.currentTarget.style.boxShadow = "0 6px 20px rgba(75, 30, 86, 0.55)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 4px 14px rgba(75, 30, 86, 0.35)";
-              }}
-            >
-              Join
-            </Link>
-          </div>
+              <button
+                onClick={() => setMenuOpen((v) => !v)}
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpen}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "40px",
+                  height: "40px",
+                  background: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <HamburgerIcon open={menuOpen} darkMode={darkMode} />
+              </button>
+            </div>
+          )}
         </nav>
+
+        {/* Mobile drawer + backdrop */}
+        {isMobile && (
+          <>
+            <div
+              onClick={() => setMenuOpen(false)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                top: `${navHeight}px`,
+                background: "rgba(0,0,0,0.35)",
+                opacity: menuOpen ? 1 : 0,
+                pointerEvents: menuOpen ? "all" : "none",
+                transition: "opacity 0.2s ease",
+                zIndex: 98,
+              }}
+            />
+            <div
+              style={{
+                position: "fixed",
+                top: `${navHeight}px`,
+                left: 0,
+                right: 0,
+                maxHeight: menuOpen ? "calc(100vh - " + navHeight + "px)" : "0px",
+                overflowY: "auto",
+                background: darkMode ? DARK_BG : "#ffffff",
+                borderBottom: menuOpen
+                  ? darkMode
+                    ? "1px solid rgba(255,255,255,0.12)"
+                    : "1px solid #f2ecf9"
+                  : "none",
+                boxShadow: menuOpen ? "0 16px 32px rgba(0,0,0,0.15)" : "none",
+                transition: "max-height 0.28s ease",
+                zIndex: 99,
+                padding: menuOpen ? "8px 20px 24px" : "0 20px",
+              }}
+            >
+              {navItems.map((item) => (
+                <MobileNavItem
+                  key={item.label}
+                  item={item}
+                  darkMode={darkMode}
+                  onNavigate={() => setMenuOpen(false)}
+                />
+              ))}
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                  marginTop: "20px",
+                }}
+              >
+                <Link
+                  to="/get-involved/directories"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: darkMode ? "transparent" : "#fff",
+                    border: darkMode
+                      ? "1.5px solid rgba(255,255,255,0.3)"
+                      : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                    borderRadius: "24px",
+                    padding: "12px 16px",
+                    fontSize: "15px",
+                    color: darkMode ? "#ffffff" : ACCENT,
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 500,
+                    textDecoration: "none",
+                  }}
+                >
+                  Get Listed
+                </Link>
+
+                <Link
+                  to="/get-involved/join"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: darkMode ? "#ffffff" : ACCENT,
+                    border: "none",
+                    borderRadius: "24px",
+                    padding: "13px 16px",
+                    fontSize: "15px",
+                    color: darkMode ? ACCENT : "#ffffff",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 600,
+                    textDecoration: "none",
+                  }}
+                >
+                  Join
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

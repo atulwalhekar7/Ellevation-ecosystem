@@ -1,7 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
+
+import img1 from "../assets/image1.jpg";
+import img2 from "../assets/image2.jpg";
+import img3 from "../assets/image3.jpg";
+import img4 from "../assets/image4.jpg";
+import img5 from "../assets/image5.jpg";
+import img6 from "../assets/image6.jpg";
 // TODO: apni asli image yahan daalo (jaisa AboutPage.tsx mein aboutBg use hua hai)
+
+// ── Path card logos — swap these four filenames/paths for your real assets ──
+import msEllevationLogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
+import msEllevationLogoDark from "../assets/ms-ellevation-darkmode-logo.png";
+import ellevationHubLogoLight from "../assets/Ellevation-whitemode-logo.png";
+import ellevationHubLogoDark from "../assets/Ellevation-darkmode-logo.png";
+
 
 
 interface Path {
@@ -11,6 +25,8 @@ interface Path {
   features: string[];
   cta: string;
   route: string;
+  logoLight: string;
+  logoDark: string;
 }
 
 const paths: Path[] = [
@@ -27,6 +43,8 @@ const paths: Path[] = [
     ],
     cta: "Explore Programs",
     route: "/ms-ellevation",
+    logoLight: msEllevationLogoLight,
+    logoDark: msEllevationLogoDark,
   },
   {
     eyebrow: "Community Ecosystem & Pathways",
@@ -41,183 +59,419 @@ const paths: Path[] = [
     ],
     cta: "Become a Member",
     route: "/hub",
+    logoLight: ellevationHubLogoLight,
+    logoDark: ellevationHubLogoDark,
   },
 ];
 
 /* ══════════════════════════════════════════════
-   SECTION 1 — "Her Potential. Her Impact."
-   Hero-style statement with a floating glass card
+   NEW SECTION — Inclusive parent-site hero
+   "One community, built by everyone who shows up."
+   Sits above the Paths grid. Gender-neutral, premium,
+   welcoming to individuals, families, professionals,
+   businesses, and community organisations.
    ══════════════════════════════════════════════ */
-// function ImpactStatementSection() {
-//   const [visible, setVisible] = useState(false);
-//   const ref = useRef<HTMLElement>(null);
 
-//   useEffect(() => {
-//     const obs = new IntersectionObserver(
-//       ([e]) => { if (e.isIntersecting) setVisible(true); },
-//       { threshold: 0.15 }
-//     );
-//     if (ref.current) obs.observe(ref.current);
-//     return () => obs.disconnect();
-//   }, []);
+const HERO_PLUM_900 = "#2D0B36";
+const HERO_PLUM_800 = "#4B1E56";
+const HERO_PLUM_700 = "#6B3179";
+const HERO_GOLD_500 = "#EFB93E";
+const HERO_MAGENTA_500 = "#C81E6B";
+const HERO_CREAM_50 = "#FBF7F1";
+const HERO_INK_900 = "#231226";
+const HERO_INK_600 = "#5B4A61";
+const HERO_DISPLAY_FONT = "'Astrid Regular', serif";
+const HERO_BODY_FONT =
+  "'Montserrat', sans-serif";
 
-//   return (
-//     <section ref={ref} className="impact-section">
-//       {/* ambient blobs, consistent with rest of site */}
-//       <div className="impact-blob impact-blob-1" />
-//       <div className="impact-blob impact-blob-2" />
+type Audience = {
+  id: string;
+  label: string;
+  copy: string;
+  icon: JSX.Element;
+};
 
-//       <div className="impact-inner">
-//         <p
-//           className="impact-eyebrow"
-//           style={{
-//             opacity: visible ? 1 : 0,
-//             transform: visible ? "translateY(0)" : "translateY(16px)",
-//             transition: "opacity 0.6s ease, transform 0.6s ease",
-//           }}
-//         >
-//           Why We Exist
-//         </p>
+const audiences: Audience[] = [
+  {
+    id: "families",
+    label: "Individuals & Families",
+    copy: "A welcoming front door for anyone starting their journey with Ellevation.",
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="13" r="5" stroke="currentColor" strokeWidth="2" />
+        <circle cx="27" cy="16" r="4" stroke="currentColor" strokeWidth="2" />
+        <path d="M6 33c0-6 4-10 8-10s8 4 8 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <path d="M22 33c0-4.5 2.8-8 5.5-8s5.5 3.5 5.5 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    id: "professionals",
+    label: "Professionals & Leaders",
+    copy: "Tools, conversations and connections that grow with your career.",
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="7" y="15" width="26" height="18" rx="3" stroke="currentColor" strokeWidth="2" />
+        <path d="M15 15v-3a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v3" stroke="currentColor" strokeWidth="2" />
+        <path d="M7 22h26" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    ),
+  },
+  {
+    id: "businesses",
+    label: "Businesses & Brands",
+    copy: "Partnership and visibility across a network built on trust.",
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 33V11l11-5 11 5v22" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+        <path d="M9 33h22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <path d="M16 33v-7h8v7" stroke="currentColor" strokeWidth="2" />
+        <circle cx="20" cy="17" r="2" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    id: "community",
+    label: "Community Organisations",
+    copy: "Shared infrastructure for the groups doing the work on the ground.",
+    icon: (
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="9" r="3.2" stroke="currentColor" strokeWidth="2" />
+        <circle cx="9" cy="24" r="3.2" stroke="currentColor" strokeWidth="2" />
+        <circle cx="31" cy="24" r="3.2" stroke="currentColor" strokeWidth="2" />
+        <circle cx="20" cy="33" r="3.2" stroke="currentColor" strokeWidth="2" />
+        <path
+          d="M20 12.2V29.8M11.6 22.4l6.8 4.4M28.4 22.4l-6.8 4.4M12 22l6-9M28 22l-6-9"
+          stroke="currentColor"
+          strokeWidth="1.6"
+        />
+      </svg>
+    ),
+  },
+];
 
-//         <h2 className="impact-title">
-//           Her Potential. Her Impact.
-//         </h2>
+// ── Hero gallery photos — these are free placeholder photo URLs (Lorem
+// Picsum) so the layout renders immediately. Swap each one for your real
+// community/family/professional photos when ready — just replace the URL
+// string, no import changes needed.
+const heroGalleryImages = [
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+];
 
-//         {/* Floating glass statement card */}
-//         <div
-//           className="impact-glass-card"
-//           style={{
-//             opacity: visible ? 1 : 0,
-//             transform: visible ? "translateY(0)" : "translateY(30px)",
-//             transition: "opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s",
-//           }}
-//         >
-//           <h3 className="impact-card-title">
-//             Building Holistic Success for Women in Australia.
-//           </h3>
-//           <p className="impact-card-desc">
-//             Beyond every obstacle and uncertainty, Ms. Ellevation empowers her to claim her space,
-//             amplify her voice, and truly flourish.
-//           </p>
+/** Two columns of images auto-scrolling in opposite directions — replaces
+ * the old orbit graphic with real photography of the community. */
+function HeroImageScroller() {
+  // Split images across two columns so they can scroll opposite directions
+  const colA = heroGalleryImages.filter((_, i) => i % 2 === 0);
+  const colB = heroGalleryImages.filter((_, i) => i % 2 === 1);
 
-//           <div className="impact-tags">
-//             {[
-//               { n: "Voice", i: "◈" },
-//               { n: "Identity", i: "✦" },
-//               { n: "Confidence", i: "❀" },
-//             ].map((tag) => (
-//               <div key={tag.n} className="impact-tag">
-//                 <span className="impact-tag-icon">{tag.i}</span>
-//                 <span className="impact-tag-name">{tag.n}</span>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
+  return (
+    <div className="hero-scroller">
+      <div className="hero-scroller-col hero-scroller-col-up">
+        <div className="hero-scroller-track">
+          {[...colA, ...colA].map((src, i) => (
+            <div className="hero-scroller-item" key={`a-${i}`}>
+              <img src={src} alt="Ellevation community" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="hero-scroller-col hero-scroller-col-down">
+        <div className="hero-scroller-track">
+          {[...colB, ...colB].map((src, i) => (
+            <div className="hero-scroller-item" key={`b-${i}`}>
+              <img src={src} alt="Ellevation community" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
-/* ══════════════════════════════════════════════
-   SECTION 2 — "Your Harbour of Empowerment"
-   Split layout: text + image with floating brand badge
-   ══════════════════════════════════════════════ */
-// function WelcomeSection() {
-//   const [visible, setVisible] = useState(false);
-//   const ref = useRef<HTMLElement>(null);
+function EllevationHeroSection() {
+  const [visible, setVisible] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
-//   useEffect(() => {
-//     const obs = new IntersectionObserver(
-//       ([e]) => { if (e.isIntersecting) setVisible(true); },
-//       { threshold: 0.15 }
-//     );
-//     if (ref.current) obs.observe(ref.current);
-//     return () => obs.disconnect();
-//   }, []);
+  useEffect(() => {
+    setVisible(true);
+    const readTheme = () =>
+      setDarkMode(document.documentElement.getAttribute("data-theme") === "dark");
+    readTheme();
+    const observer = new MutationObserver(readTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
 
-//   return (
-//     <section ref={ref} className="welcome-section">
-//       <div className="welcome-grid">
-//         {/* LEFT — text */}
-//         <div
-//           style={{
-//             opacity: visible ? 1 : 0,
-//             transform: visible ? "translateY(0)" : "translateY(24px)",
-//             transition: "opacity 0.7s ease, transform 0.7s ease",
-//           }}
-//         >
-//           <p className="welcome-eyebrow">A Space For Women, By Women</p>
-//           <h2 className="welcome-title">
-//             Welcome to Your{" "}
-//             <span className="welcome-title-accent">Harbour of Empowerment</span>
-//           </h2>
-//           <p className="welcome-desc">
-//             Welcome to Ms. Ellevation — for new beginnings, bold journeys, and dreams taking
-//             flight. Find your place. Lift your voice. Shine. Flourish in every part of your life.
-//           </p>
+  return (
+    <section
+      style={{
+        background: darkMode ? "#2D0B36" : HERO_CREAM_50,
+        fontFamily: HERO_BODY_FONT,
+        overflow: "hidden",
+        transition: "background 0.25s ease",
+      }}
+    >
+      <style>{`
+        [data-theme="dark"] .ellevation-hero-eyebrow-text { color: #c9a3d9 !important; }
+        [data-theme="dark"] .ellevation-hero-title { color: #ffffff !important; }
+        [data-theme="dark"] .ellevation-hero-title em { color: #d9b8e8 !important; }
+        [data-theme="dark"] .ellevation-hero-desc { color: #cbd5e1 !important; }
+        [data-theme="dark"] .ellevation-cta-secondary {
+          color: #ffffff !important;
+          border-color: rgba(255,255,255,0.3) !important;
+        }
+        [data-theme="dark"] .ellevation-audience-card {
+          background: rgba(75, 30, 86, 0.35) !important;
+          border-color: rgba(255,255,255,0.12) !important;
+        }
+        [data-theme="dark"] .ellevation-audience-card-label { color: #ffffff !important; }
+        [data-theme="dark"] .ellevation-audience-card-copy { color: #cbd5e1 !important; }
+        [data-theme="dark"] .ellevation-audience-icon { color: #d9b8e8 !important; }
 
-//           <Link to="/ms-ellevation" className="welcome-cta">
-//             Find Your Place
-//             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-//               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-//             </svg>
-//           </Link>
-//         </div>
+        .ellevation-hero-grid {
+          display: grid;
+          grid-template-columns: 1.05fr 0.95fr;
+          align-items: center;
+          gap: 48px;
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 96px 32px 64px;
+        }
+        .ellevation-hero-copy {
+          opacity: 0;
+          transform: translateY(16px);
+          transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .ellevation-hero-copy.visible { opacity: 1; transform: translateY(0); }
+        .ellevation-hero-visual {
+          opacity: 0;
+          transform: scale(0.94);
+          transition: opacity 0.9s ease 0.15s, transform 0.9s ease 0.15s;
+          display: flex;
+          justify-content: center;
+        }
+        .ellevation-hero-visual.visible { opacity: 1; transform: scale(1); }
+        .hero-scroller {
+          display: flex;
+          gap: 16px;
+          height: 460px;
+          width: 100%;
+          max-width: 420px;
+          overflow: hidden;
+          -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 90%, transparent 100%);
+        }
+        .hero-scroller-col {
+          flex: 1;
+          overflow: hidden;
+        }
+        .hero-scroller-track {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          width: 100%;
+        }
+        .hero-scroller-col-up .hero-scroller-track {
+          animation: scroll-up 26s linear infinite;
+        }
+        .hero-scroller-col-down .hero-scroller-track {
+          animation: scroll-down 26s linear infinite;
+          transform: translateY(-50%);
+        }
+        @keyframes scroll-up {
+          from { transform: translateY(0); }
+          to { transform: translateY(-50%); }
+        }
+        @keyframes scroll-down {
+          from { transform: translateY(-50%); }
+          to { transform: translateY(0); }
+        }
+        .hero-scroller-item {
+          border-radius: 18px;
+          overflow: hidden;
+          box-shadow: 0 12px 28px rgba(45, 11, 54, 0.14);
+        }
+        .hero-scroller-item img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          display: block;
+        }
+        .hero-scroller-col-down .hero-scroller-item img { height: 220px; }
+        @media (max-width: 920px) {
+          .hero-scroller { max-width: 340px; height: 360px; margin: 0 auto; }
+        }
+        .ellevation-cta-primary { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+        .ellevation-cta-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 24px rgba(75, 30, 86, 0.25);
+        }
+        .ellevation-cta-secondary { transition: background 0.18s ease, border-color 0.18s ease; }
+        .ellevation-cta-secondary:hover {
+          background: rgba(75, 30, 86, 0.06);
+          border-color: ${HERO_PLUM_800};
+        }
+        .ellevation-audience-strip {
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: 0 32px 96px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+        }
+        .ellevation-audience-card {
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .ellevation-audience-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 32px rgba(45, 11, 54, 0.1);
+          border-color: rgba(75, 30, 86, 0.25);
+        }
+        @media (max-width: 920px) {
+          .ellevation-hero-grid { grid-template-columns: 1fr; padding: 64px 24px 40px; text-align: center; }
+          .ellevation-hero-visual { order: -1; }
+          .ellevation-hero-actions { justify-content: center; }
+          .ellevation-audience-strip { grid-template-columns: 1fr 1fr; padding: 0 24px 64px; }
+        }
+        @media (max-width: 560px) {
+          .ellevation-audience-strip { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .ellevation-hero-copy, .ellevation-hero-visual {
+            transition: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+          }
+          .hero-scroller-track { animation: none !important; }
+        }
+      `}</style>
 
-//         {/* RIGHT — image with floating brand badge */}
-//         <div
-//           className="welcome-image-wrap"
-//           style={{
-//             opacity: visible ? 1 : 0,
-//             transform: visible ? "translateY(0)" : "translateY(24px)",
-//             transition: "opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s",
-//           }}
-//         >
-//           <div className="welcome-image-frame">
-//             <img
-//               src={welcomeImg}
-//               alt="Welcome to Ms. Ellevation"
-//               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-//               onError={(e) => {
-//                 const target = e.currentTarget;
-//                 target.style.display = "none";
-//                 const parent = target.parentElement;
-//                 if (parent && !parent.querySelector(".welcome-fallback")) {
-//                   const fb = document.createElement("div");
-//                   fb.className = "welcome-fallback";
-//                   fb.style.cssText =
-//                     "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ede7f5 0%,#f6f3fa 100%);font-family:'Astrid Regular',serif;font-size:26px;font-weight:600;color:#662369;text-align:center;padding:24px;";
-//                   fb.textContent = "Ms. Ellevation";
-//                   parent.appendChild(fb);
-//                 }
-//               }}
-//             />
-//           </div>
+      <div className="ellevation-hero-grid">
+        <div className={`ellevation-hero-copy${visible ? " visible" : ""}`}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "6px 14px",
+              borderRadius: "999px",
+              border: "1px solid rgba(75, 30, 86, 0.2)",
+              marginBottom: "24px",
+            }}
+          >
+            <span style={{ width: 7, height: 7, borderRadius: "50%", background: HERO_MAGENTA_500, display: "inline-block" }} />
+            <span style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 600, color: HERO_INK_600 }} className="ellevation-hero-eyebrow-text">
+              The Ellevation Ecosystem
+            </span>
+          </div>
 
-//           {/* Floating brand badge — same language as Carousel's floating cards */}
-//           <div className="welcome-badge">
-//             <div className="welcome-badge-icon">
-//               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-//                 <path d="M12 2l1.8 5.6H20l-4.6 3.4 1.8 5.6L12 13.2 6.8 16.6l1.8-5.6L4 8h6.2z" fill="#4B1E56" />
-//               </svg>
-//             </div>
-//             <div>
-//               <p className="welcome-badge-title">Ms. Ellevation</p>
-//               <p className="welcome-badge-sub">A space for women, by women</p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
+          <h1
+  className="ellevation-hero-title"
+  style={{
+    fontFamily: HERO_DISPLAY_FONT,
+    fontSize: "52px",
+    lineHeight: 1.15,
+    color: "#4B1E56",
+    margin: 0,
+    fontWeight: 700,
+    letterSpacing: "-0.01em",
+  }}
+>
+            One community,
+            <br />
+            built by <em style={{ color: HERO_PLUM_800, fontStyle: "italic" }}>everyone</em> who shows up.
+          </h1>
+
+          <p className="ellevation-hero-desc" style={{ fontSize: "1.08rem", lineHeight: 1.65, color: HERO_INK_600, maxWidth: "520px", margin: "0 0 36px" }}>
+            Ellevation is the shared table behind every part of this network — for parents and kids,
+            professionals and founders, businesses and the community organisations doing the work
+            on the ground. Wherever you fit in, there's a seat here.
+          </p>
+
+          <div className="ellevation-hero-actions" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+            <Link
+              to="/get-involved/join"
+              className="ellevation-cta-primary"
+              style={{
+                background: "#D7238F",
+                color: "#fff",
+                textDecoration: "none",
+                padding: "14px 30px",
+                borderRadius: "999px",
+                fontWeight: 600,
+                fontSize: "0.95rem",
+              }}
+            >
+              Join the Ecosystem
+            </Link>
+            <Link
+              to="/hub"
+              className="ellevation-cta-secondary"
+              style={{
+                background: "#D7238F",
+                 color: "#fff",
+                textDecoration: "none",
+                padding: "14px 30px",
+                borderRadius: "999px",
+                fontWeight: 600,
+                fontSize: "0.95rem",
+                border: "1.5px solid rgba(75, 30, 86, 0.35)",
+              }}
+            >
+              Explore the Hub
+            </Link>
+          </div>
+        </div>
+
+        <div className={`ellevation-hero-visual${visible ? " visible" : ""}`}>
+          <HeroImageScroller />
+        </div>
+      </div>
+
+      <div className="ellevation-audience-strip">
+        {audiences.map((a) => (
+          <div
+            key={a.id}
+            className="ellevation-audience-card"
+            style={{ background: "#fff", border: "1px solid rgba(75, 30, 86, 0.12)", borderRadius: "18px", padding: "26px 22px" }}
+          >
+            <div style={{ width: 40, height: 40, color: HERO_PLUM_800, marginBottom: "16px" }} className="ellevation-audience-icon">{a.icon}</div>
+            <div style={{ fontFamily: HERO_DISPLAY_FONT, fontSize: "1.05rem", color: HERO_INK_900, marginBottom: "8px", fontWeight: "700px"}} className="ellevation-audience-card-label">
+              {a.label}
+            </div>
+            <div style={{ fontSize: "0.9rem", lineHeight: 1.55, color: HERO_INK_600 }} className="ellevation-audience-card-copy">{a.copy}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 /* ══════════════════════════════════════════════
    EXISTING — Ellevation Paths grid
    ══════════════════════════════════════════════ */
 export default function EllevationPaths() {
   const [visible, setVisible] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const readTheme = () =>
+      setDarkMode(document.documentElement.getAttribute("data-theme") === "dark");
+
+    readTheme();
+
+    // Keep in sync if the navbar toggles data-theme on <html> after mount
+    const observer = new MutationObserver(readTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -249,206 +503,6 @@ export default function EllevationPaths() {
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(30px); }
           to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ═══════════════════════════════════════
-           SECTION 1: Impact Statement
-           (all static colors live in CSS classes now,
-           so dark-mode overrides can actually win)
-           ═══════════════════════════════════════ */
-        .impact-section {
-          position: relative;
-          overflow: hidden;
-          background: linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%);
-          padding: 110px 24px 130px;
-        }
-        .impact-inner {
-          position: relative;
-          z-index: 1;
-          max-width: 900px;
-          margin: 0 auto;
-          text-align: center;
-        }
-        .impact-blob { position: absolute; border-radius: 50%; pointer-events: none; }
-        .impact-blob-1 {
-          top: -100px; right: -80px; width: 380px; height: 380px;
-          background: radial-gradient(circle, rgba(75,30,86,0.08) 0%, transparent 70%);
-        }
-        .impact-blob-2 {
-          bottom: -60px; left: -100px; width: 340px; height: 340px;
-          background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%);
-        }
-        .impact-eyebrow {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: #662369;
-          margin-bottom: 18px;
-        }
-        .impact-title {
-          font-family: 'Astrid Regular', serif;
-          font-size: 52px;
-          font-weight: 700;
-          line-height: 1.1;
-          color: #4B1E56;
-          margin: 0 0 40px;
-        }
-        .impact-glass-card {
-          display: inline-block;
-          max-width: 640px;
-          margin: 0 auto;
-          background: rgba(255, 255, 255, 0.7);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          border: 1px solid rgba(124, 92, 191, 0.15);
-          border-radius: 28px;
-          padding: 40px 44px;
-          box-shadow: 0 20px 50px rgba(124, 92, 191, 0.1);
-          transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease, border-color 0.3s ease;
-        }
-        .impact-glass-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16);
-        }
-        .impact-card-title {
-          font-family: 'Montserrat', sans-serif;
-          color: #662369;
-          font-size: 20px;
-          font-weight: 700;
-          margin: 0 0 16px;
-          line-height: 1.3;
-        }
-        .impact-card-desc {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 15.5px;
-          line-height: 1.7;
-          color: #554866;
-          margin: 0;
-        }
-        .impact-tags {
-          display: flex;
-          justify-content: center;
-          gap: 28px;
-          margin-top: 28px;
-          flex-wrap: wrap;
-        }
-        .impact-tag { display: flex; align-items: center; gap: 8px; }
-        .impact-tag-icon { color: #662369; font-size: 15px; }
-        .impact-tag-name {
-          font-family: 'Astrid Regular', serif;
-          font-size: 16px;
-          font-weight: 700;
-          color: #1a0a2e;
-        }
-
-        /* ═══════════════════════════════════════
-           SECTION 2: Welcome
-           Alternate section background → #AEAAD5
-           ═══════════════════════════════════════ */
-        .welcome-section {
-          background: #AEAAD5;
-          padding: 50px 24px;
-        }
-        .welcome-grid {
-          max-width: 1140px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 56px;
-          align-items: center;
-        }
-        .welcome-eyebrow {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #662369;
-          margin: 0 0 14px;
-        }
-        .welcome-title {
-          font-family: 'Astrid Regular', serif;
-          font-size: clamp(34px, 4.5vw, 50px);
-          font-weight: 700;
-          line-height: 1.18;
-          color: #1a0a2e;
-          margin: 0 0 22px;
-        }
-        .welcome-title-accent { color: #4B1E56; }
-        .welcome-desc {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 15.5px;
-          line-height: 1.75;
-          color: #554866;
-          margin: 0 0 32px;
-          max-width: 460px;
-        }
-        .welcome-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 14px 28px;
-          border-radius: 14px;
-          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
-          color: #fff;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 600;
-          font-size: 13px;
-          letter-spacing: 0.03em;
-          text-decoration: none;
-          box-shadow: 0 4px 14px rgba(75, 30, 86, 0.25);
-          transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .welcome-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(75, 30, 86, 0.35);
-        }
-        .welcome-image-wrap { position: relative; }
-        .welcome-image-frame {
-          border-radius: 28px;
-          overflow: hidden;
-          aspect-ratio: 4 / 3.4;
-          box-shadow: 0 24px 60px rgba(75, 30, 86, 0.18);
-          border: 1px solid rgba(124, 92, 191, 0.2);
-        }
-        .welcome-badge {
-          position: absolute;
-          bottom: -22px;
-          left: -22px;
-          background: #1a0a2e;
-          border-radius: 18px;
-          padding: 16px 22px;
-          box-shadow: 0 14px 34px rgba(0,0,0,0.22);
-          border: 1px solid rgba(255,255,255,0.06);
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .welcome-badge-icon {
-          width: 38px;
-          height: 38px;
-          border-radius: 50%;
-          background: rgba(75, 30, 86, 0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .welcome-badge-title {
-          font-family: 'Astrid Regular', serif;
-          font-size: 16px;
-          font-weight: 700;
-          color: #fff;
-          margin: 0;
-          line-height: 1.2;
-        }
-        .welcome-badge-sub {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 11px;
-          color: rgba(255,255,255,0.65);
-          margin: 0;
         }
 
         .paths-section {
@@ -506,7 +560,32 @@ export default function EllevationPaths() {
         }
         .path-card:hover::before { opacity: 1; }
 
-        /* ── Header Row ── */
+        /* ── Header Row (text + logo side by side) ── */
+        .path-card-header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 16px;
+          width: 100%;
+        }
+
+        .path-card-header-text { flex: 1; min-width: 0; }
+
+        .path-card-logo {
+          flex-shrink: 0;
+          width: 68px;
+          height: 68px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .path-card-logo img {
+          width: 190%;
+          height: 120%;
+          object-fit: contain;
+          display: block;
+        }
+
         .path-card-eyebrow {
           font-family: 'Montserrat', sans-serif;
           font-size: 12px;
@@ -648,62 +727,26 @@ export default function EllevationPaths() {
           .paths-header-title { font-size: 38px !important; }
         }
 
-        @media (max-width: 868px) {
-          .welcome-grid { grid-template-columns: 1fr !important; gap: 60px !important; }
-          .welcome-badge { left: 12px !important; bottom: -18px !important; }
-        }
-
         @media (max-width: 640px) {
-          .impact-section { padding: 80px 20px 100px !important; }
-          .welcome-section { padding: 70px 20px !important; }
-          .impact-glass-card { padding: 28px 24px !important; }
+          .path-card-logo { width: 52px; height: 52px; }
         }
 
         /* ═══════════════════════════════════════
            Dark Mode
-           (works now — every rule below targets a
-           CSS class, not an inline style, so it
-           always wins over the light defaults)
            ═══════════════════════════════════════ */
-        [data-theme="dark"] .impact-section {
-          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
-        }
-        [data-theme="dark"] .impact-eyebrow { color: #c9a3d9; }
-        [data-theme="dark"] .impact-title { color: #ffffff; }
-        [data-theme="dark"] .impact-glass-card {
-          background: rgba(25, 16, 38, 0.7);
-          border-color: rgba(155, 109, 190, 0.15);
-        }
-        [data-theme="dark"] .impact-card-title { color: #d9b8e8; }
-        [data-theme="dark"] .impact-card-desc { color: #cbd5e1; }
-        [data-theme="dark"] .impact-tag-icon { color: #c9a3d9; }
-        [data-theme="dark"] .impact-tag-name { color: #ffffff; }
-
-        [data-theme="dark"] .welcome-section {
-          background: linear-gradient(180deg, #160d22 0%, #0d0614 100%);
-        }
-        [data-theme="dark"] .welcome-eyebrow { color: #c9a3d9; }
-        [data-theme="dark"] .welcome-title { color: #ffffff; }
-        [data-theme="dark"] .welcome-title-accent { color: #d9b8e8; }
-        [data-theme="dark"] .welcome-desc { color: #cbd5e1; }
-        [data-theme="dark"] .welcome-image-frame { border-color: rgba(155, 109, 190, 0.25); }
-        [data-theme="dark"] .welcome-cta {
-          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
-        }
-
         [data-theme="dark"] .paths-section {
-          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
+          background: #2D0B36;
         }
         [data-theme="dark"] .paths-header-title {
-          color: #4B1E56;
+          color: #ffffff;
         }
         [data-theme="dark"] .path-card {
-          background: rgba(25, 16, 38, 0.6);
-          border-color: rgba(155, 109, 190, 0.15);
+          background: rgba(75, 30, 86, 0.35);
+          border-color: rgba(255, 255, 255, 0.12);
         }
         [data-theme="dark"] .path-card:hover {
-          background: #1f142e;
-          border-color: rgba(155, 109, 190, 0.35);
+          background: rgba(75, 30, 86, 0.55);
+          border-color: rgba(255, 255, 255, 0.25);
           box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
         [data-theme="dark"] .path-title {
@@ -722,25 +765,22 @@ export default function EllevationPaths() {
           color: #e2e8f0;
         }
         [data-theme="dark"] .cta-btn {
-          background: #6b2f7a;
+          background: #4B1E56;
         }
         [data-theme="dark"] .cta-btn:hover {
-          background: #8a5a97;
+          background: #6B3179;
         }
       `}</style>
 
-      {/* NEW SECTION 1
-      <ImpactStatementSection />
-
-      NEW SECTION 2
-      <WelcomeSection /> */}
+      {/* NEW — inclusive parent-site hero, sits above the paths grid */}
+      <EllevationHeroSection />
 
       {/* EXISTING PATHS GRID SECTION */}
       <section
         ref={sectionRef}
         className="paths-section"
         style={{
-          padding: "100px 24px",
+          padding: "50px 24px",
           boxSizing: "border-box",
         }}
       >
@@ -780,10 +820,15 @@ export default function EllevationPaths() {
                 transition: `opacity 0.6s ease ${i * 0.15}s, transform 0.6s ease ${i * 0.15}s, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease`,
               }}
             >
-              {/* Flex Header Component Structure */}
-              <div style={{ width: "100%" }}>
-                <p className="path-card-eyebrow">{p.eyebrow}</p>
-                <h3 className="path-title">{p.title}</h3>
+              {/* Header row: eyebrow + title on the left, logo on the right */}
+              <div className="path-card-header">
+                <div className="path-card-header-text">
+                  <p className="path-card-eyebrow">{p.eyebrow}</p>
+                  <h3 className="path-title">{p.title}</h3>
+                </div>
+                <div className="path-card-logo">
+                  <img src={darkMode ? p.logoDark : p.logoLight} alt={`${p.title} logo`} />
+                </div>
               </div>
 
               {/* Seamless dynamic pure-CSS drawer mechanism */}
