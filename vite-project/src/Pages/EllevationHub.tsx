@@ -1172,7 +1172,6 @@ const jp: Record<string, React.CSSProperties> = {
   select: { appearance: "none" as const, cursor: "pointer" },
   submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
 };
-update
 const st: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "#aeaad5", textAlign: "center" },
   sectionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 14 },
