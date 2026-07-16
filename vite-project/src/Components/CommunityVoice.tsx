@@ -163,14 +163,14 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
             style={{
               margin: 0,
               fontSize: "14.5px",
-              fontWeight: 700,
+              fontWeight: 500,
               color: "#1a0a2e",
               fontFamily: "'Montserrat', sans-serif",
             }}
           >
             {t.name}
           </p>
-          <p
+          {/* <p
             className="testimonial-role"
             style={{
               margin: 0,
@@ -183,7 +183,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
             }}
           >
             {t.role}
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
@@ -201,7 +201,7 @@ export default function CommunityVoices() {
       />
       <style>{`
         .community-section {
-          background: #AEAAD5;
+          background: #FFFAED;
         }
 
         .community-header-title {
@@ -263,39 +263,50 @@ export default function CommunityVoices() {
             transform: translateX(calc(-50% - 16px)); 
           }
         }
+/* ── Dark Mode Overrides ── */
+[data-theme="dark"] .community-section {
+  background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
+}
 
-        /* ── Dark Mode Overrides ── */
-        [data-theme="dark"] .community-section {
-          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
-        }
-        [data-theme="dark"] .slider-viewport::before {
-          background: linear-gradient(90deg, #0d0614 0%, transparent 100%);
-        }
-        [data-theme="dark"] .slider-viewport::after {
-          background: linear-gradient(-90deg, #160d22 0%, transparent 100%);
-        }
-        [data-theme="dark"] .testimonial-card {
-          background: rgba(25, 16, 38, 0.6) !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
-        }
-        [data-theme="dark"] .testimonial-card:hover {
-          background: #1f142e !important;
-          border-color: rgba(155, 109, 190, 0.35) !important;
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
-        }
-        [data-theme="dark"] .testimonial-quote {
-          color: #cbd5e1 !important;
-        }
-        [data-theme="dark"] .testimonial-name {
-          color: #ffffff !important;
-        }
-        [data-theme="dark"] .testimonial-role {
-          color: #a78bfa !important;
-        }
-        [data-theme="dark"] .testimonial-card > div:last-child {
-          border-top-color: rgba(155, 109, 190, 0.2) !important;
-        }
-        
+[data-theme="dark"] .community-header-title {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .slider-viewport::before {
+  background: linear-gradient(90deg, #0d0614 0%, transparent 100%);
+}
+
+[data-theme="dark"] .slider-viewport::after {
+  background: linear-gradient(-90deg, #160d22 0%, transparent 100%);
+}
+
+[data-theme="dark"] .testimonial-card {
+  background: rgba(25, 16, 38, 0.6) !important;
+  border-color: rgba(155, 109, 190, 0.15) !important;
+}
+
+[data-theme="dark"] .testimonial-card:hover {
+  background: #1f142e !important;
+  border-color: rgba(155, 109, 190, 0.35) !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .testimonial-quote {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .testimonial-name {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .testimonial-role {
+  color: #a78bfa !important;
+}
+
+[data-theme="dark"] .testimonial-card > div:last-child {
+  border-top-color: rgba(155, 109, 190, 0.2) !important;
+}
+      
         @media (max-width: 868px) {
           .community-header-title { font-size: 38px !important; }
           .slider-viewport::before, .slider-viewport::after { width: 50px; }
@@ -325,7 +336,7 @@ export default function CommunityVoices() {
             transition: "opacity 0.6s ease, transform 0.6s ease",
           }}
         >
-          <h2 className="community-header-title">Stories of Transformation</h2>
+          <h2 className="community-header-title">Stories of Transformation </h2>
         </div>
 
         {/* Carousel Viewport Wrapper */}

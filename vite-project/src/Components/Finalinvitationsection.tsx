@@ -84,7 +84,7 @@ const FinalInvitationSection = () => {
           align-items: center;
           gap: 8px;
           padding: 14px 28px;
-          background: #4B1E56;
+          background: #D7238F;
           color: #ffffff;
           border: none;
           border-radius: 14px;
@@ -112,7 +112,7 @@ const FinalInvitationSection = () => {
           align-items: center;
           gap: 8px;
           padding: 14px 28px;
-          background: #4B1E56;
+          background: #D7238F;
           color: #ffffff;
           border: none;
           border-radius: 14px;
@@ -167,10 +167,10 @@ const FinalInvitationSection = () => {
           color: #a78bfa;
         }
         [data-theme="dark"] .fi-heading {
-          color: #4B1E56;
+          color: #ffffff;
         }
         [data-theme="dark"] .fi-btn-primary {
-           background: #4B1E56;
+           background: #D7238F;
           color: #ffffff;
           border-color: rgba(155, 109, 190, 0.2);
         }
@@ -180,7 +180,7 @@ const FinalInvitationSection = () => {
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         [data-theme="dark"] .fi-btn-secondary {
-          background: #4B1E56;
+          background: #D7238F;
           color: #ffffff;
           border-color: rgba(155, 109, 190, 0.2);
         }

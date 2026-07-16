@@ -278,8 +278,10 @@ function EventsSection({ events = [] }: { events?: EventItem[] }) {
 
       <div style={{ ...evs.container, position: "relative", zIndex: 1 }}>
         <p className="hub-events-eye" style={evs.eye}>UPCOMING EVENTS · PERTH</p>
-        <h2 className="hub-events-title" style={evs.title}>Gather Across the Ecosystem</h2>
-        <p className="hub-events-sub" style={evs.sub}>
+<h2 className="hub-events-title" style={evs.title}>
+  Gather Across the{" "}
+  <span style={{ color: "#EFBF68" }}>Ecosystem</span>
+</h2>        <p className="hub-events-sub" style={evs.sub}>
           Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one calendar. Listings below are demo events pending final confirmation.
         </p>
 
@@ -680,7 +682,7 @@ export default function EllevationEventsPage() {
           color: #ffffff !important;
         }
         [data-theme="dark"] .hub-events-rsvp-btn:hover {
-          background: rgba(255,255,255,0.1) !important;
+          background: #4B1E56 !important;
         }
 
         /* Quick registration modal */
@@ -813,8 +815,20 @@ const evs: Record<string, React.CSSProperties> = {
   category: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#9b7db8", marginBottom: 8 },
   cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", color: "#4B1E56", marginBottom: 8 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
-  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #4B1E56", background: "transparent", color: "#4B1E56", cursor: "pointer", marginTop: "auto", transition: "all 0.2s ease" },
-  filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
+rsvpBtn: {
+  fontFamily: "'Montserrat', sans-serif",
+  fontSize: "0.72rem",
+  fontWeight: 700,
+  letterSpacing: "0.1em",
+  padding: "12px",
+  borderRadius: 100,
+  border: "2px solid #D7238F",
+  background: "#D7238F",
+  color: "#FFFFFF",
+  cursor: "pointer",
+  marginTop: "auto",
+  transition: "all 0.2s ease",
+},  filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
   filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid rgba(124, 92, 191, 0.2)", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
   filterBtnActive: { background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", borderColor: "#4B1E56", color: "#fff", boxShadow: "0 4px 16px rgba(75,30,86,0.3)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(20,10,34,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
@@ -836,7 +850,7 @@ const ev: Record<string, React.CSSProperties> = {
 
   hero: {
     position: "relative", overflow: "hidden", padding: "140px 24px 90px", textAlign: "center",
-    display: "flex", alignItems: "center", justifyContent: "center", background: NAVY,
+    display: "flex", alignItems: "center", justifyContent: "center", background:"#FFFAED",
   },
   heroOverlay: { position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(22,10,34,0.85) 0%, rgba(38,18,63,0.55) 100%)", zIndex: 0 },
   heroBlobTL: { position: "absolute", top: -100, left: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle, rgba(75,30,86,0.3) 0%, transparent 70%)", animation: "floatBlob 10s ease-in-out infinite", zIndex: 1 },

@@ -56,6 +56,7 @@ function validateForm(data: FormData): FormErrors {
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const routerNavigate = useNavigate(); // ✅ react-router navigation (same tab)
 
   useEffect(() => {
@@ -64,127 +65,70 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  // close mobile menu whenever the active page changes
+  useEffect(() => { setMenuOpen(false); }, [current]);
+
+  const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
+  const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
+
   return (
-  <div className="ms-nav-row" style={ns.navRow}>
-    {/* ✅ Back to Home button — OUTSIDE the pill navbar, on the left. Navigates to "/" route in the SAME tab */}
-    <button
-      onClick={() => routerNavigate("/")}
-      className="ns-back-home"
-      style={ns.backHome}
-    >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <span>Back to Home</span>
-    </button>
+    <div className="ms-nav-row">
+      <nav className={`ms-nav ${scrolled ? "ms-nav-scrolled" : ""}`}>
+        {/* Back to Home */}
+        <button onClick={goHome} className="ns-back-home" aria-label="Back to home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span>Back to Home</span>
+        </button>
 
-    <nav
-      className="ms-nav"
-      style={{
-        ...ns.nav,
-        boxShadow: scrolled
-          ? "0 4px 32px rgba(75,30,86,0.18)"
-          : "0 2px 16px rgba(75,30,86,0.08)",
-      }}
-    >
-    <div className="ns-inner" style={ns.inner}>
-      {/* Logo */}
-      <img
-        src={logo}
-        alt="Ellevation Logo"
-        onClick={() => nav("home")} // "home" ki jagah apna home page name use karo
-        style={{
-          width: "140px",
-          height: "auto",
-          objectFit: "contain",
-          cursor: "pointer",
-        }}
-      />
+        {/* Logo */}
+        <img
+          src={logo}
+          alt="Ellevation Logo"
+          onClick={() => goPage("home")}
+          className="ns-logo"
+        />
 
-      {/* Navigation Links */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
+        {/* Desktop nav links */}
+        <div className="ns-links-desktop">
+          {NAV_LINKS.map(({ label, page }) => (
+            <button
+              key={page}
+              onClick={() => goPage(page)}
+              className={`ns-link ${current === page ? "active" : ""}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile hamburger toggle */}
+        <button
+          className={`ns-menu-toggle ${menuOpen ? "open" : ""}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+        >
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      {/* Mobile dropdown menu */}
+      <div className={`ns-mobile-menu ${menuOpen ? "open" : ""}`}>
         {NAV_LINKS.map(({ label, page }) => (
           <button
             key={page}
-            onClick={() => nav(page)}
-            className={`ns-link ${current === page ? "active" : ""}`}
-            style={{
-              ...ns.link,
-              ...(current === page ? ns.active : {}),
-            }}
+            onClick={() => goPage(page)}
+            className={`ns-mobile-link ${current === page ? "active" : ""}`}
           >
             {label}
           </button>
         ))}
       </div>
     </div>
-    </nav>
-  </div>
-);
+  );
 }
-
-const ns: Record<string, React.CSSProperties> = {
-  navRow: {
-    position: "sticky", top: 0, zIndex: 100,
-    display: "flex", alignItems: "center", justifyContent: "center",
-    gap: 16,
-    padding: "16px 24px 0",
-    margin: 0,
-  },
-  nav: {
-    display: "flex", justifyContent: "center",
-    padding: 0, margin: 0,
-    transition: "box-shadow 0.3s ease",
-    flex: "0 1 auto",
-  },
-  inner: {
-    display: "flex", alignItems: "center", gap: 4,
-    background: "rgba(255,255,255,0.92)",
-    backdropFilter: "blur(16px)",
-    borderRadius: 100,
-    padding: "8px 12px",
-    boxShadow: "0 2px 24px rgba(75,30,86,0.12)",
-    flexWrap: "wrap" as const,
-  },
-  link: {
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: "0.86rem", fontWeight: 400,
-    color: "#4B1E56", background: "transparent",
-    border: "none", cursor: "pointer",
-    padding: "8px 16px", borderRadius: 100,
-    transition: "all 0.2s ease", whiteSpace: "nowrap" as const,
-  },
-  active: {
-    background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color: "#fff",
-    fontWeight: 500,
-    boxShadow: "0 2px 12px rgba(26,10,46,0.25)",
-  },
-  backHome: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: "0.8rem",
-    fontWeight: 500,
-    color: "#4B1E56",
-    background: "rgba(255,255,255,0.92)",
-    backdropFilter: "blur(16px)",
-    border: "1.5px solid rgba(75,30,86,0.15)",
-    cursor: "pointer",
-    padding: "10px 18px",
-    borderRadius: 100,
-    boxShadow: "0 2px 24px rgba(75,30,86,0.12)",
-    transition: "all 0.2s ease",
-    whiteSpace: "nowrap" as const,
-    flexShrink: 0,
-  },
-};
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: (p: Page) => void }) {
@@ -194,16 +138,13 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
       <div style={hp.blobTL} />
       <div style={hp.blobBR} />
 
-      <div style={hp.grid}>
+      <div className="hp-grid" style={hp.grid}>
         <div style={hp.left}>
-          <p style={hp.eyebrow}>MS. ELLEVATION</p>
           <h1 className="hp-headline" style={hp.headline}>
-            A beautiful becoming for women ready to rise with softness and strength.
+            A beautiful becoming for women ready to rise with  <span style={{ color: "#EFBF68" }}>softness and strength. </span>
           </h1>
-          <p className="hp-sub" style={hp.sub}>
-            A deeply personal, exquisitely curated transformation journey for women 17–25. Coaching, clarity, courage — and the community to hold you through it all.
-          </p>
-          <div style={hp.btnRow}>
+        
+          <div className="hp-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={hp.btnSecondary} onClick={() => nav("about")}>EXPLORE MORE</button>
           </div>
@@ -245,13 +186,13 @@ const hp: Record<string, React.CSSProperties> = {
   headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#ffffff", lineHeight:1.12, margin:0 },
   sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#ffffff", lineHeight:1.75, maxWidth:460 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
-  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid #ffffff", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
+  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
   card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
   cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
   cardIcon: { width:48, height:48, borderRadius:"50%", background:"#4B1E56", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
   cardBadge: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.8rem", fontWeight:500, color:"#1a0a2e", background:"rgba(75,30,86,0.10)", padding:"5px 14px", borderRadius:100 },
-  cardDesc: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:500, color:"#1a0a2e", lineHeight:1.5, marginBottom:20 },
+  cardDesc: { fontFamily:"'Astrid Regular',serif", fontSize:"1.25rem", fontWeight:500, color:"#1a0a2e", lineHeight:1.5, marginBottom:20 },
   cardFeatures: { display:"flex", flexDirection:"column", gap:10 },
   feat: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.85rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
   check: { color:"#4B1E56", fontWeight:700, fontSize:"0.9rem" },
@@ -362,7 +303,7 @@ function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
           <p className="welcome-eyebrow">A Space For Women, By Women</p>
           <h2 className="welcome-title">
             Welcome to Your{" "}
-            <span className="welcome-title-accent">Harbour of Empowerment</span>
+           Harbour of Empowerment
           </h2>
           <p className="welcome-desc">
             Welcome to Ms. Ellevation — for new beginnings, bold journeys, and dreams taking
@@ -435,9 +376,8 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
         <div style={ab.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p style={ab.bannerEye}>MS. ELLEVATION · FOR WOMEN 17–25</p>
-          <h1 className="ab-banner-title" style={ab.bannerTitle}>Become the Woman<br />You Were Born to Be</h1>
-          <p className="ab-banner-sub" style={ab.bannerSub}>A deeply personal, exquisitely curated transformation journey for young women finding their voice.<br/>Coaching, clarity, courage — and the community to hold you through it all.</p>
-          <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32 }}>
+          <h1 className="ab-banner-title" style={ab.bannerTitle}>Become the Woman<br />You Were  <span style={{ color: "#EFBF68" }}>Born to Be </span></h1>
+          <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32, flexWrap:"wrap" as const }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={ab.btnL} onClick={() => nav("journey")}>EXPLORE MORE</button>
           </div>
@@ -485,19 +425,19 @@ const ab: Record<string, React.CSSProperties> = {
   bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#d9c3e0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
   bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
-  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#4B1E56", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"2px solid rgba(253,240,245,0.5)", background:"transparent", color:"#fdf0f5", cursor:"pointer" },
+  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#fdf0f5", cursor:"pointer" },
   featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px" },
   featCard: { background:"rgba(255, 255, 255, 0.75)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", transition:"transform 0.2s ease" },
   featIcon: { fontSize:"1.6rem", color:"#4B1E56", marginBottom:16 },
-  featTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.3rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
+  featTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.3rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
   featDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.65 },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
   storiesTeaserBg: { position:"absolute", inset:0, background:"#AEAAD5", zIndex:0 },
   tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   tTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   tSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#443355", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
-  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #4B1E56", background:"#4B1E56", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
+  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #D7238F", background:"#D7238F", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
 // ─── YOUR JOURNEY PAGE (new) ───────────────────────────────────────────────────
@@ -522,7 +462,7 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       <section className="jn-stages" style={jn.stagesSection}>
-        <div style={jn.stagesGrid}>
+        <div className="jn-stages-grid" style={jn.stagesGrid}>
           {STAGES.map((s) => (
             <div key={s.title} className="jn-stage-card" style={jn.stageCard}>
               <span style={jn.stageNum}>{s.num}</span>
@@ -552,12 +492,12 @@ const jn: Record<string, React.CSSProperties> = {
   stagesSection: { padding:"72px 48px 80px", background:"#AEAAD5" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
   stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
-  stageNum: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
-  stageTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
+  stageNum: { fontFamily:"'Astrid Regular', serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
+  stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
   stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
   ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(180deg, #2a163a 0%, #160d22 100%)" },
   ctaTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:700, color:"#fdf0f5", marginBottom:28 },
-  ctaBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(75,30,86,0.4)" },
+  ctaBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(75,30,86,0.4)" },
 };
 
 // ─── PROGRAMS PAGE (renamed from Services) ─────────────────────────────────────
@@ -579,7 +519,7 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       <section className="pr-section" style={pr.section}>
-        <div style={pr.grid}>
+        <div className="pr-grid" style={pr.grid}>
           {plans.map((p) => (
             <div key={p.title} className="pr-card" style={{ ...pr.card, ...(p.popular ? pr.cardPopular : {}) }}>
               {p.popular && <div style={pr.popularBadge}>MOST POPULAR</div>}
@@ -615,13 +555,13 @@ const pr: Record<string, React.CSSProperties> = {
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", position:"relative", display:"flex", flexDirection:"column", gap:0 },
   cardPopular: { background:"#1a0a2e", border:"none", boxShadow:"0 8px 48px rgba(26,10,46,0.30)" },
   popularBadge: { position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", fontFamily:"'Montserrat', sans-serif", fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.18em", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", padding:"5px 18px", borderRadius:100 },
-  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
+  cardTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
   cardPrice: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:500, color:"#8a5a97", marginBottom:24 },
   list: { listStyle:"none", display:"flex", flexDirection:"column", gap:12, marginBottom:32, padding:0 },
   listItem: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
   bullet: { color:"#4B1E56", fontWeight:700 },
-  bookBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"2px solid #1a0a2e", background:"transparent", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
-  bookBtnDark: { border:"none", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  bookBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
+  bookBtnDark: { border:"none", background:"#D7238F", color:"#fff", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
 };
 
 // ─── EVENTS PAGE (new) ──────────────────────────────────────────────────────────
@@ -644,7 +584,7 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       <section className="ev-section" style={ev.section}>
-        <div style={ev.grid}>
+        <div className="ev-grid" style={ev.grid}>
           {EVENTS.map(e => (
             <div key={e.title} className="ev-card" style={ev.card}>
               <div style={ev.dateBadge}>{e.date}</div>
@@ -670,7 +610,7 @@ const ev: Record<string, React.CSSProperties> = {
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
   dateBadge: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
-  cardTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.25rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
+  cardTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"1.25rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
   cardLoc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:14 },
   cardDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
   rsvpBtn: {
@@ -681,8 +621,8 @@ const ev: Record<string, React.CSSProperties> = {
     padding: "12px",
     borderRadius: 100,
     border: "2px solid #662369",
-    background: "transparent",
-    color: "#662369",
+    background: "#D7238F",
+    color: "#ffff",
     cursor: "pointer",
     marginTop: "auto",
     transition: "all 0.2s ease",
@@ -709,7 +649,7 @@ function StoriesPage() {
       </section>
 
       <section className="st-section" style={st.section}>
-        <div style={st.grid}>
+        <div className="st-grid" style={st.grid}>
           {STORIES.map((s) => (
             <div key={s.name} className="st-card" style={st.card}>
               <div style={st.quoteIcon}>"</div>
@@ -734,8 +674,8 @@ const st: Record<string, React.CSSProperties> = {
   section: { background:"#AEAAD5", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
-  quoteIcon: { fontFamily:"'Cormorant Garamond',serif", fontSize:"3rem", color:"#8a5a97", lineHeight:1, height:32, display:"block" },
-  quote: { fontFamily:"'Cormorant Garamond',serif", fontSize:"1.15rem", fontStyle:"italic", color:"#1a0a2e", lineHeight:1.75, flexGrow:1 },
+  quoteIcon: { fontFamily:"'Astrid Regular',serif", fontSize:"3rem", color:"#8a5a97", lineHeight:1, height:32, display:"block" },
+  quote: { fontFamily:"'Astrid Regular',serif", fontSize:"1.15rem", fontStyle:"italic", color:"#1a0a2e", lineHeight:1.75, flexGrow:1 },
   author: { borderTop:"1px solid #ede7f5", paddingTop:20 },
   name: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", fontWeight:600, color:"#1a0a2e", marginBottom:4 },
   role: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:500, letterSpacing:"0.14em", color:"#8a5a97" },
@@ -789,7 +729,7 @@ function JoinPage() {
       <section className="jp-form-section" style={jp.formSection}>
         <div style={jp.tabsRow}>
           {TIERS.map(tier => (
-            <button key={tier} className={`jp-tabBtn ${activeTier === tier ? 'active' : ''}`} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: TIER_META[tier].color } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
+            <button key={tier} className={`jp-tabBtn ${activeTier === tier ? 'active' : ''}`} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: "#D7238F" } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
           ))}
         </div>
 
@@ -799,7 +739,7 @@ function JoinPage() {
               <div style={{ ...jp.successIcon, color: meta.color }}>✦</div>
               <h2 style={{ ...jp.successTitle, color: meta.color }}>Application Submitted!</h2>
               <p style={jp.successText}>Thank you for applying for <strong>{meta.label} Membership</strong>. Our team will be in touch within 48 hours.</p>
-              <button style={{ ...jp.submitBtn, background: meta.color }} onClick={() => setSubmitted(prev => ({ ...prev, [activeTier]: false }))}>SUBMIT ANOTHER</button>
+              <button style={{ ...jp.submitBtn }} onClick={() => setSubmitted(prev => ({ ...prev, [activeTier]: false }))}>SUBMIT ANOTHER</button>
             </div>
           ) : (
             <>
@@ -808,7 +748,7 @@ function JoinPage() {
                 <p className="jp-form-sub" style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
                 <p style={{ ...jp.tagline, color: meta.color }}>{meta.tagline}</p>
               </div>
-              <div style={jp.row}>
+              <div className="jp-row" style={jp.row}>
                 <Field label="First Name *" value={form.firstName} error={errs.firstName} onChange={v => handleChange(activeTier,"firstName",v)} />
                 <Field label="Last Name *"  value={form.lastName}  error={errs.lastName}  onChange={v => handleChange(activeTier,"lastName",v)} />
               </div>
@@ -834,7 +774,7 @@ function JoinPage() {
                 </label>
                 {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
               </div>
-              <button style={{ ...jp.submitBtn, background: meta.color }} onClick={() => handleSubmit(activeTier)}
+              <button style={{ ...jp.submitBtn }} onClick={() => handleSubmit(activeTier)}
                 onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity="0.88"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity="1"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(0)"; }}>
                 SUBMIT APPLICATION
@@ -871,7 +811,7 @@ const jp: Record<string, React.CSSProperties> = {
   tabActive: { color:"#fff", border:"1.5px solid transparent", boxShadow:"0 4px 20px rgba(75,30,86,0.28)", transform:"translateY(-1px)" },
   card: { background:"#fff", borderRadius:20, padding:"48px 52px 52px", boxShadow:"0 8px 60px rgba(75,30,86,0.10),0 2px 16px rgba(75,30,86,0.06)" },
   formHeader: { textAlign:"center", marginBottom:40 },
-  formTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
+  formTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
   formSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#8a5a97", fontWeight:300, marginBottom:8 },
   tagline: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.82rem", fontWeight:500, letterSpacing:"0.05em", marginTop:6 },
   row: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 },
@@ -886,10 +826,10 @@ const jp: Record<string, React.CSSProperties> = {
   checkbox: { marginTop:3, accentColor:"#4B1E56", width:15, height:15, flexShrink:0 },
   agreeText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.83rem", color:"#554866", lineHeight:1.5 },
   agreeLink: { textDecoration:"underline", textUnderlineOffset:"2px" },
-  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
+  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem",background: "#D7238F" ,fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
   successBox: { textAlign:"center", padding:"40px 24px" },
   successIcon: { fontSize:"2.5rem", marginBottom:16, display:"block" },
-  successTitle: { fontFamily:"'Cormorant Garamond',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
+  successTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
   successText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
 };
 
@@ -929,7 +869,9 @@ export default function EllevationPage() {
           font-display: swap;
         }
 
+        html{-webkit-text-size-adjust:100%;}
         *{box-sizing:border-box;margin:0;padding:0;}
+        img{max-width:100%;}
         input::placeholder,textarea::placeholder{color:#b09fc0;}
         select option{color:#1a0a2e;}
         input:focus,textarea:focus,select:focus{outline:none;border-color:#4B1E56!important;box-shadow:0 0 0 3px rgba(75,30,86,0.12);}
@@ -938,12 +880,189 @@ export default function EllevationPage() {
         button:hover{opacity:0.88;}
 
         /* ═══════════════════════════════════════
+           NAVBAR — one single centered pill row
+           (no separate white box behind it anymore)
+           ═══════════════════════════════════════ */
+        .ms-nav-row{
+          position:sticky; top:0; z-index:100;
+          display:flex; flex-direction:column; align-items:center;
+          padding:16px 20px 0;
+        }
+        .ms-nav{
+          width:100%;
+          max-width:1180px;
+          display:flex;
+          align-items:center;
+          gap:14px;
+          background:rgba(255,255,255,0.92);
+          backdrop-filter:blur(16px);
+          -webkit-backdrop-filter:blur(16px);
+          border:1px solid rgba(75,30,86,0.08);
+          border-radius:100px;
+          padding:8px 10px 8px 8px;
+          box-shadow:0 2px 16px rgba(75,30,86,0.08);
+          transition:box-shadow 0.3s ease;
+        }
+        .ms-nav.ms-nav-scrolled{
+          box-shadow:0 4px 32px rgba(75,30,86,0.18);
+        }
+        .ns-back-home{
+          display:flex; align-items:center; gap:6px;
+          font-family:'Montserrat', sans-serif;
+          font-size:0.78rem; font-weight:600;
+          color:#4B1E56;
+          background:rgba(75,30,86,0.06);
+          border:1px solid rgba(75,30,86,0.12);
+          border-radius:100px;
+          padding:9px 16px;
+          cursor:pointer;
+          white-space:nowrap;
+          transition:all 0.2s ease;
+          flex-shrink:0;
+        }
+        .ns-back-home:hover{ background:rgba(75,30,86,0.12); opacity:1; }
+        .ns-logo{
+          width:110px;
+          height:auto;
+          object-fit:contain;
+          cursor:pointer;
+          flex-shrink:0;
+        }
+        .ns-links-desktop{
+          display:flex; align-items:center; gap:2px;
+          flex:1;
+          justify-content:center;
+          flex-wrap:wrap;
+        }
+        .ns-link{
+          font-family:'Montserrat', sans-serif;
+          font-size:0.84rem; font-weight:500;
+          color:#4B1E56; background:transparent;
+          border:none; cursor:pointer;
+          padding:9px 15px; border-radius:100px;
+          transition:all 0.2s ease; white-space:nowrap;
+        }
+        .ns-link:hover{ background:rgba(75,30,86,0.06); opacity:1; }
+        .ns-link.active{
+          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
+          color:#fff; font-weight:600;
+          box-shadow:0 2px 12px rgba(26,10,46,0.25);
+        }
+        .ns-link.active:hover{ opacity:1; }
+        .ns-menu-toggle{
+          display:none;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          gap:5px;
+          width:38px; height:38px;
+          border-radius:50%;
+          border:none;
+          background:rgba(75,30,86,0.06);
+          cursor:pointer;
+          flex-shrink:0;
+        }
+        .ns-menu-toggle span{
+          display:block; width:18px; height:2px;
+          background:#4B1E56; border-radius:2px;
+          transition:all 0.25s ease;
+        }
+        .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+        .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
+        .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+        .ns-mobile-menu{
+          max-height:0;
+          overflow:hidden;
+          width:100%;
+          max-width:1180px;
+          opacity:0;
+          transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+        }
+        .ns-mobile-menu.open{
+          max-height:420px;
+          opacity:1;
+          margin-top:10px;
+        }
+        .ns-mobile-menu .ns-mobile-link{
+          display:block;
+          width:100%;
+          text-align:left;
+          font-family:'Montserrat', sans-serif;
+          font-size:0.92rem; font-weight:500;
+          color:#4B1E56; background:transparent;
+          border:none; cursor:pointer;
+          padding:13px 18px; border-radius:14px;
+          transition:all 0.2s ease;
+        }
+        .ns-mobile-menu.open{
+          display:flex; flex-direction:column; gap:4px;
+          background:rgba(255,255,255,0.97);
+          backdrop-filter:blur(16px);
+          border-radius:22px;
+          padding:10px;
+          box-shadow:0 12px 40px rgba(75,30,86,0.16);
+          border:1px solid rgba(75,30,86,0.08);
+        }
+        .ns-mobile-link:hover{ background:rgba(75,30,86,0.06); opacity:1; }
+        .ns-mobile-link.active{
+          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important;
+          color:#fff !important;
+        }
+
+        @media (max-width: 1024px){
+          .ns-links-desktop{ display:none; }
+          .ns-menu-toggle{ display:flex; }
+        }
+        @media (max-width: 560px){
+          .ns-back-home span{ display:none; }
+          .ns-back-home{ padding:9px 12px; }
+          .ns-logo{ width:92px; }
+          .ms-nav{ padding:7px 8px; gap:10px; }
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE — section grids collapse on
+           tablet / mobile so nothing overflows
+           ═══════════════════════════════════════ */
+        @media (max-width: 900px){
+          .hp-grid{ grid-template-columns:1fr !important; text-align:center; }
+          .hp-grid .hp-btn-row{ justify-content:center !important; }
+          .ab-feat-section{ grid-template-columns:1fr !important; }
+          .jn-stages-grid{ grid-template-columns:1fr !important; }
+          .pr-grid{ grid-template-columns:1fr !important; }
+          .ev-grid{ grid-template-columns:1fr !important; }
+          .st-grid{ grid-template-columns:1fr !important; }
+          .jp-row{ grid-template-columns:1fr !important; }
+        }
+        @media (max-width: 768px){
+          .hp-page{ padding:100px 24px 60px !important; min-height:auto !important; }
+          .ab-banner{ padding:60px 24px !important; min-height:auto !important; }
+          .ab-feat-section{ padding:56px 24px !important; }
+          .ab-stories-teaser{ padding:56px 24px !important; }
+          .jn-banner{ padding:56px 24px 48px !important; }
+          .jn-stages{ padding:48px 24px 56px !important; }
+          .jn-cta{ padding:48px 24px !important; }
+          .pr-banner{ padding:56px 24px 48px !important; }
+          .pr-section{ padding:40px 24px 64px !important; }
+          .ev-banner{ padding:56px 24px 48px !important; }
+          .ev-section{ padding:40px 24px 64px !important; }
+          .st-banner{ padding:56px 24px 48px !important; }
+          .st-section{ padding:48px 24px 64px !important; }
+          .jp-card{ padding:36px 24px 40px !important; }
+        }
+        @media (max-width: 560px){
+          .hp-headline{ font-size:2rem !important; }
+          .hp-card{ padding:24px !important; }
+          .jp-form-title{ font-size:1.5rem !important; }
+        }
+
+        /* ═══════════════════════════════════════
            Home page extra section 1: Impact Statement
            ═══════════════════════════════════════ */
         .impact-section {
           position: relative;
           overflow: hidden;
-          background: linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%);
+          background: #fffaed;
           padding: 110px 24px 130px;
         }
         .impact-inner {
@@ -1076,7 +1195,7 @@ export default function EllevationPage() {
           padding: 14px 28px;
           border-radius: 14px;
           border: none;
-          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
+          background: #D7238F;
           color: #fff;
           font-family: 'Montserrat', sans-serif;
           font-weight: 600;
@@ -1154,19 +1273,36 @@ export default function EllevationPage() {
           color: #e8e0f8 !important;
         }
         [data-theme="dark"] .ms-nav {
-          background: transparent !important;
-        }
-        [data-theme="dark"] .ns-inner {
           background: rgba(22, 13, 34, 0.92) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
           box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
         }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
         }
+        [data-theme="dark"] .ns-link:hover {
+          background: rgba(217, 168, 205, 0.1) !important;
+        }
         [data-theme="dark"] .ns-back-home {
           color: #d9a8cd !important;
           background: rgba(217, 168, 205, 0.1) !important;
           border-color: rgba(217, 168, 205, 0.25) !important;
+        }
+        [data-theme="dark"] .ns-menu-toggle {
+          background: rgba(217, 168, 205, 0.1) !important;
+        }
+        [data-theme="dark"] .ns-menu-toggle span {
+          background: #d9a8cd !important;
+        }
+        [data-theme="dark"] .ns-mobile-menu.open {
+          background: rgba(22, 13, 34, 0.97) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .ns-mobile-link {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .ns-mobile-link:hover {
+          background: rgba(217, 168, 205, 0.1) !important;
         }
         [data-theme="dark"] .hp-bg-grad {
           background: linear-gradient(rgba(13, 6, 20, 0.75), rgba(13, 6, 20, 0.75)), url(${banner4}) !important;
@@ -1257,6 +1393,21 @@ export default function EllevationPage() {
         [data-theme="dark"] .ab-banner-bg {
           background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${banner5}) !important;
           background-size: cover !important;
+        }
+        [data-theme="dark"] .ab-stories-teaser-bg {
+          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
+        }
+        [data-theme="dark"] .jn-stages {
+          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
+        }
+        [data-theme="dark"] .pr-section {
+          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
+        }
+        [data-theme="dark"] .ev-section {
+          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
+        }
+        [data-theme="dark"] .st-section {
+          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
         }
 
         /* ── Dark Mode for the new Home-page sections ── */

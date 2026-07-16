@@ -140,7 +140,7 @@ const AvatarComponent = ({ gender, bg }: { gender: Gender; bg: string }) => {
 /* ─── Icons ─────────────────────────────────────────────── */
 const PinIcon = () => (
   <svg width="11" height="13" viewBox="0 0 12 16" fill="none" style={{ flexShrink: 0 }}>
-    <path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="#c080b8" />
+    <path d="M6 0C3.24 0 1 2.24 1 5c0 3.75 5 11 5 11s5-7.25 5-11c0-2.76-2.24-5-5-5zm0 6.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="#4B1E56" />
   </svg>
 );
 
@@ -159,50 +159,50 @@ const MemberCard = ({ member, index }: { member: Member; index: number }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: "#fff", borderRadius: 18, border: "1px solid #ecd8f5",
+        background: "#fff", borderRadius: 22, border: "1px solid rgba(124, 92, 191, 0.15)",
         padding: "1.25rem",
-        transition: "transform 0.25s, box-shadow 0.25s",
-        transform: hovered ? "translateY(-5px)" : "translateY(0)",
-        boxShadow: hovered ? "0 12px 32px rgba(170,80,200,0.12)" : "0 2px 8px rgba(170,80,200,0.04)",
+        transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease",
+        transform: hovered ? "translateY(-6px)" : "translateY(0)",
+        boxShadow: hovered ? "0 26px 54px rgba(124, 92, 191, 0.12)" : "0 10px 30px rgba(124, 92, 191, 0.02)",
         animation: `cardIn 0.4s ease ${index * 0.07}s both`,
       }}
     >
       {/* Top accent bar */}
       <div style={{
-        height: 3, borderTopLeftRadius: 17, borderTopRightRadius: 17,
-        background: "linear-gradient(90deg, #c870b8, #9b50cc)",
+        height: 3, borderTopLeftRadius: 21, borderTopRightRadius: 21,
+        background: "#4B1E56",
         margin: "-1.25rem -1.25rem 1rem -1.25rem",
-        opacity: hovered ? 1 : 0.35, transition: "opacity 0.3s",
+        opacity: hovered ? 1 : 0.3, transition: "opacity 0.3s",
       }} />
 
       {/* Avatar + Name */}
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
         <AvatarComponent gender={member.gender} bg={member.bgColor} />
         <div>
-          <div style={{ fontWeight: 600, fontSize: 14, color: "#3a1a5a" }}>{member.name}</div>
-          <div style={{ fontSize: 12, color: "#9060a8", marginTop: 2 }}>{member.role}</div>
+          <div className="member-name" style={{ fontFamily: "'Astrid Regular',serif", fontWeight: 700, fontSize: 16, color: "#1a0a2e" }}>{member.name}</div>
+          <div className="member-role" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, color: "#4B1E56", marginTop: 2 }}>{member.role}</div>
         </div>
       </div>
 
       {/* Location */}
-      <div style={{ fontSize: 11, color: "#c080b8", display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
+      <div className="member-location" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, color: "#662369", display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
         <PinIcon />{member.location}
       </div>
 
       {/* Bio */}
-      <div style={{ fontSize: 12.5, color: "#6a4a7a", lineHeight: 1.55, marginBottom: 12 }}>{member.bio}</div>
+      <div className="member-bio" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12.5, color: "#554866", lineHeight: 1.55, marginBottom: 12 }}>{member.bio}</div>
 
       {/* Tags */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 12 }}>
         {member.tags.map((t) => (
-          <span key={t} style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.08em", padding: "4px 10px", borderRadius: 50, border: "1px solid #e4c8f0", color: "#8040a8", background: "#faf0ff" }}>{t}</span>
+          <span key={t} className="member-tag" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", padding: "4px 10px", borderRadius: 50, border: "1px solid rgba(124, 92, 191, 0.2)", color: "#4B1E56", background: "rgba(124, 92, 191, 0.06)" }}>{t}</span>
         ))}
       </div>
 
       {/* Footer */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #f5e8ff", paddingTop: 10 }}>
-        <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.08em", padding: "4px 12px", borderRadius: 50, border: "1px solid #d8b0e8", color: "#7a3a88" }}>{member.category}</span>
-        <button style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.06em", padding: "6px 14px", borderRadius: 50, border: "none", background: "linear-gradient(135deg, #c870b8, #9b50cc)", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", gap: 5, fontFamily: "inherit" }}>
+      <div className="member-card-footer" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid rgba(124, 92, 191, 0.12)", paddingTop: 10 }}>
+        <span className="member-category" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", padding: "4px 12px", borderRadius: 50, border: "1px solid rgba(75, 30, 86, 0.35)", color: "#4B1E56" }}>{member.category}</span>
+        <button className="connect-btn" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", padding: "7px 15px", borderRadius: 50, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", gap: 5 }}>
           CONNECT <ArrowIcon />
         </button>
       </div>
@@ -225,122 +225,187 @@ export default function ProfessionalDirectory() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
+           Replace the src url below with the path to your actual font file. */
+        @font-face {
+          font-family: 'Astrid Regular';
+          src: url('/fonts/AstridRegular.woff2') format('woff2'),
+               url('/fonts/AstridRegular.otf') format('opentype');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         @keyframes pulse { 0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.07)} }
         @keyframes fadeUp { from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)} }
         @keyframes cardIn { from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)} }
         .hero-h1{animation:fadeUp 0.8s ease both}
         .hero-p{animation:fadeUp 0.9s ease 0.1s both}
         .hero-search{animation:fadeUp 1s ease 0.2s both}
-        .search-input::placeholder{color:#b090c0}
-        .search-input:focus{border-color:#b070d0!important;background:rgba(255,255,255,0.95)!important;outline:none}
-        .chip-btn{cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
-        .chip-btn:hover{background:#f5e0ff!important;transform:translateY(-1px)}
-        .get-listed-btn{cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.25s}
-        .get-listed-btn:hover{opacity:0.88;transform:translateY(-1px)}
-        .cta-btn{cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.25s}
-        .cta-btn:hover{opacity:0.87;transform:translateY(-2px)}
+        .search-input::placeholder{color:#9a86ac}
+        .search-input:focus{border-color:#4B1E56!important;background:rgba(255,255,255,0.95)!important;outline:none;box-shadow:0 0 0 4px rgba(75,30,86,0.08)}
+        .chip-btn{cursor:pointer;transition:all 0.2s;font-family:'Montserrat',sans-serif}
+        .chip-btn:hover{background:rgba(75,30,86,0.08)!important;transform:translateY(-1px)}
+        .get-listed-btn{cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.25s}
+        .get-listed-btn:hover{opacity:0.9;transform:translateY(-1px)}
+        .cta-btn{cursor:pointer;font-family:'Montserrat',sans-serif;transition:all 0.25s}
+        .cta-btn:hover{opacity:0.9;transform:translateY(-2px)}
+        .connect-btn{transition:all 0.2s;}
+        .connect-btn:hover{opacity:0.9;transform:translateY(-1px);}
 
-        /* ── Dark Mode Overrides ── */
-        [data-theme="dark"] .directory-page-root { background: #0f0a1a !important; }
+        /* ── Dark Mode Overrides — matched to About page's theme ── */
+        [data-theme="dark"] body { background: #0d0614 !important; }
+        [data-theme="dark"] .directory-page-root { background: #0d0614 !important; }
         [data-theme="dark"] .directory-hero {
-          background: linear-gradient(150deg, #1a0f1f 0%, #140a1a 40%, #0f0a1a 100%) !important;
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important;
         }
-        [data-theme="dark"] .directory-hero h1 { color: #f3ebff !important; }
-        [data-theme="dark"] .directory-hero p { color: #b8a8c8 !important; }
+        [data-theme="dark"] .directory-hero h1 { color: #ffffff !important; }
+        [data-theme="dark"] .directory-hero p { color: #cbd5e1 !important; }
+        [data-theme="dark"] .directory-hero span { color: #cbd5e1 !important; }
         [data-theme="dark"] .search-input {
-          background: #1a1226 !important;
-          border-color: rgba(155, 109, 190, 0.3) !important;
-          color: #f3ebff !important;
+          background: rgba(25, 16, 38, 0.7) !important;
+          border-color: rgba(155, 109, 190, 0.25) !important;
+          color: #ffffff !important;
         }
         [data-theme="dark"] .directory-filters,
         [data-theme="dark"] .directory-grid-wrap,
         [data-theme="dark"] .directory-results-info {
-          background: #140a1a !important;
+          background: #160d22 !important;
           border-bottom-color: rgba(155, 109, 190, 0.15) !important;
         }
+        [data-theme="dark"] .directory-results-info { color: #cbd5e1 !important; }
+        [data-theme="dark"] .chip-btn { color: #ffffff !important; }
         [data-theme="dark"] .member-card {
-          background: #1a1226 !important;
-          border-color: rgba(155, 109, 190, 0.2) !important;
+          background: rgba(25, 16, 38, 0.6) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
         }
-        [data-theme="dark"] .member-card div[style*="color: #3a1a5a"] { color: #f3ebff !important; }
-        [data-theme="dark"] .member-card div[style*="color: #6a4a7a"] { color: #b8a8c8 !important; }
-        [data-theme="dark"] .member-card span[style*="background: #faf0ff"] {
-          background: rgba(155, 109, 190, 0.1) !important;
-          color: #d8ccf4 !important;
-          border-color: rgba(155, 109, 190, 0.2) !important;
+        [data-theme="dark"] .member-name { color: #ffffff !important; }
+        [data-theme="dark"] .member-role { color: #d9b8e8 !important; }
+        [data-theme="dark"] .member-location { color: #c9a3d9 !important; }
+        [data-theme="dark"] .member-bio { color: #cbd5e1 !important; }
+        [data-theme="dark"] .member-tag {
+          background: rgba(155, 109, 190, 0.12) !important;
+          color: #d9b8e8 !important;
+          border-color: rgba(155, 109, 190, 0.25) !important;
         }
-        [data-theme="dark"] .directory-cta-wrap { background: #140a1a !important; }
+        [data-theme="dark"] .member-card-footer { border-top-color: rgba(155, 109, 190, 0.15) !important; }
+        [data-theme="dark"] .member-category { color: #d9b8e8 !important; border-color: rgba(155, 109, 190, 0.35) !important; }
+        [data-theme="dark"] .directory-cta-wrap { background: #160d22 !important; }
         [data-theme="dark"] .directory-cta-card {
-          background: #1a1226 !important;
-          border-color: rgba(155, 109, 190, 0.2) !important;
+          background: rgba(25, 16, 38, 0.6) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
         }
-        [data-theme="dark"] .directory-cta-card h2 { color: #f3ebff !important; }
-        [data-theme="dark"] .directory-cta-card p { color: #b8a8c8 !important; }
+        [data-theme="dark"] .directory-cta-card h2 { color: #ffffff !important; }
+        [data-theme="dark"] .directory-cta-card p { color: #cbd5e1 !important; }
+        [data-theme="dark"] .directory-cta-card span { color: #c9a3d9 !important; }
       `}</style>
 
-      <div className="directory-page-root" style={{ fontFamily: "'DM Sans', sans-serif", background: "#fff", minHeight: "100vh" }}>
+      <div className="directory-page-root" style={{ fontFamily: "'Montserrat', sans-serif", background: "#fdf9fc", minHeight: "100vh" }}>
 
         {/* Hero */}
-        <div className="directory-hero" style={{ background: "linear-gradient(150deg,#f9e4ec 0%,#f0d8ee 25%,#e2d0f0 55%,#d8ccf4 80%,#e8d8f8 100%)", padding: "160px 74px 140px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-          <div style={{ position:"absolute",top:"-40%",left:"-20%",width:"60%",height:"160%",background:"radial-gradient(ellipse,rgba(200,140,220,0.22) 0%,transparent 70%)",animation:"pulse 5s ease-in-out infinite",pointerEvents:"none" }} />
-          <div style={{ position:"absolute",top:"-20%",right:"-10%",width:"50%",height:"120%",background:"radial-gradient(ellipse,rgba(230,150,200,0.18) 0%,transparent 70%)",animation:"pulse 7s ease-in-out infinite reverse",pointerEvents:"none" }} />
-          <div style={{ fontSize:11,letterSpacing:"0.22em",color:"#a060b0",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:"1.2rem",position:"relative",zIndex:1 }}>
-            <span style={{ display:"inline-block",width:30,height:1,background:"#c090c8" }} />PROFESSIONAL DIRECTORY<span style={{ display:"inline-block",width:30,height:1,background:"#c090c8" }} />
+        <div
+          className="directory-hero"
+          style={{
+            background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
+            padding: "160px 74px 140px",
+            textAlign: "center",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div style={{ position: "absolute", top: "-40%", left: "-20%", width: "60%", height: "160%", background: "radial-gradient(ellipse,rgba(124,92,191,0.14) 0%,transparent 70%)", animation: "pulse 5s ease-in-out infinite", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", top: "-20%", right: "-10%", width: "50%", height: "120%", background: "radial-gradient(ellipse,rgba(75,30,86,0.08) 0%,transparent 70%)", animation: "pulse 7s ease-in-out infinite reverse", pointerEvents: "none" }} />
+
+          <div style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#662369", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: "1.2rem", position: "relative", zIndex: 1 }}>
+            <span style={{ display: "inline-block", width: 30, height: 1, background: "rgba(75,30,86,0.35)" }} />PROFESSIONAL DIRECTORY<span style={{ display: "inline-block", width: 30, height: 1, background: "rgba(75,30,86,0.35)" }} />
           </div>
-          <h1 className="hero-h1" style={{ fontFamily:"'Playfair Display',Georgia,serif",fontSize:"clamp(2rem,5vw,3rem)",fontWeight:400,color:"#3a1a5a",marginBottom:"0.8rem",position:"relative",zIndex:1 }}>Discover Our Community</h1>
-          <p className="hero-p" style={{ fontSize:14,color:"#7a5a8a",marginBottom:"2rem",position:"relative",zIndex:1 }}>Connect with coaches, professionals, community leaders, and changemakers.</p>
-          <div className="hero-search" style={{ maxWidth:480,margin:"0 auto",position:"relative",zIndex:1 }}>
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" style={{ position:"absolute",left:18,top:"50%",transform:"translateY(-50%)" }}>
-              <circle cx="9" cy="9" r="6" stroke="#b070c0" strokeWidth="2" /><path d="M14 14l3 3" stroke="#b070c0" strokeWidth="2" strokeLinecap="round" />
+
+          <h1 className="hero-h1" style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.2rem,5vw,3.4rem)", fontWeight: 700, color: "#1a0a2e", marginBottom: "0.8rem", position: "relative", zIndex: 1, lineHeight: 1.15 }}>
+            Discover Our <span style={{ color: "#4B1E56" }}>Community</span>
+          </h1>
+
+          <p className="hero-p" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15.5, color: "#554866", marginBottom: "2rem", position: "relative", zIndex: 1 }}>
+            Connect with coaches, professionals, community leaders, and changemakers.
+          </p>
+
+          <div className="hero-search" style={{ maxWidth: 480, margin: "0 auto", position: "relative", zIndex: 1 }}>
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" style={{ position: "absolute", left: 18, top: "50%", transform: "translateY(-50%)" }}>
+              <circle cx="9" cy="9" r="6" stroke="#4B1E56" strokeWidth="2" /><path d="M14 14l3 3" stroke="#4B1E56" strokeWidth="2" strokeLinecap="round" />
             </svg>
-            <input className="search-input" type="text" placeholder="Search by name, role, or expertise..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width:"100%",padding:"14px 20px 14px 48px",borderRadius:50,border:"1.5px solid #d8b0e8",background:"rgba(255,255,255,0.75)",color:"#3a1a5a",fontSize:14,fontFamily:"'DM Sans',sans-serif" }} />
+            <input
+              className="search-input"
+              type="text"
+              placeholder="Search by name, role, or expertise..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: "100%", padding: "14px 20px 14px 48px", borderRadius: 50,
+                border: "1.5px solid rgba(75, 30, 86, 0.25)",
+                background: "rgba(255,255,255,0.85)",
+                color: "#1a0a2e", fontSize: 14, fontFamily: "'Montserrat',sans-serif",
+                transition: "all 0.2s ease",
+              }}
+            />
           </div>
         </div>
 
         {/* Filter Bar */}
-        <div className="directory-filters" style={{ background:"#fdf5ff",padding:"1.2rem 74px 1rem",borderBottom:"1px solid #ecd8f5" }}>
-          <div style={{ display:"flex",flexWrap:"wrap",alignItems:"center",gap:8 }}>
+        <div className="directory-filters" style={{ background: "#fdf9fc", padding: "1.2rem 74px 1rem", borderBottom: "1px solid rgba(124, 92, 191, 0.15)" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
             {CATEGORIES.map((cat) => (
-              <button key={cat} className="chip-btn" onClick={() => setActiveFilter(cat)}
-                style={{ padding:"6px 16px",borderRadius:50,fontSize:11,fontWeight:500,letterSpacing:"0.09em",border:activeFilter===cat?"none":"1.5px solid #d8b0e8",color:activeFilter===cat?"#fff":"#7a3a8a",background:activeFilter===cat?"linear-gradient(135deg,#c870b8,#9b50cc)":"transparent" }}>
+              <button
+                key={cat}
+                className="chip-btn"
+                onClick={() => setActiveFilter(cat)}
+                style={{
+                  padding: "7px 16px", borderRadius: 50, fontSize: 11, fontWeight: 600, letterSpacing: "0.09em",
+                  border: activeFilter === cat ? "none" : "1.5px solid rgba(75, 30, 86, 0.25)",
+                  color: activeFilter === cat ? "#fff" : "#4B1E56",
+                  background: activeFilter === cat ? "#4B1E56" : "transparent",
+                }}
+              >
                 {cat}
               </button>
             ))}
-            <button className="get-listed-btn" style={{ padding:"6px 16px",borderRadius:50,fontSize:11,fontWeight:600,letterSpacing:"0.09em",border:"none",background:"linear-gradient(135deg,#c870b8,#9b50cc)",color:"#fff" }}>
+            <button
+              className="get-listed-btn"
+              style={{ padding: "7px 16px", borderRadius: 50, fontSize: 11, fontWeight: 700, letterSpacing: "0.09em", border: "none", background: "#D7238F", color: "#fff" }}
+            >
               + GET LISTED
             </button>
           </div>
         </div>
-        <div className="directory-results-info" style={{ fontSize:13,color:"#a070b0",padding:"0.5rem 74px",background:"#fdf5ff",borderBottom:"1px solid #ecd8f5" }}>
+        <div className="directory-results-info" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13, color: "#662369", padding: "0.5rem 74px", background: "#fdf9fc", borderBottom: "1px solid rgba(124, 92, 191, 0.15)" }}>
           {filtered.length} member{filtered.length !== 1 ? "s" : ""} found
         </div>
 
         {/* Cards Grid */}
-        <div className="directory-grid-wrap" style={{ padding:"74px",background:"#fdf5ff",minHeight:300 }}>
-          <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))",gap:20 }}>
+        <div className="directory-grid-wrap" style={{ padding: "74px", background: "linear-gradient(180deg, #fdf9fc 0%, #f6f3fa 100%)", minHeight: 300 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(270px,1fr))", gap: 22 }}>
             {filtered.map((m, i) => <MemberCard key={m.name} member={m} index={i} />)}
           </div>
         </div>
 
         {/* CTA */}
-        <div className="directory-cta-wrap" style={{ padding:"74px",background:"#fdf5ff" }}>
-          <div className="directory-cta-card" style={{ border:"1px solid #e8d0f5",borderRadius:20,padding:"2.5rem 2rem",textAlign:"center",background:"#fff" }}>
-            <div style={{ fontSize:11,letterSpacing:"0.18em",color:"#b070c0",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:"1rem" }}>
-              <span style={{ display:"inline-block",width:28,height:1,background:"#d0a8e0" }} />JOIN THE DIRECTORY<span style={{ display:"inline-block",width:28,height:1,background:"#d0a8e0" }} />
+        <div className="directory-cta-wrap" style={{ padding: "74px", background: "#f6f3fa" }}>
+          <div className="directory-cta-card" style={{ border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 24, padding: "3rem 2rem", textAlign: "center", background: "#fff" }}>
+            <div style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", color: "#662369", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginBottom: "1rem" }}>
+              <span style={{ display: "inline-block", width: 28, height: 1, background: "rgba(75,30,86,0.3)" }} />JOIN THE DIRECTORY<span style={{ display: "inline-block", width: 28, height: 1, background: "rgba(75,30,86,0.3)" }} />
             </div>
-            <h2 style={{ fontFamily:"'Playfair Display',Georgia,serif",fontSize:"2rem",fontWeight:400,color:"#3a1a5a",marginBottom:"0.8rem" }}>Share Your Expertise</h2>
-            <p style={{ fontSize:13,color:"#7a5a8a",maxWidth:440,margin:"0 auto 1.6rem",lineHeight:1.6 }}>Get your professional profile in front of thousands of women seeking connection, collaboration, and the services you offer.</p>
-            <button className="cta-btn" style={{ padding:"12px 32px",borderRadius:50,border:"none",background:"linear-gradient(135deg,#c870b8,#9b50cc)",color:"#fff",fontSize:12,fontWeight:600,letterSpacing:"0.12em" }}>
+            <h2 style={{ fontFamily: "'Astrid Regular',serif", fontSize: "clamp(28px,3.5vw,38px)", fontWeight: 700, color: "#4B1E56", marginBottom: "0.8rem" }}>Share Your Expertise</h2>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, color: "#554866", maxWidth: 460, margin: "0 auto 1.6rem", lineHeight: 1.65 }}>
+              Get your professional profile in front of thousands of women seeking connection, collaboration, and the services you offer.
+            </p>
+            <button className="cta-btn" style={{ padding: "13px 34px", borderRadius: 50, border: "none", background: "#D7238F", color: "#fff", fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em" }}>
               REQUEST A LISTING
             </button>
           </div>
         </div>
 
-        
-       
       </div>
     </>
   );

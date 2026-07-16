@@ -2,7 +2,8 @@ import { useState, useEffect, useRef, type CSSProperties } from "react";
 import { useNavigate } from "react-router-dom";
 import banner6 from "../assets/banner6.avif";
 import banner2 from "../assets/banner2.avif";
-import logo from "../assets/hub-logo.png";
+import hubLogoLight from "../assets/hub-logo.png";
+import hubLogoDark from "../assets/hub-logo.png";
 
 
 /* ── Animation Helpers (used by the Connect form) ── */
@@ -34,6 +35,7 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "membership" | "directory" | "programs" | "opportunities" | "events" | "impact" | "connect";
 type HubTier = "CONNECT" | "GROW" | "VISIBILITY" | "IMPACT";
+type Theme = "light" | "dark";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const NAV_LINKS: { label: string; page: Page }[] = [
@@ -217,9 +219,11 @@ const PROGRAMS_IN_ACTION = [
   { title: "Business Directory",    desc: "Visibility and referral pathways helping member businesses grow sustainably.",                 icon: "◈" },
 ];
 
-// ─── Navbar ──────────────────────────────────────────────────────────────────
+// ─── Navbar (rebuilt to match Ms. Ellevation's responsive pill-navbar pattern) ─
 function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<Theme>("light");
   const routerNavigate = useNavigate(); // ✅ react-router navigation (same tab)
 
   useEffect(() => {
@@ -228,126 +232,90 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  // close mobile menu whenever the active page changes
+  useEffect(() => { setMenuOpen(false); }, [current]);
+
+  // ✅ Keep the logo (and theme) in sync with data-theme on <html>.
+  // The toggle itself can live outside this component (e.g. a global header),
+  // so we read on mount AND watch for attribute changes / cross-tab storage events.
+  useEffect(() => {
+    const readTheme = () => {
+      const attr = document.documentElement.getAttribute("data-theme");
+      setTheme(attr === "dark" ? "dark" : "light");
+    };
+    readTheme();
+
+    const observer = new MutationObserver(readTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    window.addEventListener("storage", readTheme);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("storage", readTheme);
+    };
+  }, []);
+
+  const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
+  const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
+
   return (
-  <div className="ms-nav-row" style={ns.navRow}>
-    {/* ✅ Back to Home button — OUTSIDE the pill navbar, on the left. Navigates to "/" route in the SAME tab */}
-    <button
-      onClick={() => routerNavigate("/")}
-      className="ns-back-home"
-      style={ns.backHome}
-    >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-        <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-      <span>Back to Home</span>
-    </button>
+    <div className="ms-nav-row">
+      <nav className={`ms-nav ${scrolled ? "ms-nav-scrolled" : ""}`}>
+        {/* Back to Home */}
+        <button onClick={goHome} className="ns-back-home" aria-label="Back to home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M19 12H5M5 12l7-7M5 12l7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <span>Back to Home</span>
+        </button>
 
-    <nav
-      className="ms-nav"
-      style={{
-        ...ns.nav,
-        boxShadow: scrolled
-          ? "0 4px 32px rgba(102,35,105,0.18)"
-          : "0 2px 16px rgba(102,35,105,0.08)",
-      }}
-    >
-    <div className="ns-inner" style={ns.inner}>
-      {/* Logo */}
-      <img
-        src={logo}
-        alt="Ellevation Logo"
-        onClick={() => nav("home")} // "home" ki jagah apna home page name use karo
-        style={{
-          width: "140px",
-          height: "auto",
-          objectFit: "contain",
-          cursor: "pointer",
-        }}
-      />
+        {/* Logo — swaps automatically between light/dark variants */}
+        <img
+          src={theme === "dark" ? hubLogoDark : hubLogoLight}
+          alt="Ellevation Hub Logo"
+          onClick={() => goPage("home")}
+          className="ns-logo"
+        />
 
-      {/* Navigation Links */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
+        {/* Desktop nav links */}
+        <div className="ns-links-desktop">
+          {NAV_LINKS.map(({ label, page }) => (
+            <button
+              key={page}
+              onClick={() => goPage(page)}
+              className={`ns-link ${current === page ? "active" : ""}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Mobile hamburger toggle */}
+        <button
+          className={`ns-menu-toggle ${menuOpen ? "open" : ""}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+        >
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      {/* Mobile dropdown menu */}
+      <div className={`ns-mobile-menu ${menuOpen ? "open" : ""}`}>
         {NAV_LINKS.map(({ label, page }) => (
           <button
             key={page}
-            onClick={() => nav(page)}
-            className={`ns-link ${current === page ? "active" : ""}`}
-            style={{
-              ...ns.link,
-              ...(current === page ? ns.active : {}),
-            }}
+            onClick={() => goPage(page)}
+            className={`ns-mobile-link ${current === page ? "active" : ""}`}
           >
             {label}
           </button>
         ))}
       </div>
     </div>
-    </nav>
-  </div>
-);
+  );
 }
-
-const ns: Record<string, React.CSSProperties> = {
-  navRow: {
-    position: "sticky", top: 0, zIndex: 100,
-    display: "flex", alignItems: "center", justifyContent: "center",
-    gap: 16,
-    padding: "16px 24px 0",
-    margin: 0,
-  },
-  nav: {
-    display: "flex", justifyContent: "center",
-    padding: 0, margin: 0,
-    transition: "box-shadow 0.3s ease",
-    flex: "0 1 auto",
-  },
-  inner: {
-    display: "flex", alignItems: "center", gap: 4,
-    background: "rgba(255,255,255,0.92)",
-    backdropFilter: "blur(16px)",
-    borderRadius: 100,
-    padding: "8px 10px",
-    boxShadow: "0 2px 24px rgba(102,35,105,0.12)",
-    flexWrap: "wrap" as const,
-  },
-  link: {
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: "0.8rem", fontWeight: 500,
-    color: "#662369", background: "transparent",
-    border: "none", cursor: "pointer",
-    padding: "8px 15px", borderRadius: 100,
-    transition: "all 0.2s ease", whiteSpace: "nowrap" as const,
-  },
-  active: {
-    background: "#4B1E56", color: "#fff",
-    boxShadow: "0 2px 12px rgba(26,10,46,0.25)",
-  },
-  backHome: {
-    display: "flex",
-    alignItems: "center",
-    gap: 6,
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: "0.8rem",
-    fontWeight: 600,
-    color: "#662369",
-    background: "rgba(255,255,255,0.92)",
-    backdropFilter: "blur(16px)",
-    border: "1.5px solid rgba(102,35,105,0.15)",
-    cursor: "pointer",
-    padding: "10px 18px",
-    borderRadius: 100,
-    boxShadow: "0 2px 24px rgba(102,35,105,0.12)",
-    transition: "all 0.2s ease",
-    whiteSpace: "nowrap" as const,
-    flexShrink: 0,
-  },
-};
 
 // ─── SECTIONS ────────────────────────────────────────────────────────────────
 
@@ -357,21 +325,19 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
       <div className="hub-home-bg" style={hp.bgGrad} />
       <div style={hp.blobTL} />
       <div style={hp.blobBR} />
-      <div style={hp.grid}>
+      <div className="hub-home-grid" style={hp.grid}>
         <div style={hp.left}>
-          {/* <p style={hp.eyebrow}>ELLEVATION HUB</p> */}
           <h1 className="hub-home-headline" style={hp.headline}>Every Pathway Into Opportunity, In One Ecosystem.</h1>
           <p className="hub-home-sub" style={hp.sub}>
             A unified platform for community, business, youth, and men — connecting real opportunity to real people, right where they are.
           </p>
-          <div style={hp.btnRow}>
+          <div className="hub-home-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("membership")}>JOIN THE HUB</button>
             <button style={hp.btnSecondary} onClick={() => nav("directory")}>EXPLORE DIRECTORY</button>
           </div>
         </div>
         <div className="hub-card" style={hp.card}>
           <div style={hp.cardTop}>
-           
             <span style={hp.cardBadge}>Professional Tier</span>
           </div>
           <p className="hub-card-desc" style={hp.cardDesc}>One ecosystem connecting directory, programs, and opportunity — built for the whole community.</p>
@@ -390,12 +356,12 @@ function AboutSection() {
   return (
     <section className="hub-about-section" style={ab.section}>
       <div style={ab.container}>
-        <p style={ab.eye}>— WHO WE SUPPORT —</p>
+        <p className="hub-about-eye" style={ab.eye}>— WHO WE SUPPORT —</p>
         <h2 className="hub-about-title" style={ab.title}>One Ecosystem.<br />Every Pathway to Opportunity.</h2>
         <p className="hub-about-sub" style={ab.sub}>
           Ellevation Hub is the professional and community backbone of our ecosystem — supporting grassroots community networks, growing businesses, rising youth, and men committed to allyship and growth.
         </p>
-        <div style={ab.grid}>
+        <div className="hub-about-grid" style={ab.grid}>
           {WHO_WE_SUPPORT.map((item, i) => (
             <div key={i} className="hub-about-card" style={ab.card}>
               <div style={ab.icon}>{item.icon}</div>
@@ -431,7 +397,7 @@ function MembershipSection() {
       <div style={{ width: "100%", maxWidth: 720 }}>
 
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <p style={mb.pageEye}>MEMBERSHIP · TIERS &amp; BENEFITS</p>
+          <p className="hub-form-eye" style={mb.pageEye}>MEMBERSHIP · TIERS &amp; BENEFITS</p>
           <h2 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "2.2rem" }}>Find Your Tier, Then Reach Out</h2>
           <p className="hub-form-sub" style={{ ...jp.formSub, maxWidth: 520, margin: "8px auto 0" }}>
             Ellevation Hub membership runs across four tiers — Connect, Grow, Visibility, and Impact. Explore what each offers, then submit an Expression of Interest below.
@@ -465,7 +431,7 @@ function MembershipSection() {
             ))}
           </div>
 
-          <div style={mb.divider} />
+          <div className="hub-divider" style={mb.divider} />
 
           {submitted ? (
             <div style={{ textAlign: "center", padding: "12px 0 8px" }}>
@@ -477,7 +443,7 @@ function MembershipSection() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <p style={mb.formLabel}>Membership Expression of Interest</p>
+              <p className="hub-form-label" style={mb.formLabel}>Membership Expression of Interest</p>
               <div style={mb.purposeRow}>
                 {MEMBERSHIP_PURPOSES.map(p => (
                   <label
@@ -498,14 +464,14 @@ function MembershipSection() {
                       style={{ accentColor: meta.color, cursor: "pointer" }}
                     />
                     <span>
-                      <span style={mb.purposeLabel}>{p.label}</span>
-                      <span style={mb.purposeDesc}>{p.desc}</span>
+                      <span className="hub-purpose-label" style={mb.purposeLabel}>{p.label}</span>
+                      <span className="hub-purpose-desc" style={mb.purposeDesc}>{p.desc}</span>
                     </span>
                   </label>
                 ))}
               </div>
 
-              <div style={{ ...jp.row, marginTop: 20 }}>
+              <div className="hub-form-row" style={{ ...jp.row, marginTop: 20 }}>
                 <input className="hub-input" style={jp.input} placeholder="First Name" required />
                 <input className="hub-input" style={jp.input} placeholder="Last Name" required />
               </div>
@@ -537,10 +503,10 @@ function DirectorySection({ nav }: { nav: (p: Page) => void }) {
   return (
     <section className="hub-directory-section" style={dr.section}>
       <div style={dr.container}>
-        <p style={dr.eye}>THE DIRECTORY</p>
+        <p className="hub-directory-eye" style={dr.eye}>THE DIRECTORY</p>
         <h2 className="hub-directory-title" style={dr.title}>Discover Businesses Built by Our Community</h2>
         <p className="hub-directory-sub" style={dr.sub}>Browse verified listings across categories, or add your own business to the directory.</p>
-        <div style={dr.grid}>
+        <div className="hub-directory-grid" style={dr.grid}>
           {DIRECTORY_CATEGORIES.map(c => (
             <div key={c.title} className="hub-directory-card" style={dr.card}>
               <div style={dr.icon}>{c.icon}</div>
@@ -560,9 +526,9 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
     <section className="hub-programs-section" style={pg.section}>
       <div className="hub-programs-bg" style={pg.bg} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
-        <p style={pg.eye}>OUR PROGRAMS</p>
+        <p className="hub-programs-eye" style={pg.eye}>OUR PROGRAMS</p>
         <h2 className="hub-programs-title" style={pg.title}>Development Pathways for Every Corner of the Community</h2>
-        <div style={pg.grid}>
+        <div className="hub-programs-grid" style={pg.grid}>
           {HUB_PROGRAMS.map(p => (
             <div key={p.title} className="hub-programs-card" style={pg.card}>
               <div style={pg.icon}>{p.icon}</div>
@@ -581,10 +547,10 @@ function OpportunitiesSection({ nav }: { nav: (p: Page) => void }) {
   return (
     <section className="hub-opportunities-section" style={op.section}>
       <div style={op.container}>
-        <p style={op.eye}>OPPORTUNITY BOARD</p>
+        <p className="hub-opportunities-eye" style={op.eye}>OPPORTUNITY BOARD</p>
         <h2 className="hub-opportunities-title" style={op.title}>Real Pathways. Real Access.</h2>
         <p className="hub-opportunities-sub" style={op.sub}>From jobs and collaborations to grants and member-only openings, the Hub connects members to opportunities that move their goals forward.</p>
-        <div style={op.grid}>
+        <div className="hub-opportunities-grid" style={op.grid}>
           {OPPORTUNITY_TYPES.map(o => (
             <div key={o.title} className="hub-opportunities-card" style={op.card}>
               <div style={op.icon}>{o.icon}</div>
@@ -699,13 +665,13 @@ function EventsSection({ events = [] }: { nav: (p: Page) => void; events?: Event
       <div style={{ position: "absolute", bottom: "-10%", right: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,92,191,0.10) 0%, transparent 70%)", pointerEvents: "none" }} />
 
       <div style={{ ...evs.container, position: "relative", zIndex: 1 }}>
-        <p style={evs.eye}>UPCOMING EVENTS · PERTH</p>
+        <p className="hub-events-eye" style={evs.eye}>UPCOMING EVENTS · PERTH</p>
         <h2 className="hub-events-title" style={evs.title}>Gather Across the Ecosystem</h2>
         <p className="hub-events-sub" style={evs.sub}>
           Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one calendar. Listings below are demo events pending final confirmation.
         </p>
 
-        <div style={evs.filterRow}>
+        <div className="hub-events-filter-row" style={evs.filterRow}>
           {EVENT_CATEGORIES.map(cat => (
             <button
               key={cat}
@@ -719,11 +685,11 @@ function EventsSection({ events = [] }: { nav: (p: Page) => void; events?: Event
         </div>
 
         {filteredEvents.length === 0 ? (
-          <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#662369", padding: "24px 0" }}>
+          <p className="hub-events-empty" style={{ fontFamily: "'Montserrat',sans-serif", color: "#662369", padding: "24px 0" }}>
             No events in this category yet — check back soon.
           </p>
         ) : (
-          <div style={evs.grid}>
+          <div className="hub-events-grid" style={evs.grid}>
             {filteredEvents.map((e, i) => (
               <HubEventCard key={e.title || i} e={e} index={i} onRegister={setRegistering} />
             ))}
@@ -743,7 +709,7 @@ function ImpactSection() {
     <section className="hub-impact-section" style={st.section}>
 
       {/* Community impact — who is being supported */}
-      <p style={st.sectionEye}>COMMUNITY IMPACT</p>
+      <p className="hub-impact-eye" style={st.sectionEye}>COMMUNITY IMPACT</p>
       <h2 className="hub-impact-title" style={st.bannerTitle}>Real Outcomes, Across Every Group We Support</h2>
       <p className="hub-impact-lead" style={st.lead}>
         From grassroots community networks to growing businesses, rising youth, and men committed to allyship — here's where the Hub is making a measurable difference.
@@ -759,10 +725,10 @@ function ImpactSection() {
       </div>
 
       {/* CALD community outcomes */}
-      <div style={st.subSection}>
-        <p style={st.sectionEye}>CALD COMMUNITY OUTCOMES</p>
+      <div className="hub-impact-subsection" style={st.subSection}>
+        <p className="hub-impact-eye" style={st.sectionEye}>CALD COMMUNITY OUTCOMES</p>
         <h3 className="hub-impact-subtitle" style={st.subtitle}>Built With Perth's Diverse Communities in Mind</h3>
-        <div style={st.caldGrid}>
+        <div className="hub-impact-cald-grid" style={st.caldGrid}>
           {CALD_OUTCOMES.map(c => (
             <div key={c.title} className="hub-impact-cald-card" style={st.caldCard}>
               <div style={st.caldIcon}>{c.icon}</div>
@@ -774,8 +740,8 @@ function ImpactSection() {
       </div>
 
       {/* Business growth and visibility results */}
-      <div style={st.subSection}>
-        <p style={st.sectionEye}>BUSINESS GROWTH &amp; VISIBILITY</p>
+      <div className="hub-impact-subsection" style={st.subSection}>
+        <p className="hub-impact-eye" style={st.sectionEye}>BUSINESS GROWTH &amp; VISIBILITY</p>
         <h3 className="hub-impact-subtitle" style={st.subtitle}>Results for Our Directory Members</h3>
         <div className="hub-impact-stats" style={st.statsGrid}>
           {BUSINESS_GROWTH_STATS.map(s => (
@@ -788,10 +754,10 @@ function ImpactSection() {
       </div>
 
       {/* Real stories and testimonials */}
-      <div style={st.subSection}>
-        <p style={st.sectionEye}>REAL STORIES</p>
+      <div className="hub-impact-subsection" style={st.subSection}>
+        <p className="hub-impact-eye" style={st.sectionEye}>REAL STORIES</p>
         <h3 className="hub-impact-subtitle" style={st.subtitle}>In Their Own Words</h3>
-        <div style={st.grid}>
+        <div className="hub-impact-grid" style={st.grid}>
           {[
             { q: "The Hub directory turned a casual connection into a six-figure corporate partnership.", n: "Elena R.", role: "Directory Member, Consulting" },
             { q: "The level of professional discourse within this ecosystem is simply unparalleled.", n: "Sarah W.", role: "Community Member" },
@@ -806,10 +772,10 @@ function ImpactSection() {
       </div>
 
       {/* Programs in action */}
-      <div style={st.subSection}>
-        <p style={st.sectionEye}>PROGRAMS IN ACTION</p>
+      <div className="hub-impact-subsection" style={st.subSection}>
+        <p className="hub-impact-eye" style={st.sectionEye}>PROGRAMS IN ACTION</p>
         <h3 className="hub-impact-subtitle" style={st.subtitle}>Where the Work Happens Day to Day</h3>
-        <div style={st.programsGrid}>
+        <div className="hub-impact-programs-grid" style={st.programsGrid}>
           {PROGRAMS_IN_ACTION.map(p => (
             <div key={p.title} className="hub-impact-program-card" style={st.programCard}>
               <div style={st.programIcon}>{p.icon}</div>
@@ -822,7 +788,7 @@ function ImpactSection() {
 
       {/* Future impact vision */}
       <div className="hub-impact-vision" style={st.visionBox}>
-        <p style={st.visionEye}>FUTURE VISION</p>
+        <p className="hub-impact-vision-eye" style={st.visionEye}>FUTURE VISION</p>
         <p className="hub-impact-vision-text" style={st.visionText}>We're building toward a future where every member of our community — regardless of background — has direct access to opportunity, capital, and belonging.</p>
       </div>
     </section>
@@ -870,7 +836,7 @@ function ConnectHero() {
         <h1 style={{
           ...fade(mounted, 130),
           fontFamily: "'Astrid Regular', serif",
-          fontSize: "clamp(44px,7.5vw,82px)",
+          fontSize: "clamp(38px,7.5vw,82px)",
           fontWeight: 700,
           color: "#fff", margin: "0 0 20px", lineHeight: 1.1,
         }}>
@@ -932,7 +898,7 @@ function CommonEnquiryForm() {
           {formSubmitted ? (
             <div style={{ textAlign: "center", padding: "40px 0" }}>
               <div style={{ fontSize: 48, marginBottom: 16 }}>✨</div>
-              <h3 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, color: "#1a0a2e", marginBottom: 12 }}>Thank You</h3>
+              <h3 style={{ fontFamily: "'Astrid Regular',serif", fontSize: 32, color: "#1a0a2e", marginBottom: 12 }}>Thank You</h3>
               <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
                 Your request has been successfully synchronized with our leadership network. We will get back to you shortly.
               </p>
@@ -1031,7 +997,7 @@ function CommonEnquiryForm() {
                     padding: "14px 36px",
                     borderRadius: 999,
                     border: "none",
-                    background: submitHov ? "#35143d" : "#4B1E56",
+                    background: "#D7238F",
                     color: "#fff",
                     fontFamily: "'Montserrat',sans-serif",
                     fontSize: 13,
@@ -1039,9 +1005,11 @@ function CommonEnquiryForm() {
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     cursor: "pointer",
-                    boxShadow: submitHov ? "0 8px 24px rgba(75,30,86,0.40)" : "0 4px 14px rgba(75,30,86,0.22)",
+                    boxShadow: submitHov ? "0 8px 24px rgba(215,35,143,0.45)" : "0 4px 14px rgba(215,35,143,0.28)",
                     transform: submitHov ? "translateY(-2px)" : "translateY(0)",
                     transition: "all 0.25s ease",
+                    width: "100%",
+                    maxWidth: 260,
                   }}
                 >
                   Submit Form
@@ -1084,13 +1052,13 @@ const hp: Record<string, React.CSSProperties> = {
   headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.4rem,4vw,3.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
   sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
   btnRow: { display: "flex", gap: 14, flexWrap: "wrap" as const },
-  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(75,30,86,0.35)" },
-  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "2px solid #ffffff", background: "transparent", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
+  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
+  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7238F", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
   card: { background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderRadius: 24, padding: "32px", boxShadow: "0 8px 48px rgba(26,10,46,0.08)", border: "1px solid rgba(255,255,255,0.7)" },
   cardTop: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 },
   cardIcon: { width: 48, height: 48, borderRadius: "50%", background: "#662369", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" },
   cardBadge: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.8rem", fontWeight: 600, color: "#1a0a2e", background: "rgba(75,30,86,0.10)", padding: "5px 14px", borderRadius: 100 },
-  cardDesc: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.25rem", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
+  cardDesc: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
   cardFeatures: { display: "flex", flexDirection: "column", gap: 10 },
   feat: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
   check: { color: "#4B1E56", fontWeight: 700 },
@@ -1105,7 +1073,7 @@ const ab: Record<string, React.CSSProperties> = {
   grid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 },
   card: { padding: 28, background: "rgba(255, 255, 255, 0.75)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", borderRadius: 20, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
   icon: { fontSize: "1.7rem", color: "#4B1E56", marginBottom: 14 },
-  cardTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
+  cardTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
   cardText: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6 },
 };
 
@@ -1134,9 +1102,9 @@ const dr: Record<string, React.CSSProperties> = {
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginBottom: 48 },
   card: { padding: 28, background: "#f6f3fa", borderRadius: 18, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
   icon: { fontSize: "1.5rem", color: "#4B1E56", marginBottom: 12 },
-  cardTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.15rem", color: "#1a0a2e", marginBottom: 6 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.15rem", color: "#1a0a2e", marginBottom: 6 },
   cardCount: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.06em", color: "#8a5a97" },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#4B1E56", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(26,10,46,0.25)" },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
 };
 
 const pg: Record<string, React.CSSProperties> = {
@@ -1147,9 +1115,9 @@ const pg: Record<string, React.CSSProperties> = {
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 1000, margin: "0 auto 40px" },
   card: { padding: 32, background: "rgba(255,255,255,0.05)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.1)", textAlign: "left" },
   icon: { fontSize: "1.6rem", color: "#fff", marginBottom: 14 },
-  cardTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.3rem", color: "#fff", marginBottom: 10 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", color: "#fff", marginBottom: 10 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.6 },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "2px solid #4B1E56", background: "#4B1E56", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1 },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "2px solid #D7238F", background: "#D7238F", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1 },
 };
 
 const op: Record<string, React.CSSProperties> = {
@@ -1161,12 +1129,11 @@ const op: Record<string, React.CSSProperties> = {
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18, marginBottom: 48 },
   card: { padding: "26px 22px", background: "#fff", borderRadius: 16, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
   icon: { fontSize: "1.4rem", color: "#4B1E56", marginBottom: 10 },
-  cardTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.1rem", color: "#1a0a2e", marginBottom: 6 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.1rem", color: "#1a0a2e", marginBottom: 6 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "#554866", lineHeight: 1.55 },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#4B1E56", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(26,10,46,0.25)" },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
 };
 
-// Renamed from evsStyles to evs for consistency across the file (this was the source of the crash: EventsSection referenced `evsStyles`, which was never defined).
 const evs: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "#fff" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
@@ -1178,34 +1145,34 @@ const evs: Record<string, React.CSSProperties> = {
   dateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", color: "#fff", background: "#1a0a2e", padding: "5px 12px", borderRadius: 100, marginBottom: 12, width: "fit-content" },
   categoryPill: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "4px 11px", borderRadius: 100, marginBottom: 10, width: "fit-content" },
   category: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#8a5a97", marginBottom: 8 },
-  cardTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
-  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #4B1E56", background: "transparent", color: "#4B1E56", cursor: "pointer", marginTop: "auto" },
+  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #D7238F", background: "#D7238F", color: "#fff", cursor: "pointer", marginTop: "auto" },
   filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
   filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
-  filterBtnActive: { background: "#4B1E56", borderColor: "#1a0a2e", color: "#fff", boxShadow: "0 4px 16px rgba(26,10,46,0.25)" },
+  filterBtnActive: { background: "#D7238F", borderColor: "#D7238F", color: "#fff", boxShadow: "0 4px 16px rgba(215,35,143,0.30)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(26,10,46,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
   modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(26,10,46,0.35)" },
   modalClose: { position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "none", background: "#f6f3fa", color: "#554866", fontSize: "0.85rem", cursor: "pointer" },
   modalDateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#8a5a97", marginBottom: 10 },
-  modalTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
+  modalTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
   modalSub: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, textAlign: "left" },
-  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#1a0a2e", color: "#fff", cursor: "pointer", marginTop: 4 },
-  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#1a0a2e", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
+  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", marginTop: 4 },
+  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#D7238F", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
 };
 
 const jp: Record<string, React.CSSProperties> = {
   formSection: { padding: "100px 24px", background: "#f6f3fa", display: "flex", justifyContent: "center" },
-  card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", width: "100%"},
+  card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", width: "100%" },
   formHeader: { textAlign: "center", marginBottom: 32 },
-  formTitle: { fontFamily: "'Cormorant Garamond', serif", fontSize: "2rem", color: "#1a0a2e", marginBottom: 8 },
+  formTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "2rem", color: "#1a0a2e", marginBottom: 8 },
   formSub: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", color: "#554866" },
   row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
   input: { width: "100%", padding: "14px 18px", borderRadius: 12, border: "1px solid #ede7f5", background: "#fdf9fc", fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", outline: "none" },
   select: { appearance: "none" as const, cursor: "pointer" },
-  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#1a0a2e", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
+  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
 };
-
+update
 const st: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "#aeaad5", textAlign: "center" },
   sectionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 14 },
@@ -1213,42 +1180,40 @@ const st: Record<string, React.CSSProperties> = {
   lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 680, margin: "0 auto 48px" },
   statsGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20, maxWidth: 900, margin: "0 auto 56px" },
   statCard: { padding: "24px 16px", background: "#f6f3fa", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)" },
-  statNum: { fontFamily: "'Cormorant Garamond',serif", fontSize: "2rem", fontWeight: 600, color: "#1a0a2e", marginBottom: 6 },
+  statNum: { fontFamily: "'Astrid Regular',serif", fontSize: "2rem", fontWeight: 600, color: "#1a0a2e", marginBottom: 6 },
   statLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", color: "#554866", letterSpacing: "0.02em" },
   subSection: { maxWidth: 1100, margin: "0 auto 72px" },
-  subtitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.9rem", color: "#1a0a2e", marginBottom: 32, lineHeight: 1.2 },
+  subtitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.9rem", color: "#1a0a2e", marginBottom: 32, lineHeight: 1.2 },
   caldGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 },
   caldCard: { padding: "24px 20px", background: "#f6f3fa", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left" },
   caldIcon: { fontSize: "1.4rem", color: "#4B1E56", marginBottom: 10 },
-  caldTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.05rem", color: "#1a0a2e", marginBottom: 6 },
+  caldTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.05rem", color: "#1a0a2e", marginBottom: 6 },
   caldText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "#554866", lineHeight: 1.55 },
   programsGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 },
   programCard: { padding: "24px 20px", background: "#1a0a2e", borderRadius: 16, textAlign: "left" },
   programIcon: { fontSize: "1.4rem", color: "#fff", marginBottom: 10 },
-  programTitle: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.05rem", color: "#fff", marginBottom: 6 },
+  programTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.05rem", color: "#fff", marginBottom: 6 },
   programText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "rgba(255,255,255,0.75)", lineHeight: 1.55 },
   grid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, maxWidth: 900, margin: "0 auto" },
   card: { padding: 40, border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 24, textAlign: "left" },
-  quote: { fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontStyle: "italic", color: "#554866", lineHeight: 1.6, marginBottom: 20 },
+  quote: { fontFamily: "'Astrid Regular', serif", fontSize: "1.3rem", fontStyle: "italic", color: "#554866", lineHeight: 1.6, marginBottom: 20 },
   name: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.85rem", fontWeight: 700, color: "#1a0a2e" },
   role: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.75rem", color: "#8a5a97", marginTop: 2 },
   visionBox: { maxWidth: 700, margin: "0 auto", padding: "32px 28px", background: "#1a0a2e", borderRadius: 20 },
   visionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.2em", color: "#c9a3d9", marginBottom: 12 },
-  visionText: { fontFamily: "'Cormorant Garamond',serif", fontSize: "1.2rem", fontStyle: "italic", color: "#fff", lineHeight: 1.6 },
+  visionText: { fontFamily: "'Astrid Regular',serif", fontSize: "1.2rem", fontStyle: "italic", color: "#fff", lineHeight: 1.6 },
 };
 
 // ─── ROOT HUB PAGE ───────────────────────────────────────────────────────────
 export default function EllevationHub() {
   const [page, setPage] = useState<Page>("home");
 
-  // ✅ Sync with the theme saved by EllevationNavbar on mount
+  // ✅ Sync with the theme saved elsewhere (e.g. a global toggle) on mount
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     document.documentElement.setAttribute("data-theme", saved ?? "light");
   }, []);
 
-
-  
   const nav = (p: Page) => {
     setPage(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1257,7 +1222,7 @@ export default function EllevationHub() {
   return (
     <div className="hub-root" style={{ fontFamily: "'Montserrat',sans-serif", background: "#fdf9fc", minHeight: "100vh", color: "#1a0a2e" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
         /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
            Replace the src url below with the path to your actual font file. */
@@ -1271,14 +1236,199 @@ export default function EllevationHub() {
         }
 
         *{box-sizing:border-box;margin:0;padding:0;}
-        input:focus, select:focus, textarea:focus { border-color: #662369!important; box-shadow: 0 0 0 3px rgba(75,30,86,0.12); }
+        img{max-width:100%;}
+        input::placeholder,textarea::placeholder{color:#b09fc0;}
+        input:focus, select:focus, textarea:focus { outline:none; border-color: #662369!important; box-shadow: 0 0 0 3px rgba(75,30,86,0.12); }
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes floatBlob { 0%, 100% { transform: translate(0,0) scale(1); } 33% { transform: translate(20px,-15px) scale(1.04); } 66% { transform: translate(-10px,10px) scale(0.97); } }
         button:hover { opacity: 0.9; transform: translateY(-1px); }
         button:active { transform: translateY(0); }
 
-        @media (max-width: 640px) {
-          .ns-back-home span { display: none; }
+        /* ═══════════════════════════════════════
+           NAVBAR — single centered pill row,
+           matching the Ms. Ellevation navbar exactly
+           (back-home button, logo, desktop links,
+           hamburger + dropdown on small screens)
+           ═══════════════════════════════════════ */
+        .ms-nav-row{
+          position:sticky; top:0; z-index:100;
+          display:flex; flex-direction:column; align-items:center;
+          padding:16px 20px 0;
+        }
+        .ms-nav{
+          width:100%;
+          max-width:1240px;
+          display:flex;
+          align-items:center;
+          gap:14px;
+          background:rgba(255,255,255,0.92);
+          backdrop-filter:blur(16px);
+          -webkit-backdrop-filter:blur(16px);
+          border:1px solid rgba(102,35,105,0.08);
+          border-radius:100px;
+          padding:8px 10px 8px 8px;
+          box-shadow:0 2px 16px rgba(102,35,105,0.08);
+          transition:box-shadow 0.3s ease;
+        }
+        .ms-nav.ms-nav-scrolled{
+          box-shadow:0 4px 32px rgba(102,35,105,0.18);
+        }
+        .ns-back-home{
+          display:flex; align-items:center; gap:6px;
+          font-family:'Montserrat', sans-serif;
+          font-size:0.78rem; font-weight:600;
+          color:#662369;
+          background:rgba(102,35,105,0.06);
+          border:1px solid rgba(102,35,105,0.12);
+          border-radius:100px;
+          padding:9px 16px;
+          cursor:pointer;
+          white-space:nowrap;
+          transition:all 0.2s ease;
+          flex-shrink:0;
+        }
+        .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
+        .ns-logo{
+          width:130px;
+          height:auto;
+          object-fit:contain;
+          cursor:pointer;
+          flex-shrink:0;
+        }
+        .ns-links-desktop{
+          display:flex; align-items:center; gap:2px;
+          flex:1;
+          justify-content:center;
+          flex-wrap:wrap;
+        }
+        .ns-link{
+          font-family:'Montserrat', sans-serif;
+          font-size:0.8rem; font-weight:500;
+          color:#662369; background:transparent;
+          border:none; cursor:pointer;
+          padding:9px 13px; border-radius:100px;
+          transition:all 0.2s ease; white-space:nowrap;
+        }
+        .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
+        .ns-link.active{
+          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
+          color:#fff; font-weight:600;
+          box-shadow:0 2px 12px rgba(26,10,46,0.25);
+        }
+        .ns-link.active:hover{ opacity:1; }
+        .ns-menu-toggle{
+          display:none;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          gap:5px;
+          width:38px; height:38px;
+          border-radius:50%;
+          border:none;
+          background:rgba(102,35,105,0.06);
+          cursor:pointer;
+          flex-shrink:0;
+        }
+        .ns-menu-toggle span{
+          display:block; width:18px; height:2px;
+          background:#662369; border-radius:2px;
+          transition:all 0.25s ease;
+        }
+        .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+        .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
+        .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+        .ns-mobile-menu{
+          max-height:0;
+          overflow:hidden;
+          width:100%;
+          max-width:1240px;
+          opacity:0;
+          transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+        }
+        .ns-mobile-menu.open{
+          max-height:520px;
+          opacity:1;
+          margin-top:10px;
+          display:flex; flex-direction:column; gap:4px;
+          background:rgba(255,255,255,0.97);
+          backdrop-filter:blur(16px);
+          border-radius:22px;
+          padding:10px;
+          box-shadow:0 12px 40px rgba(102,35,105,0.16);
+          border:1px solid rgba(102,35,105,0.08);
+          overflow-y:auto;
+        }
+        .ns-mobile-menu .ns-mobile-link{
+          display:block;
+          width:100%;
+          text-align:left;
+          font-family:'Montserrat', sans-serif;
+          font-size:0.92rem; font-weight:500;
+          color:#662369; background:transparent;
+          border:none; cursor:pointer;
+          padding:13px 18px; border-radius:14px;
+          transition:all 0.2s ease;
+        }
+        .ns-mobile-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
+        .ns-mobile-link.active{
+          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important;
+          color:#fff !important;
+        }
+
+        /* Hub has more nav items than Ms. Ellevation, so the hamburger
+           kicks in a little earlier to avoid link wrapping/overflow. */
+        @media (max-width: 1180px){
+          .ns-links-desktop{ display:none; }
+          .ns-menu-toggle{ display:flex; }
+        }
+        @media (max-width: 560px){
+          .ns-back-home span{ display:none; }
+          .ns-back-home{ padding:9px 12px; }
+          .ns-logo{ width:100px; }
+          .ms-nav{ padding:7px 8px; gap:10px; }
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE — section grids collapse
+           on tablet / mobile so nothing overflows
+           ═══════════════════════════════════════ */
+        @media (max-width: 900px){
+          .hub-home-grid{ grid-template-columns:1fr !important; text-align:center; }
+          .hub-home-btn-row{ justify-content:center !important; }
+          .hub-about-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-directory-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-programs-grid{ grid-template-columns:1fr !important; }
+          .hub-opportunities-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-events-grid{ grid-template-columns:1fr !important; }
+          .hub-impact-stats{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-impact-cald-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-impact-programs-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-impact-grid{ grid-template-columns:1fr !important; }
+          .hub-form-row{ grid-template-columns:1fr !important; }
+        }
+        @media (max-width: 600px){
+          .hub-about-grid{ grid-template-columns:1fr !important; }
+          .hub-directory-grid{ grid-template-columns:1fr !important; }
+          .hub-opportunities-grid{ grid-template-columns:1fr !important; }
+          .hub-impact-stats{ grid-template-columns:1fr 1fr !important; }
+          .hub-impact-cald-grid{ grid-template-columns:1fr !important; }
+          .hub-impact-programs-grid{ grid-template-columns:1fr !important; }
+        }
+        @media (max-width: 768px){
+          .hub-home-page{ padding:100px 24px 60px !important; min-height:auto !important; }
+          .hub-about-section{ padding:56px 24px !important; }
+          .hub-membership-section{ padding:56px 24px !important; }
+          .hub-directory-section{ padding:56px 24px !important; }
+          .hub-programs-section{ padding:56px 24px !important; }
+          .hub-opportunities-section{ padding:56px 24px !important; }
+          .hub-events-section{ padding:56px 24px !important; }
+          .hub-impact-section{ padding:56px 24px !important; }
+          .hub-form-card{ padding:32px 24px !important; }
+        }
+        @media (max-width: 560px){
+          .hub-home-headline{ font-size:2rem !important; }
+          .hub-card{ padding:24px !important; }
+          .hub-form-title{ font-size:1.5rem !important; }
         }
 
         /* ── Dark Mode Overrides ── */
@@ -1291,23 +1441,38 @@ export default function EllevationHub() {
 
         /* Navbar */
         [data-theme="dark"] .ms-nav {
-          background: transparent !important;
-        }
-        [data-theme="dark"] .ns-inner {
           background: rgba(22, 13, 34, 0.92) !important;
-          box-shadow: 0 4px 32px rgba(0,0,0,0.35) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .ms-nav.ms-nav-scrolled {
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
         }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
         }
-        [data-theme="dark"] .ns-link.active {
-          background: #4B1E56 !important;
-          color: #fff !important;
+        [data-theme="dark"] .ns-link:hover {
+          background: rgba(217, 168, 205, 0.1) !important;
         }
         [data-theme="dark"] .ns-back-home {
           color: #d9a8cd !important;
           background: rgba(217, 168, 205, 0.1) !important;
           border-color: rgba(217, 168, 205, 0.25) !important;
+        }
+        [data-theme="dark"] .ns-menu-toggle {
+          background: rgba(217, 168, 205, 0.1) !important;
+        }
+        [data-theme="dark"] .ns-menu-toggle span {
+          background: #d9a8cd !important;
+        }
+        [data-theme="dark"] .ns-mobile-menu.open {
+          background: rgba(22, 13, 34, 0.97) !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .ns-mobile-link {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .ns-mobile-link:hover {
+          background: rgba(217, 168, 205, 0.1) !important;
         }
 
         /* Home section */
@@ -1332,6 +1497,9 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-about-section {
           background: #160d22 !important;
         }
+        [data-theme="dark"] .hub-about-eye {
+          color: #c9a3d9 !important;
+        }
         [data-theme="dark"] .hub-about-title {
           color: #e8e0f8 !important;
         }
@@ -1353,6 +1521,9 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-membership-section {
           background: #160d22 !important;
         }
+        [data-theme="dark"] .hub-form-eye {
+          color: #c9a3d9 !important;
+        }
         [data-theme="dark"] .hub-form-card {
           background: #1f1330 !important;
           box-shadow: 0 10px 48px rgba(0,0,0,0.5) !important;
@@ -1363,8 +1534,14 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-form-sub {
           color: #d9a8cd !important;
         }
+        [data-theme="dark"] .hub-form-label {
+          color: #d9a8cd !important;
+        }
         [data-theme="dark"] .hub-benefit-item {
           color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-divider {
+          background: rgba(155, 109, 190, 0.15) !important;
         }
         [data-theme="dark"] .hub-tier-tab {
           border-color: rgba(155, 109, 190, 0.3) !important;
@@ -1381,16 +1558,19 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-purpose-tile {
           border-color: rgba(155, 109, 190, 0.3) !important;
         }
-        [data-theme="dark"] .hub-purpose-tile span span:first-child {
+        [data-theme="dark"] .hub-purpose-label {
           color: #e8e0f8 !important;
         }
-        [data-theme="dark"] .hub-purpose-tile span span:last-child {
+        [data-theme="dark"] .hub-purpose-desc {
           color: #d9a8cd !important;
         }
 
         /* Directory section */
         [data-theme="dark"] .hub-directory-section {
           background: #160d22 !important;
+        }
+        [data-theme="dark"] .hub-directory-eye {
+          color: #c9a3d9 !important;
         }
         [data-theme="dark"] .hub-directory-title {
           color: #e8e0f8 !important;
@@ -1413,6 +1593,9 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-programs-bg {
           background: #0d0614 !important;
         }
+        [data-theme="dark"] .hub-programs-eye {
+          color: #c9a3d9 !important;
+        }
         [data-theme="dark"] .hub-programs-card {
           background: rgba(255,255,255,0.07) !important;
           border-color: rgba(255,255,255,0.12) !important;
@@ -1421,6 +1604,9 @@ export default function EllevationHub() {
         /* Opportunities section */
         [data-theme="dark"] .hub-opportunities-section {
           background: #160d22 !important;
+        }
+        [data-theme="dark"] .hub-opportunities-eye {
+          color: #c9a3d9 !important;
         }
         [data-theme="dark"] .hub-opportunities-title {
           color: #e8e0f8 !important;
@@ -1443,10 +1629,16 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-events-section {
           background: #160d22 !important;
         }
+        [data-theme="dark"] .hub-events-eye {
+          color: #c9a3d9 !important;
+        }
         [data-theme="dark"] .hub-events-title {
           color: #e8e0f8 !important;
         }
         [data-theme="dark"] .hub-events-sub {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-events-empty {
           color: #d9a8cd !important;
         }
         [data-theme="dark"] .hub-events-card {
@@ -1465,8 +1657,8 @@ export default function EllevationHub() {
           color: #d9a8cd !important;
         }
         [data-theme="dark"] .hub-events-filter.active {
-          background: #4B1E56 !important;
-          border-color: #4B1E56 !important;
+          background: #D7238F !important;
+          border-color: #D7238F !important;
           color: #fff !important;
         }
         [data-theme="dark"] .hub-events-modal {
@@ -1483,6 +1675,9 @@ export default function EllevationHub() {
         /* Impact section */
         [data-theme="dark"] .hub-impact-section {
           background: #160d22 !important;
+        }
+        [data-theme="dark"] .hub-impact-eye {
+          color: #c9a3d9 !important;
         }
         [data-theme="dark"] .hub-impact-title {
           color: #e8e0f8 !important;
@@ -1531,6 +1726,9 @@ export default function EllevationHub() {
         }
         [data-theme="dark"] .hub-impact-vision {
           background: #1f1330 !important;
+        }
+        [data-theme="dark"] .hub-impact-vision-eye {
+          color: #c9a3d9 !important;
         }
         [data-theme="dark"] .hub-impact-vision-text {
           color: #e8e0f8 !important;
@@ -1590,6 +1788,12 @@ export default function EllevationHub() {
           border-color: #4B1E56;
           background: #fff;
           box-shadow: 0 4px 12px rgba(75,30,86,0.08);
+        }
+
+        @media (max-width: 640px) {
+          .events-hero { padding: 90px 20px 70px !important; }
+          .enquiry-form-section { padding: 56px 20px 72px !important; }
+          .form-wrapper-card { padding: 32px 24px !important; }
         }
 
         [data-theme="dark"] .hub-connect-section { background: #0f0a1a !important; }

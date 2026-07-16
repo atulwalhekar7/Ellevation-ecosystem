@@ -460,9 +460,9 @@ function Hero() {
             fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(36px,5vw,56px)",
             fontWeight: 700, lineHeight: 1.15,
-            color: "#fff", marginBottom: 24, letterSpacing: "-0.01em",
+            color: "#ffff", marginBottom: 24, letterSpacing: "-0.01em",
           }}>
-          Ecosystem Hub <span style={{ color: "#c98fd6" }}>Enquiry</span>
+          Ecosystem Hub <span style={{ color: "#EFBF68" }}>Enquiry</span>
         </h1>
 
         <p style={{
@@ -495,7 +495,7 @@ function CommonEnquiryForm() {
   };
 
   return (
-    <section className="enquiry-form-section" style={{ background: "#f5eef8", padding: "80px 24px 100px" }}>
+    <section className="enquiry-form-section" style={{ background: "#fffaed", padding: "80px 24px 100px" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         
         {/* Section Heading Typography Grid */}
@@ -552,7 +552,7 @@ Reach Out to Us          </h2>
                         borderColor: enquiryType === stream.id ? "#9b7db8" : "rgba(180,160,210,0.25)",
                         background: enquiryType === stream.id ? "rgba(155,125,184,0.06)" : "transparent",
                         cursor: "pointer",
-                        fontFamily: "'DM Sans',sans-serif",
+                        fontFamily: "'Montserrat',sans-serif",
                         fontSize: 14,
                         fontWeight: enquiryType === stream.id ? 600 : 400,
                         color: "#1c1630",
@@ -624,9 +624,9 @@ Reach Out to Us          </h2>
                     padding: "14px 36px",
                     borderRadius: 999,
                     border: "none",
-                    background: submitHov ? "#7a5ea0" : "#1a0a2e",
+                    background: submitHov ? "#4B1E56" : "#D7238F",
                     color: "#fff",
-                    fontFamily: "'DM Sans',sans-serif",
+                    fontFamily: "'Montserrat',sans-serif",
                     fontSize: 13,
                     fontWeight: 700,
                     letterSpacing: "0.1em",
@@ -689,7 +689,7 @@ export default function EventsPage() {
 
         .field-label {
           display: block;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-size: 13px;
           font-weight: 600;
           color: #2a183a;
@@ -702,7 +702,7 @@ export default function EventsPage() {
           border-radius: 12px;
           border: 1.5px solid rgba(180,160,210,0.25);
           background: #fdfbfe;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'Montserrat', sans-serif;
           font-size: 14px;
           color: #1c1630;
           outline: none;

@@ -154,7 +154,7 @@ function Carousel() {
         <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#4B1E56", marginBottom: 6, fontFamily: "'Montserrat',sans-serif" }}>
           Signature Ecosystem
         </p>
-        <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 13, fontWeight: 600, color: "#1a0a2e", lineHeight: 1.35, marginBottom: 10 }}>
+        <p style={{ fontFamily: "'Astrid Regular',serif", fontSize: 13, fontWeight: 600, color: "#1a0a2e", lineHeight: 1.35, marginBottom: 10 }}>
           Women rising, communities connecting.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5 }}>
@@ -267,7 +267,7 @@ function Hero() {
             fontWeight: 700, lineHeight: 1.15,
             color: "#1a0a2e", marginBottom: 22, letterSpacing: "-0.01em",
           }}>
-            Born from a belief <br />every woman deserves <br />a space to rise.
+            Born from a belief <br />every woman deserves <br />a   <span style={{ color: "#EFBF68" }}>space to rise.</span>
           </h1>
 
           <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 15.5, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
@@ -286,7 +286,7 @@ function Hero() {
                 gap: 8,
                 padding: "14px 28px",
                 borderRadius: 14,
-                background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
+                background: "#D7238F",
                 color: "#fff",
                 fontFamily: "'Montserrat'",
                 fontWeight: 600,
@@ -310,7 +310,7 @@ function Hero() {
                 gap: 8,
                 padding: "14px 28px",
                 borderRadius: 14,
-                background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
+                background: "#D7238F",
                 color: "#fff",
                 fontFamily: "'Montserrat',sans-serif",
                 fontWeight: 600,
@@ -411,7 +411,7 @@ function WhoWeAreSection() {
           </p>
           <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#1a0a2e", margin: 0 }}>
             An Ecosystem Built for{" "}
-            <span style={{ color: "#4B1E56" }}>Every Stage of Life</span>
+           Every Stage of Life
           </h2>
         </div>
 
@@ -534,7 +534,7 @@ function FounderSection() {
     <section
       className="about-founder"
       style={{
-        background: "#fff",
+        background: "#FFFAED",
         padding: "80px 24px",
         borderBottom: "1px solid #f2ecf9",
       }}
@@ -728,7 +728,7 @@ function VisionSection() {
               }}
             >
               <span style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "'Astrid Regular', serif",
                 fontSize: "24px",
                 fontStyle: "italic",
                 color: "#4B1E56",
@@ -788,7 +788,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
         {item.label}
       </p>
       <h3 style={{
-        fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 700,
+        fontFamily: "'Astrid Regular',serif", fontSize: 32, fontWeight: 700,
         color: "#1a0a2e", margin: "0 0 14px", lineHeight: 1.2,
       }}>
         {item.title}
@@ -901,7 +901,7 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
         {item.icon}
       </div>
       <h3 style={{
-        fontFamily: "'Cormorant Garamond',serif", fontSize: 16.5, fontWeight: 700,
+        fontFamily: "'Astrid Regular',serif", fontSize: 16.5, fontWeight: 700,
         color: "#1a0a2e", margin: "0 0 7px", lineHeight: 1.25,
       }}>
         {item.title}
@@ -921,7 +921,7 @@ function WhoWeServeSection() {
   return (
     <section
       className="about-who-we-serve"
-      style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%)", padding: "80px 24px" }}
+      style={{ background: "#FFFAED", padding: "80px 24px" }}
     >
       <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
@@ -959,9 +959,7 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
         padding: "14px 28px",
         borderRadius: 14,
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
-        background: primary
-          ? (hov ? "#35143d" : "#4B1E56")
-          : (hov ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.05)"),
+        background: "#D7238F",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
@@ -1007,7 +1005,7 @@ function CTASection() {
             margin: "0 0 40px"
           }}
         >
-          Join Our <span style={{ color: "#4B1E56" }}>Ecosystem</span>
+          Join Our <span style={{ color: "#EFBF68" }}>Ecosystem</span>
         </h2>
         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
           <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
