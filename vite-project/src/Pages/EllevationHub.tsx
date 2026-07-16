@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import banner6 from "../assets/banner6.avif";
 import banner2 from "../assets/banner2.avif";
 import hubLogoLight from "../assets/hub-logo.png";
-import hubLogoDark from "../assets/hub-logo.png";
+import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
 
 
 /* ── Animation Helpers (used by the Connect form) ── */

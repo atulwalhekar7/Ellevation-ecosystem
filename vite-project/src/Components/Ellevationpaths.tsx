@@ -72,11 +72,9 @@ const paths: Path[] = [
    businesses, and community organisations.
    ══════════════════════════════════════════════ */
 
-const HERO_PLUM_900 = "#2D0B36";
 const HERO_PLUM_800 = "#4B1E56";
-const HERO_PLUM_700 = "#6B3179";
-const HERO_GOLD_500 = "#EFB93E";
 const HERO_MAGENTA_500 = "#C81E6B";
+
 const HERO_CREAM_50 = "#FBF7F1";
 const HERO_INK_900 = "#231226";
 const HERO_INK_600 = "#5B4A61";
@@ -88,8 +86,9 @@ type Audience = {
   id: string;
   label: string;
   copy: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
 };
+
 
 const audiences: Audience[] = [
   {
@@ -211,7 +210,7 @@ function EllevationHeroSection() {
   return (
     <section
       style={{
-        background: darkMode ? "#2D0B36" : HERO_CREAM_50,
+        background: darkMode ? "linear-gradient(180deg, #0d0614 0%, #160d22 100%)" : HERO_CREAM_50,
         fontFamily: HERO_BODY_FONT,
         overflow: "hidden",
         transition: "background 0.25s ease",
@@ -506,7 +505,7 @@ export default function EllevationPaths() {
         }
 
         .paths-section {
-          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
         }
 
         .paths-header-title {
@@ -735,7 +734,7 @@ export default function EllevationPaths() {
            Dark Mode
            ═══════════════════════════════════════ */
         [data-theme="dark"] .paths-section {
-          background: #2D0B36;
+          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
         }
         [data-theme="dark"] .paths-header-title {
           color: #ffffff;

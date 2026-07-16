@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import banner4 from "../assets/banner4.avif";
 import banner5 from "../assets/banner5.avif";
 import banner2 from "../assets/banner2.avif";
-import logo from "../assets/Ellevation-whitemode-logo.png";
+import LogoDark from "../assets/ms-ellevation-darkmode-logo.png";
+import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
+
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "events" | "stories" | "join";
@@ -70,6 +72,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
   const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
   const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
+  const [theme] = useState<"light" | "dark">("light");
+
 
   return (
     <div className="ms-nav-row">
@@ -84,8 +88,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
         {/* Logo */}
         <img
-          src={logo}
-          alt="Ellevation Logo"
+ src={theme === "dark" ? LogoDark : LogoLight}        
+   alt="Ellevation Logo"
           onClick={() => goPage("home")}
           className="ns-logo"
         />
