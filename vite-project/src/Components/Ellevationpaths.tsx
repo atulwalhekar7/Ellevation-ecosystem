@@ -690,7 +690,7 @@ export default function EllevationPaths() {
           font-weight: 600;
           letter-spacing: 0.05em;
           color: #ffffff;
-          background: #4B1E56;
+          background: #D7238F;
           border: none;
           border-radius: 14px;
           padding: 14px 28px;
@@ -764,7 +764,7 @@ export default function EllevationPaths() {
           color: #e2e8f0;
         }
         [data-theme="dark"] .cta-btn {
-          background: #4B1E56;
+          background: #D7238F;
         }
         [data-theme="dark"] .cta-btn:hover {
           background: #6B3179;
