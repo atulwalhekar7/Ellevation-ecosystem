@@ -1,5 +1,6 @@
-import logo from "../assets/Ms-Ellevation-removebg-preview.png";
+import logo from "../assets/dark-mode-logo.png";
 import { Link } from "react-router-dom";
+
 
 const footerLinks = [
   {
@@ -92,7 +93,7 @@ export default function EllevationFooter() {
       />
       <style>{`
         .footer-link {
-          color: #000;
+          color: #cbd5e1;
           font-family: 'Montserrat', sans-serif;
           font-size: 15px;
           font-weight: 500;
@@ -103,39 +104,39 @@ export default function EllevationFooter() {
           cursor: pointer;
         }
         .footer-link:hover { 
-          color: #4B1E56;
+          color: #c9a3d9;
           transform: translateX(2px);
         }
         
         .footer-utility-link {
-          color: #000;
+          color: rgba(255, 255, 255, 0.5);
           font-family: 'Montserrat', sans-serif;
           font-size: 13px;
           font-weight: 500;
           text-decoration: none;
           transition: color 0.18s;
         }
-        .footer-utility-link:hover { color: #4B1E56; }
+        .footer-utility-link:hover { color: #c9a3d9; }
 
         .social-btn {
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 1px solid rgba(209, 26, 142, 0.25);
-          background:  rgba(75, 30, 86, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          background: rgba(255, 255, 255, 0.06);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #000;
+          color: rgba(255, 255, 255, 0.75);
           cursor: pointer;
           transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
         .social-btn:hover {
-          background: #4B1E56;
-          border-color: #4B1E56;
+          background: #D7238F;
+          border-color: #6B3179;
           color: #ffffff;
           transform: translateY(-3px);
-          box-shadow: 0 8px 18px rgba(209, 26, 142, 0.35);
+          box-shadow: 0 8px 18px rgba(75, 30, 86, 0.45);
         }
 
         .btn-purple {
@@ -144,7 +145,7 @@ export default function EllevationFooter() {
           gap: 8px;
           padding: 14px 28px;
           border-radius: 14px;
-          background: #4B1E56;
+          background: #D7238F;
           border: none;
           color: #ffffff;
           font-family: 'Montserrat', sans-serif;
@@ -168,9 +169,9 @@ export default function EllevationFooter() {
           gap: 8px;
           padding: 14px 28px;
           border-radius: 14px;
-          background: rgba(209, 26, 142, 0.04);
-          border: 1px solid rgba(209, 26, 142, 0.3);
-          color: #403452;
+          background: #D7238F;
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: #ffffff;
           font-family: 'Montserrat', sans-serif;
           font-weight: 600;
           font-size: 13px;
@@ -180,59 +181,14 @@ export default function EllevationFooter() {
           white-space: nowrap;
         }
         .btn-ghost:hover {
-          background: #ffffff;
-          border-color: #4B1E56;
+          background: rgba(255, 255, 255, 0.16);
+          border-color: rgba(255, 255, 255, 0.35);
           transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(209, 26, 142, 0.2);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
-        /* ── Dark Mode Overrides ── */
-        [data-theme="dark"] footer {
-          background: linear-gradient(180deg, #0d0614 0%, #08040d 100%) !important;
-          box-shadow: inset 0 0 140px 20px rgba(75, 30, 86, 0.35), inset 0 0 60px 0px rgba(75, 30, 86, 0.25) !important;
-        }
-        [data-theme="dark"] .footer-logo-img {
-          filter: brightness(1.15) !important;
-        }
-        [data-theme="dark"] .footer-description,
-        [data-theme="dark"] .footer-link {
-          color: #cbd5e1 !important;
-        }
-        [data-theme="dark"] .footer-link:hover {
-          color: #4B1E56 !important;
-        }
-        [data-theme="dark"] .footer-column-heading {
-          color: #c084fc !important;
-        }
-        [data-theme="dark"] .footer-bottom-text,
-        [data-theme="dark"] .footer-utility-link {
-          color: rgba(255, 255, 255, 0.4) !important;
-        }
-        [data-theme="dark"] .footer-utility-link:hover {
-          color: #4B1E56 !important;
-        }
-        [data-theme="dark"] .footer-divider {
-          background: rgba(255, 255, 255, 0.08) !important;
-        }
-        [data-theme="dark"] .btn-ghost {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(255, 255, 255, 0.15);
-          color: #ffffff;
-        }
-        [data-theme="dark"] .btn-ghost:hover {
-          background: rgba(255, 255, 255, 0.15);
-          border-color: rgba(255, 255, 255, 0.3);
-        }
-        [data-theme="dark"] .social-btn {
-          border-color: rgba(255, 255, 255, 0.15);
-          background: rgba(255, 255, 255, 0.05);
-          color: rgba(255, 255, 255, 0.7);
-        }
-        [data-theme="dark"] .social-btn:hover {
-          background: rgba(75, 30, 86, 0.15);
-          border-color: rgba(209, 26, 142, 0.4);
-          color: #ffffff;
-        }
+        /* Footer text colors are set for a permanently dark background below;
+           no [data-theme="dark"] switching needed for the footer itself. */
 
         @media (max-width: 968px) {
           .footer-grid {
@@ -259,12 +215,10 @@ export default function EllevationFooter() {
 
       <footer
         style={{
-          background: "#ffffff",
+          background: "#2D0B36",
           position: "relative",
           overflow: "hidden",
           fontFamily: "'Montserrat', sans-serif",
-         boxShadow:
-"inset 0 0 140px 20px rgba(75,30,86,.45), inset 0 0 60px 0 rgba(75,30,86,.25)"
         }}
       >
         <div style={{
@@ -289,19 +243,29 @@ export default function EllevationFooter() {
           {/* Left Block: Brand Signature */}
           <div style={{ maxWidth: "440px" }}>
             <div style={{ display: "flex", alignItems: "center", marginBottom: "28px" }}>
-              <div style={{ width: "180px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-                <img 
-                  src={logo} 
-                  alt="Ellevation Logo" 
-                  className="footer-logo-img" 
-                  style={{ 
-                    width: "100%", 
-                    height: "100%", 
-                    objectFit: "contain",
-                    filter: "drop-shadow(0px 4px 12px rgba(209, 26, 142, 0.25)) drop-shadow(0px 1px 2px rgba(209, 26, 142, 0.15))"
-                  }} 
-                />
-              </div>
+              <div
+  style={{
+    width: "280px",   // Increased from 200px
+    height: "140px",  // Increased from 100px
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+  }}
+>
+  <img
+    src={logo}
+    alt="Ellevation Logo"
+    className="footer-logo-img"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      filter:
+        "drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.35))",
+    }}
+  />
+</div>
             </div>
 
             <p 
@@ -309,7 +273,7 @@ export default function EllevationFooter() {
               style={{
                 fontSize: "15px",
                 lineHeight: 1.7,
-                color: "#000",
+                color: "#cbd5e1",
                 fontWeight: 400,
                 marginBottom: "36px",
               }}
@@ -346,7 +310,7 @@ export default function EllevationFooter() {
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 700,
                     fontSize: "12px",
-                    color: "#4B1E56",
+                    color: "#c9a3d9",
                     marginBottom: "24px",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase"
@@ -373,7 +337,7 @@ export default function EllevationFooter() {
 
         {/* Structural Section Break */}
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 24px" }}>
-          <div className="footer-divider" style={{ height: "1px", background: "rgba(209, 26, 142, 0.15)" }} />
+          <div className="footer-divider" style={{ height: "1px", background: "rgba(255, 255, 255, 0.1)" }} />
         </div>
 
         {/* Utility / Compliance row */}
@@ -401,7 +365,7 @@ export default function EllevationFooter() {
               className="footer-bottom-text"
               style={{
                 fontSize: "13px",
-                color: "#000",
+                color: "rgba(255, 255, 255, 0.5)",
                 fontWeight: 500,
                 margin: 0,
               }}

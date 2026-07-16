@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import banner4 from "../assets/banner4.avif";
 import banner5 from "../assets/banner5.avif";
 import banner2 from "../assets/banner2.avif";
-import logo from "../assets/Ms-Ellevation-removebg-preview.png";
+import logo from "../assets/Ellevation-whitemode-logo.png";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "events" | "stories" | "join";
