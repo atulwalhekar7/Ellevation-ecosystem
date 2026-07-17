@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, type CSSProperties } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import banner6 from "../assets/banner6.avif";
 import banner2 from "../assets/banner2.avif";
 import hubLogoLight from "../assets/hub-logo.png";
@@ -1205,7 +1205,12 @@ const st: Record<string, React.CSSProperties> = {
 
 // ─── ROOT HUB PAGE ───────────────────────────────────────────────────────────
 export default function EllevationHub() {
-  const [page, setPage] = useState<Page>("home");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // ✅ Read the active page from the URL (?page=about) instead of local state
+  // Falls back to "home" if no query param is present — this is what makes
+  // footer links like /hub?page=about land directly on the right section.
+  const page = (searchParams.get("page") as Page) || "home";
 
   // ✅ Sync with the theme saved elsewhere (e.g. a global toggle) on mount
   useEffect(() => {
@@ -1213,9 +1218,19 @@ export default function EllevationHub() {
     document.documentElement.setAttribute("data-theme", saved ?? "light");
   }, []);
 
-  const nav = (p: Page) => {
-    setPage(p);
+  // ✅ Scroll to the very top of the page whenever the active section changes —
+  // this covers both clicking a nav link inside the page AND arriving fresh
+  // from an external link (e.g. the footer) since the query param changes either way.
+  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  const nav = (p: Page) => {
+    if (p === "home") {
+      setSearchParams({});
+    } else {
+      setSearchParams({ page: p });
+    }
   };
 
   return (

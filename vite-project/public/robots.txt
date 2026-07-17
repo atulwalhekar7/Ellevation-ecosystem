@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Block sensitive folders if they exist
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://www.msellevation.com.au/sitemap.xml

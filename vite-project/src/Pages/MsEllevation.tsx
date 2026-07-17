@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import banner4 from "../assets/banner4.avif";
 import banner5 from "../assets/banner5.avif";
 import banner2 from "../assets/banner2.avif";
@@ -839,7 +839,11 @@ const jp: Record<string, React.CSSProperties> = {
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function EllevationPage() {
-  const [page, setPage] = useState<Page>("home");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // ✅ Read the active page from the URL (?page=about) instead of local state
+  // Falls back to "home" if no query param is present
+  const page = (searchParams.get("page") as Page) || "home";
 
   // ✅ Sync React state with whatever theme the navbar has already set
   // This runs once on mount so the page reflects the saved theme immediately
@@ -852,8 +856,22 @@ export default function EllevationPage() {
     }
   }, []);
 
+  // ✅ FIX: Always scroll to the top of the page whenever the active `page`
+  // changes — no matter what triggered the navigation. This covers the
+  // navbar, the footer links, browser back/forward, and direct/bookmarked
+  // URLs like "?page=about", so every page always opens scrolled to the top.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
   const nav = (p: Page) => {
-    setPage(p);
+    if (p === "home") {
+      setSearchParams({});
+    } else {
+      setSearchParams({ page: p });
+    }
+    // kept for immediate feedback on click; the useEffect above is the
+    // real safety net that also covers footer / back-forward navigation
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
