@@ -200,9 +200,9 @@ export default function CommunityVoices() {
         rel="stylesheet"
       />
       <style>{`
-        .community-section {
-          background: #FFFAED;
-        }
+        // .community-section {
+        //   background: #FFFAED;
+        // }
 
         .community-header-title {
           font-family: 'Astrid Regular', serif;

@@ -830,7 +830,7 @@ rsvpBtn: {
   transition: "all 0.2s ease",
 },  filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
   filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid rgba(124, 92, 191, 0.2)", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
-  filterBtnActive: { background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", borderColor: "#4B1E56", color: "#fff", boxShadow: "0 4px 16px rgba(75,30,86,0.3)" },
+  filterBtnActive: { background: "#d7238f", borderColor: "#4B1E56", color: "#fff", boxShadow: "0 4px 16px rgba(75,30,86,0.3)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(20,10,34,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
   modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(124,92,191,0.18)" },
   modalClose: { position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "none", background: "#f6f3fa", color: "#662369", fontSize: "0.85rem", cursor: "pointer" },

@@ -337,7 +337,7 @@ function SocialFollowRow() {
 
 function ConversationSection() {
   return (
-    <section className="about-vmv" style={{ background: "#FFFAED", padding: "40px 24px 100px" }}>
+    <section className="about-vmv" style={{ background: "#ffffff", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
         <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>Ellevation Conversations</p>
       </div>
@@ -498,7 +498,7 @@ function StorySubmissionSection() {
       id="submit-story"
       className="about-submit"
       ref={ref}
-      style={{ background: "#FFFAED", padding: "40px 24px 100px", scrollMarginTop: 24 }}
+      style={{ background: "#ffffff", padding: "40px 24px 100px", scrollMarginTop: 24 }}
     >
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 44, opacity: inView ? 1 : 0, transition: "opacity 0.7s ease" }}>

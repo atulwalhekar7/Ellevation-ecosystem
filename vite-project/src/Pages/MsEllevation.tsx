@@ -1084,7 +1084,7 @@ export default function EllevationPage() {
         .impact-section {
           position: relative;
           overflow: hidden;
-          background: #fffaed;
+          background: #ffffff;
           padding: 110px 24px 130px;
         }
         .impact-inner {

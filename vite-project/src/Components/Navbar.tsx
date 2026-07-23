@@ -21,7 +21,8 @@ const navItems: NavItem[] = [
 ];
 
 const ACCENT = "#4B1E56";
-const DARK_BG = "#2D0B36"; // matches the dark-mode-logo background swatch
+const NAV_BG = "#4B1E56";   // navbar background — same in both modes now
+const JOIN_COLOR = "#C81E6B"; // Join button — same in both modes now
 const FONT_FAMILY = "'Aster', sans-serif";
 
 // Breakpoint below which we switch to the hamburger / drawer layout.
@@ -51,11 +52,9 @@ function useIsMobile(breakpoint: number) {
 function DropdownMenu({
   items,
   open,
-  darkMode,
 }: {
   items: DropdownItem[];
   open: boolean;
-  darkMode: boolean;
 }) {
   const location = useLocation();
 
@@ -65,8 +64,8 @@ function DropdownMenu({
         position: "absolute",
         top: "calc(100% + 8px)",
         left: "50%",
-        background: darkMode ? DARK_BG : "#fff",
-        border: darkMode ? "1px solid rgba(255,255,255,0.15)" : "1px solid #f2ecf9",
+        background: NAV_BG,
+        border: "1px solid rgba(255,255,255,0.15)",
         borderRadius: "12px",
         padding: "8px 0",
         minWidth: "210px",
@@ -82,7 +81,6 @@ function DropdownMenu({
     >
       {items.map((item) => {
         const isSubItemActive = location.pathname === item.href;
-        const textColor = darkMode ? "#ffffff" : ACCENT;
 
         return (
           <Link
@@ -92,11 +90,9 @@ function DropdownMenu({
               display: "block",
               padding: "10px 22px",
               fontSize: "14px",
-              color: textColor,
+              color: "#ffffff",
               backgroundColor: isSubItemActive
-                ? darkMode
-                  ? "rgba(255,255,255,0.12)"
-                  : "rgba(75, 30, 86, 0.08)"
+                ? "rgba(255,255,255,0.12)"
                 : "transparent",
               textDecoration: "none",
               fontFamily: FONT_FAMILY,
@@ -114,13 +110,7 @@ function DropdownMenu({
   );
 }
 
-function NavItemComponent({
-  item,
-  darkMode,
-}: {
-  item: NavItem;
-  darkMode: boolean;
-}) {
+function NavItemComponent({ item }: { item: NavItem }) {
   const [open, setOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -138,7 +128,7 @@ function NavItemComponent({
     ? item.dropdown.some((subItem) => location.pathname === subItem.href)
     : location.pathname === item.href;
 
-  const baseColor = darkMode ? "#ffffff" : ACCENT;
+  const baseColor = "#ffffff";
   const currentOpacity = isActive || isHovered ? 1 : 0.82;
 
   if (item.dropdown) {
@@ -171,7 +161,7 @@ function NavItemComponent({
           {item.label}
         </button>
 
-        <DropdownMenu items={item.dropdown} open={open} darkMode={darkMode} />
+        <DropdownMenu items={item.dropdown} open={open} />
       </div>
     );
   }
@@ -209,16 +199,14 @@ function NavItemComponent({
 
 function MobileNavItem({
   item,
-  darkMode,
   onNavigate,
 }: {
   item: NavItem;
-  darkMode: boolean;
   onNavigate: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const location = useLocation();
-  const textColor = darkMode ? "#ffffff" : ACCENT;
+  const textColor = "#ffffff";
 
   const isActive = item.dropdown
     ? item.dropdown.some((subItem) => location.pathname === subItem.href)
@@ -228,9 +216,7 @@ function MobileNavItem({
     return (
       <div
         style={{
-          borderBottom: darkMode
-            ? "1px solid rgba(255,255,255,0.1)"
-            : "1px solid #f2ecf9",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
         }}
       >
         <button
@@ -315,9 +301,7 @@ function MobileNavItem({
         fontWeight: isActive ? 600 : 500,
         textDecoration: "none",
         fontFamily: FONT_FAMILY,
-        borderBottom: darkMode
-          ? "1px solid rgba(255,255,255,0.1)"
-          : "1px solid #f2ecf9",
+        borderBottom: "1px solid rgba(255,255,255,0.1)",
       }}
     >
       {item.label}
@@ -326,8 +310,8 @@ function MobileNavItem({
 }
 
 /** Simple three-line / X hamburger icon, animated between states. */
-function HamburgerIcon({ open, darkMode }: { open: boolean; darkMode: boolean }) {
-  const color = darkMode ? "#ffffff" : ACCENT;
+function HamburgerIcon({ open }: { open: boolean }) {
+  const color = "#ffffff";
   const barStyle: React.CSSProperties = {
     display: "block",
     height: "2px",
@@ -435,22 +419,6 @@ export default function EllevationNavbar() {
 
   return (
     <>
-      {/* If "Aster" is a custom/licensed font, load it here via @font-face
-          instead of a Google Fonts link. Example:
-      <style>{`
-        @font-face {
-          font-family: 'Aster';
-          src: url('/fonts/Aster-Regular.woff2') format('woff2');
-          font-weight: 400;
-        }
-        @font-face {
-          font-family: 'Aster';
-          src: url('/fonts/Aster-SemiBold.woff2') format('woff2');
-          font-weight: 600;
-        }
-      `}</style>
-      */}
-
       <div
         ref={wrapperRef}
         style={{ height: `${navHeight}px`, position: "relative" }}
@@ -462,8 +430,8 @@ export default function EllevationNavbar() {
             gap: isMobile ? "12px" : "24px",
             padding: isMobile ? "0 16px" : "0 24px",
             height: `${navHeight}px`,
-            background: darkMode ? DARK_BG : "#ffffff",
-            borderBottom: darkMode ? "1px solid rgba(255,255,255,0.12)" : "1px solid #f2ecf9",
+            background: NAV_BG,
+            borderBottom: "1px solid rgba(255,255,255,0.12)",
             boxShadow: "none",
             backdropFilter: "none",
             position: isFixed ? "fixed" : "absolute",
@@ -501,7 +469,7 @@ export default function EllevationNavbar() {
               }}
             >
               <img
-                src={darkMode ? darkModeLogo : logo}
+                src={darkModeLogo}
                 alt="Ellevation Logo"
                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
@@ -524,7 +492,7 @@ export default function EllevationNavbar() {
                 }}
               >
                 {navItems.map((item) => (
-                  <NavItemComponent key={item.label} item={item} darkMode={darkMode} />
+                  <NavItemComponent key={item.label} item={item} />
                 ))}
               </div>
 
@@ -536,26 +504,22 @@ export default function EllevationNavbar() {
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
-                    background: darkMode ? "rgba(255,255,255,0.08)" : "#ffffff",
-                    border: darkMode
-                      ? "1.5px solid rgba(255,255,255,0.3)"
-                      : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                    background: "rgba(255,255,255,0.08)",
+                    border: "1.5px solid rgba(255,255,255,0.3)",
                     borderRadius: "20px",
                     padding: "6px 14px",
                     cursor: "pointer",
                     fontSize: "13px",
-                    color: darkMode ? "#ffffff" : ACCENT,
+                    color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 500,
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = darkMode ? "#ffffff" : ACCENT;
+                    e.currentTarget.style.borderColor = "#ffffff";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = darkMode
-                      ? "rgba(255,255,255,0.3)"
-                      : "rgba(75, 30, 86, 0.35)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
                   }}
                 >
                   {darkMode ? "Light" : "Dark"}
@@ -567,15 +531,13 @@ export default function EllevationNavbar() {
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
-                    background: darkMode ? "transparent" : "#fff",
-                    border: darkMode
-                      ? "1.5px solid rgba(255,255,255,0.3)"
-                      : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                    background: "transparent",
+                    border: "1.5px solid rgba(255,255,255,0.3)",
                     borderRadius: "20px",
                     padding: "6px 16px",
                     cursor: "pointer",
                     fontSize: "13px",
-                    color: darkMode ? "#ffffff" : ACCENT,
+                    color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 500,
                     textDecoration: "none",
@@ -583,12 +545,10 @@ export default function EllevationNavbar() {
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = darkMode ? "#ffffff" : ACCENT;
+                    e.currentTarget.style.borderColor = "#ffffff";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = darkMode
-                      ? "rgba(255,255,255,0.3)"
-                      : "rgba(75, 30, 86, 0.35)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
                   }}
                 >
                   Get Listed
@@ -601,13 +561,13 @@ export default function EllevationNavbar() {
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
-                    background: darkMode ? "#ffffff" : ACCENT,
+                    background: JOIN_COLOR,
                     border: "none",
                     borderRadius: "20px",
                     padding: "8px 22px",
                     cursor: "pointer",
                     fontSize: "13px",
-                    color: darkMode ? ACCENT : "#ffffff",
+                    color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 600,
                     textDecoration: "none",
@@ -644,10 +604,8 @@ export default function EllevationNavbar() {
                   justifyContent: "center",
                   width: "36px",
                   height: "36px",
-                  background: darkMode ? "rgba(255,255,255,0.08)" : "#ffffff",
-                  border: darkMode
-                    ? "1.5px solid rgba(255,255,255,0.3)"
-                    : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1.5px solid rgba(255,255,255,0.3)",
                   borderRadius: "50%",
                   cursor: "pointer",
                   fontSize: "15px",
@@ -671,7 +629,7 @@ export default function EllevationNavbar() {
                   cursor: "pointer",
                 }}
               >
-                <HamburgerIcon open={menuOpen} darkMode={darkMode} />
+                <HamburgerIcon open={menuOpen} />
               </button>
             </div>
           )}
@@ -701,11 +659,9 @@ export default function EllevationNavbar() {
                 right: 0,
                 maxHeight: menuOpen ? "calc(100vh - " + navHeight + "px)" : "0px",
                 overflowY: "auto",
-                background: darkMode ? DARK_BG : "#ffffff",
+                background: NAV_BG,
                 borderBottom: menuOpen
-                  ? darkMode
-                    ? "1px solid rgba(255,255,255,0.12)"
-                    : "1px solid #f2ecf9"
+                  ? "1px solid rgba(255,255,255,0.12)"
                   : "none",
                 boxShadow: menuOpen ? "0 16px 32px rgba(0,0,0,0.15)" : "none",
                 transition: "max-height 0.28s ease",
@@ -717,7 +673,6 @@ export default function EllevationNavbar() {
                 <MobileNavItem
                   key={item.label}
                   item={item}
-                  darkMode={darkMode}
                   onNavigate={() => setMenuOpen(false)}
                 />
               ))}
@@ -737,14 +692,12 @@ export default function EllevationNavbar() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    background: darkMode ? "transparent" : "#fff",
-                    border: darkMode
-                      ? "1.5px solid rgba(255,255,255,0.3)"
-                      : `1.5px solid rgba(75, 30, 86, 0.35)`,
+                    background: "transparent",
+                    border: "1.5px solid rgba(255,255,255,0.3)",
                     borderRadius: "24px",
                     padding: "12px 16px",
                     fontSize: "15px",
-                    color: darkMode ? "#ffffff" : ACCENT,
+                    color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 500,
                     textDecoration: "none",
@@ -760,12 +713,12 @@ export default function EllevationNavbar() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    background: darkMode ? "#ffffff" : ACCENT,
+                    background: JOIN_COLOR,
                     border: "none",
                     borderRadius: "24px",
                     padding: "13px 16px",
                     fontSize: "15px",
-                    color: darkMode ? ACCENT : "#ffffff",
+                    color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 600,
                     textDecoration: "none",

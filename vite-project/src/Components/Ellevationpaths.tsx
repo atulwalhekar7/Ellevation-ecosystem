@@ -208,9 +208,12 @@ function EllevationHeroSection() {
   }, []);
 
   return (
+  
     <section
       style={{
-        background: darkMode ? "linear-gradient(180deg, #0d0614 0%, #160d22 100%)" : HERO_CREAM_50,
+        background: darkMode
+          ? "linear-gradient(180deg, #0d0614 0%, #160d22 100%)"
+          : "#ffffff",
         fontFamily: HERO_BODY_FONT,
         overflow: "hidden",
         transition: "background 0.25s ease",
@@ -505,8 +508,8 @@ export default function EllevationPaths() {
         }
 
         .paths-section {
-          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
-        }
+    background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
+            }
 
         .paths-header-title {
           font-family: 'Astrid Regular', serif;

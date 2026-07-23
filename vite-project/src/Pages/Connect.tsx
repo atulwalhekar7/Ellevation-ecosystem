@@ -495,7 +495,7 @@ function CommonEnquiryForm() {
   };
 
   return (
-    <section className="enquiry-form-section" style={{ background: "#fffaed", padding: "80px 24px 100px" }}>
+    <section className="enquiry-form-section" style={{ background: "#aeaad5", padding: "80px 24px 100px" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         
         {/* Section Heading Typography Grid */}

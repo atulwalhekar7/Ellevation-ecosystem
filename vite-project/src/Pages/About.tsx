@@ -534,7 +534,7 @@ function FounderSection() {
     <section
       className="about-founder"
       style={{
-        background: "#FFFAED",
+        background: "#ffffff",
         padding: "80px 24px",
         borderBottom: "1px solid #f2ecf9",
       }}
@@ -921,7 +921,7 @@ function WhoWeServeSection() {
   return (
     <section
       className="about-who-we-serve"
-      style={{ background: "#FFFAED", padding: "80px 24px" }}
+      style={{ background: "#ffffff", padding: "80px 24px" }}
     >
       <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
