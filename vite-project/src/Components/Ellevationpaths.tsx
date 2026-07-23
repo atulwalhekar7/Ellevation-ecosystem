@@ -443,7 +443,7 @@ function EllevationHeroSection() {
             style={{ background: "#fff", border: "1px solid rgba(75, 30, 86, 0.12)", borderRadius: "18px", padding: "26px 22px" }}
           >
             <div style={{ width: 40, height: 40, color: HERO_PLUM_800, marginBottom: "16px" }} className="ellevation-audience-icon">{a.icon}</div>
-            <div style={{ fontFamily: HERO_DISPLAY_FONT, fontSize: "1.05rem", color: HERO_INK_900, marginBottom: "8px", fontWeight: "700px"}} className="ellevation-audience-card-label">
+            <div style={{ fontFamily: HERO_BODY_FONT, fontSize: "1.05rem", color: HERO_INK_900, marginBottom: "8px", fontWeight: "700px"}} className="ellevation-audience-card-label">
               {a.label}
             </div>
             <div style={{ fontSize: "0.9rem", lineHeight: 1.55, color: HERO_INK_600 }} className="ellevation-audience-card-copy">{a.copy}</div>
