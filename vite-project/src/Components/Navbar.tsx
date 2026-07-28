@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
 
 const ACCENT = "#4B1E56";
 const NAV_BG = "#4B1E56";   // navbar background — same in both modes now
-const JOIN_COLOR = "#C81E6B"; // Join button — same in both modes now
+const JOIN_COLOR = "#D7B264"; // Join button — same in both modes now
 const FONT_FAMILY = "'Aster', sans-serif";
 
 // Breakpoint below which we switch to the hamburger / drawer layout.

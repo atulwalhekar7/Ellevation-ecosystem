@@ -132,7 +132,7 @@ export default function EllevationFooter() {
           transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
         .social-btn:hover {
-          background: #D7238F;
+          background: #D7B264;
           border-color: #6B3179;
           color: #ffffff;
           transform: translateY(-3px);
@@ -145,7 +145,7 @@ export default function EllevationFooter() {
           gap: 8px;
           padding: 14px 28px;
           border-radius: 14px;
-          background: #D7238F;
+          background: #D7B264;
           border: none;
           color: #ffffff;
           font-family: 'Montserrat', sans-serif;
@@ -169,7 +169,7 @@ export default function EllevationFooter() {
           gap: 8px;
           padding: 14px 28px;
           border-radius: 14px;
-          background: #D7238F;
+          background: #D7B264;
           border: 1px solid rgba(255, 255, 255, 0.18);
           color: #ffffff;
           font-family: 'Montserrat', sans-serif;
@@ -278,8 +278,7 @@ export default function EllevationFooter() {
                 marginBottom: "36px",
               }}
             >
-              A premium community ecosystem for personal transformation, professional
-              pathways, strategic alliances, and impact-centered belonging.
+             Ellevation is a community-led ecosystem creating pathways into wellbeing, leadership and opportunity. We empower culturally and linguistically diverse (CALD) communities to grow, lead and thrive while staying connected to their identity, culture and lived experience.
             </p>
 
             <div className="footer-brand-actions" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
@@ -310,7 +309,7 @@ export default function EllevationFooter() {
                     fontFamily: "'Montserrat', sans-serif",
                     fontWeight: 700,
                     fontSize: "12px",
-                    color: "#c9a3d9",
+                    color: "#D7B264",
                     marginBottom: "24px",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase"

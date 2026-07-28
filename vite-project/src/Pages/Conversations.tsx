@@ -194,7 +194,7 @@ Share your personal or professional journey through video, audio, writing, or di
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 padding: "14px 28px", borderRadius: 14,
-                background: "#D7238F",
+                background: "#D7B264",
                 color: "#fff", fontFamily: "'Montserrat',sans-serif",
                 fontWeight: 600, fontSize: 13, border: "none", cursor: "pointer",
                 boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
@@ -210,7 +210,7 @@ Share your personal or professional journey through video, audio, writing, or di
               style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 padding: "14px 28px", borderRadius: 14,
-                background: "#D7238F",
+                background: "#D7B264",
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
                 border: "1.5px solid rgba(255,255,255,0.3)",
@@ -236,7 +236,7 @@ function VisionSection() {
   const h = useInView(0.15);
 
   return (
-    <section className="about-vision" style={{ background: "#AEAAD5", padding: "40px 24px 100px", textAlign: "center" }}>
+    <section className="about-vision" style={{ background: "#linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px", textAlign: "center" }}>
       <div style={{ maxWidth: 740, margin: "0 auto" }}>
         <div ref={h.ref} style={fade(h.inView, 0)}>
           <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
@@ -385,7 +385,7 @@ function FormatCard({ item }: { item: typeof submissionFormats[0] }) {
 
 function FormatsSection() {
   return (
-    <section className="about-who-we-serve" style={{ background: "#AEAAD5", padding: "40px 24px 100px" }}>
+    <section className="about-who-we-serve" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
         <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Submission Modalities</p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>We Welcome Stories in Many Forms</h2>
@@ -728,7 +728,7 @@ I give Ms. Ellevation permission to share my story and any attached media or lin
                 type="submit"
                 style={{
                   width: "100%", padding: "15px 26px", borderRadius: 14, border: "none",
-                  background: "#D7238F",
+                  background: "#D7B264",
                   color: "#fff", fontFamily: "'Montserrat',sans-serif",
                   fontWeight: 700, fontSize: 14, letterSpacing: "0.04em", cursor: "pointer",
                   boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
@@ -757,7 +757,7 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
         padding: "14px 28px",
         borderRadius: 14,
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
-        background:"#D7238F",
+        background:"#D7B264",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
@@ -782,7 +782,7 @@ function CTASection() {
     <section 
       className="about-cta"
       style={{ 
-        background: "linear-gradient(180deg, #2a163a 0%, #160d22 100%)", 
+        background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", 
         padding: "100px 24px", 
         textAlign: "center", 
         position: "relative", 
@@ -799,7 +799,7 @@ function CTASection() {
             fontFamily: "'Astrid Regular', serif", 
             fontSize: "clamp(38px,6vw,60px)", 
             fontWeight: 700, 
-            color: "#ffffff", 
+            color: "#4B1E56", 
             margin: "0 0 40px" 
           }}
         >

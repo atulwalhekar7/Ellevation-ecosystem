@@ -82,73 +82,6 @@ const HERO_DISPLAY_FONT = "'Astrid Regular', serif";
 const HERO_BODY_FONT =
   "'Montserrat', sans-serif";
 
-type Audience = {
-  id: string;
-  label: string;
-  copy: string;
-  icon: React.ReactElement;
-};
-
-
-const audiences: Audience[] = [
-  {
-    id: "families",
-    label: "Individuals & Families",
-    copy: "A welcoming front door for anyone starting their journey with Ellevation.",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="13" r="5" stroke="currentColor" strokeWidth="2" />
-        <circle cx="27" cy="16" r="4" stroke="currentColor" strokeWidth="2" />
-        <path d="M6 33c0-6 4-10 8-10s8 4 8 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M22 33c0-4.5 2.8-8 5.5-8s5.5 3.5 5.5 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    id: "professionals",
-    label: "Professionals & Leaders",
-    copy: "Tools, conversations and connections that grow with your career.",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="7" y="15" width="26" height="18" rx="3" stroke="currentColor" strokeWidth="2" />
-        <path d="M15 15v-3a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v3" stroke="currentColor" strokeWidth="2" />
-        <path d="M7 22h26" stroke="currentColor" strokeWidth="2" />
-      </svg>
-    ),
-  },
-  {
-    id: "businesses",
-    label: "Businesses & Brands",
-    copy: "Partnership and visibility across a network built on trust.",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 33V11l11-5 11 5v22" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-        <path d="M9 33h22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <path d="M16 33v-7h8v7" stroke="currentColor" strokeWidth="2" />
-        <circle cx="20" cy="17" r="2" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    id: "community",
-    label: "Community Organisations",
-    copy: "Shared infrastructure for the groups doing the work on the ground.",
-    icon: (
-      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="9" r="3.2" stroke="currentColor" strokeWidth="2" />
-        <circle cx="9" cy="24" r="3.2" stroke="currentColor" strokeWidth="2" />
-        <circle cx="31" cy="24" r="3.2" stroke="currentColor" strokeWidth="2" />
-        <circle cx="20" cy="33" r="3.2" stroke="currentColor" strokeWidth="2" />
-        <path
-          d="M20 12.2V29.8M11.6 22.4l6.8 4.4M28.4 22.4l-6.8 4.4M12 22l6-9M28 22l-6-9"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-      </svg>
-    ),
-  },
-];
-
 // ── Hero gallery photos — these are free placeholder photo URLs (Lorem
 // Picsum) so the layout renders immediately. Swap each one for your real
 // community/family/professional photos when ready — just replace the URL
@@ -228,13 +161,6 @@ function EllevationHeroSection() {
           color: #ffffff !important;
           border-color: rgba(255,255,255,0.3) !important;
         }
-        [data-theme="dark"] .ellevation-audience-card {
-          background: rgba(75, 30, 86, 0.35) !important;
-          border-color: rgba(255,255,255,0.12) !important;
-        }
-        [data-theme="dark"] .ellevation-audience-card-label { color: #ffffff !important; }
-        [data-theme="dark"] .ellevation-audience-card-copy { color: #cbd5e1 !important; }
-        [data-theme="dark"] .ellevation-audience-icon { color: #d9b8e8 !important; }
 
         .ellevation-hero-grid {
           display: grid;
@@ -319,30 +245,10 @@ function EllevationHeroSection() {
           background: rgba(75, 30, 86, 0.06);
           border-color: ${HERO_PLUM_800};
         }
-        .ellevation-audience-strip {
-          max-width: 1240px;
-          margin: 0 auto;
-          padding: 0 32px 96px;
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
-        }
-        .ellevation-audience-card {
-          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-        }
-        .ellevation-audience-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 16px 32px rgba(45, 11, 54, 0.1);
-          border-color: rgba(75, 30, 86, 0.25);
-        }
         @media (max-width: 920px) {
           .ellevation-hero-grid { grid-template-columns: 1fr; padding: 64px 24px 40px; text-align: center; }
           .ellevation-hero-visual { order: -1; }
           .ellevation-hero-actions { justify-content: center; }
-          .ellevation-audience-strip { grid-template-columns: 1fr 1fr; padding: 0 24px 64px; }
-        }
-        @media (max-width: 560px) {
-          .ellevation-audience-strip { grid-template-columns: 1fr; }
         }
         @media (prefers-reduced-motion: reduce) {
           .ellevation-hero-copy, .ellevation-hero-visual {
@@ -401,7 +307,7 @@ function EllevationHeroSection() {
               to="/get-involved/join"
               className="ellevation-cta-primary"
               style={{
-                background: "#D7238F",
+                background: "#D7B264",
                 color: "#fff",
                 textDecoration: "none",
                 padding: "14px 30px",
@@ -416,7 +322,7 @@ function EllevationHeroSection() {
               to="/hub"
               className="ellevation-cta-secondary"
               style={{
-                background: "#D7238F",
+                background: "#D7B264",
                  color: "#fff",
                 textDecoration: "none",
                 padding: "14px 30px",
@@ -434,22 +340,6 @@ function EllevationHeroSection() {
         <div className={`ellevation-hero-visual${visible ? " visible" : ""}`}>
           <HeroImageScroller />
         </div>
-      </div>
-
-      <div className="ellevation-audience-strip">
-        {audiences.map((a) => (
-          <div
-            key={a.id}
-            className="ellevation-audience-card"
-            style={{ background: "#fff", border: "1px solid rgba(75, 30, 86, 0.12)", borderRadius: "18px", padding: "26px 22px" }}
-          >
-            <div style={{ width: 40, height: 40, color: HERO_PLUM_800, marginBottom: "16px" }} className="ellevation-audience-icon">{a.icon}</div>
-            <div style={{ fontFamily: HERO_DISPLAY_FONT, fontSize: "1.05rem", color: HERO_INK_900, marginBottom: "8px", fontWeight: "700px"}} className="ellevation-audience-card-label">
-              {a.label}
-            </div>
-            <div style={{ fontSize: "0.9rem", lineHeight: 1.55, color: HERO_INK_600 }} className="ellevation-audience-card-copy">{a.copy}</div>
-          </div>
-        ))}
       </div>
     </section>
   );
@@ -693,7 +583,7 @@ export default function EllevationPaths() {
           font-weight: 600;
           letter-spacing: 0.05em;
           color: #ffffff;
-          background: #D7238F;
+          background: #D7B264;
           border: none;
           border-radius: 14px;
           padding: 14px 28px;
@@ -767,7 +657,7 @@ export default function EllevationPaths() {
           color: #e2e8f0;
         }
         [data-theme="dark"] .cta-btn {
-          background: #D7238F;
+          background: #D7B264;
         }
         [data-theme="dark"] .cta-btn:hover {
           background: #6B3179;

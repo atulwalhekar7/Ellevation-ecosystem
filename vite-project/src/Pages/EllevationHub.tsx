@@ -80,13 +80,51 @@ const HUB_PROGRAMS = [
   { title: "Community Development",   desc: "Grassroots initiatives building safer, stronger, more connected neighborhoods.", icon: "✿" },
 ];
 
+/* ── Opportunity "type" overview cards (compact) — now includes Professional Development ── */
 const OPPORTUNITY_TYPES = [
-  { title: "Jobs & Work",              desc: "Curated roles from partner organizations and community businesses.",           icon: "◈" },
-  { title: "Collaborations",           desc: "Project-based partnerships between members, businesses, and organizations.",   icon: "✿" },
-  { title: "Referrals & Connections",  desc: "Warm introductions across our verified professional network.",                 icon: "✦" },
-  { title: "Speaking & Visibility",    desc: "Panels, features, and media opportunities to raise your profile.",             icon: "◎" },
-  { title: "Grants & Funding",         desc: "Funding pathways for community initiatives and growing businesses.",           icon: "❖" },
-  { title: "Member-Only Opportunities",desc: "Early access and exclusive openings shared first with Hub members.",           icon: "☖" },
+  { title: "Jobs & Work",               desc: "Curated roles from partner organizations and community businesses.",           icon: "◈" },
+  { title: "Collaborations",            desc: "Project-based partnerships between members, businesses, and organizations.",   icon: "✿" },
+  { title: "Professional Development",  desc: "Workshops, certifications, and skill-building sessions to sharpen your edge.", icon: "◑" },
+  { title: "Referrals & Connections",   desc: "Warm introductions across our verified professional network.",                 icon: "✦" },
+  { title: "Speaking & Visibility",     desc: "Panels, features, and media opportunities to raise your profile.",             icon: "◎" },
+  { title: "Grants & Funding",          desc: "Funding pathways for community initiatives and growing businesses.",           icon: "❖" },
+  { title: "Member-Only Opportunities", desc: "Early access and exclusive openings shared first with Hub members.",           icon: "☖" },
+];
+
+/* ── Live "Current Openings" board — filterable by category ── */
+const OPPORTUNITY_CATEGORIES = [
+  "All Openings",
+  "Jobs & Work",
+  "Collaborations",
+  "Professional Development",
+  "Grants & Funding",
+  "Speaking & Visibility",
+] as const;
+type OpportunityCategory = typeof OPPORTUNITY_CATEGORIES[number];
+
+type OpportunityListing = {
+  title: string;
+  org: string;
+  category: Exclude<OpportunityCategory, "All Openings">;
+  type: string;
+  location: string;
+  deadline: string;
+  desc: string;
+  applyUrl: string;
+};
+
+// Demo listings only — final Hub opportunity board to be confirmed by Hannah.
+const OPPORTUNITY_LISTINGS: OpportunityListing[] = [
+  { title: "Community Engagement Coordinator", org: "Ellevation Hub", category: "Jobs & Work", type: "Part-time", location: "Perth, WA", deadline: "Rolling", desc: "Coordinate community events and directory partnerships across Perth's CALD communities.", applyUrl: "#" },
+  { title: "Junior Graphic Designer", org: "Partner Business — Creative Studio", category: "Jobs & Work", type: "Contract", location: "Remote / Perth", deadline: "15 Sep 2025", desc: "Support brand and social content for a directory member's growing creative studio.", applyUrl: "#" },
+  { title: "Youth Mentorship Co-Facilitator", org: "Ellevation Hub", category: "Collaborations", type: "Volunteer", location: "Joondalup, WA", deadline: "Rolling", desc: "Partner with our Youth Development program to co-facilitate mentorship circles.", applyUrl: "#" },
+  { title: "Directory Cross-Promotion Partnership", org: "Open Call", category: "Collaborations", type: "Partnership", location: "Perth, WA", deadline: "30 Sep 2025", desc: "Two or more directory businesses team up on a joint offer or community activation.", applyUrl: "#" },
+  { title: "Leadership & Confidence Workshop Series", org: "Ellevation Hub", category: "Professional Development", type: "Workshop", location: "Perth CBD, WA", deadline: "Next intake: Oct 2025", desc: "A 4-week series building executive presence, negotiation, and public speaking skills.", applyUrl: "#" },
+  { title: "Small Business Certification Bootcamp", org: "Partner Provider", category: "Professional Development", type: "Certification", location: "Online", deadline: "Enrolling now", desc: "Get certified in business fundamentals with subsidised access for Hub members.", applyUrl: "#" },
+  { title: "Community Micro-Grant Fund", org: "Ellevation Hub", category: "Grants & Funding", type: "Grant", location: "Perth, WA", deadline: "1 Nov 2025", desc: "Up to $2,000 in seed funding for grassroots community and youth initiatives.", applyUrl: "#" },
+  { title: "Business Growth Grant", org: "Corporate Partner", category: "Grants & Funding", type: "Grant", location: "WA-wide", deadline: "20 Oct 2025", desc: "Funding support for directory-listed businesses ready to scale their operations.", applyUrl: "#" },
+  { title: "Panel Speaker — Rise Summit 2025", org: "Ellevation Hub", category: "Speaking & Visibility", type: "Speaking", location: "Perth, WA", deadline: "10 Sep 2025", desc: "Share your story on a panel at our flagship leadership summit in June.", applyUrl: "#" },
+  { title: "Member Spotlight Feature", org: "Ellevation Hub", category: "Speaking & Visibility", type: "Feature", location: "Digital", deadline: "Rolling", desc: "Get featured across our newsletter and social channels as a community spotlight.", applyUrl: "#" },
 ];
 
 const EVENT_CATEGORIES = [
@@ -224,7 +262,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
-  const routerNavigate = useNavigate(); // ✅ react-router navigation (same tab)
+  const rowRef = useRef<HTMLDivElement>(null);
+  const routerNavigate = useNavigate();
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 20);
@@ -255,11 +294,41 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
     };
   }, []);
 
+  // ✅ The navbar is `position: fixed` (see .ms-nav-row in CSS below), which
+  // takes it out of normal document flow. That means page content would
+  // otherwise render underneath it. To prevent that, measure the navbar's
+  // real rendered height — including the expanded mobile dropdown — and
+  // publish it as a CSS variable (--nav-height) that the page content uses
+  // as top padding. We re-measure on resize and whenever the mobile menu
+  // opens/closes or the active page changes, since height can shift.
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el) return;
+
+    const setVar = () => {
+      document.documentElement.style.setProperty("--nav-height", `${el.offsetHeight}px`);
+    };
+
+    setVar();
+
+    const ro = new ResizeObserver(setVar);
+    ro.observe(el);
+    window.addEventListener("resize", setVar);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", setVar);
+    };
+  }, [menuOpen, current]);
+
   const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
   const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
 
   return (
-    <div className="ms-nav-row">
+    // ✅ position: fixed (set in CSS via .ms-nav-row) keeps this pinned to the
+    // top of the viewport at all times — including during scroll — on every
+    // Hub page. Paired with the --nav-height offset applied to page content.
+    <div className="ms-nav-row" ref={rowRef}>
       <nav className={`ms-nav ${scrolled ? "ms-nav-scrolled" : ""}`}>
         {/* Back to Home */}
         <button onClick={goHome} className="ns-back-home" aria-label="Back to home">
@@ -524,7 +593,6 @@ function DirectorySection({ nav }: { nav: (p: Page) => void }) {
 function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
   return (
     <section className="hub-programs-section" style={pg.section}>
-      <div className="hub-programs-bg" style={pg.bg} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
         <p className="hub-programs-eye" style={pg.eye}>OUR PROGRAMS</p>
         <h2 className="hub-programs-title" style={pg.title}>Development Pathways for Every Corner of the Community</h2>
@@ -543,13 +611,99 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
   );
 }
 
+/* ── Opportunity listing card + quick-apply flow ── */
+function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply: (o: OpportunityListing) => void }) {
+  return (
+    <div className="hub-opportunities-list-card" style={op.listCard}>
+      <div style={op.listBadgeRow}>
+        <span style={op.typeBadge}>{o.type}</span>
+        <span style={op.categoryPill}>{o.category}</span>
+      </div>
+      <p style={op.listMeta}>{o.org} · {o.location}</p>
+      <h3 className="hub-opportunities-list-title" style={op.listTitle}>{o.title}</h3>
+      <p className="hub-opportunities-list-text" style={op.listText}>{o.desc}</p>
+      <div style={op.listFooterRow}>
+        <span style={op.deadline}>Deadline: {o.deadline}</span>
+        <button style={op.applyBtn} onClick={() => onApply(o)}>APPLY NOW</button>
+      </div>
+    </div>
+  );
+}
+
+function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListing; onClose: () => void }) {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  return (
+    <div
+      style={op.modalOverlay}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div className="hub-opportunities-modal" style={op.modalCard}>
+        <button aria-label="Close" onClick={onClose} style={op.modalClose}>✕</button>
+
+        {submitted ? (
+          <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
+            <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+            <h3 style={op.modalTitle}>Application Received</h3>
+            <p style={op.modalSub}>
+              Your expression of interest for <strong>{listing.title}</strong> has been received. Continue below to complete your full application.
+            </p>
+            <a
+              href={listing.applyUrl}
+              target="_blank"
+              rel="noreferrer"
+              style={{ ...op.applyBtn, display: "inline-block", marginTop: 20, textDecoration: "none", textAlign: "center" as const }}
+            >
+              CONTINUE TO FULL APPLICATION →
+            </a>
+          </div>
+        ) : (
+          <>
+            <span style={op.modalEyebrow}>{listing.type} · {listing.location}</span>
+            <h3 className="hub-opportunities-list-title" style={op.modalTitle}>{listing.title}</h3>
+            <p style={op.modalSub}>Quick expression of interest — we'll follow up with next steps for this opportunity.</p>
+
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
+              <input className="form-input" required placeholder="Full Name" />
+              <input className="form-input" type="email" required placeholder="Email Address" />
+              <input className="form-input" type="tel" placeholder="Phone Number (optional)" />
+              <textarea className="form-input" rows={3} style={{ resize: "vertical" }} placeholder="Anything you'd like to share? (optional)" />
+              <button type="submit" style={op.modalSubmitBtn}>SUBMIT EXPRESSION OF INTEREST</button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function OpportunitiesSection({ nav }: { nav: (p: Page) => void }) {
+  const [activeCategory, setActiveCategory] = useState<OpportunityCategory>("All Openings");
+  const [applying, setApplying] = useState<OpportunityListing | null>(null);
+
+  const filteredListings = activeCategory === "All Openings"
+    ? OPPORTUNITY_LISTINGS
+    : OPPORTUNITY_LISTINGS.filter(o => o.category === activeCategory);
+
   return (
     <section className="hub-opportunities-section" style={op.section}>
+      {/* Decorative ambient blurs, matching Events section styling */}
+      <div style={{ position: "absolute", top: "-10%", right: "-6%", width: "420px", height: "420px", borderRadius: "50%", background: "radial-gradient(circle, rgba(75,30,86,0.10) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", bottom: "-8%", left: "-6%", width: "380px", height: "380px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,92,191,0.10) 0%, transparent 70%)", pointerEvents: "none" }} />
+
       <div style={op.container}>
         <p className="hub-opportunities-eye" style={op.eye}>OPPORTUNITY BOARD</p>
         <h2 className="hub-opportunities-title" style={op.title}>Real Pathways. Real Access.</h2>
-        <p className="hub-opportunities-sub" style={op.sub}>From jobs and collaborations to grants and member-only openings, the Hub connects members to opportunities that move their goals forward.</p>
+        <p className="hub-opportunities-sub" style={op.sub}>
+          From jobs and collaborations to grants, professional development, and member-only openings — the Hub connects members to opportunities that move their goals forward.
+        </p>
+
+        {/* Compact overview of opportunity types */}
         <div className="hub-opportunities-grid" style={op.grid}>
           {OPPORTUNITY_TYPES.map(o => (
             <div key={o.title} className="hub-opportunities-card" style={op.card}>
@@ -559,8 +713,46 @@ function OpportunitiesSection({ nav }: { nav: (p: Page) => void }) {
             </div>
           ))}
         </div>
-        <button style={op.ctaBtn} onClick={() => nav("membership")}>ACCESS THE BOARD</button>
+
+        <div style={op.divider} />
+
+        {/* Live, filterable openings board */}
+        <p className="hub-opportunities-eye" style={op.boardEye}>CURRENT OPENINGS</p>
+        <h3 className="hub-opportunities-title" style={op.boardTitle}>Browse What's Open Right Now</h3>
+
+        <div className="hub-opportunities-filter-row" style={op.filterRow}>
+          {OPPORTUNITY_CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`hub-opportunities-filter${activeCategory === cat ? " active" : ""}`}
+              style={{ ...op.filterBtn, ...(activeCategory === cat ? op.filterBtnActive : {}) }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {filteredListings.length === 0 ? (
+          <p className="hub-opportunities-empty" style={{ fontFamily: "'Montserrat',sans-serif", color: "#662369", padding: "24px 0" }}>
+            No open listings in this category right now — check back soon.
+          </p>
+        ) : (
+          <div className="hub-opportunities-listing-grid" style={op.listGrid}>
+            {filteredListings.map((o, i) => (
+              <OpportunityListingCard key={o.title || i} o={o} onApply={setApplying} />
+            ))}
+          </div>
+        )}
+
+        <div style={{ marginTop: 48 }}>
+          <button style={op.ctaBtn} onClick={() => nav("membership")}>BECOME A MEMBER FOR FULL ACCESS</button>
+        </div>
       </div>
+
+      {applying && (
+        <QuickApplicationModal listing={applying} onClose={() => setApplying(null)} />
+      )}
     </section>
   );
 }
@@ -873,7 +1065,7 @@ function CommonEnquiryForm() {
   };
 
   return (
-    <section className="enquiry-form-section" style={{ background: "#f6f3fa", padding: "80px 24px 100px" }}>
+    <section className="enquiry-form-section" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px 100px" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
 
         <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
@@ -997,7 +1189,7 @@ function CommonEnquiryForm() {
                     padding: "14px 36px",
                     borderRadius: 999,
                     border: "none",
-                    background: "#D7238F",
+                    background: "#D7B264",
                     color: "#fff",
                     fontFamily: "'Montserrat',sans-serif",
                     fontSize: 13,
@@ -1052,8 +1244,8 @@ const hp: Record<string, React.CSSProperties> = {
   headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.4rem,4vw,3.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
   sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
   btnRow: { display: "flex", gap: 14, flexWrap: "wrap" as const },
-  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
-  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7238F", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
+  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
+  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
   card: { background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderRadius: 24, padding: "32px", boxShadow: "0 8px 48px rgba(26,10,46,0.08)", border: "1px solid rgba(255,255,255,0.7)" },
   cardTop: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 },
   cardIcon: { width: 48, height: 48, borderRadius: "50%", background: "#662369", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" },
@@ -1064,8 +1256,9 @@ const hp: Record<string, React.CSSProperties> = {
   check: { color: "#4B1E56", fontWeight: 700 },
 };
 
+/* ── About: now uses the shared gradient instead of flat "#aeaad5" ── */
 const ab: Record<string, React.CSSProperties> = {
-  section: { padding: "100px 48px", background: "#AEAAD5" },
+  section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
   eye: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
   title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5vw, 3.2rem)", color: "#1a0a2e", marginBottom: 24, lineHeight: 1.1 },
@@ -1093,45 +1286,80 @@ const mb: Record<string, React.CSSProperties> = {
   purposeDesc: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", color: "#554866", marginTop: 2 },
 };
 
+/* ── Directory: now uses the shared gradient; cards go solid white for contrast ── */
 const dr: Record<string, React.CSSProperties> = {
-  section: { padding: "100px 48px", background: "#aeaad5" },
+  section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
   eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
   title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
   sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginBottom: 48 },
-  card: { padding: 28, background: "#f6f3fa", borderRadius: 18, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
+  card: { padding: 28, background: "#fff", borderRadius: 18, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
   icon: { fontSize: "1.5rem", color: "#4B1E56", marginBottom: 12 },
   cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.15rem", color: "#1a0a2e", marginBottom: 6 },
   cardCount: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.06em", color: "#8a5a97" },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
 };
 
 const pg: Record<string, React.CSSProperties> = {
-  section: { position: "relative", padding: "100px 48px", overflow: "hidden", textAlign: "center" },
-  bg: { position: "absolute", inset: 0, background: "linear-gradient(180deg, #2a163a 0%, #160d22 100%)", zIndex: 0 },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#c9a3d9", letterSpacing: "0.2em", marginBottom: 16, position: "relative", zIndex: 1 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2rem,4vw,2.8rem)", color: "#ffffff", lineHeight: 1.25, maxWidth: 760, margin: "0 auto 48px", position: "relative", zIndex: 1 },
+  section: { position: "relative", padding: "100px 48px", overflow: "hidden", textAlign: "center", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, position: "relative", zIndex: 1 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2rem,4vw,2.8rem)", color: "#4B1E56", lineHeight: 1.25, maxWidth: 760, margin: "0 auto 48px", position: "relative", zIndex: 1 },
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 1000, margin: "0 auto 40px" },
-  card: { padding: 32, background: "rgba(255,255,255,0.05)", borderRadius: 16, border: "1px solid rgba(255,255,255,0.1)", textAlign: "left" },
-  icon: { fontSize: "1.6rem", color: "#fff", marginBottom: 14 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", color: "#fff", marginBottom: 10 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.6 },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "2px solid #D7238F", background: "#D7238F", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1 },
+  card: { padding: 32, background: "#fff", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left", boxShadow: "0 4px 16px rgba(124,92,191,0.06)" },
+  icon: { fontSize: "1.6rem", color: "#4B1E56", marginBottom: 14 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", color: "#1a0a2e", marginBottom: 10 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6 },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1, boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
 };
 
+/* ── Opportunities: revamped — compact type cards + live filterable board ── */
 const op: Record<string, React.CSSProperties> = {
-  section: { padding: "100px 48px", background: "#aeaad5" },
-  container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
+  section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", position: "relative", overflow: "hidden" },
+  container: { maxWidth: 1140, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 },
   eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
   title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 18, marginBottom: 48 },
-  card: { padding: "26px 22px", background: "#fff", borderRadius: 16, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
-  icon: { fontSize: "1.4rem", color: "#4B1E56", marginBottom: 10 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.1rem", color: "#1a0a2e", marginBottom: 6 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "#554866", lineHeight: 1.55 },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 40px" },
+
+  // Compact "type" overview cards
+  grid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 60 },
+  card: { padding: "18px 16px", background: "#fff", borderRadius: 14, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)", transition: "all 0.2s ease" },
+  icon: { fontSize: "1.15rem", color: "#4B1E56", marginBottom: 8 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "0.96rem", color: "#1a0a2e", marginBottom: 4 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.76rem", color: "#554866", lineHeight: 1.5 },
+
+  divider: { height: 1, background: "rgba(75,30,86,0.14)", margin: "0 0 40px", maxWidth: 1100, marginLeft: "auto", marginRight: "auto" },
+
+  boardEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 12 },
+  boardTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(1.8rem,4vw,2.6rem)", color: "#4B1E56", marginBottom: 32 },
+
+  filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
+  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
+  filterBtnActive: { background: "#D7B264", borderColor: "#D7B264", color: "#fff", boxShadow: "0 4px 16px rgba(215,35,143,0.30)" },
+
+  // Live opportunity listing cards
+  listGrid: { display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 20, textAlign: "left" },
+  listCard: { padding: "24px 24px", background: "#fff", borderRadius: 18, border: "1px solid rgba(124, 92, 191, 0.15)", display: "flex", flexDirection: "column", boxShadow: "0 4px 16px rgba(124,92,191,0.05)", transition: "all 0.2s ease" },
+  listBadgeRow: { display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" as const, marginBottom: 12 },
+  typeBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#fff", background: "#1a0a2e", padding: "5px 12px", borderRadius: 100 },
+  categoryPill: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.04em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "4px 11px", borderRadius: 100 },
+  listMeta: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 600, color: "#8a5a97", marginBottom: 6 },
+  listTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.2rem", color: "#1a0a2e", marginBottom: 8 },
+  listText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, marginBottom: 18, flexGrow: 1 },
+  listFooterRow: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: "auto", flexWrap: "wrap" as const },
+  deadline: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 600, color: "#8a5a97" },
+  applyBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", padding: "11px 20px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", whiteSpace: "nowrap" as const },
+
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+
+  // Quick-apply modal
+  modalOverlay: { position: "fixed", inset: 0, background: "rgba(26,10,46,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
+  modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(26,10,46,0.35)" },
+  modalClose: { position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "none", background: "#f6f3fa", color: "#554866", fontSize: "0.85rem", cursor: "pointer" },
+  modalEyebrow: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#8a5a97", marginBottom: 10 },
+  modalTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
+  modalSub: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, textAlign: "left" },
+  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: 4 },
 };
 
 const evs: Record<string, React.CSSProperties> = {
@@ -1147,44 +1375,47 @@ const evs: Record<string, React.CSSProperties> = {
   category: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#8a5a97", marginBottom: 8 },
   cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
-  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #D7238F", background: "#D7238F", color: "#fff", cursor: "pointer", marginTop: "auto" },
+  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: "auto" },
   filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
   filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
-  filterBtnActive: { background: "#D7238F", borderColor: "#D7238F", color: "#fff", boxShadow: "0 4px 16px rgba(215,35,143,0.30)" },
+  filterBtnActive: { background: "#D7B264", borderColor: "#D7B264", color: "#fff", boxShadow: "0 4px 16px rgba(215,35,143,0.30)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(26,10,46,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
   modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(26,10,46,0.35)" },
   modalClose: { position: "absolute", top: 16, right: 16, width: 30, height: 30, borderRadius: "50%", border: "none", background: "#f6f3fa", color: "#554866", fontSize: "0.85rem", cursor: "pointer" },
   modalDateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#8a5a97", marginBottom: 10 },
   modalTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
   modalSub: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, textAlign: "left" },
-  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", cursor: "pointer", marginTop: 4 },
-  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#D7238F", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
+  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: 4 },
+  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#D7B264", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
 };
 
+/* ── Membership form section: now pure white; card gets a defining border ── */
 const jp: Record<string, React.CSSProperties> = {
-  formSection: { padding: "100px 24px", background: "#f6f3fa", display: "flex", justifyContent: "center" },
-  card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", width: "100%" },
+  formSection: { padding: "100px 24px", background: "#fff", display: "flex", justifyContent: "center" },
+  card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", border: "1px solid rgba(124, 92, 191, 0.12)", width: "100%" },
   formHeader: { textAlign: "center", marginBottom: 32 },
   formTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "2rem", color: "#1a0a2e", marginBottom: 8 },
   formSub: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", color: "#554866" },
   row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
   input: { width: "100%", padding: "14px 18px", borderRadius: 12, border: "1px solid #ede7f5", background: "#fdf9fc", fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", outline: "none" },
   select: { appearance: "none" as const, cursor: "pointer" },
-  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7238F", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
+  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
 };
+
+/* ── Impact: now uses the shared gradient; stat/CALD cards go solid white ── */
 const st: Record<string, React.CSSProperties> = {
-  section: { padding: "100px 48px", background: "#aeaad5", textAlign: "center" },
+  section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", textAlign: "center" },
   sectionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 14 },
   bannerTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "2.8rem", color: "#4B1E56", marginBottom: 16, maxWidth: 780, marginLeft: "auto", marginRight: "auto", lineHeight: 1.15 },
   lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 680, margin: "0 auto 48px" },
   statsGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20, maxWidth: 900, margin: "0 auto 56px" },
-  statCard: { padding: "24px 16px", background: "#f6f3fa", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)" },
+  statCard: { padding: "24px 16px", background: "#fff", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)" },
   statNum: { fontFamily: "'Astrid Regular',serif", fontSize: "2rem", fontWeight: 600, color: "#1a0a2e", marginBottom: 6 },
   statLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", color: "#554866", letterSpacing: "0.02em" },
   subSection: { maxWidth: 1100, margin: "0 auto 72px" },
   subtitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.9rem", color: "#1a0a2e", marginBottom: 32, lineHeight: 1.2 },
   caldGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 },
-  caldCard: { padding: "24px 20px", background: "#f6f3fa", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left" },
+  caldCard: { padding: "24px 20px", background: "#fff", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left" },
   caldIcon: { fontSize: "1.4rem", color: "#4B1E56", marginBottom: 10 },
   caldTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.05rem", color: "#1a0a2e", marginBottom: 6 },
   caldText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "#554866", lineHeight: 1.55 },
@@ -1194,7 +1425,7 @@ const st: Record<string, React.CSSProperties> = {
   programTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.05rem", color: "#fff", marginBottom: 6 },
   programText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "rgba(255,255,255,0.75)", lineHeight: 1.55 },
   grid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, maxWidth: 900, margin: "0 auto" },
-  card: { padding: 40, border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 24, textAlign: "left" },
+  card: { padding: 40, border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 24, textAlign: "left", background: "#fff" },
   quote: { fontFamily: "'Astrid Regular', serif", fontSize: "1.3rem", fontStyle: "italic", color: "#554866", lineHeight: 1.6, marginBottom: 20 },
   name: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.85rem", fontWeight: 700, color: "#1a0a2e" },
   role: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.75rem", color: "#8a5a97", marginTop: 2 },
@@ -1260,12 +1491,12 @@ export default function EllevationHub() {
 
         /* ═══════════════════════════════════════
            NAVBAR — single centered pill row,
-           matching the Ms. Ellevation navbar exactly
+           FIXED to the viewport at all times
            (back-home button, logo, desktop links,
            hamburger + dropdown on small screens)
            ═══════════════════════════════════════ */
         .ms-nav-row{
-          position:sticky; top:0; z-index:100;
+          position:fixed; top:0; left:0; right:0; z-index:100;
           display:flex; flex-direction:column; align-items:center;
           padding:16px 20px 0;
         }
@@ -1371,6 +1602,7 @@ export default function EllevationHub() {
           box-shadow:0 12px 40px rgba(102,35,105,0.16);
           border:1px solid rgba(102,35,105,0.08);
           overflow-y:auto;
+          max-height:calc(100vh - 100px);
         }
         .ns-mobile-menu .ns-mobile-link{
           display:block;
@@ -1413,6 +1645,7 @@ export default function EllevationHub() {
           .hub-directory-grid{ grid-template-columns:repeat(2,1fr) !important; }
           .hub-programs-grid{ grid-template-columns:1fr !important; }
           .hub-opportunities-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-opportunities-listing-grid{ grid-template-columns:1fr !important; }
           .hub-events-grid{ grid-template-columns:1fr !important; }
           .hub-impact-stats{ grid-template-columns:repeat(2,1fr) !important; }
           .hub-impact-cald-grid{ grid-template-columns:repeat(2,1fr) !important; }
@@ -1604,16 +1837,31 @@ export default function EllevationHub() {
         }
 
         /* Programs section — already dark bg, deepen further */
-        [data-theme="dark"] .hub-programs-bg {
-          background: #0d0614 !important;
-        }
-        [data-theme="dark"] .hub-programs-eye {
-          color: #c9a3d9 !important;
-        }
-        [data-theme="dark"] .hub-programs-card {
-          background: rgba(255,255,255,0.07) !important;
-          border-color: rgba(255,255,255,0.12) !important;
-        }
+       /* Programs section — now light by default, still supports dark mode */
+[data-theme="dark"] .hub-programs-section {
+  background: linear-gradient(180deg, #2a163a 0%, #160d22 100%) !important;
+}
+[data-theme="dark"] .hub-programs-eye {
+  color: #c9a3d9 !important;
+}
+[data-theme="dark"] .hub-programs-title {
+  color: #ffffff !important;
+}
+[data-theme="dark"] .hub-programs-card {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  box-shadow: none !important;
+}
+[data-theme="dark"] .hub-programs-card-title {
+  color: #fff !important;
+}
+[data-theme="dark"] .hub-programs-card-text {
+  color: rgba(255,255,255,0.7) !important;
+}
+[data-theme="dark"] .hub-programs-icon,
+[data-theme="dark"] .hub-programs-card svg {
+  color: #fff !important;
+}
 
         /* Opportunities section */
         [data-theme="dark"] .hub-opportunities-section {
@@ -1636,6 +1884,39 @@ export default function EllevationHub() {
           color: #e8e0f8 !important;
         }
         [data-theme="dark"] .hub-opportunities-card-text {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-opportunities-empty {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-opportunities-list-card {
+          background: #1f1330 !important;
+          border-color: rgba(155, 109, 190, 0.15) !important;
+        }
+        [data-theme="dark"] .hub-opportunities-list-title {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-opportunities-list-text {
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-opportunities-filter {
+          background: #1f1330 !important;
+          border-color: rgba(155, 109, 190, 0.25) !important;
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-opportunities-filter.active {
+          background: #D7B264 !important;
+          border-color: #D7B264 !important;
+          color: #fff !important;
+        }
+        [data-theme="dark"] .hub-opportunities-modal {
+          background: #1f1330 !important;
+          box-shadow: 0 24px 64px rgba(0,0,0,0.55) !important;
+        }
+        [data-theme="dark"] .hub-opportunities-modal h3 {
+          color: #e8e0f8 !important;
+        }
+        [data-theme="dark"] .hub-opportunities-modal p {
           color: #d9a8cd !important;
         }
 
@@ -1671,8 +1952,8 @@ export default function EllevationHub() {
           color: #d9a8cd !important;
         }
         [data-theme="dark"] .hub-events-filter.active {
-          background: #D7238F !important;
-          border-color: #D7238F !important;
+          background: #D7B264 !important;
+          border-color: #D7B264 !important;
           color: #fff !important;
         }
         [data-theme="dark"] .hub-events-modal {
@@ -1826,15 +2107,22 @@ export default function EllevationHub() {
 
       <Navbar current={page} nav={nav} />
 
-      {page === "home"          && <HomeSection nav={nav} />}
-      {page === "about"         && <AboutSection />}
-      {page === "membership"    && <MembershipSection />}
-      {page === "directory"     && <DirectorySection nav={nav} />}
-      {page === "programs"      && <ProgramsSection nav={nav} />}
-      {page === "opportunities" && <OpportunitiesSection nav={nav} />}
-      {page === "events"        && <EventsSection nav={nav} events={EVENTS} />}
-      {page === "impact"        && <ImpactSection />}
-      {page === "connect"       && <ConnectSection />}
+      {/* ✅ Since the navbar is now `position: fixed` and no longer takes up
+          space in normal document flow, this wrapper pushes all page content
+          down by the navbar's real measured height (--nav-height, set by the
+          Navbar component). The 96px fallback covers the first paint before
+          the measurement effect runs. */}
+      <div style={{ paddingTop: "var(--nav-height, 96px)" }}>
+        {page === "home"          && <HomeSection nav={nav} />}
+        {page === "about"         && <AboutSection />}
+        {page === "membership"    && <MembershipSection />}
+        {page === "directory"     && <DirectorySection nav={nav} />}
+        {page === "programs"      && <ProgramsSection nav={nav} />}
+        {page === "opportunities" && <OpportunitiesSection nav={nav} />}
+        {page === "events"        && <EventsSection nav={nav} events={EVENTS} />}
+        {page === "impact"        && <ImpactSection />}
+        {page === "connect"       && <ConnectSection />}
+      </div>
     </div>
   );
 }

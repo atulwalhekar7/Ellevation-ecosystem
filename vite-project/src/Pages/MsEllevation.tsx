@@ -190,8 +190,8 @@ const hp: Record<string, React.CSSProperties> = {
   headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#ffffff", lineHeight:1.12, margin:0 },
   sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#ffffff", lineHeight:1.75, maxWidth:460 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
-  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
+  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
   card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
   cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
   cardIcon: { width:48, height:48, borderRadius:"50%", background:"#4B1E56", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
@@ -429,19 +429,19 @@ const ab: Record<string, React.CSSProperties> = {
   bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#d9c3e0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
   bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
-  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7238F", color:"#fdf0f5", cursor:"pointer" },
-  featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px" },
+  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fdf0f5", cursor:"pointer" },
+  featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px", },
   featCard: { background:"rgba(255, 255, 255, 0.75)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", transition:"transform 0.2s ease" },
   featIcon: { fontSize:"1.6rem", color:"#4B1E56", marginBottom:16 },
   featTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.3rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
   featDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.65 },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
-  storiesTeaserBg: { position:"absolute", inset:0, background:"#AEAAD5", zIndex:0 },
+  storiesTeaserBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   tTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   tSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#443355", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
-  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #D7238F", background:"#D7238F", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
+  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #D7B264", background:"#D7B264", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
 // ─── YOUR JOURNEY PAGE (new) ───────────────────────────────────────────────────
@@ -456,8 +456,6 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
     <div className="jn-page-root">
       <section className="jn-banner" style={jn.banner}>
         <div className="jn-banner-bg" style={jn.bannerBg} />
-        <div style={jn.blob1} />
-        <div style={jn.blob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p style={jn.eye}>— YOUR JOURNEY —</p>
           <h1 className="jn-banner-title" style={jn.bannerTitle}>Every Rise Has a Path</h1>
@@ -487,21 +485,19 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
 
 const jn: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(150deg,#fdf9fc 0%,#f6f3fa 50%,#ede7f5 100%)", zIndex:0 },
-  blob1: { position:"absolute", top:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.22) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  blob2: { position:"absolute", bottom:-70, right:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.20) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
-  stagesSection: { padding:"72px 48px 80px", background:"#AEAAD5" },
+  stagesSection: { padding:"72px 48px 80px", background:"#ffffff" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
   stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
   stageNum: { fontFamily:"'Astrid Regular', serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
   stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
   stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
-  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", background:"linear-gradient(180deg, #2a163a 0%, #160d22 100%)" },
-  ctaTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:700, color:"#fdf0f5", marginBottom:28 },
-  ctaBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(75,30,86,0.4)" },
+  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", },
+  ctaTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:700, color:"#1a0a2e", marginBottom:28 },
+  ctaBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(75,30,86,0.4)" },
 };
 
 // ─── PROGRAMS PAGE (renamed from Services) ─────────────────────────────────────
@@ -550,11 +546,11 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
 
 const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf9fc 0%,#f6f3fa 100%)", zIndex:0 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#AEAAD5" },
+  section: { padding:"60px 48px 96px", background:"#ffffff" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", position:"relative", display:"flex", flexDirection:"column", gap:0 },
   cardPopular: { background:"#1a0a2e", border:"none", boxShadow:"0 8px 48px rgba(26,10,46,0.30)" },
@@ -564,8 +560,8 @@ const pr: Record<string, React.CSSProperties> = {
   list: { listStyle:"none", display:"flex", flexDirection:"column", gap:12, marginBottom:32, padding:0 },
   listItem: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
   bullet: { color:"#4B1E56", fontWeight:700 },
-  bookBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"none", background:"#D7238F", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
-  bookBtnDark: { border:"none", background:"#D7238F", color:"#fff", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  bookBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
+  bookBtnDark: { border:"none", background:"#D7B264", color:"#fff", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
 };
 
 // ─── EVENTS PAGE (new) ──────────────────────────────────────────────────────────
@@ -606,11 +602,11 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
 
 const ev: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(135deg,#fdf9fc 0%,#f6f3fa 100%)", zIndex:0 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#AEAAD5" },
+  section: { padding:"60px 48px 96px", background:"#ffffff" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
   dateBadge: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
@@ -624,8 +620,8 @@ const ev: Record<string, React.CSSProperties> = {
     letterSpacing: "0.1em",
     padding: "12px",
     borderRadius: 100,
-    border: "2px solid #662369",
-    background: "#D7238F",
+    border: "2px solid #D7B264",
+    background: "#D7B264",
     color: "#ffff",
     cursor: "pointer",
     marginTop: "auto",
@@ -675,7 +671,7 @@ const st: Record<string, React.CSSProperties> = {
   bannerBg: { position:"absolute", inset:0, background:"#fff", zIndex:0 },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(253,240,245,0.7)", position:"relative", zIndex:1 },
-  section: { background:"#AEAAD5", padding:"72px 48px 96px" },
+  section: { background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
   quoteIcon: { fontFamily:"'Astrid Regular',serif", fontSize:"3rem", color:"#8a5a97", lineHeight:1, height:32, display:"block" },
@@ -722,8 +718,6 @@ function JoinPage() {
     <div className="jp-page-root">
       <section className="jp-banner" style={jp.banner}>
         <div className="jp-banner-bg" style={jp.bannerBg} />
-        <div style={jp.blobL} />
-        <div style={jp.blobR} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <div style={jp.eyebrowRow}><span style={jp.line}/><span style={jp.eyebrowTxt}>MEMBERSHIP</span><span style={jp.line}/></div>
           <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Ellevation</h1>
@@ -733,7 +727,7 @@ function JoinPage() {
       <section className="jp-form-section" style={jp.formSection}>
         <div style={jp.tabsRow}>
           {TIERS.map(tier => (
-            <button key={tier} className={`jp-tabBtn ${activeTier === tier ? 'active' : ''}`} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: "#D7238F" } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
+            <button key={tier} className={`jp-tabBtn ${activeTier === tier ? 'active' : ''}`} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: "#D7B264" } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
           ))}
         </div>
 
@@ -802,9 +796,7 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 
 const jp: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:260, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"radial-gradient(ellipse 80% 80% at 50% 50%,#ede7f5 0%,#ddd0ea 30%,#c9b8dd 60%,#AEAAD5 100%)", zIndex:0 },
-  blobL: { position:"absolute", top:-60, left:-80, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.28) 0%,transparent 70%)", animation:"floatBlob 8s ease-in-out infinite", zIndex:1 },
-  blobR: { position:"absolute", bottom:-80, right:-60, width:380, height:380, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.25) 0%,transparent 70%)", animation:"floatBlob 11s ease-in-out infinite reverse", zIndex:1 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16 },
   line: { display:"inline-block", width:40, height:1, background:"#4B1E56" },
   eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#4B1E56" },
@@ -830,7 +822,7 @@ const jp: Record<string, React.CSSProperties> = {
   checkbox: { marginTop:3, accentColor:"#4B1E56", width:15, height:15, flexShrink:0 },
   agreeText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.83rem", color:"#554866", lineHeight:1.5 },
   agreeLink: { textDecoration:"underline", textUnderlineOffset:"2px" },
-  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem",background: "#D7238F" ,fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
+  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem",background: "#D7B264" ,fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
   successBox: { textAlign:"center", padding:"40px 24px" },
   successIcon: { fontSize:"2.5rem", marginBottom:16, display:"block" },
   successTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
@@ -876,7 +868,7 @@ export default function EllevationPage() {
   };
 
   return (
-    <div className="ms-ellevation-root" style={{ fontFamily:"'Montserrat', sans-serif", background:"#fdf9fc", minHeight:"100vh", color:"#1a0a2e" }}>
+    <div className="ms-ellevation-root" style={{ fontFamily:"'Montserrat', sans-serif", background:"#ffffff", minHeight:"100vh", color:"#1a0a2e" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
@@ -902,11 +894,18 @@ export default function EllevationPage() {
         button:hover{opacity:0.88;}
 
         /* ═══════════════════════════════════════
-           NAVBAR — one single centered pill row
+           NAVBAR — fixed at top, one single centered pill row
            (no separate white box behind it anymore)
            ═══════════════════════════════════════ */
+        .ms-ellevation-root{
+          padding-top: 96px;
+        }
         .ms-nav-row{
-          position:sticky; top:0; z-index:100;
+          position:fixed;
+          top:0;
+          left:0;
+          right:0;
+          z-index:100;
           display:flex; flex-direction:column; align-items:center;
           padding:16px 20px 0;
         }
@@ -1040,6 +1039,7 @@ export default function EllevationPage() {
           .ns-back-home{ padding:9px 12px; }
           .ns-logo{ width:92px; }
           .ms-nav{ padding:7px 8px; gap:10px; }
+          .ms-ellevation-root{ padding-top: 82px; }
         }
 
         /* ═══════════════════════════════════════
@@ -1170,10 +1170,10 @@ export default function EllevationPage() {
 
         /* ═══════════════════════════════════════
            Home page extra section 2: Welcome
-           Alternate section background → #AEAAD5
+           Alternate section background → soft gradient
            ═══════════════════════════════════════ */
         .welcome-section {
-          background: #AEAAD5;
+          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
           padding: 50px 24px;
         }
         .welcome-grid {
@@ -1217,7 +1217,7 @@ export default function EllevationPage() {
           padding: 14px 28px;
           border-radius: 14px;
           border: none;
-          background: #D7238F;
+          background: #D7B264;
           color: #fff;
           font-family: 'Montserrat', sans-serif;
           font-weight: 600;

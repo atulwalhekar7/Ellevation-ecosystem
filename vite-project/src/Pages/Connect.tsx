@@ -495,7 +495,7 @@ function CommonEnquiryForm() {
   };
 
   return (
-    <section className="enquiry-form-section" style={{ background: "#aeaad5", padding: "80px 24px 100px" }}>
+    <section className="enquiry-form-section" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px 100px" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         
         {/* Section Heading Typography Grid */}
@@ -624,7 +624,7 @@ Reach Out to Us          </h2>
                     padding: "14px 36px",
                     borderRadius: 999,
                     border: "none",
-                    background: submitHov ? "#4B1E56" : "#D7238F",
+                    background: submitHov ? "#4B1E56" : "#D7B264",
                     color: "#fff",
                     fontFamily: "'Montserrat',sans-serif",
                     fontSize: 13,

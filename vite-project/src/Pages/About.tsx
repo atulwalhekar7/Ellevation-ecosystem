@@ -286,7 +286,7 @@ function Hero() {
                 gap: 8,
                 padding: "14px 28px",
                 borderRadius: 14,
-                background: "#D7238F",
+                background: "#D7B264",
                 color: "#fff",
                 fontFamily: "'Montserrat'",
                 fontWeight: 600,
@@ -310,7 +310,7 @@ function Hero() {
                 gap: 8,
                 padding: "14px 28px",
                 borderRadius: 14,
-                background: "#D7238F",
+                background: "#D7B264",
                 color: "#fff",
                 fontFamily: "'Montserrat',sans-serif",
                 fontWeight: 600,
@@ -361,7 +361,7 @@ function OverviewCard({
         maxWidth: 360,
         display: "flex",
         flexDirection: "column",
-        background: "rgba(255, 255, 255, 0.75)",
+        background: "#ffffff",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         border: "1px solid",
@@ -401,7 +401,7 @@ function WhoWeAreSection() {
   return (
     <section
       className="about-who-we-are"
-      style={{ background: "#AEAAD5", padding: "80px 24px" }}
+      style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px" }}
     >
       <div style={{ maxWidth: 1140, margin: "0 auto" }}>
         {/* Header */}
@@ -651,7 +651,7 @@ function VisionSection() {
     <section
       className="about-vision"
       style={{
-        background: "#AEAAD5",
+        background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
         padding: "80px 24px",
         position: "relative",
         overflow: "hidden"
@@ -822,7 +822,7 @@ function CoreModelSection() {
   return (
     <section
       className="about-core-model"
-      style={{ background: "#AEAAD5", padding: "80px 24px" }}
+      style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px" }}
     >
       <div
         ref={head.ref}
@@ -959,7 +959,7 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
         padding: "14px 28px",
         borderRadius: 14,
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
-        background: "#D7238F",
+        background: "#D7B264",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
@@ -984,7 +984,7 @@ function CTASection() {
     <section
       className="about-cta"
       style={{
-        background: "linear-gradient(180deg, #2a163a 0%, #160d22 100%)",
+        background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
         padding: "80px 24px",
         textAlign: "center",
         position: "relative",
@@ -1001,7 +1001,7 @@ function CTASection() {
             fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(38px,6vw,60px)",
             fontWeight: 700,
-            color: "#ffffff",
+            color: "#4B1E56",
             margin: "0 0 40px"
           }}
         >
