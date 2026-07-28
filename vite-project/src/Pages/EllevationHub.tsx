@@ -478,7 +478,7 @@ function MembershipSection() {
             <button
               key={t}
               className={`hub-tier-tab${activeTier === t ? " active" : ""}`}
-              style={{ ...mb.tabBtn, ...(activeTier === t ? { ...mb.tabActive, background: HUB_TIER_META[t].color } : {}) }}
+              style={{ ...mb.tabBtn, ...(activeTier === t ? { ...mb.tabActive, background: "#D7B264" } : {}) }}
               onClick={() => setActiveTier(t)}
             >
               {HUB_TIER_META[t].label}
@@ -559,7 +559,7 @@ function MembershipSection() {
                 rows={3}
                 placeholder="Anything you'd like us to know? (optional)"
               />
-              <button type="submit" style={{ ...jp.submitBtn, background: meta.color }}>SUBMIT EXPRESSION OF INTEREST</button>
+              <button type="submit" style={{ ...jp.submitBtn, background: "#D7B264" }}>SUBMIT EXPRESSION OF INTEREST</button>
             </form>
           )}
         </div>
