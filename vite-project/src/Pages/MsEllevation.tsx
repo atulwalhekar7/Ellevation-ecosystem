@@ -5,6 +5,7 @@ import banner5 from "../assets/banner5.avif";
 import banner2 from "../assets/banner2.avif";
 import LogoDark from "../assets/ms-ellevation-darkmode-logo.png";
 import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
+import emailjs from "@emailjs/browser";
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -30,6 +31,9 @@ const NAV_LINKS: { label: string; page: Page }[] = [
   { label: "Stories", page: "stories" },
   { label: "Start Your Journey", page: "join" },
 ];
+//service Id :service_ux9vfej
+//Template ID : template_oczchp4
+//Public Key: Pu2wZN2ERnHjdboLI
 
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
@@ -699,15 +703,67 @@ function JoinPage() {
     setForms(prev => ({ ...prev, [tier]: { ...prev[tier], [field]: value } }));
     if (errors[tier][field as keyof FormErrors]) setErrors(prev => ({ ...prev, [tier]: { ...prev[tier], [field]: undefined } }));
   };
-  const handleSubmit = (tier: MembershipTier) => {
-    const errs = validateForm(forms[tier]);
-    if (Object.keys(errs).length > 0) {
-      setErrors(prev => ({ ...prev, [tier]: errs }));
-      formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior:"smooth", block:"center" });
-      return;
-    }
-    setSubmitted(prev => ({ ...prev, [tier]: true }));
+  const handleSubmit = async (tier: MembershipTier) => {
+  const currentForm = forms[tier];
+
+  const errs = validateForm(currentForm);
+
+  if (Object.keys(errs).length > 0) {
+    setErrors(prev => ({
+      ...prev,
+      [tier]: errs,
+    }));
+
+    formRef.current
+      ?.querySelector("[data-error]")
+      ?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+    return;
+  }
+
+  const templateParams = {
+    membership_tier: TIER_META[tier].label,
+    first_name: currentForm.firstName,
+    last_name: currentForm.lastName,
+    email: currentForm.email,
+    phone: currentForm.phone,
+    location: currentForm.location,
+    profession: currentForm.profession,
+    referral: currentForm.referral,
+    goals: currentForm.goals,
   };
+
+  console.log("Sending to EmailJS:", templateParams);
+
+  try {
+    const response = await emailjs.send(
+      "service_ux9vfej",
+      "template_i4p3erl",
+      templateParams,
+      {
+        publicKey: "Pu2wZN2ERnHjdboLI",
+      }
+    );
+//service Id :service_ux9vfej
+//Template ID : template_i4p3erl
+//Public Key: Pu2wZN2ERnHjdboLI
+
+    console.log("EmailJS SUCCESS:", response);
+
+    setSubmitted(prev => ({
+      ...prev,
+      [tier]: true,
+    }));
+
+  } catch (error) {
+    console.error("EmailJS FAILED:", error);
+
+    alert("Your application could not be sent. Please try again.");
+  }
+};
 
   const meta = TIER_META[activeTier];
   const form = forms[activeTier];
