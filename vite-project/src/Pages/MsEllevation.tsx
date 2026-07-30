@@ -76,7 +76,31 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
   const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
   const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
-  const [theme] = useState<"light" | "dark">("light");
+
+  // ✅ FIX: theme was previously hardcoded to "light" via `useState("light")`
+  // with no setter ever called, so the logo NEVER switched in dark mode.
+  // Now we read the real value from the <html data-theme="..."> attribute
+  // (which EllevationPage sets from localStorage on mount) and keep it in
+  // sync via a MutationObserver, so both the initial render and any later
+  // theme toggle correctly swap the logo.
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof document !== "undefined") {
+      return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    }
+    return "light";
+  });
+
+  useEffect(() => {
+    const target = document.documentElement;
+    // Sync immediately in case the attribute was set after this component mounted
+    setTheme(target.getAttribute("data-theme") === "dark" ? "dark" : "light");
+
+    const observer = new MutationObserver(() => {
+      setTheme(target.getAttribute("data-theme") === "dark" ? "dark" : "light");
+    });
+    observer.observe(target, { attributes: true, attributeFilter: ["data-theme"] });
+    return () => observer.disconnect();
+  }, []);
 
 
   return (
