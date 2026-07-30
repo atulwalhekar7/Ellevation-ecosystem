@@ -715,6 +715,7 @@ function JoinPage() {
   const [forms, setForms] = useState<Record<MembershipTier, FormData>>({ FOUNDATION: emptyForm(), ELLEVATE: emptyForm(), LUMINARY: emptyForm() });
   const [errors, setErrors] = useState<Record<MembershipTier, FormErrors>>({ FOUNDATION: {}, ELLEVATE: {}, LUMINARY: {} });
   const [submitted, setSubmitted] = useState<Record<MembershipTier, boolean>>({ FOUNDATION: false, ELLEVATE: false, LUMINARY: false });
+  const [sending, setSending] = useState(false);
   const [formVisible, setFormVisible] = useState(true);
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -729,63 +730,64 @@ function JoinPage() {
   };
   const handleSubmit = async (tier: MembershipTier) => {
   const currentForm = forms[tier];
-
   const errs = validateForm(currentForm);
 
   if (Object.keys(errs).length > 0) {
-    setErrors(prev => ({
-      ...prev,
-      [tier]: errs,
-    }));
-
-    formRef.current
-      ?.querySelector("[data-error]")
-      ?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-
+    setErrors(prev => ({ ...prev, [tier]: errs }));
+    formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
 
+  // ✅ Unified template params — MUST match the {{variable}} names used in
+  // the EmailJS template exactly, or the field will render blank/undefined.
+  // Every variable referenced anywhere in the template is always sent,
+  // set to "" when it doesn't apply to this particular form.
   const templateParams = {
+    form_source: "Ms. Ellevation — Membership Application",
+    logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
+
     membership_tier: TIER_META[tier].label,
     first_name: currentForm.firstName,
     last_name: currentForm.lastName,
     email: currentForm.email,
-    phone: currentForm.phone,
+    phone: currentForm.phone || "",
+
+    // Ms. Ellevation fields
     location: currentForm.location,
     profession: currentForm.profession,
     referral: currentForm.referral,
-    goals: currentForm.goals,
+    goals: currentForm.goals,          // ✅ FIX: was being sent as "message" before,
+                                        //     but the template reads {{goals}} — so it
+                                        //     always rendered blank. Now matches.
+
+    // Ellevation Hub — Membership fields (not used by this form)
+    purpose: "",
+    industry: "",
+    notes: "",
+
+    // Ellevation Hub — Connect / Enquiry fields (not used by this form)
+    enquiry_type: "",
+    organization: "",
+    message: "",
   };
 
   console.log("Sending to EmailJS:", templateParams);
+  setSending(true);
 
   try {
     const response = await emailjs.send(
       "service_ux9vfej",
-      "template_i4p3erl",
+      "template_i4p3erl",   // 👈 use the SAME template id in both forms
       templateParams,
-      {
-        publicKey: "Pu2wZN2ERnHjdboLI",
-      }
+      { publicKey: "Pu2wZN2ERnHjdboLI" }
     );
-//service Id :service_ux9vfej
-//Template ID : template_i4p3erl
-//Public Key: Pu2wZN2ERnHjdboLI
-
     console.log("EmailJS SUCCESS:", response);
-
-    setSubmitted(prev => ({
-      ...prev,
-      [tier]: true,
-    }));
-
+    setSubmitted(prev => ({ ...prev, [tier]: true }));
   } catch (error) {
     console.error("EmailJS FAILED:", error);
-
     alert("Your application could not be sent. Please try again.");
+  } finally {
+    setSending(false);
   }
 };
 
@@ -852,10 +854,13 @@ function JoinPage() {
                 </label>
                 {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
               </div>
-              <button style={{ ...jp.submitBtn }} onClick={() => handleSubmit(activeTier)}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity="0.88"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(-2px)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity="1"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(0)"; }}>
-                SUBMIT APPLICATION
+              <button
+                disabled={sending}
+                style={{ ...jp.submitBtn, opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}
+                onClick={() => handleSubmit(activeTier)}
+                onMouseEnter={e => { if (!sending) { (e.currentTarget as HTMLButtonElement).style.opacity="0.88"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(-2px)"; } }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity= sending ? "0.7" : "1"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(0)"; }}>
+                {sending ? "SENDING..." : "SUBMIT APPLICATION"}
               </button>
             </>
           )}

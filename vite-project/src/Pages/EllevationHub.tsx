@@ -4,6 +4,7 @@ import banner6 from "../assets/banner6.avif";
 import banner2 from "../assets/banner2.avif";
 import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
+import emailjs from "@emailjs/browser"; 
 
 
 /* ── Animation Helpers (used by the Connect form) ── */
@@ -454,17 +455,80 @@ function MembershipSection() {
   const [activeTier, setActiveTier] = useState<HubTier>("CONNECT");
   const [purpose, setPurpose] = useState<typeof MEMBERSHIP_PURPOSES[number]["id"]>("enquiry");
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const meta = HUB_TIER_META[activeTier];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ controlled fields so we can read + send them
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName]   = useState("");
+  const [email, setEmail]         = useState("");
+  const [phone, setPhone]         = useState("");
+  const [industry, setIndustry]   = useState("");
+  const [notes, setNotes]         = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+
+    if (!firstName.trim() || !lastName.trim() || !email.trim()) {
+      alert("Please fill in your name and email before submitting.");
+      return;
+    }
+
+    // ✅ ALL variables referenced anywhere in the shared EmailJS template are
+    // always sent — set to "" for the ones this particular form doesn't use —
+    // so nothing ever renders as "undefined" in the email.
+    const templateParams = {
+      form_source: "Ellevation Hub — Membership Expression of Interest",
+      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
+
+      membership_tier: HUB_TIER_META[activeTier].label,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone: phone || "",
+
+      // Ms. Ellevation-only fields — blank, since this is the Hub form
+      location: "",
+      profession: "",
+      referral: "",
+      goals: "",
+
+      // Hub Membership fields
+      purpose: MEMBERSHIP_PURPOSES.find(p => p.id === purpose)?.label || "",
+      industry: industry,
+      notes: notes,
+
+      // Hub Connect / enquiry-only fields — blank, since this is Membership
+      enquiry_type: "",
+      organization: "",
+      message: "",
+    };
+
+    console.log("Sending to EmailJS:", templateParams);
+    setSending(true);
+//service Id :service_ux9vfej
+//Template ID : template_oczchp4
+//Public Key: Pu2wZN2ERnHjdboLI
+    try {
+      const response = await emailjs.send(
+        "service_ux9vfej",
+        "template_i4p3erl",
+        templateParams,
+        { publicKey: "Pu2wZN2ERnHjdboLI" }
+      );
+      console.log("EmailJS SUCCESS:", response);
+      setSubmitted(true);
+    } catch (error) {
+      console.error("EmailJS FAILED:", error);
+      alert("Your request could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
     <section className="hub-membership-section" style={jp.formSection}>
       <div style={{ width: "100%", maxWidth: 720 }}>
-
         <div style={{ textAlign: "center", marginBottom: 32 }}>
           <p className="hub-form-eye" style={mb.pageEye}>MEMBERSHIP · TIERS &amp; BENEFITS</p>
           <h2 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "2.2rem" }}>Find Your Tier, Then Reach Out</h2>
@@ -507,7 +571,7 @@ function MembershipSection() {
               <div style={{ fontSize: 40, marginBottom: 12 }}>✨</div>
               <h3 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "1.4rem" }}>Expression of Interest Received</h3>
               <p className="hub-form-sub" style={jp.formSub}>
-                Thank you for your interest in {meta.label} Membership. Our team will follow up on your {MEMBERSHIP_PURPOSES.find(p => p.id === purpose)?.label.toLowerCase()} shortly.
+                Thank you for your interest in {meta.label} Membership. Our team will follow up shortly.
               </p>
             </div>
           ) : (
@@ -541,13 +605,18 @@ function MembershipSection() {
               </div>
 
               <div className="hub-form-row" style={{ ...jp.row, marginTop: 20 }}>
-                <input className="hub-input" style={jp.input} placeholder="First Name" required />
-                <input className="hub-input" style={jp.input} placeholder="Last Name" required />
+                <input className="hub-input" style={jp.input} placeholder="First Name" required
+                  value={firstName} onChange={e => setFirstName(e.target.value)} />
+                <input className="hub-input" style={jp.input} placeholder="Last Name" required
+                  value={lastName} onChange={e => setLastName(e.target.value)} />
               </div>
-              <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="email" placeholder="Professional Email" required />
-              <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="tel" placeholder="Phone Number (optional)" />
-              <select className="hub-input hub-select" style={{ ...jp.input, ...jp.select, marginTop: 16 }}>
-                <option>Select Your Industry</option>
+              <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="email" placeholder="Professional Email" required
+                value={email} onChange={e => setEmail(e.target.value)} />
+              <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="tel" placeholder="Phone Number (optional)"
+                value={phone} onChange={e => setPhone(e.target.value)} />
+              <select className="hub-input hub-select" style={{ ...jp.input, ...jp.select, marginTop: 16 }}
+                value={industry} onChange={e => setIndustry(e.target.value)}>
+                <option value="">Select Your Industry</option>
                 <option>Technology</option>
                 <option>Education</option>
                 <option>Leadership</option>
@@ -558,8 +627,12 @@ function MembershipSection() {
                 style={{ ...jp.input, marginTop: 16, resize: "vertical" as const }}
                 rows={3}
                 placeholder="Anything you'd like us to know? (optional)"
+                value={notes}
+                onChange={e => setNotes(e.target.value)}
               />
-              <button type="submit" style={{ ...jp.submitBtn, background: "#D7B264" }}>SUBMIT EXPRESSION OF INTEREST</button>
+              <button type="submit" disabled={sending} style={{ ...jp.submitBtn, background: "#D7B264", opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}>
+                {sending ? "SENDING..." : "SUBMIT EXPRESSION OF INTEREST"}
+              </button>
             </form>
           )}
         </div>
@@ -630,6 +703,11 @@ function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply
   );
 }
 
+/* Quick-apply modal — NOTE: this is a lightweight interest-capture step for the
+   demo opportunity board (still hands off to the listing's own applyUrl for the
+   real application). It is intentionally not wired to EmailJS. If you want these
+   quick-apply submissions to also land in your inbox, wire this the same way as
+   MembershipSection above (emailjs.send with the same service/template IDs). */
 function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListing; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
 
@@ -783,8 +861,8 @@ function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegist
   );
 }
 
-/* Quick Registration modal: collects the essentials, then hands off to the
-   event's own registration page/form. */
+/* Quick Registration modal — same note as QuickApplicationModal above: this is a
+   demo-only interest capture step, not wired to EmailJS by default. */
 function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
 
@@ -1052,16 +1130,91 @@ function ConnectHero() {
   );
 }
 
-/* ── Connect: Unified Enquiry Form ── */
+/* ── Connect: Unified Enquiry Form ──
+   ✅ FIX: this form previously never called EmailJS at all — handleSubmit just
+   did setFormSubmitted(true), so nothing was ever sent to Gmail. It's now wired
+   up with emailjs.send using the same service/template as the other two forms,
+   with every shared template variable explicitly present (blank where unused)
+   so the email never shows "undefined". */
 function CommonEnquiryForm() {
   const { ref, inView } = useInView(0.1);
   const [enquiryType, setEnquiryType] = useState("general");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const [submitHov, setSubmitHov] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Controlled fields so we can build EmailJS params directly
+  const [fullName, setFullName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
+  const [messageBody, setMessageBody] = useState("");
+
+  const ENQUIRY_STREAM_LABELS: Record<string, string> = {
+    general: "General Enquiry",
+    partnership: "Partnership Engagement",
+    connection: "Community Connection",
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+
+    if (!fullName.trim() || !emailAddress.trim() || !messageBody.trim()) {
+      alert("Please fill in your name, email, and message before submitting.");
+      return;
+    }
+
+    // Split "Full Name" into first/last so it maps onto the shared template's
+    // {{first_name}} / {{last_name}} variables.
+    const nameParts = fullName.trim().split(/\s+/);
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+
+    const templateParams = {
+      form_source: "Ellevation Hub — Ecosystem Enquiry",
+      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
+
+      membership_tier: "",
+      first_name: firstName,
+      last_name: lastName,
+      email: emailAddress,
+      phone: phoneNumber || "",
+
+      // Ms. Ellevation-only fields — blank
+      location: "",
+      profession: "",
+      referral: "",
+      goals: "",
+
+      // Hub Membership-only fields — blank
+      purpose: "",
+      industry: "",
+      notes: "",
+
+      // Hub Connect / enquiry fields
+      enquiry_type: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,
+      organization: organizationName || "",
+      message: messageBody,
+    };
+
+    console.log("Sending to EmailJS:", templateParams);
+    setSending(true);
+
+    try {
+      const response = await emailjs.send(
+        "service_ux9vfej",
+        "template_i4p3erl",
+        templateParams,
+        { publicKey: "Pu2wZN2ERnHjdboLI" }
+      );
+      console.log("EmailJS SUCCESS:", response);
+      setFormSubmitted(true);
+    } catch (error) {
+      console.error("EmailJS FAILED:", error);
+      alert("Your request could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -1145,22 +1298,26 @@ function CommonEnquiryForm() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
                 <div>
                   <label htmlFor="fullName" className="field-label">Full Name *</label>
-                  <input type="text" id="fullName" required className="form-input" placeholder="Your name" />
+                  <input type="text" id="fullName" required className="form-input" placeholder="Your name"
+                    value={fullName} onChange={e => setFullName(e.target.value)} />
                 </div>
                 <div>
                   <label htmlFor="emailAddress" className="field-label">Email Address *</label>
-                  <input type="email" id="emailAddress" required className="form-input" placeholder="name@domain.com" />
+                  <input type="email" id="emailAddress" required className="form-input" placeholder="name@domain.com"
+                    value={emailAddress} onChange={e => setEmailAddress(e.target.value)} />
                 </div>
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
                 <div>
                   <label htmlFor="phoneNumber" className="field-label">Phone Number</label>
-                  <input type="tel" id="phoneNumber" className="form-input" placeholder="Optional" />
+                  <input type="tel" id="phoneNumber" className="form-input" placeholder="Optional"
+                    value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
                 </div>
                 <div>
                   <label htmlFor="organizationName" className="field-label">Organization / Community Group</label>
-                  <input type="text" id="organizationName" className="form-input" placeholder="If applicable" />
+                  <input type="text" id="organizationName" className="form-input" placeholder="If applicable"
+                    value={organizationName} onChange={e => setOrganizationName(e.target.value)} />
                 </div>
               </div>
 
@@ -1177,12 +1334,15 @@ function CommonEnquiryForm() {
                   className="form-input"
                   style={{ resize: "vertical" }}
                   placeholder="Provide comprehensive details here..."
+                  value={messageBody}
+                  onChange={e => setMessageBody(e.target.value)}
                 />
               </div>
 
               <div style={{ marginTop: 8, display: "flex", justifyContent: "flex-end" }}>
                 <button
                   type="submit"
+                  disabled={sending}
                   onMouseEnter={() => setSubmitHov(true)}
                   onMouseLeave={() => setSubmitHov(false)}
                   style={{
@@ -1196,7 +1356,8 @@ function CommonEnquiryForm() {
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    cursor: "pointer",
+                    cursor: sending ? "not-allowed" : "pointer",
+                    opacity: sending ? 0.7 : 1,
                     boxShadow: submitHov ? "0 8px 24px rgba(215,35,143,0.45)" : "0 4px 14px rgba(215,35,143,0.28)",
                     transform: submitHov ? "translateY(-2px)" : "translateY(0)",
                     transition: "all 0.25s ease",
@@ -1204,7 +1365,7 @@ function CommonEnquiryForm() {
                     maxWidth: 260,
                   }}
                 >
-                  Submit Form
+                  {sending ? "Sending..." : "Submit Form"}
                 </button>
               </div>
 

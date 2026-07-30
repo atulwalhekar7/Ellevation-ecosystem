@@ -240,8 +240,8 @@ function EllevationHeroSection() {
         }
         .ellevation-cta-secondary { transition: background 0.18s ease, border-color 0.18s ease; }
         .ellevation-cta-secondary:hover {
-          background: rgba(75, 30, 86, 0.06);
-          border-color: ${HERO_PLUM_800};
+          transform: translateY(-2px);
+          box-shadow: 0 12px 24px rgba(75, 30, 86, 0.25);
         }
         @media (max-width: 920px) {
           .ellevation-hero-grid { grid-template-columns: 1fr; padding: 64px 24px 40px; text-align: center; }
@@ -327,7 +327,7 @@ function EllevationHeroSection() {
                 borderRadius: "999px",
                 fontWeight: 600,
                 fontSize: "0.95rem",
-                border: "1.5px solid rgba(75, 30, 86, 0.35)",
+                border: "#D7B264",
               }}
             >
               Explore the Hub
