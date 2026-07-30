@@ -75,7 +75,6 @@ const paths: Path[] = [
 const HERO_PLUM_800 = "#4B1E56";
 const HERO_MAGENTA_500 = "#C81E6B";
 
-const HERO_INK_900 = "#231226";
 const HERO_INK_600 = "#5B4A61";
 const HERO_DISPLAY_FONT = "'Astrid Regular', serif";
 const HERO_BODY_FONT =
