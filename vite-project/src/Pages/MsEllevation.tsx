@@ -743,6 +743,10 @@ function JoinPage() {
   // Every variable referenced anywhere in the template is always sent,
   // set to "" when it doesn't apply to this particular form.
   const templateParams = {
+     form_title: "New Ms Ellevation Application - Enquiry",   // 👈 ADD
+  ms_display: "block",                            // 👈 ADD
+  hub_display: "none", 
+  subject_detail: TIER_META[tier].label,  
     form_source: "Ms. Ellevation — Membership Application",
     logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
 
@@ -816,7 +820,6 @@ function JoinPage() {
         <div ref={formRef} className="jp-card" style={{ ...jp.card, opacity: formVisible?1:0, transform: formVisible?"translateY(0)":"translateY(24px)", transition:"opacity 0.35s ease,transform 0.35s ease", borderTop:`3px solid ${meta.color}` }}>
           {isSubmitted ? (
             <div style={jp.successBox}>
-              <div style={{ ...jp.successIcon, color: meta.color }}>✦</div>
               <h2 style={{ ...jp.successTitle, color: meta.color }}>Application Submitted!</h2>
               <p style={jp.successText}>Thank you for applying for <strong>{meta.label} Membership</strong>. Our team will be in touch within 48 hours.</p>
               <button style={{ ...jp.submitBtn }} onClick={() => setSubmitted(prev => ({ ...prev, [activeTier]: false }))}>SUBMIT ANOTHER</button>
@@ -909,7 +912,6 @@ const jp: Record<string, React.CSSProperties> = {
   agreeLink: { textDecoration:"underline", textUnderlineOffset:"2px" },
   submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem",background: "#D7B264" ,fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
   successBox: { textAlign:"center", padding:"40px 24px" },
-  successIcon: { fontSize:"2.5rem", marginBottom:16, display:"block" },
   successTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
   successText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
 };

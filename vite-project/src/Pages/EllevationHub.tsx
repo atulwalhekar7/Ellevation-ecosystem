@@ -1171,7 +1171,11 @@ function CommonEnquiryForm() {
     const lastName = nameParts.slice(1).join(" ") || "";
 
     const templateParams = {
-      form_source: "Ellevation Hub — Ecosystem Enquiry",
+       form_title: "New Ellevation Hub - Enquiry",   // 👈 ADD
+  ms_display: "none",                          // 👈 ADD
+  hub_display: "block",    
+   subject_detail: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,   
+      form_source: "Ellevation Hub — Enquiry",
       logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
 
       membership_tier: "",
@@ -1242,7 +1246,6 @@ function CommonEnquiryForm() {
 
           {formSubmitted ? (
             <div style={{ textAlign: "center", padding: "40px 0" }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>✨</div>
               <h3 style={{ fontFamily: "'Astrid Regular',serif", fontSize: 32, color: "#1a0a2e", marginBottom: 12 }}>Thank You</h3>
               <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
                 Your request has been successfully synchronized with our leadership network. We will get back to you shortly.
