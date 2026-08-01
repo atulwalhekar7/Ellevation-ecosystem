@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import banner4 from "../assets/banner4.avif";
-import banner5 from "../assets/banner5.avif";
 import banner2 from "../assets/banner2.avif";
 import LogoDark from "../assets/ms-ellevation-darkmode-logo.png";
 import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
@@ -34,6 +32,12 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 //service Id :service_ux9vfej
 //Template ID : template_oczchp4
 //Public Key: Pu2wZN2ERnHjdboLI
+
+// ✅ Toggle for the "She Did It. So Can You." transformational-stories teaser
+// that lives at the bottom of the About page. Content + markup are left in
+// place exactly as they were — this just keeps it out of the rendered page
+// until we decide together whether/where to bring it back.
+const SHOW_STORIES_TEASER = false;
 
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
@@ -77,12 +81,6 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
   const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
 
-  // ✅ FIX: theme was previously hardcoded to "light" via `useState("light")`
-  // with no setter ever called, so the logo NEVER switched in dark mode.
-  // Now we read the real value from the <html data-theme="..."> attribute
-  // (which EllevationPage sets from localStorage on mount) and keep it in
-  // sync via a MutationObserver, so both the initial render and any later
-  // theme toggle correctly swap the logo.
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     if (typeof document !== "undefined") {
       return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -92,7 +90,6 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
   useEffect(() => {
     const target = document.documentElement;
-    // Sync immediately in case the attribute was set after this component mounted
     setTheme(target.getAttribute("data-theme") === "dark" ? "dark" : "light");
 
     const observer = new MutationObserver(() => {
@@ -116,8 +113,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
         {/* Logo */}
         <img
- src={theme === "dark" ? LogoDark : LogoLight}        
-   alt="Ellevation Logo"
+          src={theme === "dark" ? LogoDark : LogoLight}
+          alt="Ellevation Logo"
           onClick={() => goPage("home")}
           className="ns-logo"
         />
@@ -162,8 +159,101 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// SHARED SECTION COMPONENTS
+// Reused across About / Programs / Your Journey, which all share the same
+// Story → Identity → Confidence → Leadership → Impact framework, the same
+// "whole woman" focus icons, "who this is for" style lists, and the same
+// closing call-to-action treatment. Centralising them keeps copy edits easy.
+// ═══════════════════════════════════════════════════════════════════════════
+
+const JOURNEY_FRAMEWORK = [
+  { title: "Story",      desc: "Every woman's journey matters." },
+  { title: "Identity",   desc: "Know who you are and where you are going." },
+  { title: "Confidence", desc: "Believe in your strengths and potential." },
+  { title: "Leadership", desc: "Lead yourself and inspire others." },
+  { title: "Impact",     desc: "Create positive change in your life and community." },
+];
+
+function JourneyFrameworkStrip() {
+  return (
+    <section className="jf-strip">
+      <div className="jf-inner">
+        <p className="jf-path">{JOURNEY_FRAMEWORK.map(s => s.title).join(" → ")}</p>
+        <div className="jf-grid">
+          {JOURNEY_FRAMEWORK.map(s => (
+            <div key={s.title} className="jf-card">
+              <h4 className="jf-card-title">{s.title}</h4>
+              <p className="jf-card-desc">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function IconTagsRow({ items }: { items: { icon: string; label: string }[] }) {
+  return (
+    <div className="icon-tags-row">
+      {items.map(t => (
+        <div key={t.label} className="icon-tag">
+          <span className="icon-tag-icon">{t.icon}</span>
+          <span className="icon-tag-label">{t.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function BulletListSection({
+  eyebrow, title, items, note,
+}: { eyebrow?: string; title: string; items: string[]; note?: string }) {
+  return (
+    <section className="bullet-section">
+      <div className="bullet-inner">
+        {eyebrow && <p className="bullet-eyebrow">{eyebrow}</p>}
+        <h2 className="bullet-title">{title}</h2>
+        <ul className="bullet-list">
+          {items.map(i => <li key={i}>{i}</li>)}
+        </ul>
+        {note && <p className="bullet-note">{note}</p>}
+      </div>
+    </section>
+  );
+}
+
+interface CtaButton { label: string; page: Page; variant?: "solid" | "outline"; }
+function ClosingCtaSection({
+  eyebrow, title, body, buttons, nav,
+}: { eyebrow?: string; title: string; body?: string; buttons: CtaButton[]; nav: (p: Page) => void }) {
+  return (
+    <section className="closing-cta">
+      <div className="closing-cta-bg" />
+      <div className="closing-cta-inner">
+        {eyebrow && <p className="closing-cta-eyebrow">{eyebrow}</p>}
+        <h2 className="closing-cta-title">{title}</h2>
+        {body && <p className="closing-cta-body">{body}</p>}
+        <div className="closing-cta-btns">
+          {buttons.map(b => (
+            <button
+              key={b.label}
+              className={b.variant === "outline" ? "closing-btn-outline" : "closing-btn-solid"}
+              onClick={() => nav(b.page)}
+            >{b.label}</button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: (p: Page) => void }) {
+  const scrollToCommunity = () => {
+    document.getElementById("community-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="hp-page" style={hp.page}>
       <div className="hp-bg-grad" style={hp.bgGrad} />
@@ -172,28 +262,22 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 
       <div className="hp-grid" style={hp.grid}>
         <div style={hp.left}>
+          <p className="hp-eyebrow" style={hp.eyebrow}>A Space for Women, By Women</p>
           <h1 className="hp-headline" style={hp.headline}>
-            A beautiful becoming for women ready to rise with  <span style={{ color: "#EFBF68" }}>softness and strength. </span>
+            When Women Rise, <span style={{ color: "#8a3f9c" }}>Communities Rise.</span>
           </h1>
-        
+          <p className="hp-sub" style={hp.sub}>
+            Supporting women and young women from culturally and linguistically diverse (CALD)
+            communities to grow in confidence, strengthen their identity and develop leadership.
+          </p>
+          <p className="hp-sub" style={hp.sub}>
+            Welcome to Ms. Ellevation. A place for new beginnings, bold journeys and dreams taking flight.
+          </p>
+          <p className="hp-tagline" style={hp.tagline}>Find your place. Lift your voice. Flourish.</p>
+
           <div className="hp-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-            <button style={hp.btnSecondary} onClick={() => nav("about")}>EXPLORE MORE</button>
-          </div>
-        </div>
-
-        <div className="hp-card" style={hp.card}>
-          <div style={hp.cardTop}>
-            {/* <div style={hp.cardIcon}>☆</div> */}
-            <span style={hp.cardBadge}>Ms. Ellevation</span>
-          </div>
-          <p className="hp-card-desc" style={hp.cardDesc}>
-            Designed as a premium internal journey within the Ellevation website.
-          </p>
-          <div style={hp.cardFeatures}>
-            {["Signature coaching journeys","Personal transformation roadmap","Elite community sisterhood","World-class facilitators"].map(f => (
-              <div key={f} className="hp-feat" style={hp.feat}><span style={hp.check}>✓</span>{f}</div>
-            ))}
+            <button style={hp.btnSecondary} onClick={scrollToCommunity}>JOIN OUR COMMUNITY</button>
           </div>
         </div>
       </div>
@@ -202,37 +286,27 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const hp: Record<string, React.CSSProperties> = {
-  page: { position:"relative", overflow:"hidden", minHeight:"90vh", display:"flex", alignItems:"center", padding:"60px 48px 80px" },
+  page: { position:"relative", overflow:"hidden", minHeight:"78vh", display:"flex", alignItems:"center", padding:"60px 48px 90px" },
   bgGrad: {
     position:"absolute", inset:0,
-    background:`linear-gradient(rgba(26, 10, 46, 0.55), rgba(26, 10, 46, 0.55)), url(${banner4})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
     zIndex:0
   },
-  blobTL: { position:"absolute", top:-120, left:-100, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
-  blobBR: { position:"absolute", bottom:-100, right:-80, width:420, height:420, borderRadius:"50%", background:"radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
-  grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr 1fr", gap:48, alignItems:"center", maxWidth:1200, margin:"0 auto", width:"100%", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
-  left: { display:"flex", flexDirection:"column", gap:24 },
-  eyebrow: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#ffffff" },
-  headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#ffffff", lineHeight:1.12, margin:0 },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#ffffff", lineHeight:1.75, maxWidth:460 },
-  btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const },
+  blobTL: { position:"absolute", top:-140, left:-120, width:520, height:520, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.14) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
+  blobBR: { position:"absolute", bottom:-120, right:-100, width:460, height:460, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.16) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
+  grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr", gap:48, alignItems:"center", maxWidth:820, margin:"0 auto", width:"100%", textAlign:"center" as const, animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
+  left: { display:"flex", flexDirection:"column", gap:18, alignItems:"center" },
+  eyebrow: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", textTransform:"uppercase" as const },
+  headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#1a0a2e", lineHeight:1.12, margin:0 },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto" },
+  tagline: { fontFamily:"'Astrid Regular', serif", fontSize:"1.1rem", fontStyle:"italic", color:"#8a3f9c", margin:0 },
+  btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const, justifyContent:"center" as const },
   btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
-  card: { background:"rgba(255,255,255,0.85)", backdropFilter:"blur(20px)", borderRadius:24, padding:"32px", boxShadow:"0 8px 48px rgba(26,10,46,0.08)", border:"1px solid rgba(255,255,255,0.7)" },
-  cardTop: { display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:20 },
-  cardIcon: { width:48, height:48, borderRadius:"50%", background:"#4B1E56", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"1.3rem" },
-  cardBadge: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.8rem", fontWeight:500, color:"#1a0a2e", background:"rgba(75,30,86,0.10)", padding:"5px 14px", borderRadius:100 },
-  cardDesc: { fontFamily:"'Astrid Regular',serif", fontSize:"1.25rem", fontWeight:500, color:"#1a0a2e", lineHeight:1.5, marginBottom:20 },
-  cardFeatures: { display:"flex", flexDirection:"column", gap:10 },
-  feat: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.85rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
-  check: { color:"#4B1E56", fontWeight:700, fontSize:"0.9rem" },
+  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(75,30,86,0.4)", background:"transparent", color:"#4B1E56", cursor:"pointer", transition:"all 0.2s ease" },
 };
 
 /* ══════════════════════════════════════════════
-   HOME PAGE — EXTRA SECTION 1 — "Her Potential. Her Impact."
-   Sits directly below the Home page hero banner.
+   HOME — SECTION 2 — "Why We Exist"
    ══════════════════════════════════════════════ */
 function ImpactStatementSection() {
   const [visible, setVisible] = useState(false);
@@ -249,7 +323,6 @@ function ImpactStatementSection() {
 
   return (
     <section ref={ref} className="impact-section">
-      {/* ambient blobs, consistent with rest of site */}
       <div className="impact-blob impact-blob-1" />
       <div className="impact-blob impact-blob-2" />
 
@@ -269,7 +342,6 @@ function ImpactStatementSection() {
           Her Potential. Her Impact.
         </h2>
 
-        {/* Floating glass statement card */}
         <div
           className="impact-glass-card"
           style={{
@@ -282,8 +354,8 @@ function ImpactStatementSection() {
             Building Holistic Success for Women in Australia.
           </h3>
           <p className="impact-card-desc">
-            Beyond every obstacle and uncertainty, Ms. Ellevation empowers her to claim her space,
-            amplify her voice, and truly flourish.
+            Beyond every obstacle and uncertainty, Ms. Ellevation empowers women to claim their space,
+            amplify their voice and flourish.
           </p>
 
           <div className="impact-tags">
@@ -305,10 +377,12 @@ function ImpactStatementSection() {
 }
 
 /* ══════════════════════════════════════════════
-   HOME PAGE — EXTRA SECTION 2 — "Your Harbour of Empowerment"
-   Sits directly below the Impact statement section.
+   HOME — SECTION 3 — "You Don't Have to Walk the
+   Journey Alone" (community section, anchored so
+   the hero's "Join Our Community" button can jump
+   straight to it)
    ══════════════════════════════════════════════ */
-function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
+function CommunitySection({ nav }: { nav: (p: Page) => void }) {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
@@ -322,7 +396,7 @@ function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
   }, []);
 
   return (
-    <section ref={ref} className="welcome-section">
+    <section id="community-section" ref={ref} className="welcome-section">
       <div className="welcome-grid">
         {/* LEFT — text */}
         <div
@@ -332,18 +406,18 @@ function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
             transition: "opacity 0.7s ease, transform 0.7s ease",
           }}
         >
-          <p className="welcome-eyebrow">A Space For Women, By Women</p>
+          <p className="welcome-eyebrow">Community</p>
           <h2 className="welcome-title">
-            Welcome to Your{" "}
-           Harbour of Empowerment
+            You Don't Have to Walk the Journey Alone
           </h2>
           <p className="welcome-desc">
-            Welcome to Ms. Ellevation — for new beginnings, bold journeys, and dreams taking
-            flight. Find your place. Lift your voice. Shine. Flourish in every part of your life.
+            Become part of a supportive community of women committed to growth, leadership and
+            connection. Whether you are finding your voice, rebuilding confidence or pursuing new
+            opportunities, there is a place for you here.
           </p>
 
-          <button onClick={() => nav("join")} className="welcome-cta">
-            Find Your Place
+          <button onClick={() => nav("programs")} className="welcome-cta">
+            Explore Our Programs
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -362,7 +436,7 @@ function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
           <div className="welcome-image-frame">
             <img
               src={banner2}
-              alt="Welcome to Ms. Ellevation"
+              alt="Ms. Ellevation community"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               onError={(e) => {
                 const target = e.currentTarget;
@@ -380,7 +454,6 @@ function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
             />
           </div>
 
-          {/* Floating brand badge — same language as other floating cards */}
           <div className="welcome-badge">
             <div className="welcome-badge-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -398,7 +471,64 @@ function WelcomeSection({ nav }: { nav: (p: Page) => void }) {
   );
 }
 
+/* ══════════════════════════════════════════════
+   HOME — SECTION 4 — "Supporting Every Step of
+   the Journey" (pathways)
+   ══════════════════════════════════════════════ */
+const PATHWAYS = [
+  { title: "Leadership Development", desc: "Building confidence, leadership skills and personal growth." },
+  { title: "Community & Connection", desc: "Meaningful relationships and a sense of belonging." },
+  { title: "Personal Growth",        desc: "Strengthen identity, wellbeing and self-belief." },
+  { title: "Events & Experiences",   desc: "Learn, connect and grow alongside other women." },
+];
+
+function PathwaysSection() {
+  return (
+    <section className="pathways-section">
+      <div className="pathways-inner">
+        <p className="pathways-eyebrow">Pathways</p>
+        <h2 className="pathways-title">Supporting Every Step of the Journey</h2>
+        <div className="pathways-grid">
+          {PATHWAYS.map(p => (
+            <div key={p.title} className="pathways-card">
+              <h3 className="pathways-card-title">{p.title}</h3>
+              <p className="pathways-card-desc">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── ABOUT PAGE ───────────────────────────────────────────────────────────────
+const OUR_VALUES = [
+  { title: "Empowerment", desc: "We equip women with the tools, knowledge, and confidence to take control of their lives and achieve their full potential." },
+  { title: "Inclusivity", desc: "We celebrate and embrace the diverse backgrounds, experiences, and voices of all women, ensuring everyone feels valued, seen, and a true sense of belonging." },
+  { title: "Resilience", desc: "We foster the strength to navigate challenges, learn from setbacks, and bounce back stronger, transforming adversity into growth and courage." },
+  { title: "Integrity", desc: "We act with honesty, transparency, and ethical conduct, building trust and maintaining credibility in all our relationships." },
+  { title: "Growth", desc: "We champion continuous personal and professional development, encouraging a lifelong journey of learning, adaptation, and expansion." },
+  { title: "Community", desc: "We cultivate a supportive and collaborative sisterhood where women can connect, share, and uplift one another, finding strength, safety, and momentum in collective support." },
+];
+
+const FOCUS_ITEMS = [
+  { icon: "◈", label: "Voice" },
+  { icon: "✦", label: "Identity" },
+  { icon: "❀", label: "Confidence" },
+  { icon: "✧", label: "Leadership" },
+  { icon: "♥", label: "Wellbeing" },
+  { icon: "✧", label: "Community" },
+];
+
+const WHO_WE_SUPPORT = [
+  "Young women (17–25)",
+  "Women from culturally and linguistically diverse communities",
+  "Migrant and refugee women",
+  "Emerging leaders",
+  "Women navigating life transitions",
+  "Women seeking confidence, connection and growth",
+];
+
 function AboutPage({ nav }: { nav: (p: Page) => void }) {
   return (
     <div className="ab-page-root">
@@ -407,63 +537,184 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
         <div style={ab.bannerBlob1} />
         <div style={ab.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p style={ab.bannerEye}>MS. ELLEVATION · FOR WOMEN 17–25</p>
-          <h1 className="ab-banner-title" style={ab.bannerTitle}>Become the Woman<br />You Were  <span style={{ color: "#EFBF68" }}>Born to Be </span></h1>
+          <p className="ab-eye" style={ab.bannerEye}>ABOUT MS. ELLEVATION</p>
+          <h1 className="ab-banner-title" style={ab.bannerTitle}>More Than a Program.<br />A <span style={{ color: "#8a3f9c" }}>Community.</span></h1>
+          <p className="ab-banner-sub" style={ab.bannerSub}>
+            Ms. Ellevation is the women's pathway within the Ellevation ecosystem — a space for
+            women, by women. We exist to help women and young women strengthen their identity,
+            build confidence, develop leadership and create lives filled with purpose, opportunity
+            and connection. Because when women rise, communities rise.
+          </p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32, flexWrap:"wrap" as const }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-            <button style={ab.btnL} onClick={() => nav("journey")}>EXPLORE MORE</button>
+            <button className="ab-btn-outline" style={ab.btnL} onClick={() => nav("join")}>JOIN OUR COMMUNITY</button>
           </div>
         </div>
       </section>
 
-      <section className="ab-feat-section" style={ab.featSection}>
-        {[
-          { icon:"✦", title:"Personal Transformation", desc:"Guided programs designed to unlock your unique potential." },
-          { icon:"◈", title:"1-on-1 Coaching",         desc:"Intimate, tailored support from world-class coaches." },
-          { icon:"✿", title:"Community Sisterhood",     desc:"A sacred circle of women walking this journey together." },
-        ].map((c) => (
-          <div key={c.title} className="ab-feat-card" style={ab.featCard}>
-            <div style={ab.featIcon}>{c.icon}</div>
-            <h3 className="ab-feat-title" style={ab.featTitle}>{c.title}</h3>
-            <p className="ab-feat-desc" style={ab.featDesc}>{c.desc}</p>
-          </div>
-        ))}
-      </section>
+      {/* ── Our Story & Heart ── */}
+      <section className="story-section">
+        <div className="story-inner">
+          <p className="story-eyebrow">Our Story &amp; Heart</p>
+          <h2 className="story-title">Igniting Her Journey.</h2>
+          <p className="story-subtitle">The Ms. Ellevation Difference: A Foundation of Growth and Care.</p>
 
-      <section className="ab-stories-teaser" style={ab.storiesTeaser}>
-        <div className="ab-stories-teaser-bg" style={ab.storiesTeaserBg} />
-        <div style={{ position:"relative", zIndex:2, textAlign:"center" }}>
-          <p style={ab.tEye}>— TRANSFORMATIONAL STORIES —</p>
-          <h2 className="ab-t-title" style={ab.tTitle}>She Did It. So Can You.</h2>
-          <p className="ab-t-sub" style={ab.tSub}>Real women, real transformations. Discover how Ms. Ellevation has changed lives.</p>
-          <button style={ab.tBtn} onClick={() => nav("stories")}>READ THEIR STORIES</button>
+          <p className="story-p">
+            Ms. Ellevation was born out of a profound understanding of the unique journeys women navigate.
+          </p>
+          <p className="story-p">
+            Our story is rooted in four lived experiences: the journey of migration as a child from
+            Africa to Australia, experiencing domestic violence and mental health challenges in early
+            adulthood, the battle from self-doubt to confidence, and the realities of building a
+            business in Australia as a migrant woman.
+          </p>
+          <p className="story-p">
+            These experiences shaped the heart of Ms. Ellevation and continue to fuel our passion and purpose.
+          </p>
+          <p className="story-p">
+            We understand that many women carry invisible challenges while pursuing their dreams,
+            rebuilding their confidence, raising families, navigating new cultures, advancing careers
+            and creating opportunities for themselves and future generations.
+          </p>
+          <p className="story-p story-p-strong">This is why Ms. Ellevation exists.</p>
+          <p className="story-p">
+            We are here to champion women, particularly women from culturally and linguistically
+            diverse (CALD) communities and young women shaping their futures, empowering them to
+            flourish, lead and elevate their impact.
+          </p>
+          <p className="story-p">
+            We believe in a holistic approach to success that supports not only careers and
+            businesses, but also confidence, communication, wellbeing, leadership and financial
+            independence.
+          </p>
         </div>
       </section>
+
+      {/* ── The Ms. Ellevation Journey ── */}
+    
+      <JourneyFrameworkStrip />
+
+      {/* ── Vision & Mission ── */}
+      <section className="vm-section">
+        <div className="vm-grid">
+          <div className="vm-card">
+            <p className="vm-eyebrow">Our Vision</p>
+            <p className="vm-text">
+              An Australia where the collective power of women — across all diversities and stages
+              of life — flourishing with confidence, leads boldly, and shapes the narratives that
+              transform industries and communities.
+            </p>
+          </div>
+          <div className="vm-card">
+            <p className="vm-eyebrow">Our Mission</p>
+            <p className="vm-text">
+              We empower women from diverse backgrounds, especially women from culturally and
+              linguistically diverse (CALD) communities and emerging young achievers, to confidently
+              flourish, lead and amplify their impact in their careers, businesses, and lives by
+              building inner strength and powerful networks.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Our Values ── */}
+      <section className="values-section">
+        <div className="values-inner">
+          <p className="values-eyebrow">Our Values</p>
+          <div className="values-grid">
+            {OUR_VALUES.map(v => (
+              <div key={v.title} className="values-card">
+                <h3 className="values-card-title">{v.title}</h3>
+                <p className="values-card-desc">{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Our Focus ── */}
+      <section className="focus-section">
+        <div className="focus-inner">
+          <p className="focus-eyebrow">Our Focus</p>
+          <h2 className="focus-title">Supporting the Whole Woman</h2>
+          <IconTagsRow items={FOCUS_ITEMS} />
+          <p className="focus-note">
+            Because lasting transformation happens when women are supported as whole individuals.
+          </p>
+        </div>
+      </section>
+
+      {/* ── One Mission. Two Pathways. ── */}
+      <section className="pathway2-section">
+        <div className="pathway2-inner">
+          <p className="pathway2-eyebrow">One Mission. Two Pathways.</p>
+          <div className="pathway2-grid">
+            <div className="pathway2-card">
+              <h3 className="pathway2-card-title">Building the Woman</h3>
+              <p className="pathway2-card-desc">
+                Ms. Ellevation supports women through Identity, Confidence, Leadership and Wellbeing.
+              </p>
+            </div>
+            <div className="pathway2-card pathway2-card-dark">
+              <h3 className="pathway2-card-title">Building the Ecosystem</h3>
+              <p className="pathway2-card-desc">
+                Through Ellevation Hub, women are connected to opportunities, partnerships, networks
+                and pathways.
+              </p>
+            </div>
+          </div>
+          <p className="pathway2-note">
+            Together they form one connected ecosystem where personal growth meets opportunity.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Who We Support ── */}
+      <BulletListSection title="Who We Support" items={WHO_WE_SUPPORT} />
+
+      {/* ── (hidden for now) Transformational Stories teaser ──
+           Left in place exactly as built — just not rendered until we
+           decide together where it belongs on the page. */}
+      {SHOW_STORIES_TEASER && (
+        <section className="ab-stories-teaser" style={ab.storiesTeaser}>
+          <div className="ab-stories-teaser-bg" style={ab.storiesTeaserBg} />
+          <div style={{ position:"relative", zIndex:2, textAlign:"center" }}>
+            <p style={ab.tEye}>— TRANSFORMATIONAL STORIES —</p>
+            <h2 className="ab-t-title" style={ab.tTitle}>She Did It. So Can You.</h2>
+            <p className="ab-t-sub" style={ab.tSub}>Real women, real transformations. Discover how Ms. Ellevation has changed lives.</p>
+            <button style={ab.tBtn} onClick={() => nav("stories")}>READ THEIR STORIES</button>
+          </div>
+        </section>
+      )}
+
+      {/* ── Closing ── */}
+      <ClosingCtaSection
+        nav={nav}
+        title="When Women Rise, Communities Rise."
+        body="Whether you are seeking confidence, connection, leadership development or a community that understands your journey, there is a place for you here. Find your place. Lift your voice. Flourish."
+        buttons={[
+          { label: "START YOUR JOURNEY", page: "join" },
+          { label: "JOIN OUR COMMUNITY", page: "join", variant: "outline" },
+        ]}
+      />
     </div>
   );
 }
 
 const ab: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", minHeight:520, display:"flex", alignItems:"center", justifyContent:"center", padding:"80px 48px" },
+  banner: { position:"relative", overflow:"hidden", minHeight:420, display:"flex", alignItems:"center", justifyContent:"center", padding:"80px 48px" },
   bannerBg: {
     position:"absolute", inset:0,
-    background:`linear-gradient(rgba(26, 10, 46, 0.6), rgba(26, 10, 46, 0.6)), url(${banner5})`,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
     zIndex:0
   },
-  bannerBlob1: { position:"absolute", top:-80, right:-60, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.30) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-60, left:-40, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(102,35,105,0.28) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#d9c3e0", marginBottom:16, textShadow: "0 1px 4px rgba(0,0,0,0.3)" },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#fdf0f5", lineHeight:1.15, marginBottom:20, textShadow: "0 2px 12px rgba(0,0,0,0.4)" },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(253,240,245,0.75)", lineHeight:1.7, maxWidth:560, margin:"0 auto", textShadow: "0 1px 8px rgba(0,0,0,0.3)" },
+  bannerBlob1: { position:"absolute", top:-100, right:-80, width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.14) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.18) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#1a0a2e", lineHeight:1.15, marginBottom:20 },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, maxWidth:640, margin:"0 auto" },
   btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fdf0f5", cursor:"pointer" },
-  featSection: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1100, margin:"0 auto", padding:"80px 48px", },
-  featCard: { background:"rgba(255, 255, 255, 0.75)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", transition:"transform 0.2s ease" },
-  featIcon: { fontSize:"1.6rem", color:"#4B1E56", marginBottom:16 },
-  featTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.3rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
-  featDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.65 },
+  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(75,30,86,0.4)", background:"transparent", color:"#4B1E56", cursor:"pointer" },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
   storiesTeaserBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
@@ -472,11 +723,40 @@ const ab: Record<string, React.CSSProperties> = {
   tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #D7B264", background:"#D7B264", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
-// ─── YOUR JOURNEY PAGE (new) ───────────────────────────────────────────────────
+// ─── YOUR JOURNEY PAGE ──────────────────────────────────────────────────────
 const STAGES = [
-  { num: "01", title: "Identity", desc: "Rediscover who you are beneath the noise — your values, your voice, your story." },
-  { num: "02", title: "Confidence", desc: "Build the inner steadiness to trust your decisions and take up space unapologetically." },
-  { num: "03", title: "Leadership", desc: "Step into influence — leading yourself first, then your community and career." },
+  {
+    num: "01", title: "Identity", heading: "Discover Who You Are",
+    desc: "Every journey begins with identity. Before confidence can grow, women need the space to reconnect with who they are, what they value and what they want for their future.",
+    outcomes: ["Clarity", "Self-awareness", "Purpose"],
+  },
+  {
+    num: "02", title: "Confidence", heading: "Believe in Your Potential",
+    desc: "Confidence is not about being fearless. It is about trusting yourself enough to take the next step. As confidence grows, women begin speaking up, embracing opportunities and recognising their worth.",
+    outcomes: ["Self-belief", "Resilience", "Courage"],
+  },
+  {
+    num: "03", title: "Leadership", heading: "Create Impact",
+    desc: "Leadership starts with leading yourself. From there, women create positive change within their families, workplaces, businesses and communities.",
+    outcomes: ["Growth", "Contribution", "Impact"],
+  },
+];
+
+const JOURNEY_FOCUS_ITEMS = [
+  { icon: "◈", label: "Identity" },
+  { icon: "✦", label: "Confidence" },
+  { icon: "❀", label: "Leadership" },
+  { icon: "♥", label: "Wellbeing" },
+  { icon: "✦", label: "Community" },
+];
+
+const JOURNEY_WHO_FOR = [
+  "Young women (17–25)",
+  "Women from CALD communities",
+  "Migrant and refugee women",
+  "Emerging leaders",
+  "Women navigating life transitions",
+  "Women seeking confidence, clarity and connection",
 ];
 
 function JourneyPage({ nav }: { nav: (p: Page) => void }) {
@@ -484,29 +764,79 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
     <div className="jn-page-root">
       <section className="jn-banner" style={jn.banner}>
         <div className="jn-banner-bg" style={jn.bannerBg} />
+        <div style={jn.bannerBlob1} />
+        <div style={jn.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p style={jn.eye}>— YOUR JOURNEY —</p>
-          <h1 className="jn-banner-title" style={jn.bannerTitle}>Every Rise Has a Path</h1>
-          <p className="jn-banner-sub" style={jn.bannerSub}>A guided journey through identity, confidence, and leadership — built for women 17–25 ready to grow.</p>
+          <p className="jn-eye" style={jn.eye}>— YOUR JOURNEY —</p>
+          <h1 className="jn-banner-title" style={jn.bannerTitle}>Every Rise Has a Path.</h1>
+          <p className="jn-banner-sub" style={jn.bannerSub}>
+            At Ms. Ellevation, we believe every woman has the potential to thrive. Some women are
+            discovering who they are. Some are rebuilding confidence. Some are stepping into
+            leadership for the first time. Wherever you are in your journey, you do not have to
+            walk it alone.
+          </p>
+          <p className="jn-banner-sub" style={jn.bannerSub}>
+            Through identity, confidence and leadership, we create a pathway that helps women grow
+            with purpose while remaining connected to their culture, values and lived experience.
+          </p>
+          <button style={jn.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
         </div>
       </section>
+
+      <div className="story-inner story-inner-narrow" style={{ paddingTop: 64 }}>
+        <p className="story-framework-lead">
+          Transformation does not happen overnight. It happens through reflection, courage,
+          community and action. At Ms. Ellevation, we support women through three interconnected
+          stages of growth, guided by our five-stage framework.
+        </p>
+      </div>
+      <JourneyFrameworkStrip />
 
       <section className="jn-stages" style={jn.stagesSection}>
         <div className="jn-stages-grid" style={jn.stagesGrid}>
           {STAGES.map((s) => (
             <div key={s.title} className="jn-stage-card" style={jn.stageCard}>
-              <span style={jn.stageNum}>{s.num}</span>
+              <span className="jn-stage-num" style={jn.stageNum}>{s.num}</span>
               <h3 className="jn-stage-title" style={jn.stageTitle}>{s.title}</h3>
+              <p className="jn-stage-heading">{s.heading}</p>
               <p className="jn-stage-desc" style={jn.stageDesc}>{s.desc}</p>
+              <div className="jn-stage-outcomes">
+                <span className="jn-stage-outcomes-label">Outcomes</span>
+                <ul>
+                  {s.outcomes.map(o => <li key={o}>{o}</li>)}
+                </ul>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="jn-cta" style={jn.ctaSection}>
-        <h2 className="jn-cta-title" style={jn.ctaTitle}>Ready to Begin Your Rise?</h2>
-        <button style={jn.ctaBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
+      <section className="focus-section">
+        <div className="focus-inner">
+          <p className="focus-eyebrow">What Makes This Journey Different?</p>
+          <h2 className="focus-title">We Focus on the Whole Woman</h2>
+          <IconTagsRow items={JOURNEY_FOCUS_ITEMS} />
+          <p className="focus-note">
+            Because lasting change happens when women feel supported, connected and empowered.
+          </p>
+        </div>
       </section>
+
+      <BulletListSection
+        title="Who Is This For?"
+        items={JOURNEY_WHO_FOR}
+        note="No matter where you begin, there is a place for you here."
+      />
+
+      <ClosingCtaSection
+        nav={nav}
+        title="Your Next Chapter Starts Here."
+        body="You already have the potential. This journey helps you discover it, strengthen it and use it to create meaningful impact. Identity → Confidence → Leadership. Find your place. Lift your voice. Flourish."
+        buttons={[
+          { label: "START YOUR JOURNEY", page: "join" },
+          { label: "JOIN OUR COMMUNITY", page: "join", variant: "outline" },
+        ]}
+      />
     </div>
   );
 }
@@ -514,60 +844,195 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
 const jn: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
+  bannerBlob1: { position:"absolute", top:-90, right:-70, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto", position:"relative", zIndex:1 },
-  stagesSection: { padding:"72px 48px 80px", background:"#ffffff" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:620, margin:"0 auto 12px", position:"relative", zIndex:1 },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:24, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(75,30,86,0.3)" },
+  stagesSection: { padding:"32px 48px 80px", background:"#ffffff" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
   stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
   stageNum: { fontFamily:"'Astrid Regular', serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
-  stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:10 },
+  stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
   stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
-  ctaSection: { position:"relative", overflow:"hidden", padding:"72px 48px", textAlign:"center", },
-  ctaTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.8rem,3.5vw,2.6rem)", fontWeight:700, color:"#1a0a2e", marginBottom:28 },
-  ctaBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"14px 34px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", boxShadow:"0 4px 20px rgba(75,30,86,0.4)" },
 };
 
-// ─── PROGRAMS PAGE (renamed from Services) ─────────────────────────────────────
+// ─── PROGRAMS PAGE ───────────────────────────────────────────────────────────
+const PROGRAM_DIFFERENCE_POINTS = [
+  "Honour their story",
+  "Strengthen their identity",
+  "Build confidence",
+  "Develop leadership",
+  "Create impact",
+];
+
+const PROGRAMS = [
+  {
+    tag: "Our Signature Program",
+    title: "My Journey, My Future",
+    desc: "A guided pathway helping women strengthen identity, build confidence and create a vision for their future. This program supports women to navigate life in Australia, build meaningful connections, embrace their lived experiences and move forward with purpose.",
+    label: "Focus Areas",
+    items: ["Identity & Belonging","Confidence Building","Personal Growth","Goal Setting","Community Connection","Future Pathways"],
+    icon: "path",
+  },
+  {
+    tag: "Community Learning Series",
+    title: "Empower Growth Workshops",
+    desc: "A practical workshop series designed to support women through different stages of their journey.",
+    label: "Topics May Include",
+    items: ["Confident Communication","Building Confidence","Leadership Foundations","Financial Confidence","Career Confidence","Navigating Life in Australia","Wellbeing & Personal Growth"],
+    icon: "spark",
+  },
+  {
+    tag: "The Sisterhood Layer",
+    title: "Community & Connection",
+    desc: "A welcoming community where women connect, share experiences, build relationships and grow together.",
+    label: "Includes",
+    items: ["Community Events","Conversations","Sisterhood Circles","Guest Speakers","Networking Opportunities","Peer Support"],
+    icon: "circle",
+  },
+];
+
+const ECOSYSTEM_WOMAN = ["Story","Identity","Confidence","Leadership","Wellbeing","Community"];
+const ECOSYSTEM_OPPORTUNITY = ["Employment Pathways","Entrepreneurship","Partnerships","Business Development","Industry Connections","Visibility Opportunities"];
+
+function ProgramIcon({ type }: { type: string }) {
+  if (type === "path") {
+    return (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M4 19c3-1 3-4 6-4s3 3 6 3 3-4 5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="4" cy="19" r="1.6" fill="currentColor" />
+        <circle cx="21" cy="13" r="1.6" fill="currentColor" />
+      </svg>
+    );
+  }
+  if (type === "spark") {
+    return (
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3l1.8 5.6L19 10l-5.2 1.7L12 17l-1.8-5.3L5 10l5.2-1.4L12 3z" fill="currentColor" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+      <circle cx="8.5" cy="9" r="2.6" stroke="currentColor" strokeWidth="2" />
+      <circle cx="16" cy="8" r="2.1" stroke="currentColor" strokeWidth="2" />
+      <path d="M3.5 19c.6-3 2.4-4.6 5-4.6s4.4 1.6 5 4.6M13.6 14.7c2.2.1 3.7 1.6 4.2 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
-  const plans = [
-    { title:"Workshops",              price:"From $49/session", popular:false, features:["Interactive group sessions","Practical growth tools","Guided community discussion","Take-home resources"] },
-    { title:"Mentorship",             price:"From $299/mo",     popular:true,  features:["1:1 mentor matching","Personalised growth plan","Monthly check-ins","Ongoing support"] },
-    { title:"Leadership Development", price:"From $1,499",       popular:false, features:["Immersive leadership intensive","Group & individual coaching","Capstone project","Alumnae network access"] },
-  ];
   return (
     <div className="pr-page-root">
       <section className="pr-banner" style={pr.banner}>
         <div className="pr-banner-bg" style={pr.bannerBg} />
+        <div style={pr.bannerBlob1} />
+        <div style={pr.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p style={pr.eye}>— OUR PROGRAMS —</p>
-          <h1 className="pr-title" style={pr.title}>Curated for Your Elevation</h1>
-          <p className="pr-sub" style={pr.sub}>Workshops, mentorship, and leadership development — choose the path that speaks to where you are and where you're meant to go.</p>
+          <p className="pr-eye" style={pr.eye}>— OUR PROGRAMS —</p>
+          <h1 className="pr-title" style={pr.title}>Programs Designed for Growth, Connection and Impact.</h1>
+          <p className="pr-sub" style={pr.sub}>
+            At Ms. Ellevation, we believe every woman has a story worth honouring. Our programs
+            create safe and empowering spaces where women can draw strength from their lived
+            experiences, strengthen their identity, build confidence and step into leadership.
+          </p>
+          <p className="pr-sub" style={pr.sub}>
+            Through community, learning and meaningful connections, we support women to grow
+            personally, professionally and within their communities.
+          </p>
+          <button style={pr.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
         </div>
       </section>
 
+      {/* The Ms. Ellevation Difference */}
+      <section className="story-section" style={{ paddingBottom: 24 }}>
+        <div className="story-inner">
+          <p className="story-eyebrow">The Ms. Ellevation Difference</p>
+          <h2 className="story-title" style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>We Don't Believe Women Need Fixing.</h2>
+          <p className="story-p">
+            We believe women already carry strength, resilience and potential within them. Our role
+            is to create the environment, community and opportunities that help women recognise
+            that strength and use it to create meaningful impact.
+          </p>
+          <p className="story-p story-p-strong">Every program, workshop and experience is designed to help women:</p>
+          <ul className="story-inline-list">
+            {PROGRAM_DIFFERENCE_POINTS.map(p => <li key={p}>{p}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      {/* Our Framework */}
+      <div className="story-inner story-inner-narrow">
+        <p className="story-framework-lead">Story → Identity → Confidence → Leadership → Impact</p>
+      </div>
+      <JourneyFrameworkStrip />
+
+      {/* Programs */}
       <section className="pr-section" style={pr.section}>
         <div className="pr-grid" style={pr.grid}>
-          {plans.map((p) => (
-            <div key={p.title} className="pr-card" style={{ ...pr.card, ...(p.popular ? pr.cardPopular : {}) }}>
-              {p.popular && <div style={pr.popularBadge}>MOST POPULAR</div>}
-              <h3 className="pr-card-title" style={{ ...pr.cardTitle, ...(p.popular ? { color:"#fff" } : {}) }}>{p.title}</h3>
-              <p style={{ ...pr.cardPrice, ...(p.popular ? { color:"#d9c3e0" } : {}) }}>{p.price}</p>
-              <ul style={pr.list}>
-                {p.features.map(f => (
-                  <li key={f} className="pr-list-item" style={{ ...pr.listItem, ...(p.popular ? { color:"rgba(253,240,245,0.85)" } : {}) }}>
-                    <span style={pr.bullet}>•</span>{f}
+          {PROGRAMS.map((p, idx) => (
+            <div key={p.title} className={`pr-card pr-card-${idx}`}>
+              <div className="pr-card-glow" />
+              <div className="pr-card-icon"><ProgramIcon type={p.icon} /></div>
+              <span className="pr-card-tag">{p.tag}</span>
+              <h3 className="pr-card-title">{p.title}</h3>
+              <p className="pr-card-body">{p.desc}</p>
+              <p className="pr-card-label">{p.label}</p>
+              <ul className="pr-list">
+                {p.items.map(f => (
+                  <li key={f} className="pr-list-item">
+                    <svg className="pr-list-check" width="13" height="13" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {f}
                   </li>
                 ))}
               </ul>
-              <button
-                style={{ ...pr.bookBtn, ...(p.popular ? pr.bookBtnDark : {}) }}
-                onClick={() => nav("join")}
-              >BOOK NOW</button>
+              <button className="pr-book-btn" onClick={() => nav("join")}>
+                START YOUR JOURNEY
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Ecosystem */}
+      <section className="pathway2-section">
+        <div className="pathway2-inner">
+          <p className="pathway2-eyebrow">Programs Within the Ellevation Ecosystem</p>
+          <div className="pathway2-grid">
+            <div className="pathway2-card">
+              <h3 className="pathway2-card-title">Building the Woman</h3>
+              <p className="pathway2-card-desc" style={{ marginBottom: 14 }}>Ms. Ellevation focuses on:</p>
+              <ul className="pathway2-list">
+                {ECOSYSTEM_WOMAN.map(i => <li key={i}>{i}</li>)}
+              </ul>
+            </div>
+            <div className="pathway2-card pathway2-card-dark">
+              <h3 className="pathway2-card-title">Building Opportunity</h3>
+              <p className="pathway2-card-desc" style={{ marginBottom: 14 }}>Ellevation Hub focuses on:</p>
+              <ul className="pathway2-list">
+                {ECOSYSTEM_OPPORTUNITY.map(i => <li key={i}>{i}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ClosingCtaSection
+        nav={nav}
+        title="When Women Rise, Communities Rise."
+        body="Every program, workshop and community experience is designed to help women honour their stories, strengthen their identity, build confidence and step into leadership. Find your place. Lift your voice. Shine."
+        buttons={[
+          { label: "START YOUR JOURNEY", page: "join" },
+          { label: "JOIN OUR COMMUNITY", page: "join", variant: "outline" },
+        ]}
+      />
     </div>
   );
 }
@@ -575,24 +1040,17 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
 const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
+  bannerBlob1: { position:"absolute", top:-90, left:-70, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-80, right:-60, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#ffffff" },
-  grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
-  card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 32px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", position:"relative", display:"flex", flexDirection:"column", gap:0 },
-  cardPopular: { background:"#1a0a2e", border:"none", boxShadow:"0 8px 48px rgba(26,10,46,0.30)" },
-  popularBadge: { position:"absolute", top:-14, left:"50%", transform:"translateX(-50%)", fontFamily:"'Montserrat', sans-serif", fontSize:"0.65rem", fontWeight:700, letterSpacing:"0.18em", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", color:"#fff", padding:"5px 18px", borderRadius:100 },
-  cardTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
-  cardPrice: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:500, color:"#8a5a97", marginBottom:24 },
-  list: { listStyle:"none", display:"flex", flexDirection:"column", gap:12, marginBottom:32, padding:0 },
-  listItem: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#554866", display:"flex", alignItems:"center", gap:10 },
-  bullet: { color:"#4B1E56", fontWeight:700 },
-  bookBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", marginTop:"auto" },
-  bookBtnDark: { border:"none", background:"#D7B264", color:"#fff", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:640, margin:"0 auto 10px" },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:20, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(75,30,86,0.3)" },
+  section: { padding:"32px 48px 96px", background:"#ffffff" },
+  grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1160, margin:"0 auto" },
 };
 
-// ─── EVENTS PAGE (new) ──────────────────────────────────────────────────────────
+// ─── EVENTS PAGE ────────────────────────────────────────────────────────────
 const EVENTS = [
   { date: "AUG 14", title: "Rise & Lead: Leadership Circle", location: "Sydney, NSW", desc: "An evening of connection and leadership coaching for young women." },
   { date: "SEP 02", title: "Confidence Workshop",             location: "Online",     desc: "Interactive session on building unshakeable self-belief." },
@@ -604,8 +1062,10 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
     <div className="ev-page-root">
       <section className="ev-banner" style={ev.banner}>
         <div className="ev-banner-bg" style={ev.bannerBg} />
+        <div style={ev.bannerBlob1} />
+        <div style={ev.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p style={ev.eye}>— EVENTS —</p>
+          <p className="ev-eye" style={ev.eye}>— EVENTS —</p>
           <h1 className="ev-title" style={ev.title}>Gather. Grow. Rise Together.</h1>
           <p className="ev-sub" style={ev.sub}>Join us at upcoming events and sessions designed for connection and growth.</p>
         </div>
@@ -617,7 +1077,7 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
             <div key={e.title} className="ev-card" style={ev.card}>
               <div style={ev.dateBadge}>{e.date}</div>
               <h3 className="ev-card-title" style={ev.cardTitle}>{e.title}</h3>
-              <p style={ev.cardLoc}>{e.location}</p>
+              <p className="ev-card-loc" style={ev.cardLoc}>{e.location}</p>
               <p className="ev-card-desc" style={ev.cardDesc}>{e.desc}</p>
               <button style={ev.rsvpBtn} onClick={() => nav("join")}>RESERVE YOUR SPOT</button>
             </div>
@@ -631,6 +1091,8 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
 const ev: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
+  bannerBlob1: { position:"absolute", top:-90, right:-70, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
   sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
@@ -670,6 +1132,8 @@ function StoriesPage() {
     <div className="st-page-root">
       <section className="st-banner" style={st.banner}>
         <div className="st-banner-bg" style={st.bannerBg} />
+        <div style={st.bannerBlob1} />
+        <div style={st.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <h1 className="st-banner-title" style={st.bannerTitle}>Transformational Stories</h1>
           <p className="st-banner-sub" style={st.bannerSub}>Real women. Real journeys. Real transformation.</p>
@@ -684,7 +1148,7 @@ function StoriesPage() {
               <p className="st-quote" style={st.quote}>{s.quote}</p>
               <div style={st.author}>
                 <p className="st-name" style={st.name}>{s.name}</p>
-                <p style={st.role}>{s.role}</p>
+                <p className="st-role" style={st.role}>{s.role}</p>
               </div>
             </div>
           ))}
@@ -696,9 +1160,11 @@ function StoriesPage() {
 
 const st: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"#fff", zIndex:0 },
+  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
+  bannerBlob1: { position:"absolute", top:-90, right:-70, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(253,240,245,0.7)", position:"relative", zIndex:1 },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#554866", position:"relative", zIndex:1 },
   section: { background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
@@ -738,15 +1204,11 @@ function JoinPage() {
     return;
   }
 
-  // ✅ Unified template params — MUST match the {{variable}} names used in
-  // the EmailJS template exactly, or the field will render blank/undefined.
-  // Every variable referenced anywhere in the template is always sent,
-  // set to "" when it doesn't apply to this particular form.
   const templateParams = {
-     form_title: "New Ms Ellevation Application - Enquiry",   // 👈 ADD
-  ms_display: "block",                            // 👈 ADD
-  hub_display: "none", 
-  subject_detail: TIER_META[tier].label,  
+     form_title: "New Ms Ellevation Application - Enquiry",
+  ms_display: "block",
+  hub_display: "none",
+  subject_detail: TIER_META[tier].label,
     form_source: "Ms. Ellevation — Membership Application",
     logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
 
@@ -756,20 +1218,15 @@ function JoinPage() {
     email: currentForm.email,
     phone: currentForm.phone || "",
 
-    // Ms. Ellevation fields
     location: currentForm.location,
     profession: currentForm.profession,
     referral: currentForm.referral,
-    goals: currentForm.goals,          // ✅ FIX: was being sent as "message" before,
-                                        //     but the template reads {{goals}} — so it
-                                        //     always rendered blank. Now matches.
+    goals: currentForm.goals,
 
-    // Ellevation Hub — Membership fields (not used by this form)
     purpose: "",
     industry: "",
     notes: "",
 
-    // Ellevation Hub — Connect / Enquiry fields (not used by this form)
     enquiry_type: "",
     organization: "",
     message: "",
@@ -781,7 +1238,7 @@ function JoinPage() {
   try {
     const response = await emailjs.send(
       "service_ux9vfej",
-      "template_i4p3erl",   // 👈 use the SAME template id in both forms
+      "template_i4p3erl",
       templateParams,
       { publicKey: "Pu2wZN2ERnHjdboLI" }
     );
@@ -804,8 +1261,10 @@ function JoinPage() {
     <div className="jp-page-root">
       <section className="jp-banner" style={jp.banner}>
         <div className="jp-banner-bg" style={jp.bannerBg} />
+        <div style={jp.bannerBlob1} />
+        <div style={jp.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <div style={jp.eyebrowRow}><span style={jp.line}/><span style={jp.eyebrowTxt}>MEMBERSHIP</span><span style={jp.line}/></div>
+          <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>MEMBERSHIP</span><span className="jp-line" style={jp.line}/></div>
           <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Ellevation</h1>
         </div>
       </section>
@@ -820,8 +1279,8 @@ function JoinPage() {
         <div ref={formRef} className="jp-card" style={{ ...jp.card, opacity: formVisible?1:0, transform: formVisible?"translateY(0)":"translateY(24px)", transition:"opacity 0.35s ease,transform 0.35s ease", borderTop:`3px solid ${meta.color}` }}>
           {isSubmitted ? (
             <div style={jp.successBox}>
-              <h2 style={{ ...jp.successTitle, color: meta.color }}>Application Submitted!</h2>
-              <p style={jp.successText}>Thank you for applying for <strong>{meta.label} Membership</strong>. Our team will be in touch within 48 hours.</p>
+              <h2 className="jp-success-title" style={{ ...jp.successTitle, color: meta.color }}>Application Submitted!</h2>
+              <p className="jp-success-text" style={jp.successText}>Thank you for applying for <strong>{meta.label} Membership</strong>. Our team will be in touch within 48 hours.</p>
               <button style={{ ...jp.submitBtn }} onClick={() => setSubmitted(prev => ({ ...prev, [activeTier]: false }))}>SUBMIT ANOTHER</button>
             </div>
           ) : (
@@ -829,7 +1288,7 @@ function JoinPage() {
               <div style={jp.formHeader}>
                 <h2 className="jp-form-title" style={jp.formTitle}>Apply for {meta.label} Membership</h2>
                 <p className="jp-form-sub" style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
-                <p style={{ ...jp.tagline, color: meta.color }}>{meta.tagline}</p>
+                <p className="jp-tagline" style={{ ...jp.tagline, color: meta.color }}>{meta.tagline}</p>
               </div>
               <div className="jp-row" style={jp.row}>
                 <Field label="First Name *" value={form.firstName} error={errs.firstName} onChange={v => handleChange(activeTier,"firstName",v)} />
@@ -853,7 +1312,7 @@ function JoinPage() {
               <div style={jp.agreeRow} data-error={errs.agree?"true":undefined}>
                 <label style={jp.agreeLabel}>
                   <input type="checkbox" checked={form.agree} onChange={e => handleChange(activeTier,"agree",e.target.checked)} style={jp.checkbox} />
-                  <span className="jp-agree-text" style={jp.agreeText}>I agree to the Ellevation <a href="#" style={{ ...jp.agreeLink, color: meta.color }}>Community Guidelines</a> and <a href="#" style={{ ...jp.agreeLink, color: meta.color }}>Terms of Membership</a>.</span>
+                  <span className="jp-agree-text" style={jp.agreeText}>I agree to the Ellevation <a href="#" className="jp-agree-link" style={{ ...jp.agreeLink, color: meta.color }}>Community Guidelines</a> and <a href="#" className="jp-agree-link" style={{ ...jp.agreeLink, color: meta.color }}>Terms of Membership</a>.</span>
                 </label>
                 {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
               </div>
@@ -885,10 +1344,12 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 const jp: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:260, display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16 },
+  bannerBlob1: { position:"absolute", top:-80, right:-60, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
+  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:280, height:280, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
   line: { display:"inline-block", width:40, height:1, background:"#4B1E56" },
   eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#4B1E56" },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:700, color:"#1a0a2e" },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:700, color:"#1a0a2e", position:"relative", zIndex:1 },
   formSection: { maxWidth:780, margin:"0 auto", padding:"64px 24px 96px", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s both" },
   tabsRow: { display:"flex", justifyContent:"center", gap:12, marginBottom:36, flexWrap:"wrap" as const },
   tabBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.25s ease" },
@@ -920,12 +1381,8 @@ const jp: Record<string, React.CSSProperties> = {
 export default function EllevationPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // ✅ Read the active page from the URL (?page=about) instead of local state
-  // Falls back to "home" if no query param is present
   const page = (searchParams.get("page") as Page) || "home";
 
-  // ✅ Sync React state with whatever theme the navbar has already set
-  // This runs once on mount so the page reflects the saved theme immediately
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved) {
@@ -935,10 +1392,6 @@ export default function EllevationPage() {
     }
   }, []);
 
-  // ✅ FIX: Always scroll to the top of the page whenever the active `page`
-  // changes — no matter what triggered the navigation. This covers the
-  // navbar, the footer links, browser back/forward, and direct/bookmarked
-  // URLs like "?page=about", so every page always opens scrolled to the top.
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
@@ -949,8 +1402,6 @@ export default function EllevationPage() {
     } else {
       setSearchParams({ page: p });
     }
-    // kept for immediate feedback on click; the useEffect above is the
-    // real safety net that also covers footer / back-forward navigation
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -959,8 +1410,6 @@ export default function EllevationPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
 
-        /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
-           Replace the src url below with the path to your actual font file. */
         @font-face {
           font-family: 'Astrid Regular';
           src: url('/fonts/AstridRegular.woff2') format('woff2'),
@@ -980,141 +1429,70 @@ export default function EllevationPage() {
         @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,10px) scale(0.97);}}
         button:hover{opacity:0.88;}
 
-        /* ═══════════════════════════════════════
-           NAVBAR — fixed at top, one single centered pill row
-           (no separate white box behind it anymore)
-           ═══════════════════════════════════════ */
-        .ms-ellevation-root{
-          padding-top: 96px;
-        }
+        .ms-ellevation-root{ padding-top: 96px; }
         .ms-nav-row{
-          position:fixed;
-          top:0;
-          left:0;
-          right:0;
-          z-index:100;
+          position:fixed; top:0; left:0; right:0; z-index:100;
           display:flex; flex-direction:column; align-items:center;
           padding:16px 20px 0;
         }
         .ms-nav{
-          width:100%;
-          max-width:1180px;
-          display:flex;
-          align-items:center;
-          gap:14px;
+          width:100%; max-width:1180px; display:flex; align-items:center; gap:14px;
           background:rgba(255,255,255,0.92);
-          backdrop-filter:blur(16px);
-          -webkit-backdrop-filter:blur(16px);
-          border:1px solid rgba(75,30,86,0.08);
-          border-radius:100px;
-          padding:8px 10px 8px 8px;
-          box-shadow:0 2px 16px rgba(75,30,86,0.08);
+          backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+          border:1px solid rgba(75,30,86,0.08); border-radius:100px;
+          padding:8px 10px 8px 8px; box-shadow:0 2px 16px rgba(75,30,86,0.08);
           transition:box-shadow 0.3s ease;
         }
-        .ms-nav.ms-nav-scrolled{
-          box-shadow:0 4px 32px rgba(75,30,86,0.18);
-        }
+        .ms-nav.ms-nav-scrolled{ box-shadow:0 4px 32px rgba(75,30,86,0.18); }
         .ns-back-home{
           display:flex; align-items:center; gap:6px;
-          font-family:'Montserrat', sans-serif;
-          font-size:0.78rem; font-weight:600;
-          color:#4B1E56;
-          background:rgba(75,30,86,0.06);
-          border:1px solid rgba(75,30,86,0.12);
-          border-radius:100px;
-          padding:9px 16px;
-          cursor:pointer;
-          white-space:nowrap;
-          transition:all 0.2s ease;
-          flex-shrink:0;
+          font-family:'Montserrat', sans-serif; font-size:0.78rem; font-weight:600;
+          color:#4B1E56; background:rgba(75,30,86,0.06);
+          border:1px solid rgba(75,30,86,0.12); border-radius:100px;
+          padding:9px 16px; cursor:pointer; white-space:nowrap; transition:all 0.2s ease; flex-shrink:0;
         }
         .ns-back-home:hover{ background:rgba(75,30,86,0.12); opacity:1; }
-        .ns-logo{
-          width:110px;
-          height:auto;
-          object-fit:contain;
-          cursor:pointer;
-          flex-shrink:0;
-        }
-        .ns-links-desktop{
-          display:flex; align-items:center; gap:2px;
-          flex:1;
-          justify-content:center;
-          flex-wrap:wrap;
-        }
+        .ns-logo{ width:110px; height:auto; object-fit:contain; cursor:pointer; flex-shrink:0; }
+        .ns-links-desktop{ display:flex; align-items:center; gap:2px; flex:1; justify-content:center; flex-wrap:wrap; }
         .ns-link{
-          font-family:'Montserrat', sans-serif;
-          font-size:0.84rem; font-weight:500;
-          color:#4B1E56; background:transparent;
-          border:none; cursor:pointer;
-          padding:9px 15px; border-radius:100px;
-          transition:all 0.2s ease; white-space:nowrap;
+          font-family:'Montserrat', sans-serif; font-size:0.84rem; font-weight:500;
+          color:#4B1E56; background:transparent; border:none; cursor:pointer;
+          padding:9px 15px; border-radius:100px; transition:all 0.2s ease; white-space:nowrap;
         }
         .ns-link:hover{ background:rgba(75,30,86,0.06); opacity:1; }
         .ns-link.active{
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
-          color:#fff; font-weight:600;
-          box-shadow:0 2px 12px rgba(26,10,46,0.25);
+          color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(26,10,46,0.25);
         }
         .ns-link.active:hover{ opacity:1; }
         .ns-menu-toggle{
-          display:none;
-          flex-direction:column;
-          justify-content:center;
-          align-items:center;
-          gap:5px;
-          width:38px; height:38px;
-          border-radius:50%;
-          border:none;
-          background:rgba(75,30,86,0.06);
-          cursor:pointer;
-          flex-shrink:0;
+          display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
+          width:38px; height:38px; border-radius:50%; border:none; background:rgba(75,30,86,0.06); cursor:pointer; flex-shrink:0;
         }
-        .ns-menu-toggle span{
-          display:block; width:18px; height:2px;
-          background:#4B1E56; border-radius:2px;
-          transition:all 0.25s ease;
-        }
+        .ns-menu-toggle span{ display:block; width:18px; height:2px; background:#4B1E56; border-radius:2px; transition:all 0.25s ease; }
         .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
         .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
         .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
         .ns-mobile-menu{
-          max-height:0;
-          overflow:hidden;
-          width:100%;
-          max-width:1180px;
-          opacity:0;
+          max-height:0; overflow:hidden; width:100%; max-width:1180px; opacity:0;
           transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
         }
-        .ns-mobile-menu.open{
-          max-height:420px;
-          opacity:1;
-          margin-top:10px;
-        }
+        .ns-mobile-menu.open{ max-height:420px; opacity:1; margin-top:10px; }
         .ns-mobile-menu .ns-mobile-link{
-          display:block;
-          width:100%;
-          text-align:left;
-          font-family:'Montserrat', sans-serif;
-          font-size:0.92rem; font-weight:500;
-          color:#4B1E56; background:transparent;
-          border:none; cursor:pointer;
-          padding:13px 18px; border-radius:14px;
-          transition:all 0.2s ease;
+          display:block; width:100%; text-align:left;
+          font-family:'Montserrat', sans-serif; font-size:0.92rem; font-weight:500;
+          color:#4B1E56; background:transparent; border:none; cursor:pointer;
+          padding:13px 18px; border-radius:14px; transition:all 0.2s ease;
         }
         .ns-mobile-menu.open{
           display:flex; flex-direction:column; gap:4px;
-          background:rgba(255,255,255,0.97);
-          backdrop-filter:blur(16px);
-          border-radius:22px;
-          padding:10px;
-          box-shadow:0 12px 40px rgba(75,30,86,0.16);
+          background:rgba(255,255,255,0.97); backdrop-filter:blur(16px);
+          border-radius:22px; padding:10px; box-shadow:0 12px 40px rgba(75,30,86,0.16);
           border:1px solid rgba(75,30,86,0.08);
         }
         .ns-mobile-link:hover{ background:rgba(75,30,86,0.06); opacity:1; }
         .ns-mobile-link.active{
-          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important;
-          color:#fff !important;
+          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important; color:#fff !important;
         }
 
         @media (max-width: 1024px){
@@ -1129,10 +1507,6 @@ export default function EllevationPage() {
           .ms-ellevation-root{ padding-top: 82px; }
         }
 
-        /* ═══════════════════════════════════════
-           RESPONSIVE — section grids collapse on
-           tablet / mobile so nothing overflows
-           ═══════════════════════════════════════ */
         @media (max-width: 900px){
           .hp-grid{ grid-template-columns:1fr !important; text-align:center; }
           .hp-grid .hp-btn-row{ justify-content:center !important; }
@@ -1142,6 +1516,11 @@ export default function EllevationPage() {
           .ev-grid{ grid-template-columns:1fr !important; }
           .st-grid{ grid-template-columns:1fr !important; }
           .jp-row{ grid-template-columns:1fr !important; }
+          .vm-grid{ grid-template-columns:1fr !important; }
+          .values-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .pathway2-grid{ grid-template-columns:1fr !important; }
+          .pathways-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .jf-grid{ grid-template-columns:repeat(3,1fr) !important; }
         }
         @media (max-width: 768px){
           .hp-page{ padding:100px 24px 60px !important; min-height:auto !important; }
@@ -1150,7 +1529,6 @@ export default function EllevationPage() {
           .ab-stories-teaser{ padding:56px 24px !important; }
           .jn-banner{ padding:56px 24px 48px !important; }
           .jn-stages{ padding:48px 24px 56px !important; }
-          .jn-cta{ padding:48px 24px !important; }
           .pr-banner{ padding:56px 24px 48px !important; }
           .pr-section{ padding:40px 24px 64px !important; }
           .ev-banner{ padding:56px 24px 48px !important; }
@@ -1158,212 +1536,65 @@ export default function EllevationPage() {
           .st-banner{ padding:56px 24px 48px !important; }
           .st-section{ padding:48px 24px 64px !important; }
           .jp-card{ padding:36px 24px 40px !important; }
+          .story-section, .story-inner{ padding-left:24px !important; padding-right:24px !important; }
+          .values-grid{ grid-template-columns:1fr !important; }
+          .pathways-grid{ grid-template-columns:1fr !important; }
+          .jf-grid{ grid-template-columns:1fr !important; }
         }
         @media (max-width: 560px){
           .hp-headline{ font-size:2rem !important; }
-          .hp-card{ padding:24px !important; }
           .jp-form-title{ font-size:1.5rem !important; }
         }
 
         /* ═══════════════════════════════════════
-           Home page extra section 1: Impact Statement
+           Home page: Impact / Why We Exist
            ═══════════════════════════════════════ */
-        .impact-section {
-          position: relative;
-          overflow: hidden;
-          background: #ffffff;
-          padding: 110px 24px 130px;
-        }
-        .impact-inner {
-          position: relative;
-          z-index: 1;
-          max-width: 900px;
-          margin: 0 auto;
-          text-align: center;
-        }
+        .impact-section { position: relative; overflow: hidden; background: #ffffff; padding: 110px 24px 130px; }
+        .impact-inner { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; text-align: center; }
         .impact-blob { position: absolute; border-radius: 50%; pointer-events: none; }
-        .impact-blob-1 {
-          top: -100px; right: -80px; width: 380px; height: 380px;
-          background: radial-gradient(circle, rgba(75,30,86,0.08) 0%, transparent 70%);
-        }
-        .impact-blob-2 {
-          bottom: -60px; left: -100px; width: 340px; height: 340px;
-          background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%);
-        }
-        .impact-eyebrow {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: #662369;
-          margin-bottom: 18px;
-        }
-        .impact-title {
-          font-family: 'Astrid Regular', serif;
-          font-size: 52px;
-          font-weight: 700;
-          line-height: 1.1;
-          color: #4B1E56;
-          margin: 0 0 40px;
-        }
+        .impact-blob-1 { top: -100px; right: -80px; width: 380px; height: 380px; background: radial-gradient(circle, rgba(75,30,86,0.08) 0%, transparent 70%); }
+        .impact-blob-2 { bottom: -60px; left: -100px; width: 340px; height: 340px; background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%); }
+        .impact-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 18px; }
+        .impact-title { font-family: 'Astrid Regular', serif; font-size: 52px; font-weight: 700; line-height: 1.1; color: #4B1E56; margin: 0 0 40px; }
         .impact-glass-card {
-          display: inline-block;
-          max-width: 640px;
-          margin: 0 auto;
-          background: rgba(255, 255, 255, 0.7);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-          border: 1px solid rgba(124, 92, 191, 0.15);
-          border-radius: 28px;
-          padding: 40px 44px;
+          display: inline-block; max-width: 640px; margin: 0 auto;
+          background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(124, 92, 191, 0.15); border-radius: 28px; padding: 40px 44px;
           box-shadow: 0 20px 50px rgba(124, 92, 191, 0.1);
           transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
-        .impact-glass-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16);
-        }
-        .impact-card-title {
-          font-family: 'Montserrat', sans-serif;
-          color: #662369;
-          font-size: 20px;
-          font-weight: 700;
-          margin: 0 0 16px;
-          line-height: 1.3;
-        }
-        .impact-card-desc {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 15.5px;
-          line-height: 1.7;
-          color: #554866;
-          margin: 0;
-        }
-        .impact-tags {
-          display: flex;
-          justify-content: center;
-          gap: 28px;
-          margin-top: 28px;
-          flex-wrap: wrap;
-        }
+        .impact-glass-card:hover { transform: translateY(-4px); box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16); }
+        .impact-card-title { font-family: 'Montserrat', sans-serif; color: #662369; font-size: 20px; font-weight: 700; margin: 0 0 16px; line-height: 1.3; }
+        .impact-card-desc { font-family: 'Montserrat', sans-serif; font-size: 15.5px; line-height: 1.7; color: #554866; margin: 0; }
+        .impact-tags { display: flex; justify-content: center; gap: 28px; margin-top: 28px; flex-wrap: wrap; }
         .impact-tag { display: flex; align-items: center; gap: 8px; }
         .impact-tag-icon { color: #662369; font-size: 15px; }
-        .impact-tag-name {
-          font-family: 'Astrid Regular', serif;
-          font-size: 16px;
-          font-weight: 700;
-          color: #1a0a2e;
-        }
+        .impact-tag-name { font-family: 'Astrid Regular', serif; font-size: 16px; font-weight: 700; color: #1a0a2e; }
 
         /* ═══════════════════════════════════════
-           Home page extra section 2: Welcome
-           Alternate section background → soft gradient
+           Home page: Community section
            ═══════════════════════════════════════ */
-        .welcome-section {
-          background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%);
-          padding: 50px 24px;
-        }
-        .welcome-grid {
-          max-width: 1140px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 56px;
-          align-items: center;
-        }
-        .welcome-eyebrow {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #662369;
-          margin: 0 0 14px;
-        }
-        .welcome-title {
-          font-family: 'Astrid Regular', serif;
-          font-size: clamp(34px, 4.5vw, 50px);
-          font-weight: 700;
-          line-height: 1.18;
-          color: #1a0a2e;
-          margin: 0 0 22px;
-        }
-        .welcome-title-accent { color: #4B1E56; }
-        .welcome-desc {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 15.5px;
-          line-height: 1.75;
-          color: #554866;
-          margin: 0 0 32px;
-          max-width: 460px;
-        }
+        .welcome-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 50px 24px; scroll-margin-top: 120px; }
+        .welcome-grid { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+        .welcome-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #662369; margin: 0 0 14px; }
+        .welcome-title { font-family: 'Astrid Regular', serif; font-size: clamp(34px, 4.5vw, 50px); font-weight: 700; line-height: 1.18; color: #1a0a2e; margin: 0 0 22px; }
+        .welcome-desc { font-family: 'Montserrat', sans-serif; font-size: 15.5px; line-height: 1.75; color: #554866; margin: 0 0 32px; max-width: 460px; }
         .welcome-cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 14px 28px;
-          border-radius: 14px;
-          border: none;
-          background: #D7B264;
-          color: #fff;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 600;
-          font-size: 13px;
-          letter-spacing: 0.03em;
-          text-decoration: none;
-          cursor: pointer;
-          box-shadow: 0 4px 14px rgba(75, 30, 86, 0.25);
+          display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 14px; border: none;
+          background: #D7B264; color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 13px;
+          letter-spacing: 0.03em; text-decoration: none; cursor: pointer; box-shadow: 0 4px 14px rgba(75, 30, 86, 0.25);
           transition: transform 0.2s, box-shadow 0.2s;
         }
-        .welcome-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(75, 30, 86, 0.35);
-        }
+        .welcome-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(75, 30, 86, 0.35); }
         .welcome-image-wrap { position: relative; }
-        .welcome-image-frame {
-          border-radius: 28px;
-          overflow: hidden;
-          aspect-ratio: 4 / 3.4;
-          box-shadow: 0 24px 60px rgba(75, 30, 86, 0.18);
-          border: 1px solid rgba(124, 92, 191, 0.2);
-        }
+        .welcome-image-frame { border-radius: 28px; overflow: hidden; aspect-ratio: 4 / 3.4; box-shadow: 0 24px 60px rgba(75, 30, 86, 0.18); border: 1px solid rgba(124, 92, 191, 0.2); }
         .welcome-badge {
-          position: absolute;
-          bottom: -22px;
-          left: -22px;
-          background: #1a0a2e;
-          border-radius: 18px;
-          padding: 16px 22px;
-          box-shadow: 0 14px 34px rgba(0,0,0,0.22);
-          border: 1px solid rgba(255,255,255,0.06);
-          display: flex;
-          align-items: center;
-          gap: 12px;
+          position: absolute; bottom: -22px; left: -22px; background: #1a0a2e; border-radius: 18px; padding: 16px 22px;
+          box-shadow: 0 14px 34px rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px;
         }
-        .welcome-badge-icon {
-          width: 38px;
-          height: 38px;
-          border-radius: 50%;
-          background: rgba(75, 30, 86, 0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .welcome-badge-title {
-          font-family: 'Astrid Regular', serif;
-          font-size: 16px;
-          font-weight: 700;
-          color: #fff;
-          margin: 0;
-          line-height: 1.2;
-        }
-        .welcome-badge-sub {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 11px;
-          color: rgba(255,255,255,0.65);
-          margin: 0;
-        }
+        .welcome-badge-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(75, 30, 86, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .welcome-badge-title { font-family: 'Astrid Regular', serif; font-size: 16px; font-weight: 700; color: #fff; margin: 0; line-height: 1.2; }
+        .welcome-badge-sub { font-family: 'Montserrat', sans-serif; font-size: 11px; color: rgba(255,255,255,0.65); margin: 0; }
 
         @media (max-width: 868px) {
           .welcome-grid { grid-template-columns: 1fr !important; gap: 60px !important; }
@@ -1376,172 +1607,479 @@ export default function EllevationPage() {
           .ns-back-home span { display: none; }
         }
 
-        /* ── Dark Mode Overrides ── */
-        [data-theme="dark"] .ms-ellevation-root {
-          background: #0d0614 !important;
-          color: #e8e0f8 !important;
+        /* ═══════════════════════════════════════
+           Home page: Pathways section
+           ═══════════════════════════════════════ */
+        .pathways-section { background: #ffffff; padding: 100px 24px 110px; }
+        .pathways-inner { max-width: 1080px; margin: 0 auto; text-align: center; }
+        .pathways-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
+        .pathways-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 700; color: #1a0a2e; margin-bottom: 48px; }
+        .pathways-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
+        .pathways-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 20px; padding: 30px 24px; box-shadow: 0 4px 32px rgba(75,30,86,0.07); text-align: left; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+        .pathways-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(75,30,86,0.14); }
+        .pathways-card-title { font-family: 'Astrid Regular', serif; font-size: 1.15rem; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
+        .pathways-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; font-weight: 300; color: #554866; line-height: 1.65; }
+
+        /* ═══════════════════════════════════════
+           Shared: Journey Framework strip
+           (Story → Identity → Confidence → Leadership → Impact)
+           ═══════════════════════════════════════ */
+        .jf-strip { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 56px 24px 72px; }
+        .jf-inner { max-width: 1120px; margin: 0 auto; }
+        .jf-path { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #662369; margin-bottom: 32px; }
+        .jf-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; }
+        .jf-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 16px; padding: 22px 18px; text-align: center; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+        .jf-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(75,30,86,0.14); border-color: rgba(124, 92, 191, 0.3); }
+        .jf-card-title { font-family: 'Astrid Regular', serif; font-size: 1.05rem; font-weight: 600; color: #4B1E56; margin-bottom: 8px; }
+        .jf-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 300; color: #554866; line-height: 1.5; }
+
+        /* ═══════════════════════════════════════
+           Shared: narrative / story-style text blocks
+           ═══════════════════════════════════════ */
+        .story-section { background: #ffffff; padding: 96px 24px 80px; }
+        .story-inner { max-width: 760px; margin: 0 auto; }
+        .story-inner-narrow { max-width: 820px; text-align: center; padding: 0 24px; }
+        .story-framework-lead { font-family: 'Montserrat', sans-serif; font-size: 0.98rem; font-weight: 300; color: #554866; line-height: 1.8; }
+        .story-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 14px; }
+        .story-title { font-family: 'Astrid Regular', serif; font-size: clamp(2rem,4vw,2.9rem); font-weight: 700; color: #1a0a2e; margin-bottom: 10px; }
+        .story-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 500; color: #8a5a97; margin-bottom: 28px; }
+        .story-p { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 300; color: #554866; line-height: 1.85; margin-bottom: 18px; }
+        .story-p-strong { font-weight: 600; color: #4B1E56; }
+        .story-inline-list { list-style: none; display: flex; flex-wrap: wrap; gap: 12px 22px; margin-top: 8px; }
+        .story-inline-list li { font-family: 'Montserrat', sans-serif; font-size: 0.88rem; color: #554866; display: flex; align-items: center; gap: 8px; }
+        .story-inline-list li::before { content: "✓"; color: #4B1E56; font-weight: 700; }
+
+        /* ═══════════════════════════════════════
+           Shared: Vision & Mission
+           ═══════════════════════════════════════ */
+        .vm-section { background: #ffffff; padding: 88px 24px; }
+        .vm-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+        .vm-card { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); border: 1px solid rgba(124, 92, 191, 0.15); border-top: 3px solid #4B1E56; border-radius: 22px; padding: 40px 36px; box-shadow: 0 4px 32px rgba(75,30,86,0.07); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .vm-card:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(75,30,86,0.14); }
+        .vm-card:nth-child(2) { border-top-color: #D7B264; }
+        .vm-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
+        .vm-text { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 300; color: #554866; line-height: 1.85; }
+
+        /* ═══════════════════════════════════════
+           Shared: Values grid
+           ═══════════════════════════════════════ */
+        .values-section { background: #ffffff; padding: 96px 24px; }
+        .values-inner { max-width: 1120px; margin: 0 auto; text-align: center; }
+        .values-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 40px; }
+        .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+        .values-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 20px; padding: 30px 26px; text-align: left; box-shadow: 0 4px 32px rgba(75,30,86,0.07); }
+        .values-card-title { font-family: 'Astrid Regular', serif; font-size: 1.2rem; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
+        .values-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; font-weight: 300; color: #554866; line-height: 1.7; }
+
+        /* ═══════════════════════════════════════
+           Shared: Focus icon row (used in About + Journey)
+           ═══════════════════════════════════════ */
+        .focus-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 96px 24px; }
+        .focus-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+        .focus-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
+        .focus-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.8rem,3.5vw,2.4rem); font-weight: 700; color: #1a0a2e; margin-bottom: 36px; }
+        .icon-tags-row { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 28px; }
+        .icon-tag { display: flex; align-items: center; gap: 8px; }
+        .icon-tag-icon { color: #662369; font-size: 16px; }
+        .icon-tag-label { font-family: 'Astrid Regular', serif; font-size: 15px; font-weight: 700; color: #1a0a2e; }
+        .focus-note { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 300; color: #554866; }
+
+        /* ═══════════════════════════════════════
+           Shared: Two Pathways / Ecosystem cards
+           ═══════════════════════════════════════ */
+        .pathway2-section { background: #ffffff; padding: 96px 24px; }
+        .pathway2-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .pathway2-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #662369; margin-bottom: 36px; }
+        .pathway2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: left; }
+        .pathway2-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 22px; padding: 34px 30px; box-shadow: 0 4px 32px rgba(75,30,86,0.07); }
+        .pathway2-card-dark { background: #1a0a2e; border: none; color: #fff; box-shadow: 0 8px 48px rgba(26,10,46,0.3); }
+        .pathway2-card-title { font-family: 'Astrid Regular', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: #1a0a2e; }
+        .pathway2-card-dark .pathway2-card-title { color: #fff; }
+        .pathway2-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 300; color: #554866; line-height: 1.7; }
+        .pathway2-card-dark .pathway2-card-desc { color: rgba(255,255,255,0.8); }
+        .pathway2-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .pathway2-list li { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; color: #554866; }
+        .pathway2-card-dark .pathway2-list li { color: rgba(255,255,255,0.82); }
+        .pathway2-list li::before { content: "• "; color: #4B1E56; font-weight: 700; }
+        .pathway2-card-dark .pathway2-list li::before { color: #EFBF68; }
+        .pathway2-note { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 300; color: #554866; margin-top: 32px; }
+
+        /* ═══════════════════════════════════════
+           Shared: Bullet list section (Who We Support / Who Is This For)
+           ═══════════════════════════════════════ */
+        .bullet-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 90px 24px; }
+        .bullet-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+        .bullet-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 14px; }
+        .bullet-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.8rem,3.5vw,2.4rem); font-weight: 700; color: #1a0a2e; margin-bottom: 32px; }
+        .bullet-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 32px; text-align: left; margin-bottom: 20px; }
+        .bullet-list li { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; color: #554866; display: flex; align-items: center; gap: 10px; }
+        .bullet-list li::before { content: "◈"; color: #4B1E56; font-size: 0.8rem; }
+        .bullet-note { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-style: italic; color: #662369; margin-top: 12px; }
+        @media (max-width: 640px) { .bullet-list { grid-template-columns: 1fr !important; } }
+
+        /* ═══════════════════════════════════════
+           Shared: Closing CTA
+           ═══════════════════════════════════════ */
+        .closing-cta { position: relative; overflow: hidden; padding: 96px 24px; text-align: center; }
+        .closing-cta-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #1a0a2e 0%, #4B1E56 100%); z-index: 0; }
+        .closing-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+        .closing-cta-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #EFBF68; margin-bottom: 16px; }
+        .closing-cta-title { font-family: 'Astrid Regular', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 700; color: #fff; margin-bottom: 18px; }
+        .closing-cta-body { font-family: 'Montserrat', sans-serif; font-size: 0.98rem; font-weight: 300; color: rgba(255,255,255,0.85); line-height: 1.8; margin-bottom: 32px; }
+        .closing-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .closing-btn-solid, .closing-btn-outline {
+          font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em;
+          padding: 13px 30px; border-radius: 100px; cursor: pointer; transition: all 0.2s ease;
         }
-        [data-theme="dark"] .ms-nav {
-          background: rgba(22, 13, 34, 0.92) !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
-          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
+        .closing-btn-solid { border: none; background: #D7B264; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .closing-btn-outline { border: 1.5px solid rgba(255,255,255,0.5); background: transparent; color: #fff; }
+
+        /* ═══════════════════════════════════════
+           Journey Stages — redesigned cards
+           ═══════════════════════════════════════ */
+        .jn-stage-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+          display: flex;
+          flex-direction: column;
         }
-        [data-theme="dark"] .ns-link {
-          color: #d9a8cd !important;
+        .jn-stage-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 48px rgba(75,30,86,0.16);
+          border-color: rgba(124, 92, 191, 0.3);
         }
-        [data-theme="dark"] .ns-link:hover {
-          background: rgba(217, 168, 205, 0.1) !important;
+        .jn-stage-num {
+          display: inline-flex !important;
+          align-items: center;
+          justify-content: center;
+          width: 52px;
+          height: 52px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, rgba(75,30,86,0.10) 0%, rgba(215,178,100,0.14) 100%);
+          font-size: 1.3rem !important;
+          margin-bottom: 18px !important;
         }
-        [data-theme="dark"] .ns-back-home {
-          color: #d9a8cd !important;
-          background: rgba(217, 168, 205, 0.1) !important;
-          border-color: rgba(217, 168, 205, 0.25) !important;
+        .jn-stage-heading {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.82rem;
+          font-weight: 600;
+          letter-spacing: 0.03em;
+          color: #8a5a97;
+          margin-bottom: 14px;
         }
-        [data-theme="dark"] .ns-menu-toggle {
-          background: rgba(217, 168, 205, 0.1) !important;
+        .jn-stage-outcomes {
+          margin-top: 22px;
+          padding-top: 20px;
+          border-top: 1px solid rgba(124, 92, 191, 0.14);
         }
-        [data-theme="dark"] .ns-menu-toggle span {
-          background: #d9a8cd !important;
+        .jn-stage-outcomes-label {
+          display: block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #662369;
+          margin-bottom: 12px;
         }
-        [data-theme="dark"] .ns-mobile-menu.open {
-          background: rgba(22, 13, 34, 0.97) !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
+        .jn-stage-outcomes ul {
+          list-style: none;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          padding: 0;
+          margin: 0;
         }
-        [data-theme="dark"] .ns-mobile-link {
-          color: #d9a8cd !important;
-        }
-        [data-theme="dark"] .ns-mobile-link:hover {
-          background: rgba(217, 168, 205, 0.1) !important;
-        }
-        [data-theme="dark"] .hp-bg-grad {
-          background: linear-gradient(rgba(13, 6, 20, 0.75), rgba(13, 6, 20, 0.75)), url(${banner4}) !important;
-          background-size: cover !important;
-        }
-        [data-theme="dark"] .hp-headline,
-        [data-theme="dark"] .ab-banner-title,
-        [data-theme="dark"] .jn-banner-title,
-        [data-theme="dark"] .pr-title,
-        [data-theme="dark"] .ev-title,
-        [data-theme="dark"] .st-banner-title,
-        [data-theme="dark"] .jp-banner-title {
-          color: #e8e0f8 !important;
-        }
-        [data-theme="dark"] .hp-sub,
-        [data-theme="dark"] .ab-banner-sub,
-        [data-theme="dark"] .jn-banner-sub,
-        [data-theme="dark"] .pr-sub,
-        [data-theme="dark"] .ev-sub,
-        [data-theme="dark"] .st-banner-sub {
-          color: #d9a8cd !important;
-        }
-        [data-theme="dark"] .hp-card,
-        [data-theme="dark"] .ab-feat-card,
-        [data-theme="dark"] .jn-stage-card,
-        [data-theme="dark"] .pr-card,
-        [data-theme="dark"] .ev-card,
-        [data-theme="dark"] .st-card,
-        [data-theme="dark"] .jp-card {
-          background: #1f1330 !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
-          box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5) !important;
-        }
-        [data-theme="dark"] .hp-feat,
-        [data-theme="dark"] .ab-feat-desc,
-        [data-theme="dark"] .jn-stage-desc,
-        [data-theme="dark"] .pr-list-item,
-        [data-theme="dark"] .ev-card-desc,
-        [data-theme="dark"] .st-quote,
-        [data-theme="dark"] .jp-form-sub,
-        [data-theme="dark"] .jp-agree-text {
-          color: #d9a8cd !important;
-        }
-        [data-theme="dark"] .hp-card-desc,
-        [data-theme="dark"] .ab-feat-title,
-        [data-theme="dark"] .ab-t-title,
-        [data-theme="dark"] .jn-stage-title,
-        [data-theme="dark"] .jn-cta-title,
-        [data-theme="dark"] .pr-card-title:not([style*="color:#fff"]),
-        [data-theme="dark"] .ev-card-title,
-        [data-theme="dark"] .st-name,
-        [data-theme="dark"] .jp-form-title {
-          color: #e8e0f8 !important;
-        }
-        [data-theme="dark"] .ab-t-sub {
-          color: #d9a8cd !important;
-        }
-        [data-theme="dark"] .jn-banner-bg {
-          background: linear-gradient(150deg, #160d22 0%, #1a0a2e 50%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .pr-banner-bg {
-          background: linear-gradient(135deg, #160d22 0%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .ev-banner-bg {
-          background: linear-gradient(135deg, #160d22 0%, #140a1c 100%) !important;
-        }
-        [data-theme="dark"] .st-banner-bg {
-          background: linear-gradient(160deg, #1a0a2e 0%, #4B1E56 50%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .jp-banner-bg {
-          background: radial-gradient(ellipse 80% 80% at 50% 50%, #2d1740 0%, #1a0a2e 100%) !important;
-        }
-        [data-theme="dark"] .jp-input,
-        [data-theme="dark"] .jp-select,
-        [data-theme="dark"] .jp-textarea {
-          background: #0d0614 !important;
-          border-color: rgba(155, 109, 190, 0.3) !important;
-          color: #e8e0f8 !important;
-        }
-        [data-theme="dark"] .jp-input::placeholder,
-        [data-theme="dark"] .jp-textarea::placeholder {
-          color: rgba(232, 224, 248, 0.35) !important;
-        }
-        [data-theme="dark"] .jp-tabBtn {
-          border-color: rgba(155, 109, 190, 0.3) !important;
-          color: #d9a8cd !important;
-        }
-        [data-theme="dark"] .ab-banner-bg {
-          background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${banner5}) !important;
-          background-size: cover !important;
-        }
-        [data-theme="dark"] .ab-stories-teaser-bg {
-          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .jn-stages {
-          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .pr-section {
-          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .ev-section {
-          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .st-section {
-          background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important;
+        .jn-stage-outcomes li {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.78rem;
+          font-weight: 500;
+          color: #4B1E56;
+          background: rgba(75, 30, 86, 0.07);
+          border: 1px solid rgba(75, 30, 86, 0.12);
+          padding: 6px 14px;
+          border-radius: 100px;
         }
 
-        /* ── Dark Mode for the new Home-page sections ── */
-        [data-theme="dark"] .impact-section {
-          background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important;
+        /* ═══════════════════════════════════════
+           Programs Page — redesigned cards
+           Distinct accent colour per card, icon badge,
+           floating glow, pill-style feature chips and a
+           full-width gradient CTA button.
+           ═══════════════════════════════════════ */
+        .pr-card {
+          position: relative;
+          overflow: hidden;
+          background: #ffffff;
+          border: 1px solid rgba(124, 92, 191, 0.14);
+          border-radius: 24px;
+          padding: 40px 32px 32px;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 6px 28px rgba(75,30,86,0.07);
+          transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease, border-color 0.35s ease;
         }
-        [data-theme="dark"] .impact-eyebrow { color: #c9a3d9 !important; }
-        [data-theme="dark"] .impact-title { color: #ffffff !important; }
-        [data-theme="dark"] .impact-glass-card {
-          background: rgba(25, 16, 38, 0.7) !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
+        .pr-card::before {
+          content: "";
+          position: absolute; top: 0; left: 0; right: 0; height: 5px;
+          background: linear-gradient(90deg, var(--pr-accent-1, #4B1E56), var(--pr-accent-2, #D7B264));
         }
+        .pr-card-0 { --pr-accent-1: #4B1E56; --pr-accent-2: #8a5a97; }
+        .pr-card-1 { --pr-accent-1: #662369; --pr-accent-2: #D7B264; }
+        .pr-card-2 { --pr-accent-1: #6b2f7a; --pr-accent-2: #b98fd1; }
+        .pr-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 26px 60px rgba(75,30,86,0.18);
+          border-color: rgba(124, 92, 191, 0.32);
+        }
+        .pr-card-glow {
+          position: absolute;
+          top: -60px; right: -60px;
+          width: 180px; height: 180px;
+          border-radius: 50%;
+          background: radial-gradient(circle, var(--pr-accent-1, #4B1E56) 0%, transparent 70%);
+          opacity: 0.10;
+          pointer-events: none;
+          transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .pr-card:hover .pr-card-glow { opacity: 0.18; transform: scale(1.15); }
+        .pr-card-icon {
+          width: 56px; height: 56px;
+          border-radius: 16px;
+          display: flex; align-items: center; justify-content: center;
+          background: linear-gradient(135deg, var(--pr-accent-1, #4B1E56) 0%, var(--pr-accent-2, #8a5a97) 100%);
+          color: #fff;
+          margin-bottom: 20px;
+          box-shadow: 0 8px 20px rgba(75,30,86,0.28);
+          position: relative; z-index: 1;
+        }
+        .pr-card-tag {
+          display: inline-block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.66rem;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: var(--pr-accent-1, #4B1E56);
+          margin-bottom: 10px;
+          position: relative; z-index: 1;
+        }
+        .pr-card-title {
+          font-family: 'Astrid Regular', serif;
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: #1a0a2e;
+          margin-bottom: 12px;
+          line-height: 1.25;
+          position: relative; z-index: 1;
+        }
+        .pr-card-body {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.87rem;
+          font-weight: 300;
+          color: #554866;
+          line-height: 1.7;
+          margin-bottom: 22px;
+          position: relative; z-index: 1;
+        }
+        .pr-card-label {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #8a5a97;
+          margin-bottom: 12px;
+          position: relative; z-index: 1;
+        }
+        .pr-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 9px;
+          margin-bottom: 28px;
+          position: relative; z-index: 1;
+        }
+        .pr-list-item {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.85rem;
+          color: #3d2e47;
+          font-weight: 400;
+        }
+        .pr-list-check {
+          flex-shrink: 0;
+          color: #fff;
+          background: var(--pr-accent-1, #4B1E56);
+          border-radius: 50%;
+          padding: 3px;
+          box-sizing: content-box;
+        }
+        .pr-book-btn {
+          margin-top: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.74rem;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          padding: 15px;
+          border-radius: 100px;
+          border: none;
+          background: #d7b264;
+          color: #fff;linear
+          cursor: pointer;
+          transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+          box-shadow: 0 8px 22px rgba(75,30,86,0.28);
+          position: relative; z-index: 1;
+        }
+        .pr-book-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(75,30,86,0.36); opacity: 1; }
+        .pr-book-btn svg { transition: transform 0.25s ease; }
+        .pr-book-btn:hover svg { transform: translateX(3px); }
+
+        [data-theme="dark"] .pr-card { background: #1f1330 !important; border-color: rgba(155,109,190,0.16) !important; box-shadow: 0 6px 28px rgba(0,0,0,0.35) !important; }
+        [data-theme="dark"] .pr-card:hover { box-shadow: 0 26px 60px rgba(0,0,0,0.55) !important; border-color: rgba(155, 109, 190, 0.4) !important; }
+        [data-theme="dark"] .pr-card-title { color: #f3ecff !important; }
+        [data-theme="dark"] .pr-card-body { color: #d9a8cd !important; }
+        [data-theme="dark"] .pr-card-label { color: #c9a3d9 !important; }
+        [data-theme="dark"] .pr-list-item { color: #e8ddf5 !important; }
+        [data-theme="dark"] .pr-card-tag { filter: brightness(1.4); }
+
+        @media (max-width: 900px) {
+          .pr-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* ── Dark Mode Overrides ── */
+        [data-theme="dark"] .ms-ellevation-root { background: #0d0614 !important; color: #e8e0f8 !important; }
+        [data-theme="dark"] .ms-nav { background: rgba(22, 13, 34, 0.92) !important; border-color: rgba(155, 109, 190, 0.15) !important; box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important; }
+        [data-theme="dark"] .ns-link { color: #d9a8cd !important; }
+        [data-theme="dark"] .ns-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
+        [data-theme="dark"] .ns-back-home { color: #d9a8cd !important; background: rgba(217, 168, 205, 0.1) !important; border-color: rgba(217, 168, 205, 0.25) !important; }
+        [data-theme="dark"] .ns-menu-toggle { background: rgba(217, 168, 205, 0.1) !important; }
+        [data-theme="dark"] .ns-menu-toggle span { background: #d9a8cd !important; }
+        [data-theme="dark"] .ns-mobile-menu.open { background: rgba(22, 13, 34, 0.97) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
+        [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
+        [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
+        [data-theme="dark"] .hp-bg-grad { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
+        [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title { color: #e8e0f8 !important; }
+        [data-theme="dark"] .hp-sub, [data-theme="dark"] .ab-banner-sub, [data-theme="dark"] .jn-banner-sub,
+        [data-theme="dark"] .pr-sub, [data-theme="dark"] .ev-sub, [data-theme="dark"] .st-banner-sub { color: #d9a8cd !important; }
+        [data-theme="dark"] .hp-eyebrow, [data-theme="dark"] .ab-eye, [data-theme="dark"] .jn-eye,
+        [data-theme="dark"] .pr-eye, [data-theme="dark"] .ev-eye, [data-theme="dark"] .vm-eyebrow { color: #c9a3d9 !important; }
+        [data-theme="dark"] .jn-stage-card,
+        [data-theme="dark"] .ev-card, [data-theme="dark"] .st-card, [data-theme="dark"] .jp-card,
+        [data-theme="dark"] .pathways-card, [data-theme="dark"] .jf-card, [data-theme="dark"] .values-card,
+        [data-theme="dark"] .pathway2-card, [data-theme="dark"] .vm-card { background: #1f1330 !important; border-color: rgba(155, 109, 190, 0.15) !important; box-shadow: 0 8px 48px rgba(0, 0, 0, 0.5) !important; }
+        [data-theme="dark"] .vm-card { border-top-color: rgba(155, 109, 190, 0.35) !important; }
+        [data-theme="dark"] .jn-stage-desc,
+        [data-theme="dark"] .ev-card-desc, [data-theme="dark"] .st-quote,
+        [data-theme="dark"] .jp-form-sub, [data-theme="dark"] .jp-agree-text, [data-theme="dark"] .story-p,
+        [data-theme="dark"] .story-framework-lead, [data-theme="dark"] .jf-card-desc, [data-theme="dark"] .values-card-desc,
+        [data-theme="dark"] .pathways-card-desc, [data-theme="dark"] .bullet-list li, [data-theme="dark"] .welcome-desc,
+        [data-theme="dark"] .focus-note, [data-theme="dark"] .pathway2-card-desc, [data-theme="dark"] .jn-stage-heading,
+        [data-theme="dark"] .vm-text, [data-theme="dark"] .ev-card-loc, [data-theme="dark"] .st-role,
+        [data-theme="dark"] .jp-success-text, [data-theme="dark"] .pathway2-note,
+        [data-theme="dark"] .bullet-note, [data-theme="dark"] .pathway2-list li { color: #d9a8cd !important; }
+        [data-theme="dark"] .jn-banner-bg, [data-theme="dark"] .pr-banner-bg, [data-theme="dark"] .ev-banner-bg,
+        [data-theme="dark"] .st-banner-bg, [data-theme="dark"] .jp-banner-bg,
+        [data-theme="dark"] .ab-banner-bg { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .jp-input, [data-theme="dark"] .jp-select, [data-theme="dark"] .jp-textarea { background: #0d0614 !important; border-color: rgba(155, 109, 190, 0.3) !important; color: #e8e0f8 !important; }
+        [data-theme="dark"] .jp-input::placeholder, [data-theme="dark"] .jp-textarea::placeholder { color: rgba(232, 224, 248, 0.35) !important; }
+        [data-theme="dark"] .jp-tabBtn { border-color: rgba(155, 109, 190, 0.3) !important; color: #d9a8cd !important; }
+        [data-theme="dark"] .jp-tagline, [data-theme="dark"] .jp-success-title, [data-theme="dark"] .jp-agree-link { color: #e8b8f0 !important; }
+        [data-theme="dark"] .jp-eyebrow-txt { color: #c9a3d9 !important; }
+        [data-theme="dark"] .jp-line { background: rgba(217,168,205,0.4) !important; }
+        [data-theme="dark"] .ab-btn-outline { border-color: rgba(217,168,205,0.4) !important; color: #e8e0f8 !important; }
+        [data-theme="dark"] .ab-stories-teaser-bg { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .jn-stages { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .pr-section { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .ev-section { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .st-section { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
+
+        [data-theme="dark"] .impact-section { background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important; }
+        [data-theme="dark"] .impact-eyebrow, [data-theme="dark"] .welcome-eyebrow, [data-theme="dark"] .pathways-eyebrow,
+        [data-theme="dark"] .story-eyebrow, [data-theme="dark"] .values-eyebrow, [data-theme="dark"] .focus-eyebrow,
+        [data-theme="dark"] .pathway2-eyebrow, [data-theme="dark"] .bullet-eyebrow, [data-theme="dark"] .jf-path,
+        [data-theme="dark"] .icon-tag-icon { color: #c9a3d9 !important; }
+        [data-theme="dark"] .impact-glass-card { background: rgba(25, 16, 38, 0.7) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .impact-card-title { color: #d9b8e8 !important; }
         [data-theme="dark"] .impact-card-desc { color: #cbd5e1 !important; }
         [data-theme="dark"] .impact-tag-icon { color: #c9a3d9 !important; }
         [data-theme="dark"] .impact-tag-name { color: #ffffff !important; }
 
-        [data-theme="dark"] .welcome-section {
-          background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important;
-        }
-        [data-theme="dark"] .welcome-eyebrow { color: #c9a3d9 !important; }
-        [data-theme="dark"] .welcome-title { color: #ffffff !important; }
-        [data-theme="dark"] .welcome-title-accent { color: #d9b8e8 !important; }
-        [data-theme="dark"] .welcome-desc { color: #cbd5e1 !important; }
+        [data-theme="dark"] .welcome-section, [data-theme="dark"] .jf-strip, [data-theme="dark"] .focus-section,
+        [data-theme="dark"] .bullet-section { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .welcome-image-frame { border-color: rgba(155, 109, 190, 0.25) !important; }
+        [data-theme="dark"] .story-section, [data-theme="dark"] .values-section, [data-theme="dark"] .pathway2-section,
+        [data-theme="dark"] .pathways-section { background: #0d0614 !important; }
+        [data-theme="dark"] .story-subtitle { color: #d9b8e8 !important; }
+        [data-theme="dark"] .story-p-strong { color: #d9b8e8 !important; }
+        [data-theme="dark"] .story-inline-list li { color: #d9a8cd !important; }
+        [data-theme="dark"] .vm-section { background: linear-gradient(135deg, #0d0614 0%, #2d1740 100%) !important; }
+        [data-theme="dark"] .pathway2-card-dark { background: #0d0614 !important; }
+        [data-theme="dark"] .closing-cta-bg { background: linear-gradient(135deg, #0d0614 0%, #2d1740 100%) !important; }
+
+        /* ═══════════════════════════════════════
+           FIX: force all headings white/light in dark mode
+           ═══════════════════════════════════════ */
+        [data-theme="dark"] h1,
+        [data-theme="dark"] h2,
+        [data-theme="dark"] h3,
+        [data-theme="dark"] h4 { color: #f3ecff !important; }
+
+        [data-theme="dark"] .story-p,
+        [data-theme="dark"] .jn-stage-heading,
+        [data-theme="dark"] .jp-form-sub { color: #d9a8cd !important; }
+        [data-theme="dark"] .jn-stage-num { background: linear-gradient(135deg, rgba(217,168,205,0.14) 0%, rgba(239,191,104,0.16) 100%) !important; color: #f3ecff !important; }
+        [data-theme="dark"] .jn-stage-outcomes { border-top-color: rgba(155, 109, 190, 0.2) !important; }
+        [data-theme="dark"] .jn-stage-outcomes li { color: #e8b8f0 !important; background: rgba(217, 168, 205, 0.08) !important; border-color: rgba(217, 168, 205, 0.2) !important; }
+        [data-theme="dark"] .jn-stage-outcomes-label { color: #c9a3d9 !important; }
+
+        /* ═══════════════════════════════════════
+           Ecosystem lists → pill styling
+           ═══════════════════════════════════════ */
+        .pathway2-list { flex-direction: row !important; flex-wrap: wrap; gap: 10px !important; }
+        .pathway2-list li {
+          list-style: none;
+          background: rgba(75, 30, 86, 0.07);
+          border: 1px solid rgba(75, 30, 86, 0.14);
+          border-radius: 100px;
+          padding: 7px 16px;
+          font-size: 0.82rem !important;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .pathway2-list li:hover { transform: translateY(-2px); border-color: rgba(75, 30, 86, 0.3); }
+        .pathway2-list li::before { content: none !important; }
+        .pathway2-card-dark .pathway2-list li {
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(239,191,104,0.3);
+        }
+        .pathway2-card-dark .pathway2-list li:hover { border-color: rgba(239,191,104,0.55); }
+        [data-theme="dark"] .pathway2-list li {
+          background: rgba(217, 168, 205, 0.08) !important;
+          border-color: rgba(217, 168, 205, 0.2) !important;
+        }
+
+        /* ═══════════════════════════════════════
+           Uniform hover lift for the remaining cards
+           ═══════════════════════════════════════ */
+        .values-card, .pathway2-card, .ev-card, .st-card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .values-card:hover, .pathway2-card:hover, .ev-card:hover, .st-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 48px rgba(75,30,86,0.16);
+          border-color: rgba(124, 92, 191, 0.3);
+        }
+        [data-theme="dark"] .values-card:hover, [data-theme="dark"] .pathway2-card:hover,
+        [data-theme="dark"] .ev-card:hover, [data-theme="dark"] .st-card:hover {
+          box-shadow: 0 16px 48px rgba(0,0,0,0.55) !important;
+          border-color: rgba(155, 109, 190, 0.35) !important;
+        }
       `}</style>
 
       <Navbar current={page} nav={nav} />
@@ -1550,7 +2088,18 @@ export default function EllevationPage() {
         <>
           <HomePage nav={nav} />
           <ImpactStatementSection />
-          <WelcomeSection nav={nav} />
+          <CommunitySection nav={nav} />
+          <PathwaysSection />
+          <ClosingCtaSection
+            nav={nav}
+            eyebrow="Your Next Chapter"
+            title="Your Next Chapter Starts Here"
+            body="Join a community where women are empowered to grow, lead and thrive."
+            buttons={[
+              { label: "JOIN OUR COMMUNITY", page: "join" },
+              { label: "EXPLORE OUR PROGRAMS", page: "programs", variant: "outline" },
+            ]}
+          />
         </>
       )}
       {page === "about"    && <AboutPage    nav={nav} />}

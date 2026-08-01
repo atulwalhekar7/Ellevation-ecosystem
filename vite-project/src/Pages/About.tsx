@@ -5,6 +5,7 @@ import img1 from "../assets/img1.jpg";
 import img2 from "../assets/img2.jpg";
 import img3 from "../assets/img3.jpg";
 import img4 from "../assets/img4.jpg";
+import { Link } from "react-router-dom";
 
 /* ── helpers ── */
 function useInView(threshold = 0.15) {
@@ -35,43 +36,43 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 
 /* ── Who We Are data ── */
 const whoWeAreParagraphs = [
-  "Ellevation is a community-led ecosystem building confidence, wellbeing, leadership, and accessible pathways into opportunity across every stage of life.",
-  "We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their identities, cultures, or lived experiences.",
-  "We connect community, personal growth, leadership, and economic pathways into one integrated system.",
+  "Ellevation ecosystem was created to bridge the gap between potential and opportunity.",
+  "Across Australia, many individuals, families and communities possess the resilience, talent and ambition to succeed but often lack access to the networks, confidence, support systems and opportunities needed to move forward.",
+  "Ellevation brings these worlds together through one connected ecosystem that strengthens belonging, develops leadership, supports wellbeing and creates opportunities for long-term participation, contribution and growth.",
 ];
 
-const pipelineStages = ["Children", "Youth", "Women", "Men", "Community", "Economy"];
+const pipelineStages = ["Children", "Youth", "Women", "Men", "Families", "Community"];
 
 const overviewCards = [
   {
     label: "Mission",
-    text: "To build accessible, culturally grounded pathways that support CALD communities to grow in confidence, develop leadership, and access real opportunities for long-term economic participation.",
+    text: "To create accessible, culturally grounded pathways that support culturally and linguistically diverse (CALD) communities to build confidence, develop leadership, strengthen wellbeing and access opportunities for long-term participation, contribution and impact.",
   },
   {
     label: "Vision",
-    text: "A future where individuals and communities thrive with confidence, identity, and opportunity — without leaving culture or lived experience behind.",
+    text: "A future where culturally and linguistically diverse communities thrive with confidence, leadership and opportunity while remaining connected to their identity, culture and lived experience.",
   },
   {
     label: "Core Model",
-    text: "MS. ELLEVATION builds the woman — her Voice, Identity, Confidence, Healing, and Leadership. ELLEVATION HUB builds pathways, systems, impact, and opportunities around her and the wider community.",
+    text: "Ms Ellevation builds the woman — her identity, confidence, leadership and wellbeing. Ellevation Hub builds the ecosystem — pathways, partnerships and opportunity for the wider community.",
   },
 ];
 
 /* ── Core Model data (detailed section) ── */
 const coreModel = [
   {
-    label: "Ms. Ellevation",
-    title: "Builds the Woman",
-    body: "Her Voice, Identity, Confidence, Healing, and Leadership.",
-    tags: ["Voice", "Identity", "Confidence", "Healing", "Leadership"],
+    label: "Ms Ellevation",
+    title: "Building the Woman",
+    body: "Ms Ellevation focuses on women and young women, supporting identity, confidence, wellbeing, leadership and personal growth. Through mentoring, programs, events, community conversations and leadership opportunities, women are empowered to grow while remaining connected to their culture, values and lived experience.",
+    tags: ["Identity", "Confidence", "Leadership", "Wellbeing", "Community"],
     accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
   {
     label: "Ellevation Hub",
-    title: "Builds the Ecosystem",
-    body: "Pathways, systems, impact, and opportunities around her and the wider community.",
-    tags: ["Pathways", "Systems", "Impact", "Opportunity", "Community"],
+    title: "Building the Ecosystem",
+    body: "Ellevation Hub focuses on pathways, partnerships and opportunity. The Hub connects businesses, professionals, entrepreneurs, community organisations and service providers to strengthen collaboration, visibility, employment pathways, entrepreneurship and community impact.",
+    tags: ["Partnerships", "Community Development", "Employment Pathways", "Entrepreneurship", "Visibility", "Strategic Collaboration"],
     accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
@@ -80,29 +81,34 @@ const coreModel = [
 /* ── Who We Serve data ── */
 const whoWeServe = [
   {
-    title: "CALD Communities",
-    body: "Culturally and linguistically diverse communities building belonging, identity, and connection.",
-    icon: "✿",
+    title: "Children",
+    body: "Building confidence, belonging and identity from an early age.",
+    icon: "❀",
   },
   {
-    title: "Migrants & International Students",
-    body: "New arrivals navigating settlement, study, and pathways into everyday Australian life.",
-    icon: "◈",
-  },
-  {
-    title: "Women & Young Women (17–25)",
-    body: "Rising leaders building confidence, voice, and access to opportunity.",
+    title: "Youth",
+    body: "Creating pathways into leadership, aspiration, education and opportunity.",
     icon: "✦",
   },
   {
-    title: "Men & Families",
-    body: "Allyship, development, and support pathways for men and the families around them.",
+    title: "Women",
+    body: "Supporting confidence, wellbeing, leadership and personal growth.",
+    icon: "✿",
+  },
+  {
+    title: "Men",
+    body: "Encouraging participation, allyship, wellbeing and positive community engagement.",
     icon: "◎",
   },
   {
-    title: "Children & Youth (5–16)",
-    body: "Early foundations for confidence, identity, and belonging, nurtured from the very start.",
-    icon: "❀",
+    title: "Families",
+    body: "Strengthening connection, resilience and community participation.",
+    icon: "◈",
+  },
+  {
+    title: "Community Organisations",
+    body: "Creating opportunities for collaboration, collective impact and shared growth.",
+    icon: "⬡",
   },
 ];
 
@@ -155,10 +161,10 @@ function Carousel() {
           Signature Ecosystem
         </p>
         <p style={{ fontFamily: "'Astrid Regular',serif", fontSize: 13, fontWeight: 600, color: "#1a0a2e", lineHeight: 1.35, marginBottom: 10 }}>
-          Women rising, communities connecting.
+          One community, endless pathways.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 5 }}>
-          {["Growth", "Access", "Impact", "Belonging"].map((item) => (
+          {["Identity", "Leadership", "Wellbeing", "Opportunity"].map((item) => (
             <div key={item} style={{ borderRadius: 9, background: "rgba(245,240,255,0.9)", padding: "6px 9px", fontSize: 11, fontFamily: "'Montserrat',sans-serif", fontWeight: 600, color: "#5a3fa0" }}>
               {item}
             </div>
@@ -221,7 +227,7 @@ function Carousel() {
       >
         <div style={{ marginBottom: 6 }}><CrownIcon /></div>
         <p style={{ fontSize: 12.5, lineHeight: 1.5, color: "rgba(255,255,255,0.8)", fontFamily: "'Montserrat',sans-serif", margin: 0 }}>
-          Premium spaces for coaching, memberships, alliances, and events.
+          Mentoring, programs, events and community pathways.
         </p>
       </div>
     </div>
@@ -267,62 +273,64 @@ function Hero() {
             fontWeight: 700, lineHeight: 1.15,
             color: "#1a0a2e", marginBottom: 22, letterSpacing: "-0.01em",
           }}>
-            Born from a belief <br />every woman deserves <br />a   <span style={{ color: "#EFBF68" }}>space to rise.</span>
+            One Community. <br />Endless <span style={{ color: "#EFBF68" }}>Pathways.</span>
           </h1>
 
           <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 15.5, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
-            Ellevation is a luxury feminine, community-driven ecosystem uniting personal
-            transformation, professional visibility, impact pathways, events, and membership.
+            Ellevation is a community-led ecosystem where identity, leadership and opportunity
+            come together. We support culturally and linguistically diverse (CALD) communities
+            to grow, connect and thrive while remaining grounded in their identity, culture and
+            lived experience. By connecting people, communities, organisations and opportunities, we create pathways into wellbeing, leadership, employment, entrepreneurship and community participation.
           </p>
 
           <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <a
-              href="/ms-ellevation"
-              onMouseEnter={() => setPinkHov(true)}
-              onMouseLeave={() => setPinkHov(false)}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "14px 28px",
-                borderRadius: 14,
-                background: "#D7B264",
-                color: "#fff",
-                fontFamily: "'Montserrat'",
-                fontWeight: 600,
-                fontSize: 13,
-                textDecoration: "none",
-                boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
-                transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-            >
-              Enter Ms. Ellevation →
-            </a>
+           <Link
+  to="/Connect"
+  onMouseEnter={() => setPinkHov(true)}
+  onMouseLeave={() => setPinkHov(false)}
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    padding: "14px 28px",
+    borderRadius: 14,
+    background: "#D7B264",
+    color: "#fff",
+    fontFamily: "'Montserrat'",
+    fontWeight: 600,
+    fontSize: 13,
+    textDecoration: "none",
+    boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
+    transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
+    transition: "transform 0.2s, box-shadow 0.2s",
+  }}
+>
+  Join the Ecosystem →
+</Link>
 
-            <a
-              href="/hub"
-              onMouseEnter={() => setDarkHov(true)}
-              onMouseLeave={() => setDarkHov(false)}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "14px 28px",
-                borderRadius: 14,
-                background: "#D7B264",
-                color: "#fff",
-                fontFamily: "'Montserrat',sans-serif",
-                fontWeight: 600,
-                fontSize: 13,
-                textDecoration: "none",
-                boxShadow: "0 4px 14px rgba(90, 63, 160, 0.2)",
-                transform: darkHov ? "translateY(-2px)" : "translateY(0)",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-            >
-              Enter Ellevation Hub →
-            </a>
+<Link
+  to="/Connect"
+  onMouseEnter={() => setDarkHov(true)}
+  onMouseLeave={() => setDarkHov(false)}
+  style={{
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    padding: "14px 28px",
+    borderRadius: 14,
+    background: "#D7B264",
+    color: "#fff",
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 600,
+    fontSize: 13,
+    textDecoration: "none",
+    boxShadow: "0 4px 14px rgba(90, 63, 160, 0.2)",
+    transform: darkHov ? "translateY(-2px)" : "translateY(0)",
+    transition: "transform 0.2s, box-shadow 0.2s",
+  }}
+>
+  Partner With Us →
+</Link>
           </div>
         </div>
 
@@ -410,8 +418,8 @@ function WhoWeAreSection() {
             Who We Are
           </p>
           <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#1a0a2e", margin: 0 }}>
-            An Ecosystem Built for{" "}
-           Every Stage of Life
+            Bridging the Gap Between{" "}
+            Potential and Opportunity
           </h2>
         </div>
 
@@ -553,7 +561,7 @@ function FounderSection() {
             <div style={{ width: "100%", height: "100%", borderRadius: 28, overflow: "hidden", border: "1px solid rgba(124, 92, 191, 0.15)" }}>
               <img
                 src={aboutBg}
-                alt="Ms Hannah Gongar"
+                alt="Hannah Gongar"
                 style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
                 onError={(e) => {
                   const target = e.currentTarget;
@@ -571,7 +579,7 @@ function FounderSection() {
             </div>
           </div>
           <div style={{ textAlign: "center" }}>
-            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16.5, fontWeight: 700, color: "#1a0a2e", margin: "0 0 4px" }}>Ms Hannah Gongar</p>
+            <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16.5, fontWeight: 700, color: "#1a0a2e", margin: "0 0 4px" }}>Hannah Gongar</p>
             <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, fontWeight: 600, color: "#662369", letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Founder</p>
           </div>
         </div>
@@ -579,17 +587,17 @@ function FounderSection() {
         {/* RIGHT: text */}
         <div ref={right.ref} style={{ flex: "1 1 380px", maxWidth: 640 }}>
           <p style={{ ...fade(right.inView, 60), fontFamily: "'Montserrat', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
-            Ecosystem Pathway
+            Meet Hannah Gongar
           </p>
           <h2 style={{ ...fade(right.inView, 130), fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,46px)", fontWeight: 700, color: "#4B1E56", lineHeight: 1.2, margin: "0 0 24px" }}>
-            Building Confidence, Wellbeing, and{" "}
-            <span style={{ color: "#4B1E56" }}>Accessible Opportunities</span>
+            When Individuals Rise,{" "}
+            <span style={{ color: "#4B1E56" }}>Communities Rise With Them</span>
           </h2>
 
           {[
-            { delay: 200, text: "Ellevation is a community-led ecosystem dedicated to nurturing wellbeing, leadership, and accessible pathways into opportunity across every stage of life." },
-            { delay: 280, text: "We exist to support culturally and linguistically diverse (CALD) communities to grow, lead, and thrive without losing their unique identities, rich cultures, or lived experiences." },
-            { delay: 360, text: "By connecting community safety networks, personal growth frameworks, and strategic economic channels, we transform distinct milestones into a single, integrated lifecycle matrix." },
+            { delay: 200, text: "Ellevation is deeply connected to the story of its founder, Hannah Gongar. Having experienced the impact of war as a child and later migrating from Africa to Australia, Hannah understands firsthand the challenges of starting over, navigating unfamiliar systems and building a new life in a new country." },
+            { delay: 280, text: "Her journey has been shaped by resilience, perseverance and transformation — including the realities of migration, domestic violence and mental health challenges, and the long journey of rebuilding self-worth into confidence and leadership. Her mother, a single parent and NGO worker who dedicated her life to educating and protecting women and young people, shaped Hannah's deep commitment to service, empowerment and advocacy." },
+            { delay: 360, text: "Before launching Ms Ellevation, Hannah spent several years providing grassroots support through micro-finance initiatives, helping migrant women start businesses, secure housing, build financial independence and access opportunities for a better future. In 2024, that vision evolved into Ms Ellevation and the broader Ellevation ecosystem." },
           ].map((p, i) => (
             <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'Montserrat', sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
               {p.text}
@@ -612,7 +620,7 @@ function FounderSection() {
               color: "#4B1E56",
             }}
           >
-            {["Children", "Youth", "Women", "Men", "Community", "Economy"].map((stage, idx, arr) => (
+            {["Children", "Youth", "Women", "Men", "Families", "Community"].map((stage, idx, arr) => (
               <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
 <span
   style={{
@@ -670,7 +678,7 @@ function VisionSection() {
             display: "block",
             marginBottom: "12px"
           }}>
-            Our Purpose
+            Why Ellevation Matters
           </span>
           <h2 style={{
             ...fade(h.inView, 0),
@@ -682,10 +690,8 @@ function VisionSection() {
             maxWidth: "850px",
             margin: "0 auto"
           }}>
-            A Vision for Every Woman,{" "}
-           
-              A Platform for the Collective
-           
+            Barriers Aren't Always Visible —{" "}
+            But Access Should Be
           </h2>
         </div>
 
@@ -700,19 +706,19 @@ function VisionSection() {
               r: p1,
               d: 0,
               num: "01",
-              t: "Ellevation was founded on a simple but profound truth: women thrive when they are seen, supported, and connected to a community that believes in their power."
+              t: "For many CALD communities, barriers are not always visible. They can include limited networks, lack of representation, challenges navigating systems, social isolation, reduced access to opportunities and barriers to leadership participation."
             },
             {
               r: p2,
               d: 110,
               num: "02",
-              t: "From the boardroom to the community hall, from personal healing to professional mastery — Ellevation exists to serve every dimension of a woman's life and ambition."
+              t: "These challenges do not reflect a lack of potential. They often reflect a lack of access."
             },
             {
               r: p3,
               d: 220,
               num: "03",
-              t: "Through Ms. Ellevation and Ellevation Hub — we create a living ecosystem where transformation is not a destination, but a way of being."
+              t: "Ellevation exists to help remove these barriers by creating environments where people feel seen, valued, connected and supported to participate fully in community life."
             },
           ].map((item, i) => (
             <div
@@ -833,7 +839,7 @@ function CoreModelSection() {
         }}
       >
         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
-          Core Model
+          Core Ecosystem Structure
         </p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
           One mission. Two pathways.
@@ -995,24 +1001,49 @@ function CTASection() {
       <div className="blob cta-blob-2" />
       <div className="cta-shimmer" />
       <div ref={ref} style={{ position: "relative", zIndex: 1 }}>
+        <p style={{
+          ...fade(inView, 0),
+          fontFamily: "'Montserrat',sans-serif",
+          fontSize: 13,
+          fontWeight: 600,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "#662369",
+          margin: "0 0 16px",
+        }}>
+          Join a Movement Built on Belonging, Leadership and Opportunity
+        </p>
         <h2
           style={{
-            ...fade(inView, 0),
+            ...fade(inView, 60),
             fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(38px,6vw,60px)",
             fontWeight: 700,
             color: "#4B1E56",
-            margin: "0 0 40px"
+            margin: "0 0 24px"
           }}
         >
           Join Our <span style={{ color: "#EFBF68" }}>Ecosystem</span>
         </h2>
+        <p style={{
+          ...fade(inView, 110),
+          fontFamily: "'Montserrat',sans-serif",
+          fontSize: 15.5,
+          color: "#554866",
+          lineHeight: 1.65,
+          maxWidth: 620,
+          margin: "0 auto 40px",
+        }}>
+          Whether you are seeking community, leadership development, partnership opportunities
+          or ways to create meaningful impact, there is a place for you within the Ellevation
+          ecosystem.
+        </p>
         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-          <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
-            <CTABtn label="Enter Ms. Ellevation" primary />
+          <a href="/join" style={{ textDecoration: "none" }}>
+            <CTABtn label="Join the Ecosystem" primary />
           </a>
-          <a href="/hub" style={{ textDecoration: "none" }}>
-            <CTABtn label="Join Ellevation Hub" primary={false} />
+          <a href="/partner-with-us" style={{ textDecoration: "none" }}>
+            <CTABtn label="Partner With Us" primary={false} />
           </a>
         </div>
       </div>
