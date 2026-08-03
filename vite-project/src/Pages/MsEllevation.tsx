@@ -54,6 +54,15 @@ const BANNER_IMAGES = {
   join: "https://images.unsplash.com/photo-1637072103875-1b29a09d9c91?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
 };
 
+// ─── Home hero carousel images ──────────────────────────────────────────────
+// Rotating set of images used behind the Home hero text. Re-uses the same
+// vetted Unsplash photos already used elsewhere on the site (About + Programs
+// banners) so every image is guaranteed to be a valid, already-in-use asset.
+const HOME_CAROUSEL_IMAGES = [
+  BANNER_IMAGES.home,
+  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80", // Women collaborating
+  "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1600&q=80", // Woman leader inspiring others
+];
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
   FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#4B1E56" },
@@ -265,13 +274,40 @@ function ClosingCtaSection({
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: (p: Page) => void }) {
+  const [slideIndex, setSlideIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  // Auto-advance the hero carousel every 5s, unless paused by the user.
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setSlideIndex((i) => (i + 1) % HOME_CAROUSEL_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
   const scrollToCommunity = () => {
     document.getElementById("community-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <div className="hp-page" style={hp.page}>
-      <div className="hp-bg-grad" style={hp.bgGrad} />
+      {/* Rotating background carousel */}
+      <div style={hp.bgCarouselWrap}>
+        {HOME_CAROUSEL_IMAGES.map((img, i) => (
+          <div
+            key={img + i}
+            style={{
+              ...hp.bgSlide,
+              backgroundImage: `url('${img}')`,
+              opacity: i === slideIndex ? 1 : 0,
+            }}
+          />
+        ))}
+        {/* Dark gradient overlay sits above every slide so text stays readable */}
+        <div style={hp.bgOverlay} />
+      </div>
+
       <div style={hp.blobTL} />
       <div style={hp.blobBR} />
 
@@ -279,7 +315,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
         <div style={hp.left}>
           <p className="hp-eyebrow" style={hp.eyebrow}>A Space for Women, By Women</p>
           <h1 className="hp-headline" style={hp.headline}>
-            When Women Rise, <span style={{ color: "#EFBF68" }}>Communities Rise.</span>
+            When Women Rise, Communities Rise.
           </h1>
           <p className="hp-sub" style={hp.sub}>
             Supporting women and young women from culturally and linguistically diverse (CALD)
@@ -294,6 +330,33 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={hp.btnSecondary} onClick={scrollToCommunity}>JOIN OUR COMMUNITY</button>
           </div>
+
+          {/* Carousel controls — dot indicators + play/pause, sits under the text */}
+          <div className="hp-carousel-controls" style={hp.carouselControls}>
+            <button
+              className="hp-carousel-toggle"
+              style={hp.carouselToggle}
+              onClick={() => setIsPaused(p => !p)}
+              aria-label={isPaused ? "Play carousel" : "Pause carousel"}
+            >
+              {isPaused ? (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+              ) : (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" /><rect x="14" y="5" width="4" height="14" /></svg>
+              )}
+            </button>
+            <div className="hp-carousel-dots" style={hp.carouselDots}>
+              {HOME_CAROUSEL_IMAGES.map((_, i) => (
+                <button
+                  key={i}
+                  className="hp-carousel-dot"
+                  style={{ ...hp.carouselDot, ...(i === slideIndex ? hp.carouselDotActive : {}) }}
+                  onClick={() => setSlideIndex(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -302,11 +365,9 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 
 const hp: Record<string, React.CSSProperties> = {
   page: { position:"relative", overflow:"hidden", minHeight:"78vh", display:"flex", alignItems:"center", padding:"60px 48px 90px" },
-  bgGrad: {
-    position:"absolute", inset:0,
-    background:`linear-gradient(180deg, rgba(26,10,46,0.72) 0%, rgba(75,30,86,0.78) 100%), url('${BANNER_IMAGES.home}') center/cover no-repeat`,
-    zIndex:0
-  },
+  bgCarouselWrap: { position:"absolute", inset:0, zIndex:0, overflow:"hidden" },
+  bgSlide: { position:"absolute", inset:0, backgroundSize:"cover", backgroundPosition:"center", backgroundRepeat:"no-repeat", transition:"opacity 1.2s ease-in-out" },
+  bgOverlay: { position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(26,10,46,0.72) 0%, rgba(75,30,86,0.78) 100%)" },
   blobTL: { position:"absolute", top:-140, left:-120, width:520, height:520, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
   blobBR: { position:"absolute", bottom:-120, right:-100, width:460, height:460, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.16) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr", gap:48, alignItems:"center", maxWidth:820, margin:"0 auto", width:"100%", textAlign:"center" as const, animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
@@ -318,6 +379,11 @@ const hp: Record<string, React.CSSProperties> = {
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const, justifyContent:"center" as const },
   btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(0,0,0,0.35)" },
   btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(255,255,255,0.6)", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
+  carouselControls: { display:"flex", alignItems:"center", gap:14, marginTop:8 },
+  carouselToggle: { width:32, height:32, borderRadius:"50%", border:"1.5px solid rgba(255,255,255,0.5)", background:"rgba(255,255,255,0.08)", color:"#ffffff", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", transition:"all 0.2s ease", flexShrink:0 },
+  carouselDots: { display:"flex", alignItems:"center", gap:8 },
+  carouselDot: { width:8, height:8, padding:0, borderRadius:"50%", border:"1.5px solid rgba(255,255,255,0.6)", background:"rgba(255,255,255,0.25)", cursor:"pointer", transition:"all 0.2s ease" },
+  carouselDotActive: { background:"#EFBF68", borderColor:"#EFBF68", width:22, borderRadius:100 },
 };
 
 /* ══════════════════════════════════════════════
@@ -551,7 +617,7 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
         <div className="ab-banner-bg" style={ab.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="ab-eye" style={ab.bannerEye}>ABOUT MS. ELLEVATION</p>
-          <h1 className="ab-banner-title" style={ab.bannerTitle}>More Than a Program.<br />A <span style={{ color: "#EFBF68" }}>Community.</span></h1>
+          <h1 className="ab-banner-title" style={ab.bannerTitle}>More Than a Program.<br />A Community.</h1>
           <p className="ab-banner-sub" style={ab.bannerSub}>
             Ms. Ellevation is the women's pathway within the Ellevation ecosystem — a space for
             women, by women. We exist to help women and young women strengthen their identity,
@@ -1255,7 +1321,6 @@ function JoinPage() {
   return (
     <div className="jp-page-root">
       <section className="jp-banner" style={jp.banner}>
-        <div className="jp-banner-bg" style={jp.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>MEMBERSHIP</span><span className="jp-line" style={jp.line}/></div>
           <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Ellevation</h1>
@@ -1335,12 +1400,11 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 }
 
 const jp: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 560px)", display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.join}') center/cover no-repeat`, backgroundPosition:"center", zIndex:0 },
+  banner: { position:"relative", overflow:"hidden", padding:"36px 24px 32px", textAlign:"center", minHeight:"clamp(190px, 21vw, 280px)", display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg, #4B1E56 0%, #1a0a2e 100%)" },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
   line: { display:"inline-block", width:40, height:1, background:"rgba(255,255,255,0.6)" },
   eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#EFBF68" },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
   formSection: { maxWidth:780, margin:"0 auto", padding:"64px 24px 96px", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s both" },
   tabsRow: { display:"flex", justifyContent:"center", gap:12, marginBottom:36, flexWrap:"wrap" as const },
   tabBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.25s ease" },
@@ -1418,7 +1482,14 @@ export default function EllevationPage() {
         input:focus,textarea:focus,select:focus{outline:none;border-color:#4B1E56!important;box-shadow:0 0 0 3px rgba(75,30,86,0.12);}
         @keyframes fadeSlideUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
         @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,10px) scale(0.97);}}
-        button:hover{opacity:0.88;}
+
+        /* ═══════════════════════════════════════
+           Global light hover effect for ALL buttons
+           ═══════════════════════════════════════ */
+        button{cursor:pointer;transition:opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;}
+        button:hover{opacity:0.88;transform:translateY(-2px);filter:brightness(1.04);}
+        button:active{transform:translateY(0);}
+        button:disabled:hover{opacity:0.7;transform:none;filter:none;}
 
         .ms-ellevation-root{ padding-top: 96px; }
         .ms-nav-row{
@@ -1450,7 +1521,7 @@ export default function EllevationPage() {
           color:#4B1E56; background:transparent; border:none; cursor:pointer;
           padding:9px 15px; border-radius:100px; transition:all 0.2s ease; white-space:nowrap;
         }
-        .ns-link:hover{ background:rgba(75,30,86,0.06); opacity:1; }
+        .ns-link:hover{ background:rgba(75,30,86,0.06); opacity:1; transform:none; }
         .ns-link.active{
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
           color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(26,10,46,0.25);
@@ -1460,6 +1531,7 @@ export default function EllevationPage() {
           display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
           width:38px; height:38px; border-radius:50%; border:none; background:rgba(75,30,86,0.06); cursor:pointer; flex-shrink:0;
         }
+        .ns-menu-toggle:hover{ background:rgba(75,30,86,0.12); }
         .ns-menu-toggle span{ display:block; width:18px; height:2px; background:#4B1E56; border-radius:2px; transition:all 0.25s ease; }
         .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
         .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
@@ -1481,7 +1553,7 @@ export default function EllevationPage() {
           border-radius:22px; padding:10px; box-shadow:0 12px 40px rgba(75,30,86,0.16);
           border:1px solid rgba(75,30,86,0.08);
         }
-        .ns-mobile-link:hover{ background:rgba(75,30,86,0.06); opacity:1; }
+        .ns-mobile-link:hover{ background:rgba(75,30,86,0.06); opacity:1; transform:none; }
         .ns-mobile-link.active{
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important; color:#fff !important;
         }
@@ -1526,7 +1598,7 @@ export default function EllevationPage() {
           .ev-section{ padding:40px 24px 64px !important; }
           .st-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .st-section{ padding:48px 24px 64px !important; }
-          .jp-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
+          .jp-banner{ padding:28px 24px 24px !important; min-height:clamp(160px, 30vw, 210px) !important; }
           .jp-card{ padding:36px 24px 40px !important; }
           .story-section, .story-inner{ padding-left:24px !important; padding-right:24px !important; }
           .values-grid{ grid-template-columns:1fr !important; }
@@ -1538,7 +1610,7 @@ export default function EllevationPage() {
           .jp-form-title{ font-size:1.5rem !important; }
           .ev-banner{ min-height:300px !important; }
           .st-banner{ min-height:300px !important; }
-          .jp-banner{ min-height:300px !important; }
+          .jp-banner{ min-height:150px !important; }
         }
 
         /* ═══════════════════════════════════════
@@ -1614,6 +1686,12 @@ export default function EllevationPage() {
         .pathways-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(75,30,86,0.14); }
         .pathways-card-title { font-family: 'Astrid Regular', serif; font-size: 1.15rem; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
         .pathways-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; font-weight: 300; color: #554866; line-height: 1.65; }
+
+        /* ═══════════════════════════════════════
+           Home page: Hero carousel controls
+           ═══════════════════════════════════════ */
+        .hp-carousel-toggle:hover{ background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.8); transform:translateY(-1px); }
+        .hp-carousel-dot:hover{ background:rgba(255,255,255,0.55); transform:translateY(-1px); }
 
         /* ═══════════════════════════════════════
            Shared: Journey Framework strip
