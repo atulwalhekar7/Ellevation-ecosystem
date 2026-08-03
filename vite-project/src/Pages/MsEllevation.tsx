@@ -51,7 +51,7 @@ const BANNER_IMAGES = {
   programs: "https://images.unsplash.com/photo-1707409066859-a90674383d19?auto=format&fit=crop&w=1920&q=80",   // women together — programs & growth
   events: "https://images.unsplash.com/photo-1636987050384-9b079c700f63?auto=format&fit=crop&w=1920&q=80",     // hands joined — gathering & connection
   stories: "https://images.unsplash.com/photo-1621973856220-29115d9b5d29?auto=format&fit=crop&w=1920&q=80",    // women sitting together — intimate storytelling
-  join: "https://images.unsplash.com/photo-1636986905406-758b0e280f49?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
+  join: "https://images.unsplash.com/photo-1637072103875-1b29a09d9c91?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
 };
 
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
@@ -792,13 +792,13 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* <div className="story-inner story-inner-narrow" style={{ paddingTop: 64 }}>
+      <div className="story-inner story-inner-narrow" style={{ paddingTop: 64 }}>
         <p className="story-framework-lead">
           Transformation does not happen overnight. It happens through reflection, courage,
           community and action. At Ms. Ellevation, we support women through three interconnected
           stages of growth, guided by our five-stage framework.
         </p>
-      </div> */}
+      </div>
       <JourneyFrameworkStrip />
 
       <section className="jn-stages" style={jn.stagesSection}>
@@ -1335,7 +1335,7 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 }
 
 const jp: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 260px)", display:"flex", alignItems:"center", justifyContent:"center" },
+  banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 560px)", display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.join}') center/cover no-repeat`, backgroundPosition:"center", zIndex:0 },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
   line: { display:"inline-block", width:40, height:1, background:"rgba(255,255,255,0.6)" },
@@ -1996,6 +1996,7 @@ export default function EllevationPage() {
         [data-theme="dark"] .story-eyebrow, [data-theme="dark"] .values-eyebrow, [data-theme="dark"] .focus-eyebrow,
         [data-theme="dark"] .pathway2-eyebrow, [data-theme="dark"] .bullet-eyebrow, [data-theme="dark"] .jf-path,
         [data-theme="dark"] .icon-tag-icon { color: #c9a3d9 !important; }
+        [data-theme="dark"] .icon-tag-label { color: #ffffff !important; }
         [data-theme="dark"] .impact-glass-card { background: rgba(25, 16, 38, 0.7) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .impact-card-title { color: #d9b8e8 !important; }
         [data-theme="dark"] .impact-card-desc { color: #cbd5e1 !important; }
