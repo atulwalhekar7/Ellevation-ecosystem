@@ -39,6 +39,21 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 // until we decide together whether/where to bring it back.
 const SHOW_STORIES_TEASER = false;
 
+// ─── Banner background images ────────────────────────────────────────────────
+// Free-to-use Unsplash photos, one per page, chosen to match that page's theme.
+// A dark gradient overlay is layered on top of every banner (see each page's
+// `bannerBg` style below) so headline/body text stays readable no matter how
+// bright or busy the underlying photo is.
+const BANNER_IMAGES = {
+  home: "https://images.unsplash.com/photo-1495837174058-628aafc7d610?auto=format&fit=crop&w=1920&q=80",       // women rising, hands up at sunset
+  about: "https://images.unsplash.com/photo-1636986905406-758b0e280f49?auto=format&fit=crop&w=1920&q=80",      // circle of hands — community & sisterhood
+  journey: "https://images.unsplash.com/photo-1607748838605-ebcbe8f15772?auto=format&fit=crop&w=1920&q=80",    // group on steps — path & progression
+  programs: "https://images.unsplash.com/photo-1707409066859-a90674383d19?auto=format&fit=crop&w=1920&q=80",   // women together — programs & growth
+  events: "https://images.unsplash.com/photo-1636987050384-9b079c700f63?auto=format&fit=crop&w=1920&q=80",     // hands joined — gathering & connection
+  stories: "https://images.unsplash.com/photo-1621973856220-29115d9b5d29?auto=format&fit=crop&w=1920&q=80",    // women sitting together — intimate storytelling
+  join: "https://images.unsplash.com/photo-1636986905406-758b0e280f49?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
+};
+
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
   FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#4B1E56" },
@@ -264,7 +279,7 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
         <div style={hp.left}>
           <p className="hp-eyebrow" style={hp.eyebrow}>A Space for Women, By Women</p>
           <h1 className="hp-headline" style={hp.headline}>
-            When Women Rise, <span style={{ color: "#8a3f9c" }}>Communities Rise.</span>
+            When Women Rise, <span style={{ color: "#EFBF68" }}>Communities Rise.</span>
           </h1>
           <p className="hp-sub" style={hp.sub}>
             Supporting women and young women from culturally and linguistically diverse (CALD)
@@ -289,20 +304,20 @@ const hp: Record<string, React.CSSProperties> = {
   page: { position:"relative", overflow:"hidden", minHeight:"78vh", display:"flex", alignItems:"center", padding:"60px 48px 90px" },
   bgGrad: {
     position:"absolute", inset:0,
-    background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
+    background:`linear-gradient(180deg, rgba(26,10,46,0.72) 0%, rgba(75,30,86,0.78) 100%), url('${BANNER_IMAGES.home}') center/cover no-repeat`,
     zIndex:0
   },
-  blobTL: { position:"absolute", top:-140, left:-120, width:520, height:520, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.14) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
+  blobTL: { position:"absolute", top:-140, left:-120, width:520, height:520, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
   blobBR: { position:"absolute", bottom:-120, right:-100, width:460, height:460, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.16) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
   grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr", gap:48, alignItems:"center", maxWidth:820, margin:"0 auto", width:"100%", textAlign:"center" as const, animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
   left: { display:"flex", flexDirection:"column", gap:18, alignItems:"center" },
-  eyebrow: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", textTransform:"uppercase" as const },
-  headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#1a0a2e", lineHeight:1.12, margin:0 },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:520, margin:"0 auto" },
-  tagline: { fontFamily:"'Astrid Regular', serif", fontSize:"1.1rem", fontStyle:"italic", color:"#8a3f9c", margin:0 },
+  eyebrow: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", textTransform:"uppercase" as const },
+  headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#ffffff", lineHeight:1.12, margin:0, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.88)", lineHeight:1.75, maxWidth:520, margin:"0 auto" },
+  tagline: { fontFamily:"'Astrid Regular', serif", fontSize:"1.1rem", fontStyle:"italic", color:"#EFBF68", margin:0 },
   btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const, justifyContent:"center" as const },
-  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(75,30,86,0.4)", background:"transparent", color:"#4B1E56", cursor:"pointer", transition:"all 0.2s ease" },
+  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(0,0,0,0.35)" },
+  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(255,255,255,0.6)", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
 };
 
 /* ══════════════════════════════════════════════
@@ -534,11 +549,9 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
     <div className="ab-page-root">
       <section className="ab-banner" style={ab.banner}>
         <div className="ab-banner-bg" style={ab.bannerBg} />
-        <div style={ab.bannerBlob1} />
-        <div style={ab.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="ab-eye" style={ab.bannerEye}>ABOUT MS. ELLEVATION</p>
-          <h1 className="ab-banner-title" style={ab.bannerTitle}>More Than a Program.<br />A <span style={{ color: "#8a3f9c" }}>Community.</span></h1>
+          <h1 className="ab-banner-title" style={ab.bannerTitle}>More Than a Program.<br />A <span style={{ color: "#EFBF68" }}>Community.</span></h1>
           <p className="ab-banner-sub" style={ab.bannerSub}>
             Ms. Ellevation is the women's pathway within the Ellevation ecosystem — a space for
             women, by women. We exist to help women and young women strengthen their identity,
@@ -705,16 +718,14 @@ const ab: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", minHeight:420, display:"flex", alignItems:"center", justifyContent:"center", padding:"80px 48px" },
   bannerBg: {
     position:"absolute", inset:0,
-    background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
+    background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.about}') center/cover no-repeat`,
     zIndex:0
   },
-  bannerBlob1: { position:"absolute", top:-100, right:-80, width:400, height:400, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.14) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-80, left:-60, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.18) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16 },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#1a0a2e", lineHeight:1.15, marginBottom:20 },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, maxWidth:640, margin:"0 auto" },
-  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(75,30,86,0.35)" },
-  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(75,30,86,0.4)", background:"transparent", color:"#4B1E56", cursor:"pointer" },
+  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#ffffff", lineHeight:1.15, marginBottom:20, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, maxWidth:640, margin:"0 auto" },
+  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(0,0,0,0.35)" },
+  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(255,255,255,0.6)", background:"transparent", color:"#ffffff", cursor:"pointer" },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
   storiesTeaserBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
   tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
@@ -764,8 +775,6 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
     <div className="jn-page-root">
       <section className="jn-banner" style={jn.banner}>
         <div className="jn-banner-bg" style={jn.bannerBg} />
-        <div style={jn.bannerBlob1} />
-        <div style={jn.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="jn-eye" style={jn.eye}>— YOUR JOURNEY —</p>
           <h1 className="jn-banner-title" style={jn.bannerTitle}>Every Rise Has a Path.</h1>
@@ -783,13 +792,13 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
 
-      <div className="story-inner story-inner-narrow" style={{ paddingTop: 64 }}>
+      {/* <div className="story-inner story-inner-narrow" style={{ paddingTop: 64 }}>
         <p className="story-framework-lead">
           Transformation does not happen overnight. It happens through reflection, courage,
           community and action. At Ms. Ellevation, we support women through three interconnected
           stages of growth, guided by our five-stage framework.
         </p>
-      </div>
+      </div> */}
       <JourneyFrameworkStrip />
 
       <section className="jn-stages" style={jn.stagesSection}>
@@ -843,13 +852,11 @@ function JourneyPage({ nav }: { nav: (p: Page) => void }) {
 
 const jn: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  bannerBlob1: { position:"absolute", top:-90, right:-70, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.75, maxWidth:620, margin:"0 auto 12px", position:"relative", zIndex:1 },
-  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:24, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(75,30,86,0.3)" },
+  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.journey}') center/cover no-repeat`, zIndex:0 },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.75, maxWidth:620, margin:"0 auto 12px", position:"relative", zIndex:1 },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:24, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
   stagesSection: { padding:"32px 48px 80px", background:"#ffffff" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
   stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
@@ -928,8 +935,6 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
     <div className="pr-page-root">
       <section className="pr-banner" style={pr.banner}>
         <div className="pr-banner-bg" style={pr.bannerBg} />
-        <div style={pr.bannerBlob1} />
-        <div style={pr.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="pr-eye" style={pr.eye}>— OUR PROGRAMS —</p>
           <h1 className="pr-title" style={pr.title}>Programs Designed for Growth, Connection and Impact.</h1>
@@ -1039,13 +1044,11 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
 
 const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  bannerBlob1: { position:"absolute", top:-90, left:-70, width:360, height:360, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-80, right:-60, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:640, margin:"0 auto 10px" },
-  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:20, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(75,30,86,0.3)" },
+  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.programs}') center/cover no-repeat`, zIndex:0 },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:640, margin:"0 auto 10px" },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:20, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
   section: { padding:"32px 48px 96px", background:"#ffffff" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1160, margin:"0 auto" },
 };
@@ -1062,8 +1065,6 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
     <div className="ev-page-root">
       <section className="ev-banner" style={ev.banner}>
         <div className="ev-banner-bg" style={ev.bannerBg} />
-        <div style={ev.bannerBlob1} />
-        <div style={ev.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="ev-eye" style={ev.eye}>— EVENTS —</p>
           <h1 className="ev-title" style={ev.title}>Gather. Grow. Rise Together.</h1>
@@ -1089,13 +1090,11 @@ function EventsPage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const ev: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  bannerBlob1: { position:"absolute", top:-90, right:-70, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"#554866", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 560px)", display:"flex", alignItems:"center", justifyContent:"center" },
+  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.events}') center/cover no-repeat`, zIndex:0 },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
   section: { padding:"60px 48px 96px", background:"#ffffff" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
@@ -1132,8 +1131,6 @@ function StoriesPage() {
     <div className="st-page-root">
       <section className="st-banner" style={st.banner}>
         <div className="st-banner-bg" style={st.bannerBg} />
-        <div style={st.bannerBlob1} />
-        <div style={st.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <h1 className="st-banner-title" style={st.bannerTitle}>Transformational Stories</h1>
           <p className="st-banner-sub" style={st.bannerSub}>Real women. Real journeys. Real transformation.</p>
@@ -1159,12 +1156,10 @@ function StoriesPage() {
 }
 
 const st: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  bannerBlob1: { position:"absolute", top:-90, right:-70, width:340, height:340, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:300, height:300, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#554866", position:"relative", zIndex:1 },
+  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 560px)", display:"flex", alignItems:"center", justifyContent:"center" },
+  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.stories}') center/cover no-repeat`, zIndex:0 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(255,255,255,0.9)", position:"relative", zIndex:1 },
   section: { background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
@@ -1261,8 +1256,6 @@ function JoinPage() {
     <div className="jp-page-root">
       <section className="jp-banner" style={jp.banner}>
         <div className="jp-banner-bg" style={jp.bannerBg} />
-        <div style={jp.bannerBlob1} />
-        <div style={jp.bannerBlob2} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>MEMBERSHIP</span><span className="jp-line" style={jp.line}/></div>
           <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Ellevation</h1>
@@ -1342,14 +1335,12 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 }
 
 const jp: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:260, display:"flex", alignItems:"center", justifyContent:"center" },
-  bannerBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  bannerBlob1: { position:"absolute", top:-80, right:-60, width:320, height:320, borderRadius:"50%", background:"radial-gradient(circle,rgba(75,30,86,0.13) 0%,transparent 70%)", animation:"floatBlob 9s ease-in-out infinite", zIndex:1 },
-  bannerBlob2: { position:"absolute", bottom:-70, left:-50, width:280, height:280, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.17) 0%,transparent 70%)", animation:"floatBlob 12s ease-in-out infinite reverse", zIndex:1 },
+  banner: { position:"relative", overflow:"hidden", padding:"80px 24px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 260px)", display:"flex", alignItems:"center", justifyContent:"center" },
+  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.join}') center/cover no-repeat`, backgroundPosition:"center", zIndex:0 },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
-  line: { display:"inline-block", width:40, height:1, background:"#4B1E56" },
-  eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#4B1E56" },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:700, color:"#1a0a2e", position:"relative", zIndex:1 },
+  line: { display:"inline-block", width:40, height:1, background:"rgba(255,255,255,0.6)" },
+  eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#EFBF68" },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,3.8rem)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
   formSection: { maxWidth:780, margin:"0 auto", padding:"64px 24px 96px", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s both" },
   tabsRow: { display:"flex", justifyContent:"center", gap:12, marginBottom:36, flexWrap:"wrap" as const },
   tabBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.25s ease" },
@@ -1531,10 +1522,11 @@ export default function EllevationPage() {
           .jn-stages{ padding:48px 24px 56px !important; }
           .pr-banner{ padding:56px 24px 48px !important; }
           .pr-section{ padding:40px 24px 64px !important; }
-          .ev-banner{ padding:56px 24px 48px !important; }
+          .ev-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .ev-section{ padding:40px 24px 64px !important; }
-          .st-banner{ padding:56px 24px 48px !important; }
+          .st-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .st-section{ padding:48px 24px 64px !important; }
+          .jp-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .jp-card{ padding:36px 24px 40px !important; }
           .story-section, .story-inner{ padding-left:24px !important; padding-right:24px !important; }
           .values-grid{ grid-template-columns:1fr !important; }
@@ -1544,6 +1536,9 @@ export default function EllevationPage() {
         @media (max-width: 560px){
           .hp-headline{ font-size:2rem !important; }
           .jp-form-title{ font-size:1.5rem !important; }
+          .ev-banner{ min-height:300px !important; }
+          .st-banner{ min-height:300px !important; }
+          .jp-banner{ min-height:300px !important; }
         }
 
         /* ═══════════════════════════════════════
@@ -1963,13 +1958,12 @@ export default function EllevationPage() {
         [data-theme="dark"] .ns-mobile-menu.open { background: rgba(22, 13, 34, 0.97) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
-        [data-theme="dark"] .hp-bg-grad { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
-        [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title { color: #e8e0f8 !important; }
+        [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title { color: #ffffff !important; }
         [data-theme="dark"] .hp-sub, [data-theme="dark"] .ab-banner-sub, [data-theme="dark"] .jn-banner-sub,
-        [data-theme="dark"] .pr-sub, [data-theme="dark"] .ev-sub, [data-theme="dark"] .st-banner-sub { color: #d9a8cd !important; }
+        [data-theme="dark"] .pr-sub, [data-theme="dark"] .ev-sub, [data-theme="dark"] .st-banner-sub { color: rgba(255,255,255,0.9) !important; }
         [data-theme="dark"] .hp-eyebrow, [data-theme="dark"] .ab-eye, [data-theme="dark"] .jn-eye,
-        [data-theme="dark"] .pr-eye, [data-theme="dark"] .ev-eye, [data-theme="dark"] .vm-eyebrow { color: #c9a3d9 !important; }
+        [data-theme="dark"] .pr-eye, [data-theme="dark"] .ev-eye, [data-theme="dark"] .vm-eyebrow { color: #EFBF68 !important; }
         [data-theme="dark"] .jn-stage-card,
         [data-theme="dark"] .ev-card, [data-theme="dark"] .st-card, [data-theme="dark"] .jp-card,
         [data-theme="dark"] .pathways-card, [data-theme="dark"] .jf-card, [data-theme="dark"] .values-card,
@@ -1984,16 +1978,13 @@ export default function EllevationPage() {
         [data-theme="dark"] .vm-text, [data-theme="dark"] .ev-card-loc, [data-theme="dark"] .st-role,
         [data-theme="dark"] .jp-success-text, [data-theme="dark"] .pathway2-note,
         [data-theme="dark"] .bullet-note, [data-theme="dark"] .pathway2-list li { color: #d9a8cd !important; }
-        [data-theme="dark"] .jn-banner-bg, [data-theme="dark"] .pr-banner-bg, [data-theme="dark"] .ev-banner-bg,
-        [data-theme="dark"] .st-banner-bg, [data-theme="dark"] .jp-banner-bg,
-        [data-theme="dark"] .ab-banner-bg { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .jp-input, [data-theme="dark"] .jp-select, [data-theme="dark"] .jp-textarea { background: #0d0614 !important; border-color: rgba(155, 109, 190, 0.3) !important; color: #e8e0f8 !important; }
         [data-theme="dark"] .jp-input::placeholder, [data-theme="dark"] .jp-textarea::placeholder { color: rgba(232, 224, 248, 0.35) !important; }
         [data-theme="dark"] .jp-tabBtn { border-color: rgba(155, 109, 190, 0.3) !important; color: #d9a8cd !important; }
         [data-theme="dark"] .jp-tagline, [data-theme="dark"] .jp-success-title, [data-theme="dark"] .jp-agree-link { color: #e8b8f0 !important; }
-        [data-theme="dark"] .jp-eyebrow-txt { color: #c9a3d9 !important; }
+        [data-theme="dark"] .jp-eyebrow-txt { color: #EFBF68 !important; }
         [data-theme="dark"] .jp-line { background: rgba(217,168,205,0.4) !important; }
-        [data-theme="dark"] .ab-btn-outline { border-color: rgba(217,168,205,0.4) !important; color: #e8e0f8 !important; }
+        [data-theme="dark"] .ab-btn-outline { border-color: rgba(217,168,205,0.4) !important; color: #ffffff !important; }
         [data-theme="dark"] .ab-stories-teaser-bg { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .jn-stages { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .pr-section { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
