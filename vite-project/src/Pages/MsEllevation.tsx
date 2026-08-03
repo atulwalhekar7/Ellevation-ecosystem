@@ -1109,7 +1109,7 @@ function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const pr: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center" },
+  banner: { position:"relative", overflow:"hidden", padding:"95px 85px 85px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.programs}') center/cover no-repeat`, zIndex:0 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
