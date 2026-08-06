@@ -51,6 +51,56 @@ const NAV_LINKS: { label: string; page: Page }[] = [
   { label: "Connect", page: "connect" },
 ];
 
+// ─── SEO: per-page <title> and meta description ─────────────────────────────
+// Applied via useEffect in the root component whenever `page` changes.
+const PAGE_META: Record<Page, { title: string; description: string }> = {
+  home: {
+    title: "Ellevation Hub | Every Pathway Into Opportunity",
+    description:
+      "A unified platform for community, business, youth, and men — connecting real opportunity to real people across Perth's Ellevation ecosystem.",
+  },
+  about: {
+    title: "About the Hub | Ellevation Hub",
+    description:
+      "Ellevation Hub is the professional and community backbone of our ecosystem — supporting grassroots networks, growing businesses, rising youth, and men committed to allyship and growth.",
+  },
+  membership: {
+    title: "Membership Tiers & Benefits | Ellevation Hub",
+    description:
+      "Explore Ellevation Hub's four membership tiers — Connect, Grow, Visibility, and Impact — and submit an expression of interest to join.",
+  },
+  directory: {
+    title: "Business Directory | Ellevation Hub",
+    description:
+      "Discover verified businesses built by our community, browse listings by category, or add your own business to the Ellevation Hub directory.",
+  },
+  programs: {
+    title: "Our Programs | Ellevation Hub",
+    description:
+      "Development pathways for every corner of the community — youth mentorship, men's pathway programs, and grassroots community development.",
+  },
+  opportunities: {
+    title: "Opportunity Board | Ellevation Hub",
+    description:
+      "Browse jobs, collaborations, grants, professional development, and member-only openings connecting Hub members to real opportunity.",
+  },
+  events: {
+    title: "Upcoming Events | Ellevation Hub",
+    description:
+      "Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one Perth events calendar.",
+  },
+  impact: {
+    title: "Our Impact | Ellevation Hub",
+    description:
+      "Real outcomes across every group we support — community reach, CALD community outcomes, business growth, and stories from our members.",
+  },
+  connect: {
+    title: "Connect With Us | Ellevation Hub",
+    description:
+      "Reach out to Ellevation Hub for partnerships, programmatic guidance, or community connections — submit an enquiry through our unified request portal.",
+  },
+};
+
 const WHO_WE_SUPPORT = [
   { title: "Community", desc: "Grassroots networks and support systems that hold neighborhoods together.", icon: "✿" },
   { title: "Business", desc: "Directories, alliances, and growth pathways for enterprising women.", icon: "◈" },
@@ -728,7 +778,7 @@ function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListi
           <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
             <h3 style={op.modalTitle}>Application Received</h3>
-            <p style={op.modalSub}>
+<p style={op.modalSub}>
               Your expression of interest for <strong>{listing.title}</strong> has been received. Continue below to complete your full application.
             </p>
             <a
@@ -883,7 +933,7 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
           <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
             <h3 style={evs.modalTitle}>You're on the list</h3>
-            <p style={evs.modalSub}>
+<p style={evs.modalSub}>
               Your quick registration for <strong>{event.title}</strong> has been received. Continue below to complete your official spot on the event's registration page.
             </p>
             <a
@@ -1612,6 +1662,23 @@ export default function EllevationHub() {
     const saved = localStorage.getItem("theme");
     document.documentElement.setAttribute("data-theme", saved ?? "light");
   }, []);
+
+  // ✅ Set page title & meta description — per page, whenever `page` changes
+  useEffect(() => {
+    const meta = PAGE_META[page] || PAGE_META.home;
+
+    document.title = meta.title;
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", meta.description);
+    } else {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      metaDescription.setAttribute("content", meta.description);
+      document.head.appendChild(metaDescription);
+    }
+  }, [page]);
 
   // ✅ Scroll to the very top of the page whenever the active section changes —
   // this covers both clicking a nav link inside the page AND arriving fresh

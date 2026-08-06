@@ -39,6 +39,46 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 // until we decide together whether/where to bring it back.
 const SHOW_STORIES_TEASER = false;
 
+// ─── SEO: per-page <title> and meta description ─────────────────────────────
+// Applied via useEffect in the root component whenever `page` changes.
+const PAGE_META: Record<Page, { title: string; description: string }> = {
+  home: {
+    title: "Ms. Ellevation| A Space for Women, By Women | A Space for Women, By Women",
+    description:
+      "Ms. Ellevation supports women and young women from culturally and linguistically diverse (CALD) communities to grow in confidence, strengthen their identity and develop leadership.",
+  },
+  about: {
+    title: "About Us | Ms. Ellevation",
+    description:
+      "Learn about Ms. Ellevation's story, vision, mission and values — a community dedicated to empowering women through identity, confidence, leadership and impact.",
+  },
+  journey: {
+    title: "Your Journey | Every Rise Has a Path. | Ms. Ellevation",
+    description:
+      "Discover the Ms. Ellevation journey — a pathway through Identity, Confidence and Leadership designed to help every woman grow with purpose.",
+  },
+  programs: {
+    title: "Our Programs | Ms. Ellevation",
+    description:
+      "Explore Ms. Ellevation's programs and workshops designed to help women build confidence, strengthen identity, develop leadership and connect with community.",
+  },
+  events: {
+    title: "Events | Ms. Ellevation",
+    description:
+      "Join upcoming Ms. Ellevation events, workshops and gatherings designed for connection, growth and leadership.",
+  },
+  stories: {
+    title: "Transformational Stories | Ms. Ellevation",
+    description:
+      "Read real stories of transformation from women whose lives have been changed through the Ms. Ellevation community.",
+  },
+  join: {
+    title: "Join Ellevation | Membership",
+    description:
+      "Apply for Ms. Ellevation membership — Foundation, Ellevate or Luminary — and become part of a community committed to growth, leadership and connection.",
+  },
+};
+
 // ─── Banner background images ────────────────────────────────────────────────
 // Free-to-use Unsplash photos, one per page, chosen to match that page's theme.
 // A dark gradient overlay is layered on top of every banner (see each page's
@@ -1449,6 +1489,21 @@ export default function EllevationPage() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [page]);
+
+  // ── SEO: set document title + meta description per page ──
+  useEffect(() => {
+    const meta = PAGE_META[page] || PAGE_META.home;
+
+    document.title = meta.title;
+
+    let metaDescTag = document.querySelector('meta[name="description"]');
+    if (!metaDescTag) {
+      metaDescTag = document.createElement("meta");
+      metaDescTag.setAttribute("name", "description");
+      document.head.appendChild(metaDescTag);
+    }
+    metaDescTag.setAttribute("content", meta.description);
   }, [page]);
 
   const nav = (p: Page) => {

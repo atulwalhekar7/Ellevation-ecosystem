@@ -287,6 +287,28 @@ Reach Out to Us          </h2>
 
 /* ── Main Export Block ── */
 export default function EventsPage() {
+  useEffect(() => {
+    document.title = "Ecosystem Hub Enquiry | Get in Touch";
+
+    const description =
+      "Whether you're looking to collaborate, seek programmatic guidance, or establish community connections, reach out to our Ecosystem Hub. Let's build pathways together.";
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", description);
+    } else {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      metaDescription.setAttribute("content", description);
+      document.head.appendChild(metaDescription);
+    }
+
+    // Optional cleanup: reset title/description when leaving the page
+    return () => {
+      document.title = "Your Site Name";
+    };
+  }, []);
+
   return (
     <>
       <style>{`

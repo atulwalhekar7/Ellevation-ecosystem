@@ -142,6 +142,23 @@ function Carousel() {
     return () => { if (timerRef.current !== null) clearInterval(timerRef.current); };
   }, []);
 
+useEffect(() => {
+    document.title = "Ellevation About Us | One Community. Endless Pathways";
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const descriptionContent =
+      "Ellevation is a community-led ecosystem bridging the gap between potential and opportunity — supporting culturally and linguistically diverse communities to build confidence, leadership, wellbeing and lasting opportunity.";
+
+    if (metaDescription) {
+      metaDescription.setAttribute("content", descriptionContent);
+    } else {
+      const meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content = descriptionContent;
+      document.head.appendChild(meta);
+    }
+  }, []);
+
   return (
     <div style={{ position: "relative", width: "100%", paddingTop: 24, paddingBottom: 28 }}>
       {/* Top float card */}

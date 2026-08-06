@@ -822,6 +822,24 @@ function CTASection() {
    MAIN INTERFACE COMPONENT EXPORT
 ══════════════════════════════════════ */
 export default function ConversationsPage() {
+
+useEffect(() => {
+    document.title = "Ellevation Conversations | Share Your Story";
+
+    const description =
+      "Share your journey through video, audio, writing, or digital art. Join Ms. Ellevation's growing community of CALD women supporting and inspiring each other across Australia.";
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", description);
+    } else {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      metaDescription.setAttribute("content", description);
+      document.head.appendChild(metaDescription);
+    }
+  }, []);
+
   return (
     <>
       <style>{`

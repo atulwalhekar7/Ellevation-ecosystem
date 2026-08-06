@@ -567,6 +567,22 @@ export default function EllevationEventsPage() {
     const saved = localStorage.getItem("theme");
     document.documentElement.setAttribute("data-theme", saved ?? "light");
   }, []);
+useEffect(() => {
+    document.title = "Upcoming Events | Ellevation Hub Perth";
+
+    const description =
+      "Explore Ellevation Hub's upcoming events in Perth — community celebrations, sport and youth activities, business networking, workshops, and corporate gatherings, all in one calendar.";
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", description);
+    } else {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      metaDescription.setAttribute("content", description);
+      document.head.appendChild(metaDescription);
+    }
+  }, []);
 
   return (
     <div className="hub-events-root" style={{ fontFamily: "'Montserrat',sans-serif", background: "#fdf9fc", minHeight: "100vh", color: "#1a0a2e" }}>
