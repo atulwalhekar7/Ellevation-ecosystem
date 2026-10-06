@@ -4,10 +4,10 @@ import banner6 from "../assets/banner6.avif";
 import banner2 from "../assets/banner2.avif";
 import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
-import emailjs from "@emailjs/browser"; 
+import emailjs from "@emailjs/browser";
 
 
-/* ── Animation Helpers (used by the Connect form) ── */
+/* ── Animation Helpers (used by the Home page, Connect form + About page) ── */
 function useInView(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
@@ -52,17 +52,16 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 ];
 
 // ─── SEO: per-page <title> and meta description ─────────────────────────────
-// Applied via useEffect in the root component whenever `page` changes.
 const PAGE_META: Record<Page, { title: string; description: string }> = {
   home: {
     title: "Ellevation Hub | Every Pathway Into Opportunity",
     description:
-      "A unified platform for community, business, youth, and men — connecting real opportunity to real people across Perth's Ellevation ecosystem.",
+      "Connecting culturally and linguistically diverse (CALD) communities, businesses, organisations and collaborators through opportunity, connection and impact.",
   },
   about: {
     title: "About the Hub | Ellevation Hub",
     description:
-      "Ellevation Hub is the professional and community backbone of our ecosystem — supporting grassroots networks, growing businesses, rising youth, and men committed to allyship and growth.",
+      "Ellevation Hub is a purpose-led Australian social enterprise and leadership ecosystem creating pathways into wellbeing, leadership, visibility and economic participation for CALD communities.",
   },
   membership: {
     title: "Membership Tiers & Benefits | Ellevation Hub",
@@ -101,11 +100,64 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
   },
 };
 
-const WHO_WE_SUPPORT = [
-  { title: "Community", desc: "Grassroots networks and support systems that hold neighborhoods together.", icon: "✿" },
-  { title: "Business", desc: "Directories, alliances, and growth pathways for enterprising women.", icon: "◈" },
-  { title: "Youth", desc: "Mentorship and development programs for the next generation.", icon: "✦" },
-  { title: "Men", desc: "Allyship and development pathways for men walking alongside the mission.", icon: "◎" },
+/* ── Home page content (client-final) ── */
+const HOME_OPPORTUNITIES: { title: string; desc: string; page: Page; link?: string }[] = [
+  { title: "Directory",     desc: "Find businesses, services, organisations and community leaders.", page: "directory" },
+  { title: "Opportunities", desc: "Access jobs, grants, partnerships and collaborations.",           page: "opportunities" },
+  { title: "Events",        desc: "Connect through networking, learning and community experiences.", page: "events" },
+  { title: "Programs",      desc: "Wellbeing, mentoring, leadership development, business support and community learning designed to help people, entrepreneurs and communities grow, connect and thrive.", page: "programs", link: "Read More.." },
+];
+
+const HOME_FOR_EVERYONE = [
+  { title: "Individuals",             desc: "Find connection, opportunities and support." },
+  { title: "Businesses",              desc: "Increase visibility and build meaningful partnerships." },
+  { title: "Community Organisations", desc: "Collaborate and strengthen community impact." },
+  { title: "Supporters & Partners",   desc: "Help create opportunities that transform lives." },
+];
+
+const HOME_ECOSYSTEM = [
+  { eyebrow: "Building the Woman",   title: "Ms Ellevation" },
+  { eyebrow: "Building Opportunity", title: "Ellevation Hub" },
+];
+
+/* ── About page content (client-final) ── */
+const ABOUT_ECOSYSTEM_APPROACH = [
+  { title: "Community Development", desc: "Creating stronger communities through connection, collaboration and grassroots engagement.", icon: "✿" },
+  { title: "Leadership Development", desc: "Supporting emerging and established leaders to create positive impact.", icon: "◑" },
+  { title: "Youth Development", desc: "Empowering young people through mentoring, pathways and leadership opportunities.", icon: "✦" },
+  { title: "Business Support", desc: "Providing visibility, collaboration, mentoring, enterprise development and growth opportunities.", icon: "◈" },
+  { title: "Strategic Partnerships", desc: "Connecting organisations, businesses and community leaders to create shared impact.", icon: "❖" },
+];
+
+const ABOUT_WHO_WE_SUPPORT = [
+  { title: "Community", desc: "Grassroots networks, community organisations and initiatives helping communities thrive.", icon: "✿" },
+  { title: "Business", desc: "Entrepreneurs, professionals, enterprises and business owners seeking visibility, growth and collaboration.", icon: "◈" },
+  { title: "Youth", desc: "Young people requiring leadership development, mentoring and opportunities for future success.", icon: "✦" },
+  { title: "Men", desc: "Allyship, personal development and leadership pathways that contribute to healthier communities and stronger outcomes.", icon: "◎" },
+  { title: "Women", desc: "Women seeking leadership opportunities, business support, mentoring, visibility, partnerships, community and pathways to economic participation.", icon: "❋" },
+];
+
+const ABOUT_ACCESS: { title: string; desc: string; page: Page }[] = [
+  { title: "Directory", desc: "Discover businesses, services, organisations and community leaders.", page: "directory" },
+  { title: "Programs", desc: "Access wellbeing initiatives, mentoring, leadership development, business support and community learning for women, young people, entrepreneurs and communities.", page: "programs" },
+  { title: "Opportunities", desc: "Explore jobs, grants, partnerships and collaboration opportunities.", page: "opportunities" },
+  { title: "Events", desc: "Connect through networking, learning and community experiences.", page: "events" },
+  { title: "Impact", desc: "Support and contribute to initiatives creating positive social and economic outcomes.", page: "impact" },
+];
+
+const ABOUT_COMMITMENTS = [
+  "We believe diversity is a strength.",
+  "We believe lived experience matters.",
+  "We believe leadership exists in every community.",
+  "We believe collaboration creates greater impact.",
+  "We believe opportunity should be accessible to everyone.",
+  "We believe strong communities create stronger futures.",
+];
+
+const ABOUT_ECOSYSTEM_CONNECTION = [
+  { title: "Ms Ellevation", desc: "Supporting women to honour their stories, strengthen their identity, build confidence and grow into leadership." },
+  { title: "Ellevation Hub", desc: "Creating pathways into opportunity through business support, mentoring, partnerships, leadership development, visibility and economic participation." },
+  { title: "Together", desc: "Women, young people, businesses, organisations and communities can access the support, networks and opportunities they need to grow, lead and thrive." },
 ];
 
 const HUB_TIERS: HubTier[] = ["CONNECT", "GROW", "VISIBILITY", "IMPACT"];
@@ -125,13 +177,48 @@ const DIRECTORY_CATEGORIES = [
   { title: "Education & Training",    count: "40+ listings",  icon: "☖" },
 ];
 
-const HUB_PROGRAMS = [
-  { title: "Youth Development",       desc: "Mentorship, skills-building, and leadership pathways for the next generation.", icon: "✦" },
-  { title: "Men's Pathway",           desc: "Allyship, personal growth, and development programs for men in the community.", icon: "◎" },
-  { title: "Community Development",   desc: "Grassroots initiatives building safer, stronger, more connected neighborhoods.", icon: "✿" },
+const PROGRAM_PATHWAYS: { title: string; desc?: string; focus?: string[]; tag?: string; icon: string }[] = [
+  {
+    title: "Children & Youth",
+    desc: "Building confidence, skills, leadership and future opportunities for children and young people.",
+    focus: ["Mentoring & Development", "Leadership & Life Skills", "Confidence Building", "Future Pathways"],
+    icon: "✦",
+  },
+  {
+    title: "Wellbeing & Leadership",
+    desc: "Supporting individuals to strengthen wellbeing, develop leadership capabilities and create positive impact.",
+    focus: ["Wellbeing & Personal Growth", "Confidence & Resilience", "Leadership Development", "Community Leadership", "Personal & Professional Growth"],
+    icon: "◑",
+  },
+  {
+    title: "Business & Enterprise",
+    desc: "Supporting entrepreneurs, professionals and businesses through visibility, mentoring, networking and growth opportunities.",
+    icon: "◈",
+  },
+  {
+    title: "Community & Impact",
+    desc: "Creating stronger, more connected communities through collaboration, partnerships and community-led initiatives.",
+    focus: ["Community Development", "Partnership Initiatives", "Social Impact Projects", "Community Collaboration"],
+    icon: "✿",
+  },
 ];
 
-/* ── Opportunity "type" overview cards (compact) — now includes Professional Development ── */
+const PROGRAMS_WHO_WE_SUPPORT = [
+  "Children & Families", "Young People", "Women", "Men",
+  "Entrepreneurs", "Businesses", "Community Organisations", "Partners & Collaborators",
+];
+
+const PROGRAMS_PARTNERS = [
+  "Community Organisations", "Businesses & Industry", "Educational Institutions",
+  "Government Agencies", "Sponsors & Supporters",
+];
+
+const PROGRAMS_ECOSYSTEM = [
+  { eyebrow: "Building the Woman",   title: "Ms Ellevation", line: "Identity. Confidence. Leadership." },
+  { eyebrow: "Building Opportunity", title: "Ellevation Hub", line: "Wellbeing. Business. Community. Impact." },
+];
+
+/* ── Opportunity "type" overview cards (compact) ── */
 const OPPORTUNITY_TYPES = [
   { title: "Jobs & Work",               desc: "Curated roles from partner organizations and community businesses.",           icon: "◈" },
   { title: "Collaborations",            desc: "Project-based partnerships between members, businesses, and organizations.",   icon: "✿" },
@@ -308,7 +395,7 @@ const PROGRAMS_IN_ACTION = [
   { title: "Business Directory",    desc: "Visibility and referral pathways helping member businesses grow sustainably.",                 icon: "◈" },
 ];
 
-// ─── Navbar (rebuilt to match Ms. Ellevation's responsive pill-navbar pattern) ─
+// ─── Navbar ──────────────────────────────────────────────────────────────────
 function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -325,9 +412,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   // close mobile menu whenever the active page changes
   useEffect(() => { setMenuOpen(false); }, [current]);
 
-  // ✅ Keep the logo (and theme) in sync with data-theme on <html>.
-  // The toggle itself can live outside this component (e.g. a global header),
-  // so we read on mount AND watch for attribute changes / cross-tab storage events.
+  // Keep the logo (and theme) in sync with data-theme on <html>.
   useEffect(() => {
     const readTheme = () => {
       const attr = document.documentElement.getAttribute("data-theme");
@@ -345,13 +430,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
     };
   }, []);
 
-  // ✅ The navbar is `position: fixed` (see .ms-nav-row in CSS below), which
-  // takes it out of normal document flow. That means page content would
-  // otherwise render underneath it. To prevent that, measure the navbar's
-  // real rendered height — including the expanded mobile dropdown — and
-  // publish it as a CSS variable (--nav-height) that the page content uses
-  // as top padding. We re-measure on resize and whenever the mobile menu
-  // opens/closes or the active page changes, since height can shift.
+  // The navbar is `position: fixed`, so measure its real height (including the
+  // expanded mobile dropdown) and publish it as --nav-height for page content.
   useEffect(() => {
     const el = rowRef.current;
     if (!el) return;
@@ -376,9 +456,6 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
   const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
 
   return (
-    // ✅ position: fixed (set in CSS via .ms-nav-row) keeps this pinned to the
-    // top of the viewport at all times — including during scroll — on every
-    // Hub page. Paired with the --nav-height offset applied to page content.
     <div className="ms-nav-row" ref={rowRef}>
       <nav className={`ms-nav ${scrolled ? "ms-nav-scrolled" : ""}`}>
         {/* Back to Home */}
@@ -389,7 +466,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
           <span>Back to Home</span>
         </button>
 
-        {/* Logo — swaps automatically between light/dark variants */}
+        {/* Logo — larger, slow pop-up animation, swaps automatically between light/dark variants */}
         <img
           src={theme === "dark" ? hubLogoDark : hubLogoLight}
           alt="Ellevation Hub Logo"
@@ -439,59 +516,342 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
 
 // ─── SECTIONS ────────────────────────────────────────────────────────────────
 
+/* ══════════════════════════════════════════════════════════════════════════
+   HOME PAGE — built to the client-final developer version
+   Structure: 1 Hero · 2 Opportunities · 3 For Everyone · 4 Ecosystem · 5 Final CTA
+   ══════════════════════════════════════════════════════════════════════════ */
 function HomeSection({ nav }: { nav: (p: Page) => void }) {
+  const opp = useInView(0.1);
+  const every = useInView(0.1);
+  const eco = useInView(0.1);
+  const cta = useInView(0.12);
+
   return (
-    <div className="hub-home-page" style={hp.page}>
-      <div className="hub-home-bg" style={hp.bgGrad} />
-      <div style={hp.blobTL} />
-      <div style={hp.blobBR} />
-      <div className="hub-home-grid" style={hp.grid}>
-        <div style={hp.left}>
-          <h1 className="hub-home-headline" style={hp.headline}>Every Pathway Into Opportunity, In One Ecosystem.</h1>
-          <p className="hub-home-sub" style={hp.sub}>
-            A unified platform for community, business, youth, and men — connecting real opportunity to real people, right where they are.
-          </p>
-          <div className="hub-home-btn-row" style={hp.btnRow}>
-            <button style={hp.btnPrimary} onClick={() => nav("membership")}>JOIN THE HUB</button>
-            <button style={hp.btnSecondary} onClick={() => nav("directory")}>EXPLORE DIRECTORY</button>
+    <div>
+      {/* 1 ── HERO */}
+      <div className="hub-home-page" style={hp.page}>
+        <div className="hub-home-bg" style={hp.bgGrad} />
+        <div style={hp.blobTL} />
+        <div style={hp.blobBR} />
+        <div className="hub-home-grid" style={hp.grid}>
+          <div style={hp.left}>
+            {/* <p style={hp.eyebrow}>ELLEVATION HUB</p> */}
+            <h1 className="hub-home-headline" style={hp.headline}>Every Pathway Into Opportunity, In One Ecosystem.</h1>
+            <p className="hub-home-sub" style={hp.sub}>
+              Connecting culturally and linguistically diverse (CALD) communities, businesses, organisations and collaborators through opportunity, connection and impact.
+            </p>
+            <p className="hub-home-sub" style={hp.sub}>
+              Whether you are looking to belong, grow, partner, support or create change, there is a place for you here.
+            </p>
+            <div className="hub-home-btn-row" style={hp.btnRow}>
+              <button style={hp.btnPrimary} onClick={() => nav("membership")}>JOIN THE HUB</button>
+              <button style={hp.btnSecondary} onClick={() => nav("opportunities")}>EXPLORE OPPORTUNITIES</button>
+            </div>
           </div>
-        </div>
-        <div className="hub-card" style={hp.card}>
-          <div style={hp.cardTop}>
-            <span style={hp.cardBadge}>Professional Tier</span>
-          </div>
-          <p className="hub-card-desc" style={hp.cardDesc}>One ecosystem connecting directory, programs, and opportunity — built for the whole community.</p>
-          <div style={hp.cardFeatures}>
-            {["Business directory & categories", "Youth and men's development programs", "Jobs, grants & collaboration board", "Community events calendar"].map(f => (
-              <div key={f} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{f}</div>
-            ))}
+          <div className="hub-card" style={hp.card}>
+            {/* <div style={hp.cardTop}>
+              <span style={hp.cardBadge}>Professional Tier</span>
+            </div> */}
+            <p className="hub-card-desc" style={hp.cardDesc}>One ecosystem connecting directory, programs, and opportunity — built for the whole community.</p>
+            <div style={hp.cardFeatures}>
+              {["Business directory & categories", "Youth and men's development programs", "Jobs, grants & collaboration board", "Community events calendar"].map(feat => (
+                <div key={feat} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{feat}</div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* 2 ── OPPORTUNITIES */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={opp.ref} style={{ ...ab.container, ...fade(opp.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>OPPORTUNITIES</p>
+          <h2 className="hub-about-title" style={ab.title}>Discover. Connect. Grow.</h2>
+          <div style={ab.gridAuto}>
+            {HOME_OPPORTUNITIES.map((item, i) => (
+              <button
+                key={item.title}
+                onClick={() => nav(item.page)}
+                className="hub-about-card hub-about-access"
+                style={{ ...ab.card, ...ab.accessCard, ...fade(opp.inView, 100 + i * 80) }}
+              >
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+                {item.link && <span className="hub-about-link" style={ab.cardLink}>{item.link}</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3 ── FOR EVERYONE */}
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={every.ref} style={{ ...ab.container, ...fade(every.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>FOR EVERYONE</p>
+          <div style={ab.gridAuto}>
+            {HOME_FOR_EVERYONE.map((item, i) => (
+              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(every.inView, 100 + i * 80) }}>
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4 ── THE ECOSYSTEM */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>THE ECOSYSTEM</p>
+          <div style={ab.gridAuto}>
+            {HOME_ECOSYSTEM.map((item, i) => (
+              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
+                <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
+                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
+              </div>
+            ))}
+          </div>
+          <p className="hub-about-sub" style={{ ...ab.para, marginTop: 32, fontWeight: 600, color: "#4B1E56" }}>
+            Together creating pathways for thriving communities.
+          </p>
+        </div>
+      </section>
+
+      {/* 5 ── FINAL CTA */}
+      <section className="hub-about-section hub-about-cta" style={ab.ctaSection}>
+        <div ref={cta.ref} style={{ ...ab.containerNarrow, ...fade(cta.inView, 0) }}>
+          <h2 style={{ ...ab.title, color: "#fff", marginBottom: 20 }}>Opportunity Starts With Connection.</h2>
+          <p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
+            Join a growing ecosystem creating pathways for stronger communities.
+          </p>
+          <div style={ab.ctaRow}>
+            <button style={ab.ctaPrimary} onClick={() => nav("membership")}>JOIN MEMBERSHIP</button>
+            <button style={ab.ctaSecondary} onClick={() => nav("connect")}>CONTACT US</button>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
 
-function AboutSection() {
+/* ══════════════════════════════════════════════════════════════════════════
+   ABOUT PAGE — built to the client-final developer version
+   ══════════════════════════════════════════════════════════════════════════ */
+function AboutSection({ nav }: { nav: (p: Page) => void }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setMounted(true), 80);
+    return () => clearTimeout(t);
+  }, []);
+
+  const v = useInView(0.12);
+  const w = useInView(0.12);
+  const y = useInView(0.12);
+  const a = useInView(0.1);
+  const s = useInView(0.1);
+  const c = useInView(0.1);
+  const m = useInView(0.12);
+  const e = useInView(0.12);
+  const f = useInView(0.12);
+
   return (
-    <section className="hub-about-section" style={ab.section}>
-      <div style={ab.container}>
-        <p className="hub-about-eye" style={ab.eye}>— WHO WE SUPPORT —</p>
-        <h2 className="hub-about-title" style={ab.title}>One Ecosystem.<br />Every Pathway to Opportunity.</h2>
-        <p className="hub-about-sub" style={ab.sub}>
-          Ellevation Hub is the professional and community backbone of our ecosystem — supporting grassroots community networks, growing businesses, rising youth, and men committed to allyship and growth.
-        </p>
-        <div className="hub-about-grid" style={ab.grid}>
-          {WHO_WE_SUPPORT.map((item, i) => (
-            <div key={i} className="hub-about-card" style={ab.card}>
-              <div style={ab.icon}>{item.icon}</div>
-              <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
-              <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
-            </div>
-          ))}
+    <div className="hub-about-page">
+      {/* 1 ── HERO */}
+      <section className="hub-about-hero" style={ab.hero}>
+        <div style={ab.heroInner}>
+          <p style={{ ...ab.heroEye, ...fade(mounted, 0) }}>ABOUT ELLEVATION HUB</p>
+          <h1 className="hub-about-hero-title" style={{ ...ab.heroTitle, ...fade(mounted, 120) }}>
+            One Ecosystem. Every Pathway to Opportunity.
+          </h1>
+          <p style={{ ...ab.heroText, ...fade(mounted, 240) }}>
+            Ellevation Hub Pty Ltd is a purpose-led Australian social enterprise and leadership ecosystem creating pathways into wellbeing, leadership, visibility and economic participation.
+          </p>
+          <p style={{ ...ab.heroText, ...fade(mounted, 340), marginTop: 16 }}>
+            Built with and for culturally and linguistically diverse (CALD) communities, Ellevation Hub connects people, businesses, organisations and opportunities into one integrated ecosystem where growth, belonging and impact can thrive.
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* 2 ── VISION & MISSION */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={v.ref} style={ab.container}>
+          <div style={{ ...ab.twoCol, ...fade(v.inView, 0) }} className="hub-about-two-col">
+            <div className="hub-about-card" style={ab.visionCard}>
+              <p className="hub-about-eye" style={ab.eyeLeft}>OUR VISION</p>
+              <h2 className="hub-about-card-title" style={ab.cardHeading}>Our Vision</h2>
+              <p className="hub-about-card-text" style={ab.bodyText}>
+                An Australia where culturally and linguistically diverse communities have equitable access to leadership, opportunity, visibility and economic participation.
+              </p>
+            </div>
+            <div className="hub-about-card" style={ab.visionCard}>
+              <p className="hub-about-eye" style={ab.eyeLeft}>OUR MISSION</p>
+              <h2 className="hub-about-card-title" style={ab.cardHeading}>Our Mission</h2>
+              <p className="hub-about-card-text" style={ab.bodyText}>
+                To create connected pathways that empower individuals, businesses and communities through leadership, collaboration, business support, mentoring and opportunity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 ── WHO WE ARE */}
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={w.ref} style={{ ...ab.containerNarrow, ...fade(w.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>WHO WE ARE</p>
+          <h2 className="hub-about-title" style={ab.title}>Building Opportunity Through Community</h2>
+          <p className="hub-about-sub" style={ab.para}>
+            Ellevation Hub functions as a lifecycle ecosystem supporting individuals from early childhood through to leadership, entrepreneurship and economic participation.
+          </p>
+          <p className="hub-about-sub" style={ab.para}>
+            We bring together community development, youth pathways, leadership programs, business networks and strategic partnerships into one connected impact model.
+          </p>
+          <p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
+            Our goal is simple: to ensure people and communities have access to the networks, resources, visibility and opportunities needed to thrive.
+          </p>
+        </div>
+      </section>
+
+      {/* 4 ── WHY ELLEVATION HUB MATTERS */}
+      <section className="hub-about-section" style={ab.sectionDark}>
+        <div ref={y.ref} style={{ ...ab.containerNarrow, ...fade(y.inView, 0) }}>
+          <p style={{ ...ab.eye, color: "#c9a3d9" }}>WHY ELLEVATION HUB MATTERS</p>
+          <h2 style={{ ...ab.title, color: "#fff", fontSize: "clamp(1.7rem,4vw,2.5rem)", fontStyle: "italic" }}>
+            For many people and communities, opportunity is not always the challenge. Access is.
+          </h2>
+          <p style={{ ...ab.para, color: "rgba(255,255,255,0.82)" }}>
+            Access to networks, mentors, visibility, industry connections, leadership pathways, business support and opportunities.
+          </p>
+          <p style={{ ...ab.para, color: "rgba(255,255,255,0.82)" }}>
+            Ellevation Hub exists to bridge these gaps by connecting people, organisations and opportunities through one integrated ecosystem.
+          </p>
+        </div>
+      </section>
+
+      {/* 5 ── OUR ECOSYSTEM APPROACH */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={a.ref} style={{ ...ab.container, ...fade(a.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>OUR ECOSYSTEM APPROACH</p>
+          <h2 className="hub-about-title" style={ab.title}>More Than a Network. More Than a Directory.</h2>
+          <div style={ab.gridAuto}>
+            {ABOUT_ECOSYSTEM_APPROACH.map((item, i) => (
+              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(a.inView, 100 + i * 80) }}>
+                <div style={ab.icon}>{item.icon}</div>
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 6 ── WHO WE SUPPORT */}
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={s.ref} style={{ ...ab.container, ...fade(s.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>WHO WE SUPPORT</p>
+          <h2 className="hub-about-title" style={ab.title}>Every Community. Every Pathway.</h2>
+          <div style={ab.gridAuto}>
+            {ABOUT_WHO_WE_SUPPORT.map((item, i) => (
+              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(s.inView, 100 + i * 80) }}>
+                <div style={ab.icon}>{item.icon}</div>
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7 ── WHAT YOU CAN ACCESS */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={c.ref} style={{ ...ab.container, ...fade(c.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>WHAT YOU CAN ACCESS</p>
+          <h2 className="hub-about-title" style={ab.title}>Everything You Need, In One Place</h2>
+          <div style={ab.gridAuto}>
+            {ABOUT_ACCESS.map((item, i) => (
+              <button
+                key={item.title}
+                onClick={() => nav(item.page)}
+                className="hub-about-card hub-about-access"
+                style={{ ...ab.card, ...ab.accessCard, ...fade(c.inView, 100 + i * 80) }}
+              >
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+                <span className="hub-about-link" style={ab.cardLink}>Explore →</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 8 ── OUR COMMITMENT */}
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={m.ref} style={{ ...ab.container, ...fade(m.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>OUR COMMITMENT</p>
+          <h2 className="hub-about-title" style={ab.title}>Community First. Collaboration Always.</h2>
+          <div style={ab.commitGrid}>
+            {ABOUT_COMMITMENTS.map((t, i) => (
+              <div key={t} className="hub-about-commit" style={{ ...ab.commitItem, ...fade(m.inView, 100 + i * 70) }}>
+                <span style={ab.commitDot}>✓</span>
+                <span>{t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 9 ── THE ELLEVATION ECOSYSTEM */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={e.ref} style={{ ...ab.container, ...fade(e.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>THE ELLEVATION ECOSYSTEM</p>
+          <h2 className="hub-about-title" style={ab.title}>Two Brands. One Connected Journey.</h2>
+          <div style={ab.gridThree}>
+            {ABOUT_ECOSYSTEM_CONNECTION.map((item, i) => (
+              <div
+                key={item.title}
+                className="hub-about-card"
+                style={{
+                  ...ab.card,
+                  ...(item.title === "Together" ? ab.cardHighlight : {}),
+                  ...fade(e.inView, 100 + i * 100),
+                }}
+              >
+                <h3
+                  className="hub-about-card-title"
+                  style={{ ...ab.cardTitle, fontSize: "1.4rem", ...(item.title === "Together" ? { color: "#fff" } : {}) }}
+                >
+                  {item.title}
+                </h3>
+                <p
+                  className="hub-about-card-text"
+                  style={{ ...ab.cardText, ...(item.title === "Together" ? { color: "rgba(255,255,255,0.85)" } : {}) }}
+                >
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10 ── FINAL CTA */}
+      <section className="hub-about-section hub-about-cta" style={ab.ctaSection}>
+        <div ref={f.ref} style={{ ...ab.containerNarrow, ...fade(f.inView, 0) }}>
+          <h2 style={{ ...ab.title, color: "#fff", marginBottom: 20 }}>
+            Opportunity Grows When Communities Grow Together.
+          </h2>
+          <p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
+            Whether you are looking to connect, collaborate, support, grow a business, develop leadership or create community impact, there is a place for you within the Ellevation Hub.
+          </p>
+          <div style={ab.ctaRow}>
+            <button style={ab.ctaPrimary} onClick={() => nav("membership")}>JOIN MEMBERSHIP</button>
+            <button style={ab.ctaSecondary} onClick={() => nav("connect")}>CONNECT WITH US</button>
+          </div>
+          <p style={ab.positioning}>
+            Ellevation Hub is a purpose-led social enterprise building pathways from potential to participation through leadership, community, business and opportunity.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -508,13 +868,14 @@ function MembershipSection() {
   const [sending, setSending] = useState(false);
   const meta = HUB_TIER_META[activeTier];
 
-  // ✅ controlled fields so we can read + send them
+  // controlled fields so we can read + send them
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName]   = useState("");
   const [email, setEmail]         = useState("");
   const [phone, setPhone]         = useState("");
   const [industry, setIndustry]   = useState("");
   const [notes, setNotes]         = useState("");
+  const [agreed, setAgreed]       = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -524,9 +885,13 @@ function MembershipSection() {
       return;
     }
 
-    // ✅ ALL variables referenced anywhere in the shared EmailJS template are
-    // always sent — set to "" for the ones this particular form doesn't use —
-    // so nothing ever renders as "undefined" in the email.
+    if (!agreed) {
+      alert("Please agree to the Privacy Policy and Terms & Conditions.");
+      return;
+    }
+
+    // ALL variables referenced anywhere in the shared EmailJS template are
+    // always sent — "" for unused ones — so nothing renders as "undefined".
     const templateParams = {
       form_source: "Ellevation Hub — Membership Expression of Interest",
       logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
@@ -680,6 +1045,27 @@ function MembershipSection() {
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
               />
+
+              {/* Privacy Policy & Terms agreement */}
+              <label
+                className="hub-form-sub"
+                style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 20, fontSize: "0.82rem", cursor: "pointer" }}
+              >
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={e => setAgreed(e.target.checked)}
+                  required
+                  style={{ accentColor: "#4B1E56", marginTop: 3, cursor: "pointer", flexShrink: 0 }}
+                />
+                <span>
+                  I agree to the{" "}
+                  <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                  {" "}and{" "}
+                  <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                </span>
+              </label>
+
               <button type="submit" disabled={sending} style={{ ...jp.submitBtn, background: "#D7B264", opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}>
                 {sending ? "SENDING..." : "SUBMIT EXPRESSION OF INTEREST"}
               </button>
@@ -714,26 +1100,129 @@ function DirectorySection({ nav }: { nav: (p: Page) => void }) {
 }
 
 function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
+  const path = useInView(0.08);
+  const who = useInView(0.1);
+  const part = useInView(0.1);
+  const eco = useInView(0.1);
+  const cta = useInView(0.12);
+
   return (
-    <section className="hub-programs-section" style={pg.section}>
-      <div style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
-        <p className="hub-programs-eye" style={pg.eye}>OUR PROGRAMS</p>
-        <h2 className="hub-programs-title" style={pg.title}>Development Pathways for Every Corner of the Community</h2>
-        <div className="hub-programs-grid" style={pg.grid}>
-          {HUB_PROGRAMS.map(p => (
-            <div key={p.title} className="hub-programs-card" style={pg.card}>
-              <div style={pg.icon}>{p.icon}</div>
-              <h3 className="hub-programs-card-title" style={pg.cardTitle}>{p.title}</h3>
-              <p className="hub-programs-card-text" style={pg.cardText}>{p.desc}</p>
-            </div>
-          ))}
+<div ref={path.ref} style={{ ...ab.container, maxWidth: 1320, ...fade(path.inView, 0) }}>      {/* 1 ── HEADER */}
+      <section className="hub-programs-section" style={{ ...pg.section, paddingBottom: 60 }}>
+        <div style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
+          <p className="hub-programs-eye" style={pg.eye}>OUR PROGRAMS</p>
+          <h2 className="hub-programs-title" style={{ ...pg.title, marginBottom: 20 }}>
+            Development Pathways for Growth, Leadership and Opportunity
+          </h2>
+          <p className="hub-programs-card-text" style={pg.lead}>
+            Creating opportunities for individuals, businesses and communities to grow, connect and thrive.
+          </p>
+          <p className="hub-programs-card-title" style={pg.tagline}>
+            From childhood to leadership. From ideas to opportunity.
+          </p>
+          <button style={pg.ctaBtn} onClick={() => nav("connect")}>ENQUIRE ABOUT A PROGRAM</button>
         </div>
-        <button style={pg.ctaBtn} onClick={() => nav("connect")}>ENQUIRE ABOUT A PROGRAM</button>
-      </div>
-    </section>
+      </section>
+
+      {/* 2 ── OUR PATHWAYS */}
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={path.ref} style={{ ...ab.container, ...fade(path.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>OUR PATHWAYS</p>
+          <div className="hub-programs-grid" style={pg.pathGrid}>
+            {PROGRAM_PATHWAYS.map((p, i) => (
+              <div key={p.title} className="hub-about-card" style={{ ...ab.card, ...fade(path.inView, 100 + i * 80) }}>
+                <div style={ab.icon}>{p.icon}</div>
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{p.title}</h3>
+                {p.desc && <p className="hub-about-card-text" style={ab.cardText}>{p.desc}</p>}
+                {p.focus && (
+                  <>
+                    <p className="hub-about-eye" style={{ ...ab.eyeLeft, marginTop: 18 }}>FOCUS AREAS</p>
+                    <ul style={pg.focusList}>
+                      {p.focus.map(f => (
+                        <li key={f} className="hub-about-card-text" style={pg.focusItem}>
+                          <span style={pg.focusDot}>✓</span>{f}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {p.tag && <span className="hub-programs-chip" style={pg.chip}>{p.tag}</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3 ── WHO WE SUPPORT */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={who.ref} style={{ ...ab.container, ...fade(who.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>WHO WE SUPPORT</p>
+          <div style={pg.chipRow}>
+            {PROGRAMS_WHO_WE_SUPPORT.map(w => (
+              <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4 ── PARTNERS & COLLABORATORS */}
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={part.ref} style={{ ...ab.containerNarrow, ...fade(part.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>PARTNERS &amp; COLLABORATORS</p>
+          <p className="hub-about-sub" style={ab.para}>
+            We work alongside community organisations, businesses, educators, government and supporters to create opportunities that strengthen communities and create lasting impact.
+          </p>
+          <p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
+            We welcome partnerships with:
+          </p>
+          <div style={pg.chipRow}>
+            {PROGRAMS_PARTNERS.map(w => (
+              <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
+            ))}
+            <span className="hub-programs-chip" style={pg.chip}>Community Leaders</span>
+          </div>
+          <div style={{ marginTop: 36 }}>
+            <button style={pg.ctaBtn} onClick={() => nav("connect")}>PARTNER WITH US</button>
+          </div>
+        </div>
+      </section>
+
+      {/* 5 ── THE ELLEVATION ECOSYSTEM */}
+      <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+        <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
+          <p className="hub-about-eye" style={ab.eye}>THE ELLEVATION ECOSYSTEM</p>
+          <div style={ab.gridAuto}>
+            {PROGRAMS_ECOSYSTEM.map((item, i) => (
+              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
+                <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
+                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.line}</p>
+              </div>
+            ))}
+            <div className="hub-about-card" style={{ ...ab.card, ...ab.cardHighlight, ...fade(eco.inView, 300) }}>
+              <p style={{ ...ab.eyeLeft, color: "#D7B264" }}>TOGETHER</p>
+              <h3 style={{ ...ab.cardTitle, fontSize: "1.2rem", color: "#fff" }}>Creating pathways for thriving communities.</h3>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6 ── FINAL CTA */}
+      <section className="hub-about-section hub-about-cta" style={ab.ctaSection}>
+        <div ref={cta.ref} style={{ ...ab.containerNarrow, ...fade(cta.inView, 0) }}>
+          <h2 style={{ ...ab.title, color: "#fff", marginBottom: 20 }}>Opportunity Starts With Access.</h2>
+          <p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
+            Whether you're looking to learn, lead, grow a business, support your community or collaborate with others, there's a place for you at Ellevation Hub.
+          </p>
+          <div style={ab.ctaRow}>
+            <button style={ab.ctaPrimary} onClick={() => nav("membership")}>JOIN MEMBERSHIP</button>
+            <button style={ab.ctaSecondary} onClick={() => nav("connect")}>PARTNER WITH US</button>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
-
 /* ── Opportunity listing card + quick-apply flow ── */
 function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply: (o: OpportunityListing) => void }) {
   return (
@@ -753,11 +1242,9 @@ function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply
   );
 }
 
-/* Quick-apply modal — NOTE: this is a lightweight interest-capture step for the
-   demo opportunity board (still hands off to the listing's own applyUrl for the
-   real application). It is intentionally not wired to EmailJS. If you want these
-   quick-apply submissions to also land in your inbox, wire this the same way as
-   MembershipSection above (emailjs.send with the same service/template IDs). */
+/* Quick-apply modal — lightweight interest-capture step for the demo
+   opportunity board (hands off to the listing's own applyUrl). Not wired to
+   EmailJS; wire it like MembershipSection if you want these in your inbox. */
 function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListing; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
 
@@ -778,7 +1265,7 @@ function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListi
           <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
             <h3 style={op.modalTitle}>Application Received</h3>
-<p style={op.modalSub}>
+            <p style={op.modalSub}>
               Your expression of interest for <strong>{listing.title}</strong> has been received. Continue below to complete your full application.
             </p>
             <a
@@ -911,8 +1398,7 @@ function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegist
   );
 }
 
-/* Quick Registration modal — same note as QuickApplicationModal above: this is a
-   demo-only interest capture step, not wired to EmailJS by default. */
+/* Quick Registration modal — demo-only interest capture, not wired to EmailJS. */
 function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
 
@@ -933,7 +1419,7 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
           <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
             <h3 style={evs.modalTitle}>You're on the list</h3>
-<p style={evs.modalSub}>
+            <p style={evs.modalSub}>
               Your quick registration for <strong>{event.title}</strong> has been received. Continue below to complete your official spot on the event's registration page.
             </p>
             <a
@@ -1180,12 +1666,7 @@ function ConnectHero() {
   );
 }
 
-/* ── Connect: Unified Enquiry Form ──
-   ✅ FIX: this form previously never called EmailJS at all — handleSubmit just
-   did setFormSubmitted(true), so nothing was ever sent to Gmail. It's now wired
-   up with emailjs.send using the same service/template as the other two forms,
-   with every shared template variable explicitly present (blank where unused)
-   so the email never shows "undefined". */
+/* ── Connect: Unified Enquiry Form (wired to EmailJS) ── */
 function CommonEnquiryForm() {
   const { ref, inView } = useInView(0.1);
   const [enquiryType, setEnquiryType] = useState("general");
@@ -1199,6 +1680,7 @@ function CommonEnquiryForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [messageBody, setMessageBody] = useState("");
+  const [agreed, setAgreed] = useState(false);
 
   const ENQUIRY_STREAM_LABELS: Record<string, string> = {
     general: "General Enquiry",
@@ -1214,6 +1696,11 @@ function CommonEnquiryForm() {
       return;
     }
 
+    if (!agreed) {
+      alert("Please agree to the Privacy Policy and Terms & Conditions.");
+      return;
+    }
+
     // Split "Full Name" into first/last so it maps onto the shared template's
     // {{first_name}} / {{last_name}} variables.
     const nameParts = fullName.trim().split(/\s+/);
@@ -1221,10 +1708,10 @@ function CommonEnquiryForm() {
     const lastName = nameParts.slice(1).join(" ") || "";
 
     const templateParams = {
-       form_title: "New Ellevation Hub - Enquiry",   // 👈 ADD
-  ms_display: "none",                          // 👈 ADD
-  hub_display: "block",    
-   subject_detail: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,   
+      form_title: "New Ellevation Hub - Enquiry",
+      ms_display: "none",
+      hub_display: "block",
+      subject_detail: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,
       form_source: "Ellevation Hub — Enquiry",
       logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
 
@@ -1392,6 +1879,26 @@ function CommonEnquiryForm() {
                 />
               </div>
 
+              {/* Privacy Policy & Terms agreement */}
+              <label
+                className="field-label"
+                style={{ display: "flex", alignItems: "flex-start", gap: 10, fontWeight: 500, cursor: "pointer", marginBottom: 0 }}
+              >
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={e => setAgreed(e.target.checked)}
+                  required
+                  style={{ accentColor: "#4B1E56", marginTop: 3, cursor: "pointer", flexShrink: 0 }}
+                />
+                <span>
+                  I agree to the{" "}
+                  <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                  {" "}and{" "}
+                  <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                </span>
+              </label>
+
               <div style={{ marginTop: 8, display: "flex", justifyContent: "flex-end" }}>
                 <button
                   type="submit"
@@ -1470,18 +1977,61 @@ const hp: Record<string, React.CSSProperties> = {
   check: { color: "#4B1E56", fontWeight: 700 },
 };
 
-/* ── About: now uses the shared gradient instead of flat "#aeaad5" ── */
+/* ── About (client-final) — also reused by the Home page sections ── */
 const ab: Record<string, React.CSSProperties> = {
-  section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
-  container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
-  eye: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5vw, 3.2rem)", color: "#1a0a2e", marginBottom: 24, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat', sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 700, margin: "0 auto 60px" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 },
-  card: { padding: 28, background: "rgba(255, 255, 255, 0.75)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", borderRadius: 20, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
+  /* Hero */
+  hero: {
+    position: "relative", overflow: "hidden", textAlign: "center",
+    padding: "130px 48px 110px",
+    background: `linear-gradient(rgba(26,10,46,0.72), rgba(26,10,46,0.82)), url(${banner2})`,
+    backgroundSize: "cover", backgroundPosition: "center",
+  },
+  heroInner: { maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 },
+  heroEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.25em", color: "#D7B264", marginBottom: 20 },
+  heroTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.4rem,6vw,4.2rem)", color: "#fff", lineHeight: 1.1, marginBottom: 28 },
+  heroText: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "rgba(255,255,255,0.9)", lineHeight: 1.8, maxWidth: 740, margin: "0 auto" },
+
+  /* Section shells */
+  sectionLight: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
+  sectionWhite: { padding: "100px 48px", background: "#fff" },
+  sectionDark: { padding: "100px 48px", background: "#1a0a2e", textAlign: "center" },
+  ctaSection: { padding: "100px 48px", textAlign: "center", background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 55%, #35143d 100%)" },
+  container: { maxWidth: 1180, margin: "0 auto", textAlign: "center" },
+  containerNarrow: { maxWidth: 780, margin: "0 auto", textAlign: "center" },
+
+  /* Typography */
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
+  eyeLeft: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#8a5a97", letterSpacing: "0.2em", marginBottom: 10 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2rem,4.5vw,3rem)", color: "#4B1E56", marginBottom: 40, lineHeight: 1.15 },
+  para: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "#554866", lineHeight: 1.85, marginBottom: 18 },
+  cardHeading: { fontFamily: "'Astrid Regular', serif", fontSize: "1.8rem", color: "#1a0a2e", marginBottom: 14 },
+  bodyText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.98rem", color: "#554866", lineHeight: 1.8 },
+
+  /* Vision / mission */
+  twoCol: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, textAlign: "left" },
+  visionCard: { padding: "40px 36px", background: "#fff", borderRadius: 22, border: "1px solid rgba(124,92,191,0.15)", boxShadow: "0 8px 32px rgba(124,92,191,0.08)", borderTop: "3px solid #D7B264" },
+
+  /* Generic card grids */
+  gridAuto: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 20, textAlign: "left" },
+  gridThree: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, textAlign: "left" },
+  card: { padding: 28, background: "#fff", borderRadius: 20, border: "1px solid rgba(124,92,191,0.15)", boxShadow: "0 4px 16px rgba(124,92,191,0.06)" },
+  cardHighlight: { background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", border: "1px solid transparent" },
   icon: { fontSize: "1.7rem", color: "#4B1E56", marginBottom: 14 },
-  cardTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
-  cardText: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6 },
+  cardTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "1.2rem", color: "#1a0a2e", marginBottom: 10 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.86rem", color: "#554866", lineHeight: 1.65 },
+  accessCard: { textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", font: "inherit" },
+  cardLink: { marginTop: "auto", paddingTop: 16, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#8a5a97" },
+
+  /* Commitment */
+  commitGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16, textAlign: "left", maxWidth: 960, margin: "0 auto" },
+  commitItem: { display: "flex", alignItems: "center", gap: 14, padding: "18px 22px", borderRadius: 16, background: "#f6f3fa", border: "1px solid rgba(124,92,191,0.15)", fontFamily: "'Montserrat',sans-serif", fontSize: "0.95rem", fontWeight: 500, color: "#1a0a2e" },
+  commitDot: { flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem", fontWeight: 700 },
+
+  /* CTA */
+  ctaRow: { display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap" as const, marginTop: 32 },
+  ctaPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", padding: "15px 34px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.25)" },
+  ctaSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", padding: "15px 34px", borderRadius: 100, border: "2px solid rgba(255,255,255,0.7)", background: "transparent", color: "#fff", cursor: "pointer" },
+  positioning: { marginTop: 48, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.18)", fontFamily: "'Astrid Regular', serif", fontStyle: "italic", fontSize: "1.1rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.6 },
 };
 
 const mb: Record<string, React.CSSProperties> = {
@@ -1500,7 +2050,6 @@ const mb: Record<string, React.CSSProperties> = {
   purposeDesc: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", color: "#554866", marginTop: 2 },
 };
 
-/* ── Directory: now uses the shared gradient; cards go solid white for contrast ── */
 const dr: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
@@ -1525,9 +2074,16 @@ const pg: Record<string, React.CSSProperties> = {
   cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", color: "#1a0a2e", marginBottom: 10 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6 },
   ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1, boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 12px", position: "relative", zIndex: 1 },
+  tagline: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", fontStyle: "italic", color: "#4B1E56", margin: "0 auto 32px", position: "relative", zIndex: 1 },
+  pathGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "left", alignItems: "stretch" },  focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10 },
+  focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "0.86rem", color: "#554866" },
+  focusDot: { flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 },
+  chipRow: { display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" as const },
+  chip: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.03em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "10px 20px", borderRadius: 100, marginTop: 16, width: "fit-content" },
 };
 
-/* ── Opportunities: revamped — compact type cards + live filterable board ── */
+/* ── Opportunities: compact type cards + live filterable board ── */
 const op: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", position: "relative", overflow: "hidden" },
   container: { maxWidth: 1140, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 },
@@ -1603,7 +2159,6 @@ const evs: Record<string, React.CSSProperties> = {
   modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#D7B264", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
 };
 
-/* ── Membership form section: now pure white; card gets a defining border ── */
 const jp: Record<string, React.CSSProperties> = {
   formSection: { padding: "100px 24px", background: "#fff", display: "flex", justifyContent: "center" },
   card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", border: "1px solid rgba(124, 92, 191, 0.12)", width: "100%" },
@@ -1616,7 +2171,6 @@ const jp: Record<string, React.CSSProperties> = {
   submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
 };
 
-/* ── Impact: now uses the shared gradient; stat/CALD cards go solid white ── */
 const st: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", textAlign: "center" },
   sectionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 14 },
@@ -1652,18 +2206,16 @@ const st: Record<string, React.CSSProperties> = {
 export default function EllevationHub() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // ✅ Read the active page from the URL (?page=about) instead of local state
-  // Falls back to "home" if no query param is present — this is what makes
-  // footer links like /hub?page=about land directly on the right section.
+  // Read the active page from the URL (?page=about); falls back to "home".
   const page = (searchParams.get("page") as Page) || "home";
 
-  // ✅ Sync with the theme saved elsewhere (e.g. a global toggle) on mount
+  // Sync with the theme saved elsewhere (e.g. a global toggle) on mount
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     document.documentElement.setAttribute("data-theme", saved ?? "light");
   }, []);
 
-  // ✅ Set page title & meta description — per page, whenever `page` changes
+  // Set page title & meta description — per page, whenever `page` changes
   useEffect(() => {
     const meta = PAGE_META[page] || PAGE_META.home;
 
@@ -1680,9 +2232,7 @@ export default function EllevationHub() {
     }
   }, [page]);
 
-  // ✅ Scroll to the very top of the page whenever the active section changes —
-  // this covers both clicking a nav link inside the page AND arriving fresh
-  // from an external link (e.g. the footer) since the query param changes either way.
+  // Scroll to the top whenever the active section changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
@@ -1723,9 +2273,17 @@ export default function EllevationHub() {
         /* ═══════════════════════════════════════
            NAVBAR — single centered pill row,
            FIXED to the viewport at all times
-           (back-home button, logo, desktop links,
-           hamburger + dropdown on small screens)
            ═══════════════════════════════════════ */
+
+[data-theme="dark"] .hub-programs-chip {
+  background: rgba(255,255,255,0.07) !important;
+  border-color: rgba(155,109,190,0.3) !important;
+  color: #d9a8cd !important;
+}
+[data-theme="dark"] .hub-programs-section .hub-programs-card-text { color: rgba(255,255,255,0.75) !important; }
+[data-theme="dark"] .hub-programs-section .hub-programs-card-title { color: #e8e0f8 !important; }
+
+
         .ms-nav-row{
           position:fixed; top:0; left:0; right:0; z-index:100;
           display:flex; flex-direction:column; align-items:center;
@@ -1764,13 +2322,32 @@ export default function EllevationHub() {
           flex-shrink:0;
         }
         .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
+
+        /* ── Logo: larger + slow "pop-up" entrance so it stands out ── */
         .ns-logo{
-          width:130px;
+          width:190px;
           height:auto;
           object-fit:contain;
           cursor:pointer;
           flex-shrink:0;
+          transform-origin:center;
+          filter:drop-shadow(0 4px 12px rgba(102,35,105,0.28));
+          animation:logoPopIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+          transition:transform 0.4s ease, filter 0.4s ease;
         }
+        .ns-logo:hover{
+          transform:scale(1.06);
+          filter:drop-shadow(0 6px 18px rgba(215,178,100,0.55));
+        }
+        @keyframes logoPopIn{
+          0%   { opacity:0; transform:scale(0.55) translateY(10px); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
+          60%  { opacity:1; transform:scale(1.12) translateY(0);    filter:drop-shadow(0 6px 22px rgba(215,178,100,0.65)); }
+          100% { opacity:1; transform:scale(1) translateY(0);       filter:drop-shadow(0 4px 12px rgba(102,35,105,0.28)); }
+        }
+        @media (prefers-reduced-motion: reduce){
+          .ns-logo{ animation:none; }
+        }
+
         .ns-links-desktop{
           display:flex; align-items:center; gap:2px;
           flex:1;
@@ -1852,16 +2429,16 @@ export default function EllevationHub() {
           color:#fff !important;
         }
 
-        /* Hub has more nav items than Ms. Ellevation, so the hamburger
-           kicks in a little earlier to avoid link wrapping/overflow. */
-        @media (max-width: 1180px){
+        /* Hub has more nav items than Ms. Ellevation, and the logo is now larger,
+           so the hamburger kicks in earlier to avoid link wrapping/overflow. */
+        @media (max-width: 1280px){
           .ns-links-desktop{ display:none; }
           .ns-menu-toggle{ display:flex; }
         }
         @media (max-width: 560px){
           .ns-back-home span{ display:none; }
           .ns-back-home{ padding:9px 12px; }
-          .ns-logo{ width:100px; }
+          .ns-logo{ width:135px; }
           .ms-nav{ padding:7px 8px; gap:10px; }
         }
 
@@ -1872,10 +2449,24 @@ export default function EllevationHub() {
         @media (max-width: 900px){
           .hub-home-grid{ grid-template-columns:1fr !important; text-align:center; }
           .hub-home-btn-row{ justify-content:center !important; }
-          .hub-about-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-about-two-col{ grid-template-columns:1fr !important; }
           .hub-directory-grid{ grid-template-columns:repeat(2,1fr) !important; }
-          .hub-programs-grid{ grid-template-columns:1fr !important; }
-          .hub-opportunities-grid{ grid-template-columns:repeat(2,1fr) !important; }
+/* Programs: 4 pathway cards in one row on desktop */
+.hub-programs-grid .hub-about-card{
+  display:flex;
+  flex-direction:column;
+  padding:24px 20px !important;
+}
+.hub-programs-grid .hub-about-card .hub-programs-chip{
+  margin-top:auto !important;
+}
+@media (max-width: 1100px){
+  .hub-programs-grid{ grid-template-columns:repeat(2, 1fr) !important; }
+}
+@media (max-width: 640px){
+  .hub-programs-grid{ grid-template-columns:1fr !important; }
+}
+            .hub-opportunities-grid{ grid-template-columns:repeat(2,1fr) !important; }
           .hub-opportunities-listing-grid{ grid-template-columns:1fr !important; }
           .hub-events-grid{ grid-template-columns:1fr !important; }
           .hub-impact-stats{ grid-template-columns:repeat(2,1fr) !important; }
@@ -1885,7 +2476,6 @@ export default function EllevationHub() {
           .hub-form-row{ grid-template-columns:1fr !important; }
         }
         @media (max-width: 600px){
-          .hub-about-grid{ grid-template-columns:1fr !important; }
           .hub-directory-grid{ grid-template-columns:1fr !important; }
           .hub-opportunities-grid{ grid-template-columns:1fr !important; }
           .hub-impact-stats{ grid-template-columns:1fr 1fr !important; }
@@ -1894,6 +2484,7 @@ export default function EllevationHub() {
         }
         @media (max-width: 768px){
           .hub-home-page{ padding:100px 24px 60px !important; min-height:auto !important; }
+          .hub-about-hero{ padding:96px 24px 72px !important; }
           .hub-about-section{ padding:56px 24px !important; }
           .hub-membership-section{ padding:56px 24px !important; }
           .hub-directory-section{ padding:56px 24px !important; }
@@ -1907,6 +2498,13 @@ export default function EllevationHub() {
           .hub-home-headline{ font-size:2rem !important; }
           .hub-card{ padding:24px !important; }
           .hub-form-title{ font-size:1.5rem !important; }
+          .hub-about-commit{ padding:14px 16px !important; }
+        }
+
+        /* ── About page: hover + commitment grid safety on narrow screens ── */
+        .hub-about-access:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(124,92,191,0.16) !important; opacity: 1; }
+        @media (max-width: 400px){
+          .hub-about-page [style*="minmax(320px"]{ grid-template-columns:1fr !important; }
         }
 
         /* ── Dark Mode Overrides ── */
@@ -1924,6 +2522,9 @@ export default function EllevationHub() {
         }
         [data-theme="dark"] .ms-nav.ms-nav-scrolled {
           box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
+        }
+        [data-theme="dark"] .ns-logo {
+          filter: drop-shadow(0 4px 14px rgba(215,178,100,0.35));
         }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
@@ -1971,29 +2572,18 @@ export default function EllevationHub() {
           color: #d9a8cd !important;
         }
 
-        /* About section */
-        [data-theme="dark"] .hub-about-section {
-          background: #160d22 !important;
-        }
-        [data-theme="dark"] .hub-about-eye {
-          color: #c9a3d9 !important;
-        }
-        [data-theme="dark"] .hub-about-title {
-          color: #e8e0f8 !important;
-        }
-        [data-theme="dark"] .hub-about-sub {
-          color: #d9a8cd !important;
-        }
-        [data-theme="dark"] .hub-about-card {
-          background: #1f1330 !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
-        }
-        [data-theme="dark"] .hub-about-card-title {
-          color: #e8e0f8 !important;
-        }
-        [data-theme="dark"] .hub-about-card-text {
-          color: #d9a8cd !important;
-        }
+        /* About page + Home page sections (client-final) */
+        [data-theme="dark"] .hub-about-alt   { background: #160d22 !important; }
+        [data-theme="dark"] .hub-about-plain { background: #0d0614 !important; }
+        [data-theme="dark"] .hub-about-eye   { color: #c9a3d9 !important; }
+        [data-theme="dark"] .hub-about-title { color: #e8e0f8 !important; }
+        [data-theme="dark"] .hub-about-sub   { color: #d9a8cd !important; }
+        [data-theme="dark"] .hub-about-card  { background: #1f1330 !important; border-color: rgba(155,109,190,0.15) !important; box-shadow: none !important; }
+        [data-theme="dark"] .hub-about-card-title { color: #e8e0f8 !important; }
+        [data-theme="dark"] .hub-about-card-text  { color: #d9a8cd !important; }
+        [data-theme="dark"] .hub-about-link  { color: #c9a3d9 !important; }
+        [data-theme="dark"] .hub-about-commit{ background: #1f1330 !important; border-color: rgba(155,109,190,0.15) !important; color: #e8e0f8 !important; }
+        [data-theme="dark"] .hub-about-cta   { background: linear-gradient(135deg, #2a163a 0%, #160d22 100%) !important; }
 
         /* Membership section */
         [data-theme="dark"] .hub-membership-section {
@@ -2011,6 +2601,9 @@ export default function EllevationHub() {
         }
         [data-theme="dark"] .hub-form-sub {
           color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-form-sub a {
+          color: #c9a3d9 !important;
         }
         [data-theme="dark"] .hub-form-label {
           color: #d9a8cd !important;
@@ -2067,32 +2660,31 @@ export default function EllevationHub() {
           color: #d9a8cd !important;
         }
 
-        /* Programs section — already dark bg, deepen further */
-       /* Programs section — now light by default, still supports dark mode */
-[data-theme="dark"] .hub-programs-section {
-  background: linear-gradient(180deg, #2a163a 0%, #160d22 100%) !important;
-}
-[data-theme="dark"] .hub-programs-eye {
-  color: #c9a3d9 !important;
-}
-[data-theme="dark"] .hub-programs-title {
-  color: #ffffff !important;
-}
-[data-theme="dark"] .hub-programs-card {
-  background: rgba(255,255,255,0.07) !important;
-  border-color: rgba(255,255,255,0.12) !important;
-  box-shadow: none !important;
-}
-[data-theme="dark"] .hub-programs-card-title {
-  color: #fff !important;
-}
-[data-theme="dark"] .hub-programs-card-text {
-  color: rgba(255,255,255,0.7) !important;
-}
-[data-theme="dark"] .hub-programs-icon,
-[data-theme="dark"] .hub-programs-card svg {
-  color: #fff !important;
-}
+        /* Programs section — light by default, supports dark mode */
+        [data-theme="dark"] .hub-programs-section {
+          background: linear-gradient(180deg, #2a163a 0%, #160d22 100%) !important;
+        }
+        [data-theme="dark"] .hub-programs-eye {
+          color: #c9a3d9 !important;
+        }
+        [data-theme="dark"] .hub-programs-title {
+          color: #ffffff !important;
+        }
+        [data-theme="dark"] .hub-programs-card {
+          background: rgba(255,255,255,0.07) !important;
+          border-color: rgba(255,255,255,0.12) !important;
+          box-shadow: none !important;
+        }
+        [data-theme="dark"] .hub-programs-card-title {
+          color: #fff !important;
+        }
+        [data-theme="dark"] .hub-programs-card-text {
+          color: rgba(255,255,255,0.7) !important;
+        }
+        [data-theme="dark"] .hub-programs-icon,
+        [data-theme="dark"] .hub-programs-card svg {
+          color: #fff !important;
+        }
 
         /* Opportunities section */
         [data-theme="dark"] .hub-opportunities-section {
@@ -2328,6 +2920,7 @@ export default function EllevationHub() {
         [data-theme="dark"] .enquiry-form-section h2 { color: #f3ebff !important; }
         [data-theme="dark"] .form-wrapper-card { background: #1f1330 !important; border-color: rgba(75, 30, 86, 0.2) !important; box-shadow: 0 16px 48px rgba(0,0,0,0.2) !important; }
         [data-theme="dark"] .field-label { color: #d9a8cd !important; }
+        [data-theme="dark"] .field-label a { color: #c9a3d9 !important; }
         [data-theme="dark"] .radio-tile { color: #f3ebff !important; border-color: rgba(75,30,86,0.2) !important; }
         [data-theme="dark"] .form-input { background: #1f172e !important; border-color: rgba(75,30,86,0.2) !important; color: #f3ebff !important; }
         [data-theme="dark"] .form-input:focus { border-color: #6b2f7a !important; background: #231933 !important; }
@@ -2338,14 +2931,11 @@ export default function EllevationHub() {
 
       <Navbar current={page} nav={nav} />
 
-      {/* ✅ Since the navbar is now `position: fixed` and no longer takes up
-          space in normal document flow, this wrapper pushes all page content
-          down by the navbar's real measured height (--nav-height, set by the
-          Navbar component). The 96px fallback covers the first paint before
-          the measurement effect runs. */}
+      {/* Navbar is `position: fixed`, so push content down by its measured
+          height (--nav-height). 96px is the fallback for first paint. */}
       <div style={{ paddingTop: "var(--nav-height, 96px)" }}>
         {page === "home"          && <HomeSection nav={nav} />}
-        {page === "about"         && <AboutSection />}
+        {page === "about"         && <AboutSection nav={nav} />}
         {page === "membership"    && <MembershipSection />}
         {page === "directory"     && <DirectorySection nav={nav} />}
         {page === "programs"      && <ProgramsSection nav={nav} />}
