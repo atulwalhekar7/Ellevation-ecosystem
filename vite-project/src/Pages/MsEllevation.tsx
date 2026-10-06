@@ -1526,7 +1526,30 @@ export default function EllevationPage() {
           padding:9px 16px; cursor:pointer; white-space:nowrap; transition:all 0.2s ease; flex-shrink:0;
         }
         .ns-back-home:hover{ background:rgba(75,30,86,0.12); opacity:1; }
-        .ns-logo{ width:110px; height:auto; object-fit:contain; cursor:pointer; flex-shrink:0; }
+        .ns-logo{
+          width:110px; height:auto; object-fit:contain; cursor:pointer; flex-shrink:0;
+          transform-origin:center;
+          animation:logoPopIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both, logoPulse 3s ease-in-out 1.4s infinite;
+          transition:transform 0.3s ease, filter 0.3s ease;
+        }
+        .ns-logo:hover{
+          animation:none;
+          transform:scale(1.1);
+          filter:drop-shadow(0 0 18px rgba(215,178,100,0.95));
+        }
+        @keyframes logoPopIn{
+          0%   { opacity:0; transform:scale(0.4); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
+          55%  { opacity:1; transform:scale(1.18); filter:drop-shadow(0 0 22px rgba(215,178,100,0.95)); }
+          78%  { transform:scale(0.97); }
+          100% { opacity:1; transform:scale(1); filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
+        }
+        @keyframes logoPulse{
+          0%, 100% { transform:scale(1);    filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
+          50%      { transform:scale(1.05); filter:drop-shadow(0 0 20px rgba(215,178,100,0.95)); }
+        }
+        @media (prefers-reduced-motion: reduce){
+          .ns-logo{ animation:none; }
+        }
         .ns-links-desktop{ display:flex; align-items:center; gap:2px; flex:1; justify-content:center; flex-wrap:wrap; }
         .ns-link{
           font-family:'Montserrat', sans-serif; font-size:0.84rem; font-weight:500;
@@ -2048,6 +2071,7 @@ export default function EllevationPage() {
         [data-theme="dark"] .ns-mobile-menu.open { background: rgba(22, 13, 34, 0.97) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
+        [data-theme="dark"] .ns-logo { filter: drop-shadow(0 4px 14px rgba(215,178,100,0.35)); }
         [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
         [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title { color: #ffffff !important; }
         [data-theme="dark"] .hp-sub, [data-theme="dark"] .ab-banner-sub, [data-theme="dark"] .jn-banner-sub,

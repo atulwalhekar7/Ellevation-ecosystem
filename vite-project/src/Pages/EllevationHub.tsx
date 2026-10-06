@@ -2284,11 +2284,11 @@ export default function EllevationHub() {
 [data-theme="dark"] .hub-programs-section .hub-programs-card-title { color: #e8e0f8 !important; }
 
 
-        .ms-nav-row{
-          position:fixed; top:0; left:0; right:0; z-index:100;
-          display:flex; flex-direction:column; align-items:center;
-          padding:16px 20px 0;
-        }
+       .ms-nav-row{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; flex-direction:column; align-items:center;
+  padding:10px 20px 0;   /* was 16px */
+}
         .ms-nav{
           width:100%;
           max-width:1240px;
@@ -2300,8 +2300,7 @@ export default function EllevationHub() {
           -webkit-backdrop-filter:blur(16px);
           border:1px solid rgba(102,35,105,0.08);
           border-radius:100px;
-          padding:8px 10px 8px 8px;
-          box-shadow:0 2px 16px rgba(102,35,105,0.08);
+padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           transition:box-shadow 0.3s ease;
         }
         .ms-nav.ms-nav-scrolled{
@@ -2324,25 +2323,31 @@ export default function EllevationHub() {
         .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
 
         /* ── Logo: larger + slow "pop-up" entrance so it stands out ── */
-        .ns-logo{
-          width:190px;
-          height:auto;
-          object-fit:contain;
-          cursor:pointer;
-          flex-shrink:0;
-          transform-origin:center;
-          filter:drop-shadow(0 4px 12px rgba(102,35,105,0.28));
-          animation:logoPopIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
-          transition:transform 0.4s ease, filter 0.4s ease;
-        }
+       .ns-logo{
+  width:190px;              /* unchanged, same logo size */
+  height:auto;
+  margin:-12px 0;           /* NEW: shrinks the navbar height, logo size stays the same */
+  object-fit:contain;
+  cursor:pointer;
+  flex-shrink:0;
+  transform-origin:center;
+  animation:logoPopIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both, logoPulse 3s ease-in-out 1.4s infinite;
+  transition:transform 0.3s ease, filter 0.3s ease;
+}
         .ns-logo:hover{
-          transform:scale(1.06);
-          filter:drop-shadow(0 6px 18px rgba(215,178,100,0.55));
+          animation:none;
+          transform:scale(1.1);
+          filter:drop-shadow(0 0 18px rgba(215,178,100,0.95));
         }
         @keyframes logoPopIn{
-          0%   { opacity:0; transform:scale(0.55) translateY(10px); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
-          60%  { opacity:1; transform:scale(1.12) translateY(0);    filter:drop-shadow(0 6px 22px rgba(215,178,100,0.65)); }
-          100% { opacity:1; transform:scale(1) translateY(0);       filter:drop-shadow(0 4px 12px rgba(102,35,105,0.28)); }
+          0%   { opacity:0; transform:scale(0.4); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
+          55%  { opacity:1; transform:scale(1.18); filter:drop-shadow(0 0 22px rgba(215,178,100,0.95)); }
+          78%  { transform:scale(0.97); }
+          100% { opacity:1; transform:scale(1); filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
+        }
+        @keyframes logoPulse{
+          0%, 100% { transform:scale(1);    filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
+          50%      { transform:scale(1.05); filter:drop-shadow(0 0 20px rgba(215,178,100,0.95)); }
         }
         @media (prefers-reduced-motion: reduce){
           .ns-logo{ animation:none; }
@@ -2435,12 +2440,12 @@ export default function EllevationHub() {
           .ns-links-desktop{ display:none; }
           .ns-menu-toggle{ display:flex; }
         }
-        @media (max-width: 560px){
-          .ns-back-home span{ display:none; }
-          .ns-back-home{ padding:9px 12px; }
-          .ns-logo{ width:135px; }
-          .ms-nav{ padding:7px 8px; gap:10px; }
-        }
+       @media (max-width: 560px){
+  .ns-back-home span{ display:none; }
+  .ns-back-home{ padding:9px 12px; }
+  .ns-logo{ width:135px; margin:-8px 0; }
+  .ms-nav{ padding:3px 8px; gap:10px; }
+}
 
         /* ═══════════════════════════════════════
            RESPONSIVE — section grids collapse
@@ -2524,7 +2529,7 @@ export default function EllevationHub() {
           box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
         }
         [data-theme="dark"] .ns-logo {
-          filter: drop-shadow(0 4px 14px rgba(215,178,100,0.35));
+          filter: drop-shadow(0 0 6px rgba(215,178,100,0.55));
         }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;

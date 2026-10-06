@@ -417,6 +417,41 @@ export default function EllevationNavbar() {
 
   return (
     <>
+      <style>{`
+        /* Logo: pops in once, then keeps a soft gold glow + gentle pop so it always looks highlighted */
+        .nav-logo-img{
+          transform-origin:center;
+          filter:drop-shadow(0 0 6px rgba(215,178,100,0.55));
+          animation:
+            navLogoPopIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both,
+            navLogoPulse 3s ease-in-out 1.4s infinite;
+          transition:transform 0.3s ease, filter 0.3s ease;
+        }
+        .nav-logo-img:hover{
+          animation:none;
+          transform:scale(1.1);
+          filter:drop-shadow(0 0 18px rgba(215,178,100,0.95));
+        }
+
+        /* Entrance: starts small, overshoots, settles */
+        @keyframes navLogoPopIn{
+          0%   { opacity:0; transform:scale(0.4); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
+          55%  { opacity:1; transform:scale(1.18); filter:drop-shadow(0 0 22px rgba(215,178,100,0.95)); }
+          78%  { transform:scale(0.97); }
+          100% { opacity:1; transform:scale(1); filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
+        }
+
+        /* Continuous highlight: glow breathes, logo gives a tiny pop */
+        @keyframes navLogoPulse{
+          0%, 100% { transform:scale(1);    filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
+          50%      { transform:scale(1.05); filter:drop-shadow(0 0 20px rgba(215,178,100,0.95)); }
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          .nav-logo-img{ animation:none; }
+        }
+      `}</style>
+
       <div
         ref={wrapperRef}
         style={{ height: `${navHeight}px`, position: "relative" }}
@@ -469,6 +504,7 @@ export default function EllevationNavbar() {
               <img
                 src={darkModeLogo}
                 alt="Ellevation Logo"
+                className="nav-logo-img"
                 style={{ width: "100%", height: "100%", objectFit: "contain" }}
               />
             </div>
