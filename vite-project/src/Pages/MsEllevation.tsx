@@ -94,15 +94,6 @@ const BANNER_IMAGES = {
   join: "https://images.unsplash.com/photo-1637072103875-1b29a09d9c91?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
 };
 
-// ─── Home hero carousel images ──────────────────────────────────────────────
-// Rotating set of images used behind the Home hero text. Re-uses the same
-// vetted Unsplash photos already used elsewhere on the site (About + Programs
-// banners) so every image is guaranteed to be a valid, already-in-use asset.
-const HOME_CAROUSEL_IMAGES = [
-  BANNER_IMAGES.home,
-  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80", // Women collaborating
-  "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1600&q=80", // Woman leader inspiring others
-];
 const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
   FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#4B1E56" },
@@ -314,43 +305,15 @@ function ClosingCtaSection({
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: (p: Page) => void }) {
-  const [slideIndex, setSlideIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-
-  // Auto-advance the hero carousel every 5s, unless paused by the user.
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setSlideIndex((i) => (i + 1) % HOME_CAROUSEL_IMAGES.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [isPaused]);
-
   const scrollToCommunity = () => {
     document.getElementById("community-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <div className="hp-page" style={hp.page}>
-      {/* Rotating background carousel */}
-      <div style={hp.bgCarouselWrap}>
-        {HOME_CAROUSEL_IMAGES.map((img, i) => (
-          <div
-            key={img + i}
-            style={{
-              ...hp.bgSlide,
-              backgroundImage: `url('${img}')`,
-              opacity: i === slideIndex ? 1 : 0,
-            }}
-          />
-        ))}
-        {/* Dark gradient overlay sits above every slide so text stays readable */}
-        <div style={hp.bgOverlay} />
-      </div>
-
+      <div style={hp.bgGrad} />
       <div style={hp.blobTL} />
       <div style={hp.blobBR} />
-
       <div className="hp-grid" style={hp.grid}>
         <div style={hp.left}>
           <p className="hp-eyebrow" style={hp.eyebrow}>A Space for Women, By Women</p>
@@ -364,39 +327,19 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
           <p className="hp-sub" style={hp.sub}>
             Welcome to Ms. Ellevation. A place for new beginnings, bold journeys and dreams taking flight.
           </p>
-          <p className="hp-tagline" style={hp.tagline}>Find your place. Lift your voice. Flourish.</p>
-
           <div className="hp-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={hp.btnSecondary} onClick={scrollToCommunity}>JOIN OUR COMMUNITY</button>
           </div>
-
-          {/* Carousel controls — dot indicators + play/pause, sits under the text */}
-          <div className="hp-carousel-controls" style={hp.carouselControls}>
-            <button
-              className="hp-carousel-toggle"
-              style={hp.carouselToggle}
-              onClick={() => setIsPaused(p => !p)}
-              aria-label={isPaused ? "Play carousel" : "Pause carousel"}
-            >
-              {isPaused ? (
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-              ) : (
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" /><rect x="14" y="5" width="4" height="14" /></svg>
-              )}
-            </button>
-            <div className="hp-carousel-dots" style={hp.carouselDots}>
-              {HOME_CAROUSEL_IMAGES.map((_, i) => (
-                <button
-                  key={i}
-                  className="hp-carousel-dot"
-                  style={{ ...hp.carouselDot, ...(i === slideIndex ? hp.carouselDotActive : {}) }}
-                  onClick={() => setSlideIndex(i)}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              ))}
-            </div>
+        </div>
+        <div className="hp-card" style={hp.card}>
+          <p className="hp-card-desc" style={hp.cardDesc}>Find your place. Lift your voice. Flourish.</p>
+          <div style={hp.cardFeatures}>
+            {FOCUS_ITEMS.map(item => (
+              <div key={item.label} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{item.label}</div>
+            ))}
           </div>
+          <p style={hp.cardNote}>Because lasting transformation happens when women are supported as whole individuals.</p>
         </div>
       </div>
     </div>
@@ -404,26 +347,30 @@ function HomePage({ nav }: { nav: (p: Page) => void }) {
 }
 
 const hp: Record<string, React.CSSProperties> = {
-  page: { position:"relative", overflow:"hidden", minHeight:"78vh", display:"flex", alignItems:"center", padding:"60px 48px 90px" },
-  bgCarouselWrap: { position:"absolute", inset:0, zIndex:0, overflow:"hidden" },
-  bgSlide: { position:"absolute", inset:0, backgroundSize:"cover", backgroundPosition:"center", backgroundRepeat:"no-repeat", transition:"opacity 1.2s ease-in-out" },
-  bgOverlay: { position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(26,10,46,0.72) 0%, rgba(75,30,86,0.78) 100%)" },
-  blobTL: { position:"absolute", top:-140, left:-120, width:520, height:520, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.18) 0%,transparent 70%)", animation:"floatBlob 10s ease-in-out infinite", zIndex:1 },
-  blobBR: { position:"absolute", bottom:-120, right:-100, width:460, height:460, borderRadius:"50%", background:"radial-gradient(circle,rgba(215,178,100,0.16) 0%,transparent 70%)", animation:"floatBlob 13s ease-in-out infinite reverse", zIndex:1 },
-  grid: { position:"relative", zIndex:2, display:"grid", gridTemplateColumns:"1fr", gap:48, alignItems:"center", maxWidth:820, margin:"0 auto", width:"100%", textAlign:"center" as const, animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) both" },
-  left: { display:"flex", flexDirection:"column", gap:18, alignItems:"center" },
-  eyebrow: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", textTransform:"uppercase" as const },
-  headline: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,4vw,3.6rem)", fontWeight:700, color:"#ffffff", lineHeight:1.12, margin:0, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.88)", lineHeight:1.75, maxWidth:520, margin:"0 auto" },
-  tagline: { fontFamily:"'Astrid Regular', serif", fontSize:"1.1rem", fontStyle:"italic", color:"#EFBF68", margin:0 },
-  btnRow: { display:"flex", gap:14, flexWrap:"wrap" as const, justifyContent:"center" as const },
-  btnPrimary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s ease", boxShadow:"0 4px 20px rgba(0,0,0,0.35)" },
-  btnSecondary: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(255,255,255,0.6)", background:"transparent", color:"#ffffff", cursor:"pointer", transition:"all 0.2s ease" },
-  carouselControls: { display:"flex", alignItems:"center", gap:14, marginTop:8 },
-  carouselToggle: { width:32, height:32, borderRadius:"50%", border:"1.5px solid rgba(255,255,255,0.5)", background:"rgba(255,255,255,0.08)", color:"#ffffff", display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", transition:"all 0.2s ease", flexShrink:0 },
-  carouselDots: { display:"flex", alignItems:"center", gap:8 },
-  carouselDot: { width:8, height:8, padding:0, borderRadius:"50%", border:"1.5px solid rgba(255,255,255,0.6)", background:"rgba(255,255,255,0.25)", cursor:"pointer", transition:"all 0.2s ease" },
-  carouselDotActive: { background:"#EFBF68", borderColor:"#EFBF68", width:22, borderRadius:100 },
+  page: { position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center", padding: "60px 48px" },
+  bgGrad: {
+    position: "absolute", inset: 0,
+    background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${BANNER_IMAGES.home}')`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    zIndex: 0,
+  },
+  blobTL: { position: "absolute", top: -120, left: -100, width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle,rgba(102,35,105,0.18) 0%,transparent 70%)", animation: "floatBlob 10s ease-in-out infinite", zIndex: 1 },
+  blobBR: { position: "absolute", bottom: -100, right: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation: "floatBlob 13s ease-in-out infinite reverse", zIndex: 1 },
+  grid: { position: "relative", zIndex: 2, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 48, alignItems: "center", maxWidth: 1200, margin: "0 auto", width: "100%", animation: "fadeSlideUp 0.9s ease both" },
+  left: { display: "flex", flexDirection: "column", gap: 24 },
+  eyebrow: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", color: "#ffffff" },
+  headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.4rem,4vw,3.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
+  btnRow: { display: "flex", gap: 14, flexWrap: "wrap" as const },
+  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
+  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
+  card: { background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderRadius: 24, padding: "32px", boxShadow: "0 8px 48px rgba(26,10,46,0.08)", border: "1px solid rgba(255,255,255,0.7)" },
+  cardDesc: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
+  cardFeatures: { display: "flex", flexDirection: "column", gap: 10 },
+  feat: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
+  check: { color: "#4B1E56", fontWeight: 700 },
+  cardNote: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", fontStyle: "italic", color: "#4B1E56", marginTop: 16, lineHeight: 1.6 },
 };
 
 /* ══════════════════════════════════════════════
@@ -633,12 +580,12 @@ const OUR_VALUES = [
 ];
 
 const FOCUS_ITEMS = [
-  { icon: "◈", label: "Voice" },
-  { icon: "✦", label: "Identity" },
-  { icon: "❀", label: "Confidence" },
-  { icon: "✧", label: "Leadership" },
-  { icon: "♥", label: "Wellbeing" },
-  { icon: "✧", label: "Community" },
+  { icon: "◈", label: "Find your voice" },
+  { icon: "✦", label: "Own your identity" },
+  { icon: "❀", label: "Build your confidence" },
+  { icon: "✧", label: "Lead with purpose" },
+  { icon: "♥", label: "Prioritise your wellbeing" },
+  { icon: "✧", label: "Connect with your community" },
 ];
 
 const WHO_WE_SUPPORT = [
@@ -1007,8 +954,14 @@ const PROGRAMS = [
   },
 ];
 
-const ECOSYSTEM_WOMAN = ["Story","Identity","Confidence","Leadership","Wellbeing","Community"];
-const ECOSYSTEM_OPPORTUNITY = ["Employment Pathways","Entrepreneurship","Partnerships","Business Development","Industry Connections","Visibility Opportunities"];
+const ECOSYSTEM_WOMAN = [
+  "Own your story and embrace who you are.",
+  "Build a strong identity that reflects your values.",
+  "Grow your confidence and believe in your abilities.",
+  "Step forward with purpose and lead with impact.",
+  "Prioritise your wellbeing and create a balanced life.",
+  "Connect, support and grow together as a community."
+];const ECOSYSTEM_OPPORTUNITY = ["Employment Pathways","Entrepreneurship","Partnerships","Business Development","Industry Connections","Visibility Opportunities"];
 
 function ProgramIcon({ type }: { type: string }) {
   if (type === "path") {
@@ -1410,8 +1363,12 @@ function JoinPage() {
               <div style={jp.agreeRow} data-error={errs.agree?"true":undefined}>
                 <label style={jp.agreeLabel}>
                   <input type="checkbox" checked={form.agree} onChange={e => handleChange(activeTier,"agree",e.target.checked)} style={jp.checkbox} />
-                  <span className="jp-agree-text" style={jp.agreeText}>I agree to the Ellevation <a href="#" className="jp-agree-link" style={{ ...jp.agreeLink, color: meta.color }}>Community Guidelines</a> and <a href="#" className="jp-agree-link" style={{ ...jp.agreeLink, color: meta.color }}>Terms of Membership</a>.</span>
-                </label>
+ <span>
+                  I agree to the{" "}
+                  <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                  {" "}and{" "}
+                  <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                </span>                </label>
                 {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
               </div>
               <button
