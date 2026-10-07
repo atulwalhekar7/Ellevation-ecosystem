@@ -102,9 +102,9 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
 
 /* ── Home page content (client-final) ── */
 const HOME_OPPORTUNITIES: { title: string; desc: string; page: Page; link?: string }[] = [
-  { title: "Directory",     desc: "Find businesses, services, organisations and community leaders.", page: "directory" },
-  { title: "Opportunities", desc: "Access jobs, grants, partnerships and collaborations.",           page: "opportunities" },
-  { title: "Events",        desc: "Connect through networking, learning and community experiences.", page: "events" },
+  { title: "Directory",     desc: "Find businesses, services, organisations and community leaders.", page: "directory",     link: "Read More.." },
+  { title: "Opportunities", desc: "Access jobs, grants, partnerships and collaborations.",           page: "opportunities", link: "Read More.." },
+  { title: "Events",        desc: "Connect through networking, learning and community experiences.", page: "events",        link: "Read More.." },
   { title: "Programs",      desc: "Wellbeing, mentoring, leadership development, business support and community learning designed to help people, entrepreneurs and communities grow, connect and thrive.", page: "programs", link: "Read More.." },
 ];
 
@@ -115,9 +115,9 @@ const HOME_FOR_EVERYONE = [
   { title: "Supporters & Partners",   desc: "Help create opportunities that transform lives." },
 ];
 
-const HOME_ECOSYSTEM = [
-  { eyebrow: "Building the Woman",   title: "Ms Ellevation" },
-  { eyebrow: "Building Opportunity", title: "Ellevation Hub" },
+const HOME_ECOSYSTEM: { eyebrow: string; title: string; route: string }[] = [
+  { eyebrow: "Building the Woman",   title: "Ms Ellevation",  route: "/ms-ellevation" }, // <- your Ms Ellevation route
+  { eyebrow: "Building Opportunity", title: "Ellevation Hub", route: "/hub" },
 ];
 
 /* ── About page content (client-final) ── */
@@ -521,6 +521,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
    Structure: 1 Hero · 2 Opportunities · 3 For Everyone · 4 Ecosystem · 5 Final CTA
    ══════════════════════════════════════════════════════════════════════════ */
 function HomeSection({ nav }: { nav: (p: Page) => void }) {
+  const routerNavigate = useNavigate();
   const opp = useInView(0.1);
   const every = useInView(0.1);
   const eco = useInView(0.1);
@@ -585,10 +586,10 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       {/* 3 ── FOR EVERYONE */}
-      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
-        <div ref={every.ref} style={{ ...ab.container, ...fade(every.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>FOR EVERYONE</p>
-          <div style={ab.gridAuto}>
+    <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+  <div ref={every.ref} style={{ ...ab.container, ...fade(every.inView, 0) }}>
+    <h2 className="hub-about-title" style={ab.title}>For Everyone</h2>
+    <div style={ab.gridAuto}>
             {HOME_FOR_EVERYONE.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(every.inView, 100 + i * 80) }}>
                 <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
@@ -601,16 +602,30 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
 
       {/* 4 ── THE ECOSYSTEM */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
-        <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>THE ECOSYSTEM</p>
-          <div style={ab.gridAuto}>
-            {HOME_ECOSYSTEM.map((item, i) => (
-              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
-                <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
-                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
-              </div>
-            ))}
-          </div>
+  <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
+    <h2 className="hub-about-title" style={ab.title}>The Ecosystem</h2>
+   <div style={ab.gridAuto}>
+  {HOME_ECOSYSTEM.map((item, i) => (
+   <button
+  key={item.title}
+  onClick={() => {
+    if (item.route === "/hub") {
+      // Already on Hub home: make sure we're on "home" and scroll to the top
+      nav("home");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      routerNavigate(item.route);
+    }
+  }}
+  className="hub-about-card hub-about-access"
+  style={{ ...ab.card, ...ab.accessCard, ...fade(eco.inView, 100 + i * 100) }}
+>
+      <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
+      <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
+      <span className="hub-about-link" style={ab.cardLink}>Visit →</span>
+    </button>
+  ))}
+</div>
           <p className="hub-about-sub" style={{ ...ab.para, marginTop: 32, fontWeight: 600, color: "#4B1E56" }}>
             Together creating pathways for thriving communities.
           </p>
@@ -1127,8 +1142,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 2 ── OUR PATHWAYS */}
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={path.ref} style={{ ...ab.container, ...fade(path.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>OUR PATHWAYS</p>
-          <div className="hub-programs-grid" style={pg.pathGrid}>
+<h2 className="hub-about-title" style={ab.title}>Our Pathways</h2>          <div className="hub-programs-grid" style={pg.pathGrid}>
             {PROGRAM_PATHWAYS.map((p, i) => (
               <div key={p.title} className="hub-about-card" style={{ ...ab.card, ...fade(path.inView, 100 + i * 80) }}>
                 <div style={ab.icon}>{p.icon}</div>
@@ -1156,7 +1170,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 3 ── WHO WE SUPPORT */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={who.ref} style={{ ...ab.container, ...fade(who.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>WHO WE SUPPORT</p>
+<h2 className="hub-about-title" style={ab.title}>Who We Support</h2>
           <div style={pg.chipRow}>
             {PROGRAMS_WHO_WE_SUPPORT.map(w => (
               <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
@@ -1168,8 +1182,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 4 ── PARTNERS & COLLABORATORS */}
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={part.ref} style={{ ...ab.containerNarrow, ...fade(part.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>PARTNERS &amp; COLLABORATORS</p>
-          <p className="hub-about-sub" style={ab.para}>
+<h2 className="hub-about-title" style={{ ...ab.title, marginBottom: 24 }}>Partners &amp; Collaborators</h2>          <p className="hub-about-sub" style={ab.para}>
             We work alongside community organisations, businesses, educators, government and supporters to create opportunities that strengthen communities and create lasting impact.
           </p>
           <p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
@@ -1190,7 +1203,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 5 ── THE ELLEVATION ECOSYSTEM */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>THE ELLEVATION ECOSYSTEM</p>
+<h2 className="hub-about-title" style={ab.title}>The Ellevation Ecosystem</h2>
           <div style={ab.gridAuto}>
             {PROGRAMS_ECOSYSTEM.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
@@ -1989,8 +2002,14 @@ const ab: Record<string, React.CSSProperties> = {
   heroInner: { maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 },
   heroEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.25em", color: "#D7B264", marginBottom: 20 },
   heroTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.4rem,6vw,4.2rem)", color: "#fff", lineHeight: 1.1, marginBottom: 28 },
-  heroText: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "rgba(255,255,255,0.9)", lineHeight: 1.8, maxWidth: 740, margin: "0 auto" },
-
+heroText: {
+  fontFamily: "'Montserrat',sans-serif",
+  fontSize: "1.02rem",
+  color: "rgba(255,255,255,0.9)",
+  lineHeight: 1.8,
+  maxWidth: 860,        // was 740
+  margin: "0 auto"
+},
   /* Section shells */
   sectionLight: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
   sectionWhite: { padding: "100px 48px", background: "#fff" },
@@ -2325,9 +2344,9 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
       /* ── Logo: bigger, no animation. Net height = 130 + (-33 * 2) = 64px, navbar height same ── */
 /* Logo overflows outside the navbar pill. Net layout height = 180 + (-58 * 2) = 64px */
 .ns-logo{
-  height:170px;
+  height:130px;          /* was 170px */
   width:auto;
-  margin:-48px 0;
+  margin:-33px 0;        /* net 130 - 66 = 64px */
   object-fit:contain;
   cursor:pointer;
   flex-shrink:0;

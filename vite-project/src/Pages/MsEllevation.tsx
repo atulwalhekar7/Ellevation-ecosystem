@@ -1538,10 +1538,10 @@ export default function EllevationPage() {
         }
         .ns-back-home:hover{ background:rgba(75,30,86,0.12); opacity:1; }
 
-  .ns-logo {
-  height: 110px;
+ .ns-logo {
+  height: 100px;          /* was 110px */
   width: auto;
-  margin: -15px 0;
+  margin: -8px 0;        /* net 64px */
   object-fit: contain;
   cursor: pointer;
   flex-shrink: 0;
