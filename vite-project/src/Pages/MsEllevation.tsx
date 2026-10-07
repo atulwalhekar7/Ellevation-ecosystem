@@ -657,7 +657,7 @@ function AboutPage({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       {/* ── The Ms. Ellevation Journey ── */}
-    
+
       <JourneyFrameworkStrip />
 
       {/* ── Vision & Mission ── */}
@@ -961,7 +961,8 @@ const ECOSYSTEM_WOMAN = [
   "Step forward with purpose and lead with impact.",
   "Prioritise your wellbeing and create a balanced life.",
   "Connect, support and grow together as a community."
-];const ECOSYSTEM_OPPORTUNITY = ["Employment Pathways","Entrepreneurship","Partnerships","Business Development","Industry Connections","Visibility Opportunities"];
+];
+const ECOSYSTEM_OPPORTUNITY = ["Employment Pathways","Entrepreneurship","Partnerships","Business Development","Industry Connections","Visibility Opportunities"];
 
 function ProgramIcon({ type }: { type: string }) {
   if (type === "path") {
@@ -1363,12 +1364,13 @@ function JoinPage() {
               <div style={jp.agreeRow} data-error={errs.agree?"true":undefined}>
                 <label style={jp.agreeLabel}>
                   <input type="checkbox" checked={form.agree} onChange={e => handleChange(activeTier,"agree",e.target.checked)} style={jp.checkbox} />
- <span>
-                  I agree to the{" "}
-                  <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
-                  {" "}and{" "}
-                  <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
-                </span>                </label>
+                  <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                    {" "}and{" "}
+                    <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  </span>
+                </label>
                 {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
               </div>
               <button
@@ -1503,7 +1505,16 @@ export default function EllevationPage() {
         button:active{transform:translateY(0);}
         button:disabled:hover{opacity:0.7;transform:none;filter:none;}
 
-        .ms-ellevation-root{ padding-top: 96px; }
+        /* ═══════════════════════════════════════
+           NAVBAR
+           Logo: NO animation. Overflows the pill a little (top + bottom)
+           without making the navbar taller.
+           Net logo layout height = height + margin-top + margin-bottom
+           Desktop : 130 - 23 - 23 = 84px
+           Tablet  : 110 - 19 - 19 = 72px
+           Mobile  :  90 - 15 - 15 = 60px
+           ═══════════════════════════════════════ */
+        .ms-ellevation-root{ padding-top: 124px; }
         .ms-nav-row{
           position:fixed; top:0; left:0; right:0; z-index:100;
           display:flex; flex-direction:column; align-items:center;
@@ -1526,30 +1537,18 @@ export default function EllevationPage() {
           padding:9px 16px; cursor:pointer; white-space:nowrap; transition:all 0.2s ease; flex-shrink:0;
         }
         .ns-back-home:hover{ background:rgba(75,30,86,0.12); opacity:1; }
-        .ns-logo{
-          width:110px; height:auto; object-fit:contain; cursor:pointer; flex-shrink:0;
-          transform-origin:center;
-          animation:logoPopIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both, logoPulse 3s ease-in-out 1.4s infinite;
-          transition:transform 0.3s ease, filter 0.3s ease;
-        }
-        .ns-logo:hover{
-          animation:none;
-          transform:scale(1.1);
-          filter:drop-shadow(0 0 18px rgba(215,178,100,0.95));
-        }
-        @keyframes logoPopIn{
-          0%   { opacity:0; transform:scale(0.4); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
-          55%  { opacity:1; transform:scale(1.18); filter:drop-shadow(0 0 22px rgba(215,178,100,0.95)); }
-          78%  { transform:scale(0.97); }
-          100% { opacity:1; transform:scale(1); filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
-        }
-        @keyframes logoPulse{
-          0%, 100% { transform:scale(1);    filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
-          50%      { transform:scale(1.05); filter:drop-shadow(0 0 20px rgba(215,178,100,0.95)); }
-        }
-        @media (prefers-reduced-motion: reduce){
-          .ns-logo{ animation:none; }
-        }
+
+  .ns-logo {
+  height: 110px;
+  width: auto;
+  margin: -15px 0;
+  object-fit: contain;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+}
+
         .ns-links-desktop{ display:flex; align-items:center; gap:2px; flex:1; justify-content:center; flex-wrap:wrap; }
         .ns-link{
           font-family:'Montserrat', sans-serif; font-size:0.84rem; font-weight:500;
@@ -1593,16 +1592,21 @@ export default function EllevationPage() {
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important; color:#fff !important;
         }
 
+        /* Tablet: hamburger menu, slightly smaller logo */
         @media (max-width: 1024px){
           .ns-links-desktop{ display:none; }
           .ns-menu-toggle{ display:flex; }
+          .ns-logo{ height:110px; margin:-19px 0; }   /* net 72px */
+          .ms-ellevation-root{ padding-top: 112px; }
         }
+        /* Mobile */
         @media (max-width: 560px){
           .ns-back-home span{ display:none; }
           .ns-back-home{ padding:9px 12px; }
-          .ns-logo{ width:92px; }
+          .ns-logo{ height:90px; margin:-15px 0; }    /* net 60px */
           .ms-nav{ padding:7px 8px; gap:10px; }
-          .ms-ellevation-root{ padding-top: 82px; }
+          .ms-nav-row{ padding:12px 14px 0; }
+          .ms-ellevation-root{ padding-top: 96px; }
         }
 
         @media (max-width: 900px){
@@ -1676,7 +1680,7 @@ export default function EllevationPage() {
         /* ═══════════════════════════════════════
            Home page: Community section
            ═══════════════════════════════════════ */
-        .welcome-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 50px 24px; scroll-margin-top: 120px; }
+        .welcome-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 50px 24px; scroll-margin-top: 140px; }
         .welcome-grid { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
         .welcome-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #662369; margin: 0 0 14px; }
         .welcome-title { font-family: 'Astrid Regular', serif; font-size: clamp(34px, 4.5vw, 50px); font-weight: 700; line-height: 1.18; color: #1a0a2e; margin: 0 0 22px; }
@@ -1706,7 +1710,6 @@ export default function EllevationPage() {
           .impact-section { padding: 80px 20px 100px !important; }
           .welcome-section { padding: 70px 20px !important; }
           .impact-glass-card { padding: 28px 24px !important; }
-          .ns-back-home span { display: none; }
         }
 
         /* ═══════════════════════════════════════
@@ -1912,7 +1915,7 @@ export default function EllevationPage() {
            Programs Page — redesigned cards
            Distinct accent colour per card, icon badge,
            floating glow, pill-style feature chips and a
-           full-width gradient CTA button.
+           full-width CTA button.
            ═══════════════════════════════════════ */
         .pr-card {
           position: relative;
@@ -2038,7 +2041,7 @@ export default function EllevationPage() {
           border-radius: 100px;
           border: none;
           background: #d7b264;
-          color: #fff;linear
+          color: #fff;
           cursor: pointer;
           transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
           box-shadow: 0 8px 22px rgba(75,30,86,0.28);
@@ -2071,7 +2074,6 @@ export default function EllevationPage() {
         [data-theme="dark"] .ns-mobile-menu.open { background: rgba(22, 13, 34, 0.97) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
-        [data-theme="dark"] .ns-logo { filter: drop-shadow(0 4px 14px rgba(215,178,100,0.35)); }
         [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
         [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title { color: #ffffff !important; }
         [data-theme="dark"] .hp-sub, [data-theme="dark"] .ab-banner-sub, [data-theme="dark"] .jn-banner-sub,

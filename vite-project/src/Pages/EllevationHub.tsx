@@ -2322,36 +2322,33 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
         }
         .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
 
-        /* ── Logo: larger + slow "pop-up" entrance so it stands out ── */
-       .ns-logo{
-  width:190px;              /* unchanged, same logo size */
-  height:auto;
-  margin:-12px 0;           /* NEW: shrinks the navbar height, logo size stays the same */
+      /* ── Logo: bigger, no animation. Net height = 130 + (-33 * 2) = 64px, navbar height same ── */
+/* Logo overflows outside the navbar pill. Net layout height = 180 + (-58 * 2) = 64px */
+.ns-logo{
+  height:170px;
+  width:auto;
+  margin:-48px 0;
   object-fit:contain;
   cursor:pointer;
   flex-shrink:0;
-  transform-origin:center;
-  animation:logoPopIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both, logoPulse 3s ease-in-out 1.4s infinite;
-  transition:transform 0.3s ease, filter 0.3s ease;
+  position:relative;
+  z-index:5;
 }
-        .ns-logo:hover{
-          animation:none;
-          transform:scale(1.1);
-          filter:drop-shadow(0 0 18px rgba(215,178,100,0.95));
-        }
-        @keyframes logoPopIn{
-          0%   { opacity:0; transform:scale(0.4); filter:drop-shadow(0 0 0 rgba(215,178,100,0)); }
-          55%  { opacity:1; transform:scale(1.18); filter:drop-shadow(0 0 22px rgba(215,178,100,0.95)); }
-          78%  { transform:scale(0.97); }
-          100% { opacity:1; transform:scale(1); filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
-        }
-        @keyframes logoPulse{
-          0%, 100% { transform:scale(1);    filter:drop-shadow(0 0 6px rgba(215,178,100,0.55)); }
-          50%      { transform:scale(1.05); filter:drop-shadow(0 0 20px rgba(215,178,100,0.95)); }
-        }
-        @media (prefers-reduced-motion: reduce){
-          .ns-logo{ animation:none; }
-        }
+
+/* Tablet + mobile: hamburger menu, desktop links hide */
+@media (max-width: 1280px){
+  .ns-links-desktop{ display:none; }
+  .ns-menu-toggle{ display:flex; }
+  .ns-logo{ height:140px; margin:-38px 0; }   /* net 64px */
+}
+
+/* Small mobile */
+@media (max-width: 560px){
+  .ns-back-home span{ display:none; }
+  .ns-back-home{ padding:9px 12px; }
+  .ns-logo{ height:120px; margin:-38px 0; }   /* net 44px */
+  .ms-nav{ padding:3px 8px; gap:10px; }
+}
 
         .ns-links-desktop{
           display:flex; align-items:center; gap:2px;
@@ -2436,14 +2433,14 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
 
         /* Hub has more nav items than Ms. Ellevation, and the logo is now larger,
            so the hamburger kicks in earlier to avoid link wrapping/overflow. */
-        @media (max-width: 1280px){
-          .ns-links-desktop{ display:none; }
-          .ns-menu-toggle{ display:flex; }
-        }
-       @media (max-width: 560px){
+     @media (max-width: 1280px){
+  .ns-links-desktop{ display:none; }
+  .ns-menu-toggle{ display:flex; }
+}
+ @media (max-width: 560px){
   .ns-back-home span{ display:none; }
   .ns-back-home{ padding:9px 12px; }
-  .ns-logo{ width:135px; margin:-8px 0; }
+  .ns-logo{ height:120px; margin:-38px 0; }   /* 120 - 76 = 44px net */
   .ms-nav{ padding:3px 8px; gap:10px; }
 }
 
@@ -2515,10 +2512,10 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
         /* ── Dark Mode Overrides ── */
 
         /* Root background & text */
-        [data-theme="dark"] .hub-root {
-          background: #0d0614 !important;
-          color: #e8e0f8 !important;
-        }
+        // [data-theme="dark"] .hub-root {
+        //   background: #0d0614 !important;
+        //   color: #e8e0f8 !important;
+        // }
 
         /* Navbar */
         [data-theme="dark"] .ms-nav {
@@ -2528,9 +2525,9 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
         [data-theme="dark"] .ms-nav.ms-nav-scrolled {
           box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
         }
-        [data-theme="dark"] .ns-logo {
-          filter: drop-shadow(0 0 6px rgba(215,178,100,0.55));
-        }
+       [data-theme="dark"] .ns-logo {
+  filter: drop-shadow(0 0 6px rgba(215,178,100,0.55));
+}
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
         }
