@@ -1123,8 +1123,9 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
   const cta = useInView(0.12);
 
   return (
-<div ref={path.ref} style={{ ...ab.container, maxWidth: 1320, ...fade(path.inView, 0) }}>      {/* 1 ── HEADER */}
-      <section className="hub-programs-section" style={{ ...pg.section, paddingBottom: 60 }}>
+<div>
+      {/* 1 ── HEADER */}
+            <section className="hub-programs-section" style={{ ...pg.section, paddingBottom: 60 }}>
         <div style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
           <p className="hub-programs-eye" style={pg.eye}>OUR PROGRAMS</p>
           <h2 className="hub-programs-title" style={{ ...pg.title, marginBottom: 20 }}>
