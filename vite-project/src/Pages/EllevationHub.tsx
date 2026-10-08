@@ -190,9 +190,10 @@ const PROGRAM_PATHWAYS: { title: string; desc?: string; focus?: string[]; tag?: 
     focus: ["Wellbeing & Personal Growth", "Confidence & Resilience", "Leadership Development", "Community Leadership", "Personal & Professional Growth"],
     icon: "◑",
   },
-  {
+   {
     title: "Business & Enterprise",
     desc: "Supporting entrepreneurs, professionals and businesses through visibility, mentoring, networking and growth opportunities.",
+    focus: ["Business Support", "Business Growth", "Networking Opportunities", "Mentoring & Guidance", "Visibility & Promotion"],
     icon: "◈",
   },
   {
