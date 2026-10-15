@@ -7,8 +7,12 @@ import emailjs from "@emailjs/browser";
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Page = "home" | "about" | "journey" | "programs" | "events" | "stories" | "join";
-type MembershipTier = "FOUNDATION" | "ELLEVATE" | "LUMINARY";
+type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join";
+type MembershipTier = "DISCOVER" | "RISE" | "ELEVATE";
+
+// `nav` accepts an optional membership tier so the Membership page can send
+// people to the Join form with the right tab already selected.
+type NavFn = (p: Page, tier?: string) => void;
 
 interface FormData {
   firstName: string; lastName: string; email: string; phone: string;
@@ -25,6 +29,7 @@ const NAV_LINKS: { label: string; page: Page }[] = [
   { label: "About", page: "about" },
   { label: "Your Journey", page: "journey" },
   { label: "Programs", page: "programs" },
+  { label: "Membership", page: "membership" },
   { label: "Events", page: "events" },
   { label: "Stories", page: "stories" },
   { label: "Start Your Journey", page: "join" },
@@ -62,6 +67,11 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Explore Ms. Ellevation's programs and workshops designed to help women build confidence, strengthen identity, develop leadership and connect with community.",
   },
+  membership: {
+    title: "Membership | Discover, Rise, Elevate | Ms. Ellevation",
+    description:
+      "Explore Ms. Ellevation membership — Discover, Rise and Elevate — designed to help women move from self-discovery to leadership and lasting impact.",
+  },
   events: {
     title: "Events | Ms. Ellevation",
     description:
@@ -75,7 +85,7 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
   join: {
     title: "Join Ellevation | Membership",
     description:
-      "Apply for Ms. Ellevation membership — Foundation, Ellevate or Luminary — and become part of a community committed to growth, leadership and connection.",
+      "Apply for Ms. Ellevation membership — Discover, Rise or Elevate — and become part of a community committed to growth, leadership and connection.",
   },
 };
 
@@ -89,16 +99,17 @@ const BANNER_IMAGES = {
   about: "https://images.unsplash.com/photo-1636986905406-758b0e280f49?auto=format&fit=crop&w=1920&q=80",      // circle of hands — community & sisterhood
   journey: "https://images.unsplash.com/photo-1607748838605-ebcbe8f15772?auto=format&fit=crop&w=1920&q=80",    // group on steps — path & progression
   programs: "https://images.unsplash.com/photo-1707409066859-a90674383d19?auto=format&fit=crop&w=1920&q=80",   // women together — programs & growth
+  membership: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1920&q=80", // women collaborating — membership community
   events: "https://images.unsplash.com/photo-1636987050384-9b079c700f63?auto=format&fit=crop&w=1920&q=80",     // hands joined — gathering & connection
   stories: "https://images.unsplash.com/photo-1621973856220-29115d9b5d29?auto=format&fit=crop&w=1920&q=80",    // women sitting together — intimate storytelling
   join: "https://images.unsplash.com/photo-1637072103875-1b29a09d9c91?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
 };
 
-const TIERS: MembershipTier[] = ["FOUNDATION", "ELLEVATE", "LUMINARY"];
+const TIERS: MembershipTier[] = ["DISCOVER", "RISE", "ELEVATE"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
-  FOUNDATION: { label: "Foundation", tagline: "Begin your journey with Ellevation's core community.", color: "#4B1E56" },
-  ELLEVATE:   { label: "Ellevate",   tagline: "Step into an elevated circle of ambitious women.",    color: "#662369" },
-  LUMINARY:   { label: "Luminary",   tagline: "Lead, inspire, and illuminate from the pinnacle.",    color: "#6b2f7a" },
+  DISCOVER: { label: "Discover", tagline: "Confidence & Connection — build confidence, connection and clarity.", color: "#4B1E56" },
+  RISE:     { label: "Rise",     tagline: "Leadership & Growth — develop leadership, visibility and influence.", color: "#662369" },
+  ELEVATE:  { label: "Elevate",  tagline: "Influence & Legacy — create lasting impact across both ecosystems.",  color: "#6b2f7a" },
 };
 const REFERRAL_OPTIONS = ["Social Media","Friend or Colleague","Event","Search Engine","Press / Media","Other"];
 const emptyForm = (): FormData => ({ firstName:"",lastName:"",email:"",phone:"",location:"",profession:"",referral:"",goals:"",agree:false });
@@ -119,7 +130,7 @@ function validateForm(data: FormData): FormErrors {
 }
 
 // ─── Navbar ──────────────────────────────────────────────────────────────────
-function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
+function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const routerNavigate = useNavigate(); // ✅ react-router navigation (same tab)
@@ -278,10 +289,10 @@ function BulletListSection({
   );
 }
 
-interface CtaButton { label: string; page: Page; variant?: "solid" | "outline"; }
+interface CtaButton { label: string; page: Page; variant?: "solid" | "outline"; tier?: string; }
 function ClosingCtaSection({
   eyebrow, title, body, buttons, nav,
-}: { eyebrow?: string; title: string; body?: string; buttons: CtaButton[]; nav: (p: Page) => void }) {
+}: { eyebrow?: string; title: string; body?: string; buttons: CtaButton[]; nav: NavFn }) {
   return (
     <section className="closing-cta">
       <div className="closing-cta-bg" />
@@ -294,7 +305,7 @@ function ClosingCtaSection({
             <button
               key={b.label}
               className={b.variant === "outline" ? "closing-btn-outline" : "closing-btn-solid"}
-              onClick={() => nav(b.page)}
+              onClick={() => nav(b.page, b.tier)}
             >{b.label}</button>
           ))}
         </div>
@@ -304,7 +315,7 @@ function ClosingCtaSection({
 }
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
-function HomePage({ nav }: { nav: (p: Page) => void }) {
+function HomePage({ nav }: { nav: NavFn }) {
   const scrollToCommunity = () => {
     document.getElementById("community-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -450,7 +461,7 @@ function ImpactStatementSection() {
    the hero's "Join Our Community" button can jump
    straight to it)
    ══════════════════════════════════════════════ */
-function CommunitySection({ nav }: { nav: (p: Page) => void }) {
+function CommunitySection({ nav }: { nav: NavFn }) {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
@@ -597,7 +608,7 @@ const WHO_WE_SUPPORT = [
   "Women seeking confidence, connection and growth",
 ];
 
-function AboutPage({ nav }: { nav: (p: Page) => void }) {
+function AboutPage({ nav }: { nav: NavFn }) {
   return (
     <div className="ab-page-root">
       <section className="ab-banner" style={ab.banner}>
@@ -823,7 +834,7 @@ const JOURNEY_WHO_FOR = [
   "Women seeking confidence, clarity and connection",
 ];
 
-function JourneyPage({ nav }: { nav: (p: Page) => void }) {
+function JourneyPage({ nav }: { nav: NavFn }) {
   return (
     <div className="jn-page-root">
       <section className="jn-banner" style={jn.banner}>
@@ -990,7 +1001,7 @@ function ProgramIcon({ type }: { type: string }) {
   );
 }
 
-function ProgramsPage({ nav }: { nav: (p: Page) => void }) {
+function ProgramsPage({ nav }: { nav: NavFn }) {
   return (
     <div className="pr-page-root">
       <section className="pr-banner" style={pr.banner}>
@@ -1113,6 +1124,364 @@ const pr: Record<string, React.CSSProperties> = {
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1160, margin:"0 auto" },
 };
 
+// ─── MEMBERSHIP PAGE ─────────────────────────────────────────────────────────
+interface MembershipPlan {
+  key: MembershipTier;
+  name: string;
+  focus: string;
+  annual: string;
+  monthly: string;
+  quote: string;
+  popularWith: string[];
+  included: string[];
+  outcome: string;
+}
+
+const MEMBERSHIP_PLANS: MembershipPlan[] = [
+  {
+    key: "DISCOVER",
+    name: "Discover Membership",
+    focus: "Confidence & Connection",
+    annual: "$350",
+    monthly: "$35",
+    quote: "I want to invest in myself.",
+    popularWith: ["Young women", "CALD women", "Migrant women", "Women rebuilding confidence", "Women navigating life transitions"],
+    included: [
+      "Ms Ellevation community access",
+      "Quarterly connection sessions",
+      "Member newsletter",
+      "Priority event registration",
+      "Member event discounts",
+      "Selected workshops and masterclasses",
+      "Personal development resources",
+      "Connection with like-minded women",
+    ],
+    outcome: "Build confidence, connection and clarity.",
+  },
+  {
+    key: "RISE",
+    name: "Rise Membership",
+    focus: "Leadership & Growth",
+    annual: "$650",
+    monthly: "$60",
+    quote: "I want to grow, contribute and create impact.",
+    popularWith: ["Community-minded women", "Emerging leaders", "Professionals", "Women in business", "Women seeking leadership opportunities"],
+    included: [
+      "Everything in Discover",
+      "Leadership development sessions",
+      "Member spotlight opportunities",
+      "Women's leadership networking events",
+      "Volunteer opportunities",
+      "Collaboration opportunities",
+      "One complimentary event ticket annually",
+      "Quarterly members-only networking sessions",
+    ],
+    outcome: "Develop leadership, visibility and influence.",
+  },
+  {
+    key: "ELEVATE",
+    name: "Elevate Membership",
+    focus: "Influence & Legacy",
+    annual: "$1,000",
+    monthly: "$89",
+    quote: "I want to lead, influence and create lasting impact.",
+    popularWith: ["Established business owners", "Coaches and consultants", "Community leaders", "Industry professionals", "Women creating social impact"],
+    included: [
+      "Everything in Rise",
+      "Referral opportunities through Ellevation Hub",
+      "Free business listing on Ellevation Hub (up to 3 annually)",
+      "Speaker opportunities",
+      "Business and community spotlight opportunities",
+      "Access to mentors and trainers",
+      "Opportunity to become a mentor or facilitator",
+      "VIP access to Ms Ellevation events",
+      "20% discount on selected Ellevation Hub VIP events",
+      "Quarterly impact networking sessions",
+      "Annual Ms Ellevation member gift",
+      "Collaboration and sponsorship opportunities",
+      "Selected Ellevation Hub Growth Member benefits",
+    ],
+    outcome: "Increase visibility, strengthen leadership and create lasting impact across both ecosystems.",
+  },
+];
+
+// "—" means not included. Anything else is shown as-is (✓ renders as a check icon).
+const MEMBERSHIP_COMPARISON: { feature: string; discover: string; rise: string; elevate: string; emphasis?: boolean }[] = [
+  { feature: "Annual Fee",                         discover: "$350",                    rise: "$650",        elevate: "$1,000", emphasis: true },
+  { feature: "Monthly Option",                     discover: "$35",                     rise: "$60",         elevate: "$89",    emphasis: true },
+  { feature: "Focus",                              discover: "Confidence & Connection", rise: "Leadership & Growth", elevate: "Influence & Legacy", emphasis: true },
+  { feature: "Community Access",                   discover: "✓", rise: "✓", elevate: "✓" },
+  { feature: "Quarterly Connection Sessions",      discover: "✓", rise: "✓", elevate: "✓" },
+  { feature: "Workshop Access",                    discover: "✓", rise: "✓", elevate: "✓" },
+  { feature: "Leadership Development",             discover: "—", rise: "✓", elevate: "✓" },
+  { feature: "Member Spotlight",                   discover: "—", rise: "✓", elevate: "✓" },
+  { feature: "Networking Sessions",                discover: "—", rise: "Quarterly", elevate: "Quarterly Premium" },
+  { feature: "Complimentary Event Ticket",         discover: "—", rise: "1 per year", elevate: "2 VIP opportunities" },
+  { feature: "Mentor Access",                      discover: "—", rise: "—", elevate: "✓" },
+  { feature: "Become Mentor/Trainer",              discover: "—", rise: "—", elevate: "✓" },
+  { feature: "Speaker Opportunities",              discover: "—", rise: "—", elevate: "✓" },
+  { feature: "Business Listing on Ellevation Hub", discover: "—", rise: "—", elevate: "Up to 3 annually" },
+  { feature: "Referral Opportunities",             discover: "—", rise: "—", elevate: "✓" },
+  { feature: "VIP Ms Ellevation Event Access",     discover: "—", rise: "—", elevate: "✓" },
+  { feature: "Ellevation Hub Benefits",            discover: "—", rise: "—", elevate: "Selected Growth Member Benefits" },
+  { feature: "Annual Member Gift",                 discover: "—", rise: "—", elevate: "✓" },
+];
+
+function CheckIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ComparisonCell({ value }: { value: string }) {
+  if (value === "✓") {
+    return <span className="mb-yes" aria-label="Included"><CheckIcon /></span>;
+  }
+  if (value === "—") {
+    return <span className="mb-no" aria-label="Not included">—</span>;
+  }
+  return <span className="mb-text">{value}</span>;
+}
+
+function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
+  // 0 = Discover (compass), 1 = Rise (arrow up), 2 = Elevate (star)
+  if (index === 0) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+        <path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" fill="currentColor" />
+      </svg>
+    );
+  }
+  if (index === 1) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 20V5M5.5 11.5L12 5l6.5 6.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7L12 2.8z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function MembershipPage({ nav }: { nav: NavFn }) {
+  const [active, setActive] = useState(0);
+  const plan = MEMBERSHIP_PLANS[active];
+  const planName = (p: MembershipPlan) => p.name.replace(" Membership", "");
+
+  return (
+    <div className="mb-page-root">
+      {/* ── Banner ── */}
+      <section className="mb-banner" style={mb.banner}>
+        <div className="mb-banner-bg" style={mb.bannerBg} />
+        <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
+          <p className="mb-eye" style={mb.eye}>— MS ELLEVATION MEMBERSHIP PROGRAM —</p>
+          <h1 className="mb-banner-title" style={mb.title}>Discover → Rise → Elevate</h1>
+          <p className="mb-pillars" style={mb.pillars}>Identity • Confidence • Leadership • Impact</p>
+          <p className="mb-question" style={mb.question}>The question is: "Who am I becoming?"</p>
+          <button style={mb.heroBtn} onClick={() => nav("join", "discover")}>START YOUR JOURNEY</button>
+        </div>
+      </section>
+
+      {/* ── Philosophy ── */}
+      <section className="story-section" style={{ paddingBottom: 56 }}>
+        <div className="story-inner">
+          <p className="story-eyebrow">Membership Philosophy</p>
+          <h2 className="story-title" style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>From Self-Discovery to Lasting Impact</h2>
+          <p className="story-p">
+            Ms Ellevation is a women-focused leadership and empowerment ecosystem. Unlike Ellevation Hub,
+            which focuses on opportunities, business visibility and partnerships, Ms Ellevation focuses on
+            identity, confidence, wellbeing, leadership and personal growth.
+          </p>
+          <p className="story-p">
+            The memberships are designed to help young women and women move from self-discovery to
+            leadership and lasting impact.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Plans (list on the left, details on the right) ── */}
+      <section className="mb-plans" aria-label="Membership plans">
+        <div className="mb-plans-head">
+          <p className="bullet-eyebrow">Choose Your Path</p>
+          <h2 className="bullet-title">Find the Membership That Fits Where You Are</h2>
+        </div>
+
+        <div className="mb-split">
+          {/* LEFT — plan selector */}
+          <div className="mb-list-col" role="tablist" aria-label="Membership plans" aria-orientation="vertical">
+            {MEMBERSHIP_PLANS.map((p, idx) => (
+              <button
+                key={p.key}
+                role="tab"
+                id={`mb-tab-${p.key}`}
+                aria-selected={idx === active}
+                aria-controls="mb-panel"
+                className={`mb-tab mb-tab-${idx} ${idx === active ? "active" : ""}`}
+                onClick={() => setActive(idx)}
+              >
+                <span className="mb-tab-avatar"><PlanGlyph index={idx} /></span>
+                <span className="mb-tab-text">
+                  <span className="mb-tab-name">{planName(p)}</span>
+                  <span className="mb-tab-sub">{p.focus}</span>
+                </span>
+                <span className="mb-tab-price">
+                  <strong>{p.annual}</strong>
+                  <small>per year</small>
+                </span>
+              </button>
+            ))}
+            <p className="mb-list-note">Prefer to pay monthly? Every plan has a monthly option.</p>
+          </div>
+
+          {/* RIGHT — selected plan details */}
+          <article
+            key={plan.key}
+            id="mb-panel"
+            role="tabpanel"
+            aria-labelledby={`mb-tab-${plan.key}`}
+            className={`mb-panel mb-panel-${active}`}
+          >
+            <div className="mb-panel-glow" />
+
+            <div className="mb-panel-top">
+              <div className="mb-arch">
+                <div className="mb-arch-inner">
+                  <span className="mb-arch-icon"><PlanGlyph index={active} size={26} /></span>
+                  <span className="mb-arch-name">{planName(plan)}</span>
+                  <span className="mb-arch-price">{plan.annual}</span>
+                  <span className="mb-arch-unit">per year</span>
+                  <span className="mb-arch-alt">or {plan.monthly} per month</span>
+                </div>
+              </div>
+
+              <div className="mb-panel-body">
+                <span className="mb-pill">{plan.focus}</span>
+                <span className="mb-rule" />
+                <h3 className="mb-panel-title">{plan.name}</h3>
+                <p className="mb-panel-quote">"{plan.quote}"</p>
+
+                <p className="mb-card-label">Popular With</p>
+                <ul className="mb-chips">
+                  {plan.popularWith.map(i => <li key={i}>{i}</li>)}
+                </ul>
+
+                <button className="mb-btn" onClick={() => nav("join", plan.key.toLowerCase())}>
+                  JOIN {plan.key}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="mb-panel-bottom">
+              <p className="mb-card-label">What's Included</p>
+              <ul className="mb-list">
+                {plan.included.map((f, i) => (
+                  <li key={f} className={`mb-list-item ${i === 0 && f.startsWith("Everything") ? "mb-list-item-lead" : ""}`}>
+                    <span className="mb-list-check"><CheckIcon /></span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mb-outcome">
+                <span className="mb-outcome-label">Outcome</span>
+                <p className="mb-outcome-text">{plan.outcome}</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      {/* ── How Hub + Ms Ellevation work together ── */}
+      <section className="pathway2-section">
+        <div className="pathway2-inner">
+          <p className="pathway2-eyebrow">How Ellevation Hub and Ms Ellevation Work Together</p>
+          <div className="pathway2-grid">
+            <div className="pathway2-card">
+              <h3 className="pathway2-card-title">Ms Ellevation</h3>
+              <p className="pathway2-card-desc">
+                Focuses on identity, confidence, wellbeing and leadership.
+              </p>
+            </div>
+            <div className="pathway2-card pathway2-card-dark">
+              <h3 className="pathway2-card-title">Ellevation Hub</h3>
+              <p className="pathway2-card-desc">
+                Focuses on opportunities, business visibility, employment, partnerships and community impact.
+              </p>
+            </div>
+          </div>
+          <p className="pathway2-note">
+            The Ellevation Membership creates a bridge between both ecosystems, allowing women to grow
+            personally and then access wider opportunities through Ellevation Hub.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Comparison table ── */}
+      <section className="mb-compare">
+        <div className="mb-compare-inner">
+          <p className="bullet-eyebrow">Ms Ellevation Membership Program</p>
+          <h2 className="bullet-title">Membership Comparison Table</h2>
+
+          <div className="mb-table-wrap" role="region" aria-label="Membership comparison table" tabIndex={0}>
+            <table className="mb-table">
+              <thead>
+                <tr>
+                  <th scope="col" className="mb-th-feature">Feature</th>
+                  <th scope="col">Discover</th>
+                  <th scope="col">Rise</th>
+                  <th scope="col">Elevate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {MEMBERSHIP_COMPARISON.map(r => (
+                  <tr key={r.feature} className={r.emphasis ? "mb-row-strong" : ""}>
+                    <th scope="row">{r.feature}</th>
+                    <td><ComparisonCell value={r.discover} /></td>
+                    <td><ComparisonCell value={r.rise} /></td>
+                    <td><ComparisonCell value={r.elevate} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mb-table-hint">Swipe sideways to see every plan on smaller screens.</p>
+        </div>
+      </section>
+
+      <ClosingCtaSection
+        nav={nav}
+        eyebrow="Who am I becoming?"
+        title="Your Membership Starts Here."
+        body="Discover your confidence. Rise into leadership. Elevate your influence. Choose the membership that fits where you are today."
+        buttons={[
+          { label: "JOIN DISCOVER", page: "join", tier: "discover" },
+          { label: "JOIN RISE", page: "join", tier: "rise", variant: "outline" },
+          { label: "JOIN ELEVATE", page: "join", tier: "elevate", variant: "outline" },
+        ]}
+      />
+    </div>
+  );
+}
+
+const mb: Record<string, React.CSSProperties> = {
+  banner: { position:"relative", overflow:"hidden", padding:"90px 48px 80px", textAlign:"center", minHeight:"clamp(380px, 42vw, 520px)", display:"flex", alignItems:"center", justifyContent:"center" },
+  bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.membership}') center/cover no-repeat #2d1740`, zIndex:0 },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,5vw,3.8rem)", fontWeight:700, color:"#ffffff", marginBottom:14, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  pillars: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:400, letterSpacing:"0.06em", color:"rgba(255,255,255,0.92)", marginBottom:10, position:"relative", zIndex:1 },
+  question: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.05rem,2vw,1.35rem)", fontStyle:"italic", color:"#EFBF68", maxWidth:620, margin:"0 auto", position:"relative", zIndex:1 },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:28, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
+};
+
 // ─── EVENTS PAGE ────────────────────────────────────────────────────────────
 const EVENTS = [
   { date: "AUG 14", title: "Rise & Lead: Leadership Circle", location: "Sydney, NSW", desc: "An evening of connection and leadership coaching for young women." },
@@ -1120,7 +1489,7 @@ const EVENTS = [
   { date: "OCT 18", title: "Ellevation Summit",                location: "Melbourne, VIC", desc: "Our flagship annual gathering for the Ellevation community." },
 ];
 
-function EventsPage({ nav }: { nav: (p: Page) => void }) {
+function EventsPage({ nav }: { nav: NavFn }) {
   return (
     <div className="ev-page-root">
       <section className="ev-banner" style={ev.banner}>
@@ -1232,13 +1601,21 @@ const st: Record<string, React.CSSProperties> = {
 
 // ─── JOIN PAGE (Membership Form) ──────────────────────────────────────────────
 function JoinPage() {
-  const [activeTier, setActiveTier] = useState<MembershipTier>("FOUNDATION");
-  const [forms, setForms] = useState<Record<MembershipTier, FormData>>({ FOUNDATION: emptyForm(), ELLEVATE: emptyForm(), LUMINARY: emptyForm() });
-  const [errors, setErrors] = useState<Record<MembershipTier, FormErrors>>({ FOUNDATION: {}, ELLEVATE: {}, LUMINARY: {} });
-  const [submitted, setSubmitted] = useState<Record<MembershipTier, boolean>>({ FOUNDATION: false, ELLEVATE: false, LUMINARY: false });
+  // The Membership page links here with ?page=join&tier=discover|rise|elevate
+  const [searchParams] = useSearchParams();
+  const tierParam = (searchParams.get("tier") || "").toUpperCase();
+  const initialTier: MembershipTier = (TIERS as string[]).includes(tierParam) ? (tierParam as MembershipTier) : "DISCOVER";
+
+  const [activeTier, setActiveTier] = useState<MembershipTier>(initialTier);
+  const [forms, setForms] = useState<Record<MembershipTier, FormData>>({ DISCOVER: emptyForm(), RISE: emptyForm(), ELEVATE: emptyForm() });
+  const [errors, setErrors] = useState<Record<MembershipTier, FormErrors>>({ DISCOVER: {}, RISE: {}, ELEVATE: {} });
+  const [submitted, setSubmitted] = useState<Record<MembershipTier, boolean>>({ DISCOVER: false, RISE: false, ELEVATE: false });
   const [sending, setSending] = useState(false);
   const [formVisible, setFormVisible] = useState(true);
   const formRef = useRef<HTMLDivElement>(null);
+
+  // keep the selected tab in sync if the URL's tier changes while on this page
+  useEffect(() => { setActiveTier(initialTier); }, [initialTier]);
 
   const handleTierChange = (tier: MembershipTier) => {
     if (tier === activeTier) return;
@@ -1465,9 +1842,11 @@ export default function EllevationPage() {
     metaDescTag.setAttribute("content", meta.description);
   }, [page]);
 
-  const nav = (p: Page) => {
+  const nav: NavFn = (p, tier) => {
     if (p === "home") {
       setSearchParams({});
+    } else if (tier) {
+      setSearchParams({ page: p, tier });
     } else {
       setSearchParams({ page: p });
     }
@@ -1561,6 +1940,13 @@ export default function EllevationPage() {
           color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(26,10,46,0.25);
         }
         .ns-link.active:hover{ opacity:1; }
+
+        /* 8 nav items now — tighten the desktop links a touch so they stay on one row */
+        @media (min-width: 1025px) and (max-width: 1240px){
+          .ns-link{ padding:9px 10px; font-size:0.78rem; }
+          .ms-nav{ gap:8px; }
+        }
+
         .ns-menu-toggle{
           display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
           width:38px; height:38px; border-radius:50%; border:none; background:rgba(75,30,86,0.06); cursor:pointer; flex-shrink:0;
@@ -1574,7 +1960,7 @@ export default function EllevationPage() {
           max-height:0; overflow:hidden; width:100%; max-width:1180px; opacity:0;
           transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
         }
-        .ns-mobile-menu.open{ max-height:420px; opacity:1; margin-top:10px; }
+        .ns-mobile-menu.open{ max-height:480px; opacity:1; margin-top:10px; }
         .ns-mobile-menu .ns-mobile-link{
           display:block; width:100%; text-align:left;
           font-family:'Montserrat', sans-serif; font-size:0.92rem; font-weight:500;
@@ -1633,6 +2019,7 @@ export default function EllevationPage() {
           .jn-stages{ padding:48px 24px 56px !important; }
           .pr-banner{ padding:56px 24px 48px !important; }
           .pr-section{ padding:40px 24px 64px !important; }
+          .mb-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .ev-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .ev-section{ padding:40px 24px 64px !important; }
           .st-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
@@ -1648,6 +2035,7 @@ export default function EllevationPage() {
           .hp-headline{ font-size:2rem !important; }
           .jp-form-title{ font-size:1.5rem !important; }
           .ev-banner{ min-height:300px !important; }
+          .mb-banner{ min-height:300px !important; }
           .st-banner{ min-height:300px !important; }
           .jp-banner{ min-height:150px !important; }
         }
@@ -2063,6 +2451,168 @@ export default function EllevationPage() {
           .pr-grid { grid-template-columns: 1fr !important; }
         }
 
+        /* ═══════════════════════════════════════
+           Membership Page
+           Three plan cards (Discover / Rise / Elevate) with an accent
+           colour each, then a comparison table that scrolls sideways on
+           small screens with a sticky "Feature" column.
+           ═══════════════════════════════════════ */
+        .mb-plans { background: linear-gradient(180deg, #ffffff 0%, #f6f3fa 100%); padding: 24px 24px 104px; }
+        .mb-plans-head { max-width: 900px; margin: 0 auto 44px; text-align: center; }
+        .mb-plans-head .bullet-title { margin-bottom: 0; }
+        .mb-split { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(300px, 390px) minmax(0, 1fr); gap: 32px; align-items: start; }
+
+        /* LEFT — selector */
+        .mb-list-col { display: flex; flex-direction: column; gap: 14px; }
+        .mb-tab-0 { --mb-a1: #4B1E56; --mb-a2: #8a5a97; }
+        .mb-tab-1 { --mb-a1: #662369; --mb-a2: #D7B264; }
+        .mb-tab-2 { --mb-a1: #6b2f7a; --mb-a2: #b98fd1; }
+        .mb-tab {
+          display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+          padding: 16px 18px; border-radius: 18px; cursor: pointer;
+          background: rgba(255,255,255,0.75); border: 1px solid rgba(124, 92, 191, 0.14);
+          color: #1a0a2e; font-family: 'Montserrat', sans-serif;
+          transition: background 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+        }
+        .mb-tab:hover { opacity: 1; transform: none; filter: none; background: #ffffff; border-color: rgba(124, 92, 191, 0.35); box-shadow: 0 8px 24px rgba(75,30,86,0.10); }
+        .mb-tab:focus-visible { outline: 3px solid rgba(215,178,100,0.7); outline-offset: 2px; }
+        .mb-tab.active {
+          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
+          border-color: transparent; color: #ffffff; box-shadow: 0 16px 34px rgba(75,30,86,0.30);
+        }
+        .mb-tab-avatar {
+          flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%;
+          display: inline-flex; align-items: center; justify-content: center;
+          background: rgba(75,30,86,0.08); color: var(--mb-a1, #4B1E56);
+          transition: background 0.25s ease, color 0.25s ease;
+        }
+        .mb-tab.active .mb-tab-avatar { background: rgba(255,255,255,0.18); color: #ffffff; }
+        .mb-tab-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+        .mb-tab-name { font-size: 1rem; font-weight: 700; letter-spacing: 0.01em; }
+        .mb-tab-sub { font-size: 0.74rem; font-weight: 400; color: #8a5a97; line-height: 1.35; }
+        .mb-tab.active .mb-tab-sub { color: rgba(255,255,255,0.82); }
+        .mb-tab-price { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.15; }
+        .mb-tab-price strong { font-size: 1.12rem; font-weight: 700; color: #4B1E56; }
+        .mb-tab-price small { font-size: 0.66rem; font-weight: 500; color: #8a5a97; }
+        .mb-tab.active .mb-tab-price strong { color: #ffffff; }
+        .mb-tab.active .mb-tab-price small { color: rgba(255,255,255,0.8); }
+        .mb-list-note { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-style: italic; color: #8a5a97; padding: 4px 6px 0; }
+
+        /* RIGHT — details panel */
+        .mb-panel-0 { --mb-a1: #4B1E56; --mb-a2: #8a5a97; --mb-a3: #2d1740; }
+        .mb-panel-1 { --mb-a1: #662369; --mb-a2: #D7B264; --mb-a3: #3a1a48; }
+        .mb-panel-2 { --mb-a1: #6b2f7a; --mb-a2: #b98fd1; --mb-a3: #2d1740; }
+        .mb-panel {
+          position: relative; overflow: hidden; background: #ffffff;
+          border: 1px solid rgba(124, 92, 191, 0.16); border-radius: 28px;
+          padding: 40px 40px 36px; box-shadow: 0 20px 60px rgba(75,30,86,0.12);
+          animation: mbPanelIn 0.45s cubic-bezier(.22,1,.36,1) both;
+        }
+        @keyframes mbPanelIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+        .mb-panel-glow { position: absolute; top: -80px; right: -80px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, var(--mb-a1, #4B1E56) 0%, transparent 70%); opacity: 0.12; pointer-events: none; }
+        .mb-panel-top { position: relative; z-index: 1; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 36px; align-items: center; }
+
+        .mb-arch {
+          width: 220px; height: 290px; padding: 6px; box-sizing: border-box;
+          border-radius: 110px 110px 26px 26px; background: var(--mb-a2, #8a5a97);
+          box-shadow: 0 16px 36px rgba(75,30,86,0.22);
+        }
+        .mb-arch-inner {
+          width: 100%; height: 100%; border-radius: 104px 104px 20px 20px;
+          background: linear-gradient(165deg, var(--mb-a1, #4B1E56) 0%, var(--mb-a3, #2d1740) 100%);
+          display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 24px 12px 20px; text-align: center; color: #ffffff;
+        }
+        .mb-arch-icon { width: 52px; height: 52px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.14); color: #EFBF68; margin-bottom: 8px; }
+        .mb-arch-name { font-family: 'Astrid Regular', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.02em; }
+        .mb-arch-price { font-family: 'Astrid Regular', serif; font-size: 2.7rem; font-weight: 700; line-height: 1.05; margin-top: 6px; }
+        .mb-arch-unit { font-family: 'Montserrat', sans-serif; font-size: 0.76rem; font-weight: 500; color: rgba(255,255,255,0.8); }
+        .mb-arch-alt { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: #EFBF68; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.22); width: 78%; }
+
+        .mb-panel-body { min-width: 0; }
+        .mb-pill { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #4B1E56; background: rgba(75,30,86,0.07); border: 1px solid rgba(75,30,86,0.14); padding: 5px 14px; border-radius: 100px; }
+        .mb-rule { display: block; width: 34px; height: 2px; background: #D7B264; margin: 16px 0 12px; }
+        .mb-panel-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight: 700; line-height: 1.15; color: var(--mb-a1, #4B1E56); margin-bottom: 10px; }
+        .mb-panel-quote { font-family: 'Astrid Regular', serif; font-size: 1.08rem; font-style: italic; color: #554866; line-height: 1.55; margin-bottom: 20px; }
+
+        .mb-card-label { font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #8a5a97; margin-bottom: 12px; }
+        .mb-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+        .mb-chips li { font-family: 'Montserrat', sans-serif; font-size: 0.76rem; font-weight: 500; color: #4B1E56; background: rgba(75, 30, 86, 0.07); border: 1px solid rgba(75, 30, 86, 0.12); padding: 6px 13px; border-radius: 100px; }
+
+        .mb-btn {
+          display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px;
+          font-family: 'Montserrat', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.14em;
+          padding: 14px 30px; border-radius: 100px; border: none; background: #D7B264; color: #fff; cursor: pointer;
+          box-shadow: 0 8px 22px rgba(75,30,86,0.28);
+          transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+        }
+        .mb-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(75,30,86,0.36); opacity: 1; }
+        .mb-btn svg { transition: transform 0.25s ease; }
+        .mb-btn:hover svg { transform: translateX(3px); }
+
+        .mb-panel-bottom { position: relative; z-index: 1; margin-top: 32px; padding-top: 28px; border-top: 1px solid rgba(124, 92, 191, 0.16); }
+        .mb-list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; margin-bottom: 26px; }
+        .mb-list-item { display: flex; align-items: flex-start; gap: 10px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 400; line-height: 1.5; color: #3d2e47; }
+        .mb-list-item-lead { grid-column: 1 / -1; font-weight: 700; color: #1a0a2e; }
+        .mb-list-check { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; background: var(--mb-a1, #4B1E56); color: #fff; }
+        .mb-list-check svg { width: 11px; height: 11px; }
+
+        .mb-outcome { padding: 16px 20px; border-radius: 14px; background: rgba(215, 178, 100, 0.12); border-left: 3px solid #D7B264; }
+        .mb-outcome-label { display: block; font-family: 'Montserrat', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #8a5a97; margin-bottom: 6px; }
+        .mb-outcome-text { font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 500; color: #1a0a2e; line-height: 1.55; }
+
+        /* Comparison table */
+        .mb-compare { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 96px 24px 104px; }
+        .mb-compare-inner { max-width: 1040px; margin: 0 auto; text-align: center; }
+        .mb-table-wrap {
+          overflow-x: auto; -webkit-overflow-scrolling: touch; text-align: left;
+          background: #ffffff; border: 1px solid rgba(124, 92, 191, 0.16); border-radius: 20px;
+          box-shadow: 0 8px 40px rgba(75,30,86,0.10);
+        }
+        .mb-table-wrap:focus-visible { outline: 3px solid rgba(75,30,86,0.35); outline-offset: 2px; }
+        .mb-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 680px; }
+        .mb-table thead th {
+          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%); color: #ffffff;
+          font-family: 'Astrid Regular', serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em;
+          text-align: center; padding: 18px 16px; white-space: nowrap;
+        }
+        .mb-table thead th.mb-th-feature { text-align: left; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding-left: 22px; }
+        .mb-table tbody th, .mb-table tbody td { padding: 15px 16px; border-bottom: 1px solid rgba(124, 92, 191, 0.12); font-family: 'Montserrat', sans-serif; font-size: 0.86rem; color: #3d2e47; vertical-align: middle; }
+        .mb-table tbody th { text-align: left; font-weight: 600; color: #1a0a2e; padding-left: 22px; background: #ffffff; position: sticky; left: 0; z-index: 1; min-width: 210px; }
+        .mb-table tbody td { text-align: center; font-weight: 400; }
+        .mb-table tbody tr:nth-child(even) th, .mb-table tbody tr:nth-child(even) td { background: #faf7fd; }
+        .mb-table tbody tr:last-child th, .mb-table tbody tr:last-child td { border-bottom: none; }
+        .mb-table thead th.mb-th-feature { position: sticky; left: 0; z-index: 2; }
+        .mb-row-strong td { font-weight: 700; color: #4B1E56; }
+        .mb-yes { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: rgba(75, 30, 86, 0.10); color: #4B1E56; }
+        .mb-no { color: #b09fc0; font-weight: 400; }
+        .mb-text { display: inline-block; }
+        .mb-table-hint { display: none; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-style: italic; color: #8a5a97; margin-top: 14px; }
+
+        @media (max-width: 1000px) {
+          .mb-split { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .mb-list-col { flex-direction: row !important; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; -webkit-overflow-scrolling: touch; }
+          .mb-tab { min-width: 250px; flex-shrink: 0; scroll-snap-align: start; }
+          .mb-list-note { display: none; }
+        }
+        @media (max-width: 768px) {
+          .mb-plans { padding: 16px 16px 72px !important; }
+          .mb-compare { padding: 72px 16px 80px !important; }
+          .mb-panel { padding: 30px 22px 28px !important; border-radius: 22px !important; }
+          .mb-panel-top { grid-template-columns: 1fr !important; gap: 26px !important; }
+          .mb-arch { width: 220px; margin: 0 auto; }
+          .mb-panel-body { text-align: center; }
+          .mb-rule { margin-left: auto !important; margin-right: auto !important; }
+          .mb-chips { justify-content: center; }
+          .mb-table-hint { display: block; }
+        }
+        @media (max-width: 560px) {
+          .mb-list { grid-template-columns: 1fr !important; }
+          .mb-tab { min-width: 225px; padding: 14px; }
+          .mb-tab-avatar { width: 42px; height: 42px; }
+          .mb-btn { width: 100%; }
+          .mb-table tbody th { min-width: 160px; }
+        }
+
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .ms-ellevation-root { background: #0d0614 !important; color: #e8e0f8 !important; }
         [data-theme="dark"] .ms-nav { background: rgba(22, 13, 34, 0.92) !important; border-color: rgba(155, 109, 190, 0.15) !important; box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important; }
@@ -2075,11 +2625,12 @@ export default function EllevationPage() {
         [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
         [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
-        [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title { color: #ffffff !important; }
+        [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title,
+        [data-theme="dark"] .mb-banner-title { color: #ffffff !important; }
         [data-theme="dark"] .hp-sub, [data-theme="dark"] .ab-banner-sub, [data-theme="dark"] .jn-banner-sub,
         [data-theme="dark"] .pr-sub, [data-theme="dark"] .ev-sub, [data-theme="dark"] .st-banner-sub { color: rgba(255,255,255,0.9) !important; }
         [data-theme="dark"] .hp-eyebrow, [data-theme="dark"] .ab-eye, [data-theme="dark"] .jn-eye,
-        [data-theme="dark"] .pr-eye, [data-theme="dark"] .ev-eye, [data-theme="dark"] .vm-eyebrow { color: #EFBF68 !important; }
+        [data-theme="dark"] .pr-eye, [data-theme="dark"] .ev-eye, [data-theme="dark"] .mb-eye, [data-theme="dark"] .vm-eyebrow { color: #EFBF68 !important; }
         [data-theme="dark"] .jn-stage-card,
         [data-theme="dark"] .ev-card, [data-theme="dark"] .st-card, [data-theme="dark"] .jp-card,
         [data-theme="dark"] .pathways-card, [data-theme="dark"] .jf-card, [data-theme="dark"] .values-card,
@@ -2130,6 +2681,40 @@ export default function EllevationPage() {
         [data-theme="dark"] .vm-section { background: linear-gradient(135deg, #0d0614 0%, #2d1740 100%) !important; }
         [data-theme="dark"] .pathway2-card-dark { background: #0d0614 !important; }
         [data-theme="dark"] .closing-cta-bg { background: linear-gradient(135deg, #0d0614 0%, #2d1740 100%) !important; }
+
+        /* ── Dark mode: Membership page ── */
+        [data-theme="dark"] .mb-plans { background: linear-gradient(135deg, #1c1130 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .mb-tab { background: rgba(31,19,48,0.75) !important; border-color: rgba(155,109,190,0.18) !important; color: #e8ddf5 !important; }
+        [data-theme="dark"] .mb-tab:hover { background: #251838 !important; border-color: rgba(155,109,190,0.4) !important; box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important; }
+        [data-theme="dark"] .mb-tab.active { background: linear-gradient(135deg, #7a3a8c 0%, #4B1E56 100%) !important; border-color: transparent !important; color: #ffffff !important; box-shadow: 0 16px 34px rgba(0,0,0,0.5) !important; }
+        [data-theme="dark"] .mb-tab-avatar { background: rgba(217,168,205,0.12) !important; color: #e8b8f0 !important; }
+        [data-theme="dark"] .mb-tab.active .mb-tab-avatar { background: rgba(255,255,255,0.18) !important; color: #ffffff !important; }
+        [data-theme="dark"] .mb-tab-sub, [data-theme="dark"] .mb-tab-price small, [data-theme="dark"] .mb-list-note { color: #c9a3d9 !important; }
+        [data-theme="dark"] .mb-tab-price strong { color: #f3ecff !important; }
+        [data-theme="dark"] .mb-tab.active .mb-tab-sub, [data-theme="dark"] .mb-tab.active .mb-tab-price small { color: rgba(255,255,255,0.85) !important; }
+        [data-theme="dark"] .mb-panel { background: #1f1330 !important; border-color: rgba(155,109,190,0.2) !important; box-shadow: 0 20px 60px rgba(0,0,0,0.55) !important; }
+        [data-theme="dark"] .mb-panel-title { color: #f3ecff !important; }
+        [data-theme="dark"] .mb-panel-quote { color: #e8b8f0 !important; }
+        [data-theme="dark"] .mb-pill { color: #e8b8f0 !important; background: rgba(217,168,205,0.08) !important; border-color: rgba(217,168,205,0.22) !important; }
+        [data-theme="dark"] .mb-card-label, [data-theme="dark"] .mb-outcome-label { color: #c9a3d9 !important; }
+        [data-theme="dark"] .mb-chips li { color: #e8b8f0 !important; background: rgba(217,168,205,0.08) !important; border-color: rgba(217,168,205,0.2) !important; }
+        [data-theme="dark"] .mb-panel-bottom { border-top-color: rgba(155,109,190,0.25) !important; }
+        [data-theme="dark"] .mb-list-item { color: #e8ddf5 !important; }
+        [data-theme="dark"] .mb-list-item-lead { color: #ffffff !important; }
+        [data-theme="dark"] .mb-outcome { background: rgba(215,178,100,0.10) !important; }
+        [data-theme="dark"] .mb-outcome-text { color: #f3ecff !important; }
+
+        [data-theme="dark"] .mb-compare { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
+        [data-theme="dark"] .mb-table-wrap { background: #1f1330 !important; border-color: rgba(155,109,190,0.2) !important; box-shadow: 0 8px 48px rgba(0,0,0,0.5) !important; }
+        [data-theme="dark"] .mb-table thead th { background: linear-gradient(135deg, #3a1a48 0%, #2d1740 100%) !important; color: #ffffff !important; }
+        [data-theme="dark"] .mb-table tbody th { background: #1f1330 !important; color: #f3ecff !important; }
+        [data-theme="dark"] .mb-table tbody td { color: #e8ddf5 !important; }
+        [data-theme="dark"] .mb-table tbody tr:nth-child(even) th, [data-theme="dark"] .mb-table tbody tr:nth-child(even) td { background: #251838 !important; }
+        [data-theme="dark"] .mb-table tbody th, [data-theme="dark"] .mb-table tbody td { border-bottom-color: rgba(155,109,190,0.16) !important; }
+        [data-theme="dark"] .mb-row-strong td { color: #e8b8f0 !important; }
+        [data-theme="dark"] .mb-yes { background: rgba(232,184,240,0.14) !important; color: #e8b8f0 !important; }
+        [data-theme="dark"] .mb-no { color: rgba(217,168,205,0.45) !important; }
+        [data-theme="dark"] .mb-table-hint { color: #c9a3d9 !important; }
 
         /* ═══════════════════════════════════════
            FIX: force all headings white/light in dark mode
@@ -2188,6 +2773,12 @@ export default function EllevationPage() {
           box-shadow: 0 16px 48px rgba(0,0,0,0.55) !important;
           border-color: rgba(155, 109, 190, 0.35) !important;
         }
+
+        /* Respect reduced-motion preferences */
+        @media (prefers-reduced-motion: reduce){
+          .mb-tab, .mb-btn{ transition:none !important; }
+          .mb-panel{ animation:none !important; }
+        }
       `}</style>
 
       <Navbar current={page} nav={nav} />
@@ -2210,12 +2801,13 @@ export default function EllevationPage() {
           />
         </>
       )}
-      {page === "about"    && <AboutPage    nav={nav} />}
-      {page === "journey"  && <JourneyPage  nav={nav} />}
-      {page === "programs" && <ProgramsPage nav={nav} />}
-      {page === "events"   && <EventsPage   nav={nav} />}
-      {page === "stories"  && <StoriesPage />}
-      {page === "join"     && <JoinPage />}
+      {page === "about"      && <AboutPage      nav={nav} />}
+      {page === "journey"    && <JourneyPage    nav={nav} />}
+      {page === "programs"   && <ProgramsPage   nav={nav} />}
+      {page === "membership" && <MembershipPage nav={nav} />}
+      {page === "events"     && <EventsPage     nav={nav} />}
+      {page === "stories"    && <StoriesPage />}
+      {page === "join"       && <JoinPage />}
     </div>
   );
 }

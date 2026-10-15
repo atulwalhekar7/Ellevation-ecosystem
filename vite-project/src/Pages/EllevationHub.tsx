@@ -35,7 +35,7 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "membership" | "directory" | "programs" | "opportunities" | "events" | "impact" | "connect";
-type HubTier = "CONNECT" | "GROW" | "VISIBILITY" | "IMPACT";
+type HubTier = "BELONG" | "GROW" | "INFLUENCE" | "PARTNER";
 type Theme = "light" | "dark";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -64,9 +64,9 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
       "Ellevation Hub is a purpose-led Australian social enterprise and leadership ecosystem creating pathways into wellbeing, leadership, visibility and economic participation for CALD communities.",
   },
   membership: {
-    title: "Membership Tiers & Benefits | Ellevation Hub",
+    title: "Membership Program | Ellevation Hub",
     description:
-      "Explore Ellevation Hub's four membership tiers — Connect, Grow, Visibility, and Impact — and submit an expression of interest to join.",
+      "Belong, Grow, Influence, Partner — explore Ellevation Hub's four membership packages, compare benefits and submit an expression of interest to join.",
   },
   directory: {
     title: "Business Directory | Ellevation Hub",
@@ -160,13 +160,137 @@ const ABOUT_ECOSYSTEM_CONNECTION = [
   { title: "Together", desc: "Women, young people, businesses, organisations and communities can access the support, networks and opportunities they need to grow, lead and thrive." },
 ];
 
-const HUB_TIERS: HubTier[] = ["CONNECT", "GROW", "VISIBILITY", "IMPACT"];
-const HUB_TIER_META: Record<HubTier, { label: string; tagline: string; benefits: string[]; color: string }> = {
-  CONNECT:    { label: "Connect",    tagline: "Get plugged into the community and directory.",                     benefits: ["Directory listing", "Community forum access", "Monthly newsletter", "Event invitations"], color: "#8a5a97" },
-  GROW:       { label: "Grow",       tagline: "Access programs, mentorship, and development pathways.",           benefits: ["Program enrollment priority", "Mentorship matching", "Skills workshops", "Peer accountability circles"], color: "#6b2f7a" },
-  VISIBILITY: { label: "Visibility", tagline: "Amplify your business or work through the directory and features.", benefits: ["Featured directory placement", "Spotlight features", "Referral network access", "Media opportunities"], color: "#4B1E56" },
-  IMPACT:     { label: "Impact",     tagline: "Partner at the highest level to shape community outcomes.",         benefits: ["Strategic partner briefings", "Grant & funding access", "Advisory council seat", "Co-branded initiatives"], color: "#35143d" },
+/* ── Membership program (Belong → Grow → Influence → Partner) ── */
+const HUB_TIERS: HubTier[] = ["BELONG", "GROW", "INFLUENCE", "PARTNER"];
+
+type TierMeta = {
+  label: string;      // short name (Belong)
+  name: string;       // package name (Community Member)
+  annual: number;
+  monthly: number;
+  purpose: string;
+  popular: string[];
+  quote: string;
+  included: string[];
+  outcome: string;
+  color: string;
 };
+
+const HUB_TIER_META: Record<HubTier, TierMeta> = {
+  BELONG: {
+    label: "Belong",
+    name: "Community Member",
+    annual: 250,
+    monthly: 25,
+    purpose: "Community",
+    popular: ["Individuals", "Community members", "Students", "Job seekers", "Volunteers", "New migrants", "Emerging leaders"],
+    quote: "I want to belong to a supportive community.",
+    included: [
+      "Community Hub access",
+      "Member networking events",
+      "Member newsletter",
+      "Early access to opportunities",
+      "Event discounts",
+      "Collaboration opportunities",
+    ],
+    outcome: "Belong to a supportive community.",
+    color: "#8a5a97",
+  },
+  GROW: {
+    label: "Grow",
+    name: "Growth Member",
+    annual: 550,
+    monthly: 55,
+    purpose: "Opportunity & Growth",
+    popular: ["Professionals", "Entrepreneurs", "Freelancers", "Consultants", "Small business owners", "Creatives", "Start-ups"],
+    quote: "I want to grow my business, career or professional network.",
+    included: [
+      "Everything in Community",
+      "Directory listing",
+      "2 business listings annually",
+      "2 job listings annually",
+      "2 internship listings annually",
+      "2 event listings annually",
+      "Business promotion opportunities",
+      "One business support session",
+      "One complimentary networking event ticket",
+    ],
+    outcome: "Increase visibility and grow opportunities.",
+    color: "#6b4fc0",
+  },
+  INFLUENCE: {
+    label: "Influence",
+    name: "Impact Member",
+    annual: 990,
+    monthly: 89,
+    purpose: "Visibility & Influence",
+    popular: ["Established businesses", "Community leaders", "NDIS providers", "Social enterprises", "Not-for-profits", "Coaches and consultants"],
+    quote: "I want visibility, credibility and influence.",
+    included: [
+      "Everything in Growth",
+      "Featured directory listing",
+      "Unlimited event listings",
+      "6 job listings annually",
+      "6 internship listings annually",
+      "Business or Community Spotlight feature",
+      "Referral opportunities",
+      "Opportunity to host workshops and events",
+      "Community Champion Recognition",
+      "Two complimentary event tickets",
+      "Exclusive Impact Network Session (Quarterly)",
+      "20% discount on Ms Ellevation Membership",
+    ],
+    outcome: "Build influence, credibility and community presence.",
+    color: "#D7B264",
+  },
+  PARTNER: {
+    label: "Partner",
+    name: "Ecosystem Partner",
+    annual: 1500,
+    monthly: 135,
+    purpose: "Partnership & Impact",
+    popular: ["Sponsors", "Strategic partners", "Local government", "Universities and training providers", "Community organisations", "Peak bodies", "Medium to large businesses"],
+    quote: "I want strategic partnerships and community impact.",
+    included: [
+      "Everything in Impact",
+      "Featured Partner Recognition",
+      "Unlimited priority listings",
+      "Guest speaking opportunities",
+      "VIP event access",
+      "Sponsor recognition at selected events",
+      "Strategic partnership opportunities",
+      "Advisory and leadership opportunities",
+      "Five complimentary event passes",
+      "Quarterly Ecosystem Leadership Roundtables",
+      "Complimentary Ms Ellevation Membership",
+      "Visibility across both Ellevation Hub and Ms Ellevation",
+    ],
+    outcome: "Drive partnerships, leadership and community impact.",
+    color: "#c0508a",
+  },
+};
+
+// "—" = not included, "✓" = included (rendered as a check icon). Anything else is shown as text.
+const MEMBERSHIP_COMPARISON: { label: string; values: [string, string, string, string] }[] = [
+  { label: "Annual Fee",             values: ["$250", "$550", "$990", "$1,500"] },
+  { label: "Monthly Fee",            values: ["$25", "$55", "$89", "$135"] },
+  { label: "Purpose",                values: ["Community", "Opportunity & Growth", "Visibility & Influence", "Partnership & Impact"] },
+  { label: "Popular With",           values: ["Individuals", "Professionals & Small Business", "Established Leaders & Organisations", "Sponsors & Strategic Partners"] },
+  { label: "Directory Listing",      values: ["—", "Standard", "Featured", "Priority"] },
+  { label: "Business Listings",      values: ["—", "2 per year", "Enhanced", "Unlimited"] },
+  { label: "Job Listings",           values: ["—", "2 per year", "6 per year", "Unlimited"] },
+  { label: "Internship Listings",    values: ["—", "2 per year", "6 per year", "Unlimited"] },
+  { label: "Event Listings",         values: ["—", "2 per year", "Unlimited", "Unlimited Priority"] },
+  { label: "Business Support",       values: ["—", "1 Session", "Included", "Priority"] },
+  { label: "Referral Opportunities", values: ["—", "—", "✓", "Priority"] },
+  { label: "Spotlight Features",     values: ["—", "—", "✓", "Priority"] },
+  { label: "Exclusive Networking",   values: ["Community Events", "Networking Ticket", "Quarterly Impact Network", "Leadership Roundtables"] },
+  { label: "Ms Ellevation Benefits", values: ["—", "—", "20% Discount on Membership", "Complimentary Membership"] },
+  { label: "Outcome",                values: ["Belong", "Grow", "Influence", "Partner"] },
+];
+
+// Rows shown in bold/accent in the comparison table
+const MEMBERSHIP_STRONG_ROWS = new Set(["Annual Fee", "Monthly Fee", "Purpose", "Outcome"]);
 
 const DIRECTORY_CATEGORIES = [
   { title: "Retail & E-commerce",     count: "120+ listings", icon: "◈" },
@@ -587,10 +711,10 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
       </section>
 
       {/* 3 ── FOR EVERYONE */}
-    <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
-  <div ref={every.ref} style={{ ...ab.container, ...fade(every.inView, 0) }}>
-    <h2 className="hub-about-title" style={ab.title}>For Everyone</h2>
-    <div style={ab.gridAuto}>
+      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
+        <div ref={every.ref} style={{ ...ab.container, ...fade(every.inView, 0) }}>
+          <h2 className="hub-about-title" style={ab.title}>For Everyone</h2>
+          <div style={ab.gridAuto}>
             {HOME_FOR_EVERYONE.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(every.inView, 100 + i * 80) }}>
                 <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
@@ -603,30 +727,30 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
 
       {/* 4 ── THE ECOSYSTEM */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
-  <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
-    <h2 className="hub-about-title" style={ab.title}>The Ecosystem</h2>
-   <div style={ab.gridAuto}>
-  {HOME_ECOSYSTEM.map((item, i) => (
-   <button
-  key={item.title}
-  onClick={() => {
-    if (item.route === "/hub") {
-      // Already on Hub home: make sure we're on "home" and scroll to the top
-      nav("home");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      routerNavigate(item.route);
-    }
-  }}
-  className="hub-about-card hub-about-access"
-  style={{ ...ab.card, ...ab.accessCard, ...fade(eco.inView, 100 + i * 100) }}
->
-      <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
-      <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
-      <span className="hub-about-link" style={ab.cardLink}>Visit →</span>
-    </button>
-  ))}
-</div>
+        <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
+          <h2 className="hub-about-title" style={ab.title}>The Ecosystem</h2>
+          <div style={ab.gridAuto}>
+            {HOME_ECOSYSTEM.map((item, i) => (
+              <button
+                key={item.title}
+                onClick={() => {
+                  if (item.route === "/hub") {
+                    // Already on Hub home: make sure we're on "home" and scroll to the top
+                    nav("home");
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  } else {
+                    routerNavigate(item.route);
+                  }
+                }}
+                className="hub-about-card hub-about-access"
+                style={{ ...ab.card, ...ab.accessCard, ...fade(eco.inView, 100 + i * 100) }}
+              >
+                <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
+                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
+                <span className="hub-about-link" style={ab.cardLink}>Visit →</span>
+              </button>
+            ))}
+          </div>
           <p className="hub-about-sub" style={{ ...ab.para, marginTop: 32, fontWeight: 600, color: "#4B1E56" }}>
             Together creating pathways for thriving communities.
           </p>
@@ -871,18 +995,280 @@ function AboutSection({ nav }: { nav: (p: Page) => void }) {
   );
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   MEMBERSHIP PAGE — Belong → Grow → Influence → Partner
+   Structure: header · philosophy · plan selector (left) + plan details
+              (right) · comparison table · Hub + Ms Ellevation bridge ·
+              EOI form
+   Cards + table are styled to match the Ms Ellevation membership page.
+   ══════════════════════════════════════════════════════════════════════════ */
 const MEMBERSHIP_PURPOSES = [
   { id: "enquiry",      label: "Membership Enquiry",       desc: "I have questions before deciding." },
   { id: "application",  label: "Membership Application",   desc: "I'm ready to apply now." },
   { id: "future",       label: "Future Registration",      desc: "Notify me when registrations open." },
 ] as const;
 
+const MEMBERSHIP_CSS = `
+.mp{
+  --mp-card:#ffffff; --mp-soft:#f6f3fa; --mp-border:rgba(124,92,191,0.18);
+  --mp-title:#1a0a2e; --mp-text:#554866; --mp-accent:#4B1E56; --mp-eye:#662369; --mp-sub:#8a5a97;
+  --mp-gold:#D7B264; --mp-shadow:0 8px 32px rgba(124,92,191,0.10);
+  --mp-grad:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 55%,#35143d 100%);
+  font-family:'Montserrat',sans-serif;
+}
+[data-theme="dark"] .mp{
+  --mp-card:#1f1330; --mp-soft:#160d22; --mp-border:rgba(155,109,190,0.22);
+  --mp-title:#e8e0f8; --mp-text:#d9a8cd; --mp-accent:#c9a3d9; --mp-eye:#c9a3d9; --mp-sub:#c9a3d9;
+  --mp-shadow:0 10px 40px rgba(0,0,0,0.45);
+  --mp-grad:linear-gradient(135deg,#2a163a 0%,#1f1330 60%,#160d22 100%);
+}
+.mp *{ box-sizing:border-box; }
+.mp-wrap{ max-width:1240px; margin:0 auto; }
+
+/* Header */
+.mp-head{ text-align:center; max-width:820px; margin:0 auto 40px; }
+.mp-eye{ font-size:0.7rem; font-weight:700; letter-spacing:0.2em; color:var(--mp-eye); margin-bottom:14px; text-transform:uppercase; }
+.mp-title{ font-family:'Astrid Regular',serif; font-weight:700; font-size:clamp(2rem,4.6vw,3.2rem); line-height:1.12; color:var(--mp-title); margin-bottom:12px; }
+.mp-journey{ display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:8px; margin:6px 0 16px; }
+.mp-journey span{ font-size:0.78rem; font-weight:700; letter-spacing:0.08em; padding:7px 16px; border-radius:100px; color:var(--mp-accent); background:rgba(75,30,86,0.08); border:1px solid var(--mp-border); }
+[data-theme="dark"] .mp-journey span{ background:rgba(255,255,255,0.06); }
+.mp-journey i{ font-style:normal; color:var(--mp-gold); font-weight:700; }
+.mp-question{ font-family:'Astrid Regular',serif; font-style:italic; font-size:1.2rem; color:var(--mp-accent); margin-bottom:6px; }
+
+/* Philosophy */
+.mp-philo{ background:var(--mp-grad); color:#fff; border-radius:24px; padding:40px 44px; margin:0 auto 56px; max-width:1000px; text-align:left; position:relative; overflow:hidden; box-shadow:var(--mp-shadow); }
+.mp-philo::after{ content:""; position:absolute; right:-80px; top:-80px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle, rgba(215,178,100,0.28) 0%, transparent 70%); pointer-events:none; }
+.mp-philo h3{ font-family:'Astrid Regular',serif; font-size:1.6rem; margin-bottom:12px; color:#fff; position:relative; }
+.mp-philo p{ font-size:0.95rem; line-height:1.8; color:rgba(255,255,255,0.88); margin-bottom:12px; position:relative; }
+.mp-philo p:last-child{ margin-bottom:0; }
+.mp-philo-tag{ display:inline-block; margin-top:6px; font-size:0.74rem; font-weight:700; letter-spacing:0.08em; color:#35143d; background:var(--mp-gold); padding:7px 16px; border-radius:100px; }
+
+/* ── Plans: selector (left) + details panel (right) — same layout as Ms Ellevation ── */
+.mp-plans-head{ max-width:900px; margin:0 auto 44px; text-align:center; }
+.mp-block-title{ font-family:'Astrid Regular',serif; font-weight:700; font-size:clamp(1.6rem,3.4vw,2.3rem); color:var(--mp-title); }
+.mp-split{ max-width:1180px; margin:0 auto 80px; display:grid; grid-template-columns:minmax(300px,390px) minmax(0,1fr); gap:32px; align-items:start; }
+
+.mp-list-col{ display:flex; flex-direction:column; gap:14px; }
+.mp-t-0{ --a1:#6b2f7a; --a2:#8a5a97; --a3:#2d1740; }
+.mp-t-1{ --a1:#5a3fb0; --a2:#8b73d6; --a3:#2d1740; }
+.mp-t-2{ --a1:#8a6a1f; --a2:#D7B264; --a3:#2d1740; }
+.mp-t-3{ --a1:#a03a72; --a2:#d98ab5; --a3:#2d1740; }
+
+.mp-tab{
+  display:flex; align-items:center; gap:14px; width:100%; text-align:left;
+  padding:16px 18px; border-radius:18px; cursor:pointer;
+  background:rgba(255,255,255,0.75); border:1px solid rgba(124,92,191,0.14);
+  color:#1a0a2e; font-family:'Montserrat',sans-serif;
+  transition:background .25s ease, box-shadow .25s ease, color .25s ease, border-color .25s ease;
+}
+.mp-tab:hover{ opacity:1; transform:none; filter:none; background:#fff; border-color:rgba(124,92,191,0.35); box-shadow:0 8px 24px rgba(75,30,86,0.10); }
+.mp-tab:focus-visible{ outline:3px solid rgba(215,178,100,0.7); outline-offset:2px; }
+.mp-tab.active{ background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%); border-color:transparent; color:#fff; box-shadow:0 16px 34px rgba(75,30,86,0.30); }
+.mp-tab-avatar{ flex-shrink:0; width:48px; height:48px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:rgba(75,30,86,0.08); color:var(--a1); transition:background .25s ease, color .25s ease; }
+.mp-tab.active .mp-tab-avatar{ background:rgba(255,255,255,0.18); color:#fff; }
+.mp-tab-text{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+.mp-tab-name{ font-size:1rem; font-weight:700; letter-spacing:0.01em; }
+.mp-tab-sub{ font-size:0.74rem; font-weight:400; color:#8a5a97; line-height:1.35; }
+.mp-tab.active .mp-tab-sub{ color:rgba(255,255,255,0.82); }
+.mp-tab-price{ flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; line-height:1.15; }
+.mp-tab-price strong{ font-size:1.12rem; font-weight:700; color:#4B1E56; }
+.mp-tab-price small{ font-size:0.66rem; font-weight:500; color:#8a5a97; }
+.mp-tab.active .mp-tab-price strong{ color:#fff; }
+.mp-tab.active .mp-tab-price small{ color:rgba(255,255,255,0.8); }
+.mp-list-note{ font-size:0.78rem; font-style:italic; color:#8a5a97; padding:4px 6px 0; }
+
+.mp-panel{ position:relative; overflow:hidden; background:var(--mp-card); border:1px solid rgba(124,92,191,0.16); border-radius:28px; padding:40px 40px 36px; box-shadow:0 20px 60px rgba(75,30,86,0.12); animation:mpPanelIn .45s cubic-bezier(.22,1,.36,1) both; }
+@keyframes mpPanelIn{ from{ opacity:0; transform:translateX(18px); } to{ opacity:1; transform:translateX(0); } }
+.mp-panel-glow{ position:absolute; top:-80px; right:-80px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle, var(--a2) 0%, transparent 70%); opacity:.16; pointer-events:none; }
+.mp-panel-top{ position:relative; z-index:1; display:grid; grid-template-columns:220px minmax(0,1fr); gap:36px; align-items:center; }
+
+.mp-arch{ width:220px; height:290px; padding:6px; box-sizing:border-box; border-radius:110px 110px 26px 26px; background:var(--a2); box-shadow:0 16px 36px rgba(75,30,86,0.22); }
+.mp-arch-inner{ width:100%; height:100%; border-radius:104px 104px 20px 20px; background:linear-gradient(165deg, var(--a1) 0%, var(--a3) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; padding:24px 12px 20px; text-align:center; color:#fff; }
+.mp-arch-icon{ width:52px; height:52px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.14); color:#EFBF68; margin-bottom:8px; }
+.mp-arch-name{ font-family:'Astrid Regular',serif; font-size:1.2rem; font-weight:600; letter-spacing:0.02em; }
+.mp-arch-price{ font-family:'Astrid Regular',serif; font-size:2.7rem; font-weight:700; line-height:1.05; margin-top:6px; }
+.mp-arch-unit{ font-size:0.76rem; font-weight:500; color:rgba(255,255,255,0.8); }
+.mp-arch-alt{ font-size:0.78rem; font-weight:600; color:#EFBF68; margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.22); width:78%; }
+
+.mp-panel-body{ min-width:0; }
+.mp-pill{ display:inline-block; font-size:0.68rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#4B1E56; background:rgba(75,30,86,0.07); border:1px solid rgba(75,30,86,0.14); padding:5px 14px; border-radius:100px; }
+.mp-rule{ display:block; width:34px; height:2px; background:#D7B264; margin:16px 0 12px; }
+.mp-panel-title{ font-family:'Astrid Regular',serif; font-size:clamp(1.7rem,3vw,2.2rem); font-weight:700; line-height:1.15; color:var(--mp-accent); margin-bottom:10px; }
+.mp-panel-quote{ font-family:'Astrid Regular',serif; font-size:1.08rem; font-style:italic; color:var(--mp-text); line-height:1.55; margin-bottom:20px; }
+.mp-card-label{ font-size:0.68rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:#8a5a97; margin-bottom:12px; }
+.mp-chips{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-bottom:4px; padding:0; }
+.mp-chips li{ font-size:0.76rem; font-weight:500; color:#4B1E56; background:rgba(75,30,86,0.07); border:1px solid rgba(75,30,86,0.12); padding:6px 13px; border-radius:100px; }
+
+.mp-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; margin-top:24px; font-family:'Montserrat',sans-serif; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; padding:14px 30px; border-radius:100px; border:none; background:#D7B264; color:#fff; cursor:pointer; box-shadow:0 8px 22px rgba(75,30,86,0.28); transition:transform .25s ease, box-shadow .25s ease, opacity .2s ease; }
+.mp-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(75,30,86,0.36); opacity:1; }
+.mp-btn svg{ transition:transform .25s ease; }
+.mp-btn:hover svg{ transform:translateX(3px); }
+
+.mp-panel-bottom{ position:relative; z-index:1; margin-top:32px; padding-top:28px; border-top:1px solid rgba(124,92,191,0.16); }
+.mp-list{ list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 32px; margin:0 0 26px; padding:0; }
+.mp-list-item{ display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:400; line-height:1.5; color:#3d2e47; }
+.mp-list-item-lead{ grid-column:1 / -1; font-weight:700; color:#1a0a2e; }
+.mp-list-check{ flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; margin-top:1px; border-radius:50%; background:var(--a1); color:#fff; }
+.mp-list-check svg{ width:11px; height:11px; }
+.mp-outcome{ padding:16px 20px; border-radius:14px; background:rgba(215,178,100,0.12); border-left:3px solid #D7B264; }
+.mp-outcome-label{ display:block; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#8a5a97; margin-bottom:6px; }
+.mp-outcome-text{ font-size:0.88rem; font-weight:500; color:#1a0a2e; line-height:1.55; }
+
+/* ── Comparison table — same look as Ms Ellevation ── */
+.mp-compare{ text-align:center; margin-bottom:80px; }
+.mp-compare .mp-block-title{ margin-bottom:32px; }
+.mp-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; text-align:left; background:var(--mp-card); border:1px solid rgba(124,92,191,0.16); border-radius:20px; box-shadow:0 8px 40px rgba(75,30,86,0.10); max-width:1040px; margin:0 auto; }
+.mp-table-wrap:focus-visible{ outline:3px solid rgba(75,30,86,0.35); outline-offset:2px; }
+.mp-table{ width:100%; border-collapse:separate; border-spacing:0; min-width:760px; }
+.mp-table thead th{ background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%); color:#fff; font-family:'Astrid Regular',serif; font-size:1.05rem; font-weight:600; letter-spacing:0.02em; text-align:center; padding:18px 16px; white-space:nowrap; }
+.mp-table thead th.mp-th-feature{ text-align:left; font-family:'Montserrat',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding-left:22px; position:sticky; left:0; z-index:2; }
+.mp-table tbody th, .mp-table tbody td{ padding:15px 16px; border-bottom:1px solid rgba(124,92,191,0.12); font-size:0.86rem; color:#3d2e47; vertical-align:middle; line-height:1.45; }
+.mp-table tbody th{ text-align:left; font-weight:600; color:#1a0a2e; padding-left:22px; background:#fff; position:sticky; left:0; z-index:1; min-width:210px; }
+.mp-table tbody td{ text-align:center; font-weight:400; }
+.mp-table tbody tr:nth-child(even) th, .mp-table tbody tr:nth-child(even) td{ background:#faf7fd; }
+.mp-table tbody tr:last-child th, .mp-table tbody tr:last-child td{ border-bottom:none; }
+.mp-row-strong td{ font-weight:700; color:#4B1E56; }
+.mp-yes{ display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:rgba(75,30,86,0.10); color:#4B1E56; }
+.mp-no{ color:#b09fc0; font-weight:400; }
+.mp-text{ display:inline-block; }
+.mp-hint{ display:none; font-size:0.78rem; font-style:italic; color:#8a5a97; margin-top:14px; }
+
+/* Bridge */
+.mp-bridge{ margin-bottom:72px; text-align:center; }
+.mp-bridge .mp-block-head{ text-align:center; margin-bottom:28px; }
+.mp-bridge-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:stretch; max-width:1000px; margin:0 auto 24px; text-align:left; }
+.mp-bridge-card{ background:var(--mp-card); border:1.5px solid var(--mp-border); border-radius:20px; padding:28px; box-shadow:var(--mp-shadow); }
+.mp-bridge-card h4{ font-family:'Astrid Regular',serif; font-size:1.3rem; color:var(--mp-title); margin-bottom:8px; }
+.mp-bridge-card p{ font-size:0.88rem; line-height:1.7; color:var(--mp-text); }
+.mp-bridge-card .tag{ display:inline-block; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; color:var(--mp-eye); margin-bottom:10px; }
+.mp-bridge-plus{ align-self:center; width:48px; height:48px; border-radius:50%; background:var(--mp-gold); color:#fff; font-size:1.5rem; font-weight:700; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(215,178,100,0.5); }
+.mp-bridge-note{ max-width:820px; margin:0 auto; font-size:0.95rem; line-height:1.8; color:var(--mp-text); }
+
+/* Form area */
+.mp-form-wrap{ width:100%; max-width:720px; margin:0 auto; scroll-margin-top:calc(var(--nav-height, 96px) + 16px); }
+.mp-summary{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; border-radius:16px; background:var(--mp-soft); border:1px solid var(--mp-border); margin-bottom:22px; }
+.mp-summary b{ font-family:'Astrid Regular',serif; font-size:1.1rem; color:var(--mp-title); }
+.mp-summary span{ font-size:0.82rem; color:var(--mp-text); }
+.mp-select-billing{ display:inline-flex; gap:6px; }
+.mp-select-billing button{ font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.06em; padding:7px 14px; border-radius:100px; border:1.5px solid var(--mp-border); background:transparent; color:var(--mp-text); cursor:pointer; }
+.mp-select-billing button.on{ background:var(--mp-gold); border-color:var(--mp-gold); color:#fff; }
+
+/* ── Dark mode: plans + table ── */
+[data-theme="dark"] .mp-tab{ background:rgba(31,19,48,0.75); border-color:rgba(155,109,190,0.18); color:#e8ddf5; }
+[data-theme="dark"] .mp-tab:hover{ background:#251838; border-color:rgba(155,109,190,0.4); box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+[data-theme="dark"] .mp-tab.active{ background:linear-gradient(135deg,#7a3a8c 0%,#4B1E56 100%); border-color:transparent; color:#fff; box-shadow:0 16px 34px rgba(0,0,0,0.5); }
+[data-theme="dark"] .mp-tab-avatar{ background:rgba(217,168,205,0.12); color:#e8b8f0; }
+[data-theme="dark"] .mp-tab.active .mp-tab-avatar{ background:rgba(255,255,255,0.18); color:#fff; }
+[data-theme="dark"] .mp-tab-sub, [data-theme="dark"] .mp-tab-price small, [data-theme="dark"] .mp-list-note{ color:#c9a3d9; }
+[data-theme="dark"] .mp-tab-price strong{ color:#f3ecff; }
+[data-theme="dark"] .mp-tab.active .mp-tab-sub, [data-theme="dark"] .mp-tab.active .mp-tab-price small{ color:rgba(255,255,255,0.85); }
+[data-theme="dark"] .mp-panel{ background:#1f1330; border-color:rgba(155,109,190,0.2); box-shadow:0 20px 60px rgba(0,0,0,0.55); }
+[data-theme="dark"] .mp-panel-title{ color:#f3ecff; }
+[data-theme="dark"] .mp-panel-quote{ color:#e8b8f0; }
+[data-theme="dark"] .mp-pill{ color:#e8b8f0; background:rgba(217,168,205,0.08); border-color:rgba(217,168,205,0.22); }
+[data-theme="dark"] .mp-card-label, [data-theme="dark"] .mp-outcome-label{ color:#c9a3d9; }
+[data-theme="dark"] .mp-chips li{ color:#e8b8f0; background:rgba(217,168,205,0.08); border-color:rgba(217,168,205,0.2); }
+[data-theme="dark"] .mp-panel-bottom{ border-top-color:rgba(155,109,190,0.25); }
+[data-theme="dark"] .mp-list-item{ color:#e8ddf5; }
+[data-theme="dark"] .mp-list-item-lead{ color:#fff; }
+[data-theme="dark"] .mp-outcome{ background:rgba(215,178,100,0.10); }
+[data-theme="dark"] .mp-outcome-text{ color:#f3ecff; }
+[data-theme="dark"] .mp-table-wrap{ background:#1f1330; border-color:rgba(155,109,190,0.2); box-shadow:0 8px 48px rgba(0,0,0,0.5); }
+[data-theme="dark"] .mp-table thead th{ background:linear-gradient(135deg,#3a1a48 0%,#2d1740 100%); color:#fff; }
+[data-theme="dark"] .mp-table tbody th{ background:#1f1330; color:#f3ecff; }
+[data-theme="dark"] .mp-table tbody td{ color:#e8ddf5; }
+[data-theme="dark"] .mp-table tbody tr:nth-child(even) th, [data-theme="dark"] .mp-table tbody tr:nth-child(even) td{ background:#251838; }
+[data-theme="dark"] .mp-table tbody th, [data-theme="dark"] .mp-table tbody td{ border-bottom-color:rgba(155,109,190,0.16); }
+[data-theme="dark"] .mp-row-strong td{ color:#e8b8f0; }
+[data-theme="dark"] .mp-yes{ background:rgba(232,184,240,0.14); color:#e8b8f0; }
+[data-theme="dark"] .mp-no{ color:rgba(217,168,205,0.45); }
+[data-theme="dark"] .mp-hint{ color:#c9a3d9; }
+
+/* Responsive */
+@media (max-width:1000px){
+  .mp-split{ grid-template-columns:1fr; gap:24px; }
+  .mp-list-col{ flex-direction:row; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px 2px 12px; -webkit-overflow-scrolling:touch; }
+  .mp-tab{ min-width:250px; flex-shrink:0; scroll-snap-align:start; }
+  .mp-list-note{ display:none; }
+}
+@media (max-width:768px){
+  .mp-philo{ padding:28px 22px; }
+  .mp-panel{ padding:30px 22px 28px; border-radius:22px; }
+  .mp-panel-top{ grid-template-columns:1fr; gap:26px; }
+  .mp-arch{ margin:0 auto; }
+  .mp-panel-body{ text-align:center; }
+  .mp-rule{ margin-left:auto; margin-right:auto; }
+  .mp-chips{ justify-content:center; }
+  .mp-bridge-grid{ grid-template-columns:1fr; }
+  .mp-bridge-plus{ margin:0 auto; }
+  .mp-hint{ display:block; }
+}
+@media (max-width:560px){
+  .mp-list{ grid-template-columns:1fr; }
+  .mp-tab{ min-width:225px; padding:14px; }
+  .mp-tab-avatar{ width:42px; height:42px; }
+  .mp-btn{ width:100%; }
+  .mp-table tbody th{ min-width:160px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .mp-tab, .mp-btn{ transition:none; }
+  .mp-panel{ animation:none; }
+}
+`;
+
+function CheckIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ComparisonCell({ value }: { value: string }) {
+  if (value === "✓") return <span className="mp-yes" aria-label="Included"><CheckIcon /></span>;
+  if (value === "—") return <span className="mp-no" aria-label="Not included">—</span>;
+  return <span className="mp-text">{value}</span>;
+}
+
+function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
+  // 0 = Belong (heart), 1 = Grow (arrow up), 2 = Influence (star), 3 = Partner (linked circles)
+  if (index === 0) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="currentColor" />
+      </svg>
+    );
+  }
+  if (index === 1) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 20V5M5.5 11.5L12 5l6.5 6.5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  if (index === 2) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7L12 2.8z" fill="currentColor" />
+      </svg>
+    );
+  }
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="9" cy="12" r="5.5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="15" cy="12" r="5.5" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
 function MembershipSection() {
-  const [activeTier, setActiveTier] = useState<HubTier>("CONNECT");
+  const [activeTier, setActiveTier] = useState<HubTier>("BELONG");
+  const [billing, setBilling] = useState<"annual" | "monthly">("annual");
   const [purpose, setPurpose] = useState<typeof MEMBERSHIP_PURPOSES[number]["id"]>("enquiry");
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const meta = HUB_TIER_META[activeTier];
+  const activeIdx = HUB_TIERS.indexOf(activeTier);
 
   // controlled fields so we can read + send them
   const [firstName, setFirstName] = useState("");
@@ -892,6 +1278,22 @@ function MembershipSection() {
   const [industry, setIndustry]   = useState("");
   const [notes, setNotes]         = useState("");
   const [agreed, setAgreed]       = useState(false);
+
+  const money = (n: number) => `$${n.toLocaleString("en-AU")}`;
+  const billingLabel = billing === "annual" ? "Annual" : "Monthly";
+
+  const selectPlan = (t: HubTier) => {
+    setActiveTier(t);
+    setSubmitted(false);
+  };
+
+  const choosePlan = (t: HubTier) => {
+    selectPlan(t);
+    // wait one tick so the form has updated, then scroll to it
+    setTimeout(() => {
+      document.getElementById("membership-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -912,7 +1314,8 @@ function MembershipSection() {
       form_source: "Ellevation Hub — Membership Expression of Interest",
       logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
 
-      membership_tier: HUB_TIER_META[activeTier].label,
+      // e.g. "Grow — Growth Member (Annual $550)"
+      membership_tier: `${meta.label} — ${meta.name} (${billingLabel} ${money(billing === "annual" ? meta.annual : meta.monthly)})`,
       first_name: firstName,
       last_name: lastName,
       email: email,
@@ -937,9 +1340,9 @@ function MembershipSection() {
 
     console.log("Sending to EmailJS:", templateParams);
     setSending(true);
-//service Id :service_ux9vfej
-//Template ID : template_oczchp4
-//Public Key: Pu2wZN2ERnHjdboLI
+    //service Id :service_ux9vfej
+    //Template ID : template_oczchp4
+    //Public Key: Pu2wZN2ERnHjdboLI
     try {
       const response = await emailjs.send(
         "service_ux9vfej",
@@ -958,135 +1361,316 @@ function MembershipSection() {
   };
 
   return (
-    <section className="hub-membership-section" style={jp.formSection}>
-      <div style={{ width: "100%", maxWidth: 720 }}>
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <p className="hub-form-eye" style={mb.pageEye}>MEMBERSHIP · TIERS &amp; BENEFITS</p>
-          <h2 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "2.2rem" }}>Find Your Tier, Then Reach Out</h2>
-          <p className="hub-form-sub" style={{ ...jp.formSub, maxWidth: 520, margin: "8px auto 0" }}>
-            Ellevation Hub membership runs across four tiers — Connect, Grow, Visibility, and Impact. Explore what each offers, then submit an Expression of Interest below.
+    <section
+      className="hub-membership-section mp"
+      style={{ padding: "100px 24px", background: "#fff" }}
+    >
+      <style>{MEMBERSHIP_CSS}</style>
+
+      <div className="mp-wrap">
+        {/* ── 1. HEADER ── */}
+        <div className="mp-head">
+          <p className="mp-eye">Ellevation Hub · Membership Program</p>
+          <h2 className="mp-title">Choose Your Pathway Into the Hub</h2>
+          <div className="mp-journey" aria-label="Membership journey">
+            <span>Belong</span><i>→</i><span>Grow</span><i>→</i><span>Influence</span><i>→</i><span>Partner</span>
+          </div>
+          <p className="mp-question">How do I create opportunities and impact?</p>
+        </div>
+
+        {/* ── 2. PHILOSOPHY ── */}
+        <div className="mp-philo">
+          <h3>Membership Philosophy</h3>
+          <p>
+            Ellevation Hub membership is more than a membership. It is a pathway to belonging, opportunities, visibility, partnerships, leadership and community impact. Members join a growing ecosystem designed to support CALD communities, professionals, entrepreneurs, businesses, organisations and emerging leaders.
+          </p>
+          <p>
+            We believe everyone should have access to growth, connection and leadership opportunities regardless of where they are in their journey.
+          </p>
+          <span className="mp-philo-tag">Flexible Monthly Payment Plans Available on all packages</span>
+        </div>
+
+        {/* ── 3. PLANS (selector left, details right) ── */}
+        <div className="mp-plans-head">
+          <p className="mp-eye">Choose Your Path</p>
+          <h3 className="mp-block-title">Find the Membership That Fits Where You Are</h3>
+        </div>
+
+        <div className="mp-split">
+          {/* LEFT — plan selector */}
+          <div className="mp-list-col" role="tablist" aria-label="Membership plans" aria-orientation="vertical">
+            {HUB_TIERS.map((t, idx) => {
+              const m = HUB_TIER_META[t];
+              return (
+                <button
+                  key={t}
+                  role="tab"
+                  id={`mp-tab-${t}`}
+                  aria-selected={t === activeTier}
+                  aria-controls="mp-panel"
+                  className={`mp-tab mp-t-${idx} ${t === activeTier ? "active" : ""}`}
+                  onClick={() => selectPlan(t)}
+                >
+                  <span className="mp-tab-avatar"><PlanGlyph index={idx} /></span>
+                  <span className="mp-tab-text">
+                    <span className="mp-tab-name">{m.label}</span>
+                    <span className="mp-tab-sub">{m.purpose}</span>
+                  </span>
+                  <span className="mp-tab-price">
+                    <strong>{money(m.annual)}</strong>
+                    <small>per year</small>
+                  </span>
+                </button>
+              );
+            })}
+            <p className="mp-list-note">Prefer to pay monthly? Every plan has a monthly option.</p>
+          </div>
+
+          {/* RIGHT — selected plan details */}
+          <article
+            key={activeTier}
+            id="mp-panel"
+            role="tabpanel"
+            aria-labelledby={`mp-tab-${activeTier}`}
+            className={`mp-panel mp-t-${activeIdx}`}
+          >
+            <div className="mp-panel-glow" />
+
+            <div className="mp-panel-top">
+              <div className="mp-arch">
+                <div className="mp-arch-inner">
+                  <span className="mp-arch-icon"><PlanGlyph index={activeIdx} size={26} /></span>
+                  <span className="mp-arch-name">{meta.label}</span>
+                  <span className="mp-arch-price">{money(meta.annual)}</span>
+                  <span className="mp-arch-unit">per year</span>
+                  <span className="mp-arch-alt">or {money(meta.monthly)} per month</span>
+                </div>
+              </div>
+
+              <div className="mp-panel-body">
+                <span className="mp-pill">{meta.purpose}</span>
+                <span className="mp-rule" />
+                <h3 className="mp-panel-title">{meta.name}</h3>
+                <p className="mp-panel-quote">"{meta.quote}"</p>
+
+                <p className="mp-card-label">Popular With</p>
+                <ul className="mp-chips">
+                  {meta.popular.map(p => <li key={p}>{p}</li>)}
+                </ul>
+
+                <button className="mp-btn" onClick={() => choosePlan(activeTier)}>
+                  JOIN {activeTier}
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="mp-panel-bottom">
+              <p className="mp-card-label">What's Included</p>
+              <ul className="mp-list">
+                {meta.included.map(item => (
+                  <li key={item} className={`mp-list-item ${item.startsWith("Everything in") ? "mp-list-item-lead" : ""}`}>
+                    <span className="mp-list-check"><CheckIcon /></span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mp-outcome">
+                <span className="mp-outcome-label">Outcome</span>
+                <p className="mp-outcome-text">{meta.outcome}</p>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        {/* ── 4. COMPARISON TABLE ── */}
+        <div className="mp-compare">
+          <p className="mp-eye">Compare Packages</p>
+          <h3 className="mp-block-title">Annual &amp; Monthly Membership Comparison</h3>
+
+          <div className="mp-table-wrap" role="region" aria-label="Membership comparison table" tabIndex={0}>
+            <table className="mp-table">
+              <thead>
+                <tr>
+                  <th scope="col" className="mp-th-feature">Category</th>
+                  {HUB_TIERS.map(t => <th key={t} scope="col">{HUB_TIER_META[t].label}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {MEMBERSHIP_COMPARISON.map(row => (
+                  <tr key={row.label} className={MEMBERSHIP_STRONG_ROWS.has(row.label) ? "mp-row-strong" : ""}>
+                    <th scope="row">{row.label}</th>
+                    {row.values.map((v, i) => (
+                      <td key={i}><ComparisonCell value={v} /></td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mp-hint">Swipe sideways to see every plan on smaller screens.</p>
+        </div>
+
+        {/* ── 5. HUB + MS ELLEVATION ── */}
+        <div className="mp-bridge">
+          <div className="mp-block-head">
+            <p className="mp-eye">One Connected Journey</p>
+            <h3 className="mp-block-title">How Ellevation Hub and Ms Ellevation Work Together</h3>
+          </div>
+          <div className="mp-bridge-grid">
+            <div className="mp-bridge-card">
+              <span className="tag">BUILDING OPPORTUNITY</span>
+              <h4>Ellevation Hub</h4>
+              <p>Opportunities, business visibility, employment, partnerships and community impact.</p>
+            </div>
+            <div className="mp-bridge-plus" aria-hidden="true">+</div>
+            <div className="mp-bridge-card">
+              <span className="tag">BUILDING THE WOMAN</span>
+              <h4>Ms Ellevation</h4>
+              <p>Identity, confidence, wellbeing and leadership.</p>
+            </div>
+          </div>
+          <p className="mp-bridge-note">
+            The Ellevation Membership creates a bridge between both ecosystems, allowing women to grow personally and then access wider opportunities through Ellevation Hub.
           </p>
         </div>
 
-        <div style={mb.tabsRow}>
-          {HUB_TIERS.map(t => (
-            <button
-              key={t}
-              className={`hub-tier-tab${activeTier === t ? " active" : ""}`}
-              style={{ ...mb.tabBtn, ...(activeTier === t ? { ...mb.tabActive, background: "#D7B264" } : {}) }}
-              onClick={() => setActiveTier(t)}
-            >
-              {HUB_TIER_META[t].label}
-            </button>
-          ))}
-        </div>
-
-        <div className="hub-form-card" style={{ ...jp.card, borderTop: `3px solid ${meta.color}` }}>
-          <div style={jp.formHeader}>
-            <h2 className="hub-form-title" style={jp.formTitle}>{meta.label} Membership</h2>
-            <p className="hub-form-sub" style={jp.formSub}>{meta.tagline}</p>
+        {/* ── 6. FORM ── */}
+        <div id="membership-form" className="mp-form-wrap">
+          <div style={{ textAlign: "center", marginBottom: 28 }}>
+            <p className="hub-form-eye" style={mb.pageEye}>EXPRESSION OF INTEREST</p>
+            <h2 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "2.2rem" }}>Ready to Join? Reach Out</h2>
+            <p className="hub-form-sub" style={{ ...jp.formSub, maxWidth: 520, margin: "8px auto 0" }}>
+              Pick your package, then submit an Expression of Interest below. Our team will follow up shortly.
+            </p>
           </div>
 
-          <div style={mb.benefitsList}>
-            {meta.benefits.map(b => (
-              <div key={b} className="hub-benefit-item" style={mb.benefitItem}>
-                <span style={{ ...mb.benefitDot, background: meta.color }} />{b}
-              </div>
+          <div style={mb.tabsRow}>
+            {HUB_TIERS.map(t => (
+              <button
+                key={t}
+                className={`hub-tier-tab${activeTier === t ? " active" : ""}`}
+                style={{ ...mb.tabBtn, ...(activeTier === t ? { ...mb.tabActive, background: "#D7B264" } : {}) }}
+                onClick={() => { setActiveTier(t); setSubmitted(false); }}
+              >
+                {HUB_TIER_META[t].label}
+              </button>
             ))}
           </div>
 
-          <div className="hub-divider" style={mb.divider} />
-
-          {submitted ? (
-            <div style={{ textAlign: "center", padding: "12px 0 8px" }}>
-              <div style={{ fontSize: 40, marginBottom: 12 }}>✨</div>
-              <h3 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "1.4rem" }}>Expression of Interest Received</h3>
-              <p className="hub-form-sub" style={jp.formSub}>
-                Thank you for your interest in {meta.label} Membership. Our team will follow up shortly.
-              </p>
+          <div className="hub-form-card" style={{ ...jp.card, borderTop: `3px solid ${meta.color}` }}>
+            <div style={jp.formHeader}>
+              <h2 className="hub-form-title" style={jp.formTitle}>{meta.label} · {meta.name}</h2>
+              <p className="hub-form-sub" style={jp.formSub}>“{meta.quote}”</p>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <p className="hub-form-label" style={mb.formLabel}>Membership Expression of Interest</p>
-              <div style={mb.purposeRow}>
-                {MEMBERSHIP_PURPOSES.map(p => (
-                  <label
-                    key={p.id}
-                    className="hub-purpose-tile"
-                    style={{
-                      ...mb.purposeTile,
-                      borderColor: purpose === p.id ? meta.color : "#ded4ee",
-                      background: purpose === p.id ? `${meta.color}14` : "transparent",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="membershipPurpose"
-                      value={p.id}
-                      checked={purpose === p.id}
-                      onChange={() => setPurpose(p.id)}
-                      style={{ accentColor: meta.color, cursor: "pointer" }}
-                    />
-                    <span>
-                      <span className="hub-purpose-label" style={mb.purposeLabel}>{p.label}</span>
-                      <span className="hub-purpose-desc" style={mb.purposeDesc}>{p.desc}</span>
-                    </span>
-                  </label>
-                ))}
-              </div>
 
-              <div className="hub-form-row" style={{ ...jp.row, marginTop: 20 }}>
-                <input className="hub-input" style={jp.input} placeholder="First Name" required
-                  value={firstName} onChange={e => setFirstName(e.target.value)} />
-                <input className="hub-input" style={jp.input} placeholder="Last Name" required
-                  value={lastName} onChange={e => setLastName(e.target.value)} />
+            <div className="mp-summary">
+              <div>
+                <b>{money(billing === "annual" ? meta.annual : meta.monthly)}</b>{" "}
+                <span>/ {billing === "annual" ? "year" : "month"} · {meta.purpose}</span>
               </div>
-              <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="email" placeholder="Professional Email" required
-                value={email} onChange={e => setEmail(e.target.value)} />
-              <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="tel" placeholder="Phone Number (optional)"
-                value={phone} onChange={e => setPhone(e.target.value)} />
-              <select className="hub-input hub-select" style={{ ...jp.input, ...jp.select, marginTop: 16 }}
-                value={industry} onChange={e => setIndustry(e.target.value)}>
-                <option value="">Select Your Industry</option>
-                <option>Technology</option>
-                <option>Education</option>
-                <option>Leadership</option>
-                <option>Other</option>
-              </select>
-              <textarea
-                className="hub-input"
-                style={{ ...jp.input, marginTop: 16, resize: "vertical" as const }}
-                rows={3}
-                placeholder="Anything you'd like us to know? (optional)"
-                value={notes}
-                onChange={e => setNotes(e.target.value)}
-              />
+              <div className="mp-select-billing">
+                <button type="button" className={billing === "annual" ? "on" : ""} onClick={() => setBilling("annual")}>ANNUAL</button>
+                <button type="button" className={billing === "monthly" ? "on" : ""} onClick={() => setBilling("monthly")}>MONTHLY</button>
+              </div>
+            </div>
 
-              {/* Privacy Policy & Terms agreement */}
-              <label
-                className="hub-form-sub"
-                style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 20, fontSize: "0.82rem", cursor: "pointer" }}
-              >
-                <input
-                  type="checkbox"
-                  checked={agreed}
-                  onChange={e => setAgreed(e.target.checked)}
-                  required
-                  style={{ accentColor: "#4B1E56", marginTop: 3, cursor: "pointer", flexShrink: 0 }}
+            <div className="hub-divider" style={mb.divider} />
+
+            {submitted ? (
+              <div style={{ textAlign: "center", padding: "12px 0 8px" }}>
+                <div style={{ fontSize: 40, marginBottom: 12 }}>✨</div>
+                <h3 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "1.4rem" }}>Expression of Interest Received</h3>
+                <p className="hub-form-sub" style={jp.formSub}>
+                  Thank you for your interest in {meta.label} Membership. Our team will follow up shortly.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <p className="hub-form-label" style={mb.formLabel}>Membership Expression of Interest</p>
+                <div style={mb.purposeRow}>
+                  {MEMBERSHIP_PURPOSES.map(p => (
+                    <label
+                      key={p.id}
+                      className="hub-purpose-tile"
+                      style={{
+                        ...mb.purposeTile,
+                        borderColor: purpose === p.id ? meta.color : "#ded4ee",
+                        background: purpose === p.id ? `${meta.color}14` : "transparent",
+                      }}
+                    >
+                      <input
+                        type="radio"
+                        name="membershipPurpose"
+                        value={p.id}
+                        checked={purpose === p.id}
+                        onChange={() => setPurpose(p.id)}
+                        style={{ accentColor: meta.color, cursor: "pointer" }}
+                      />
+                      <span>
+                        <span className="hub-purpose-label" style={mb.purposeLabel}>{p.label}</span>
+                        <span className="hub-purpose-desc" style={mb.purposeDesc}>{p.desc}</span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                <div className="hub-form-row" style={{ ...jp.row, marginTop: 20 }}>
+                  <input className="hub-input" style={jp.input} placeholder="First Name" required
+                    value={firstName} onChange={e => setFirstName(e.target.value)} />
+                  <input className="hub-input" style={jp.input} placeholder="Last Name" required
+                    value={lastName} onChange={e => setLastName(e.target.value)} />
+                </div>
+                <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="email" placeholder="Professional Email" required
+                  value={email} onChange={e => setEmail(e.target.value)} />
+                <input className="hub-input" style={{ ...jp.input, marginTop: 16 }} type="tel" placeholder="Phone Number (optional)"
+                  value={phone} onChange={e => setPhone(e.target.value)} />
+                <select className="hub-input hub-select" style={{ ...jp.input, ...jp.select, marginTop: 16 }}
+                  value={industry} onChange={e => setIndustry(e.target.value)}>
+                  <option value="">Select Your Industry</option>
+                  <option>Technology</option>
+                  <option>Education</option>
+                  <option>Leadership</option>
+                  <option>Other</option>
+                </select>
+                <textarea
+                  className="hub-input"
+                  style={{ ...jp.input, marginTop: 16, resize: "vertical" as const }}
+                  rows={3}
+                  placeholder="Anything you'd like us to know? (optional)"
+                  value={notes}
+                  onChange={e => setNotes(e.target.value)}
                 />
-                <span>
-                  I agree to the{" "}
-                  <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
-                  {" "}and{" "}
-                  <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
-                </span>
-              </label>
 
-              <button type="submit" disabled={sending} style={{ ...jp.submitBtn, background: "#D7B264", opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}>
-                {sending ? "SENDING..." : "SUBMIT EXPRESSION OF INTEREST"}
-              </button>
-            </form>
-          )}
+                {/* Privacy Policy & Terms agreement */}
+                <label
+                  className="hub-form-sub"
+                  style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 20, fontSize: "0.82rem", cursor: "pointer" }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={agreed}
+                    onChange={e => setAgreed(e.target.checked)}
+                    required
+                    style={{ accentColor: "#4B1E56", marginTop: 3, cursor: "pointer", flexShrink: 0 }}
+                  />
+                  <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                    {" "}and{" "}
+                    <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  </span>
+                </label>
+
+                <button type="submit" disabled={sending} style={{ ...jp.submitBtn, background: "#D7B264", opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}>
+                  {sending ? "SENDING..." : "SUBMIT EXPRESSION OF INTEREST"}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </section>
@@ -1123,9 +1707,9 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
   const cta = useInView(0.12);
 
   return (
-<div>
+    <div>
       {/* 1 ── HEADER */}
-            <section className="hub-programs-section" style={{ ...pg.section, paddingBottom: 60 }}>
+      <section className="hub-programs-section" style={{ ...pg.section, paddingBottom: 60 }}>
         <div style={{ position: "relative", zIndex: 2, textAlign: "center" }}>
           <p className="hub-programs-eye" style={pg.eye}>OUR PROGRAMS</p>
           <h2 className="hub-programs-title" style={{ ...pg.title, marginBottom: 20 }}>
@@ -1144,7 +1728,8 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 2 ── OUR PATHWAYS */}
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={path.ref} style={{ ...ab.container, ...fade(path.inView, 0) }}>
-<h2 className="hub-about-title" style={ab.title}>Our Pathways</h2>          <div className="hub-programs-grid" style={pg.pathGrid}>
+          <h2 className="hub-about-title" style={ab.title}>Our Pathways</h2>
+          <div className="hub-programs-grid" style={pg.pathGrid}>
             {PROGRAM_PATHWAYS.map((p, i) => (
               <div key={p.title} className="hub-about-card" style={{ ...ab.card, ...fade(path.inView, 100 + i * 80) }}>
                 <div style={ab.icon}>{p.icon}</div>
@@ -1172,7 +1757,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 3 ── WHO WE SUPPORT */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={who.ref} style={{ ...ab.container, ...fade(who.inView, 0) }}>
-<h2 className="hub-about-title" style={ab.title}>Who We Support</h2>
+          <h2 className="hub-about-title" style={ab.title}>Who We Support</h2>
           <div style={pg.chipRow}>
             {PROGRAMS_WHO_WE_SUPPORT.map(w => (
               <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
@@ -1184,7 +1769,8 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 4 ── PARTNERS & COLLABORATORS */}
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={part.ref} style={{ ...ab.containerNarrow, ...fade(part.inView, 0) }}>
-<h2 className="hub-about-title" style={{ ...ab.title, marginBottom: 24 }}>Partners &amp; Collaborators</h2>          <p className="hub-about-sub" style={ab.para}>
+          <h2 className="hub-about-title" style={{ ...ab.title, marginBottom: 24 }}>Partners &amp; Collaborators</h2>
+          <p className="hub-about-sub" style={ab.para}>
             We work alongside community organisations, businesses, educators, government and supporters to create opportunities that strengthen communities and create lasting impact.
           </p>
           <p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
@@ -1205,7 +1791,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
       {/* 5 ── THE ELLEVATION ECOSYSTEM */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
-<h2 className="hub-about-title" style={ab.title}>The Ellevation Ecosystem</h2>
+          <h2 className="hub-about-title" style={ab.title}>The Ellevation Ecosystem</h2>
           <div style={ab.gridAuto}>
             {PROGRAMS_ECOSYSTEM.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
@@ -2004,14 +2590,14 @@ const ab: Record<string, React.CSSProperties> = {
   heroInner: { maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 },
   heroEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.25em", color: "#D7B264", marginBottom: 20 },
   heroTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.4rem,6vw,4.2rem)", color: "#fff", lineHeight: 1.1, marginBottom: 28 },
-heroText: {
-  fontFamily: "'Montserrat',sans-serif",
-  fontSize: "1.02rem",
-  color: "rgba(255,255,255,0.9)",
-  lineHeight: 1.8,
-  maxWidth: 860,        // was 740
-  margin: "0 auto"
-},
+  heroText: {
+    fontFamily: "'Montserrat',sans-serif",
+    fontSize: "1.02rem",
+    color: "rgba(255,255,255,0.9)",
+    lineHeight: 1.8,
+    maxWidth: 860,
+    margin: "0 auto"
+  },
   /* Section shells */
   sectionLight: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
   sectionWhite: { padding: "100px 48px", background: "#fff" },
@@ -2097,7 +2683,8 @@ const pg: Record<string, React.CSSProperties> = {
   ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1, boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
   lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 12px", position: "relative", zIndex: 1 },
   tagline: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", fontStyle: "italic", color: "#4B1E56", margin: "0 auto 32px", position: "relative", zIndex: 1 },
-  pathGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "left", alignItems: "stretch" },  focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10 },
+  pathGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "left", alignItems: "stretch" },
+  focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10 },
   focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "0.86rem", color: "#554866" },
   focusDot: { flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 },
   chipRow: { display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" as const },
@@ -2308,7 +2895,7 @@ export default function EllevationHub() {
        .ms-nav-row{
   position:fixed; top:0; left:0; right:0; z-index:100;
   display:flex; flex-direction:column; align-items:center;
-  padding:10px 20px 0;   /* was 16px */
+  padding:10px 20px 0;
 }
         .ms-nav{
           width:100%;
@@ -2321,7 +2908,8 @@ export default function EllevationHub() {
           -webkit-backdrop-filter:blur(16px);
           border:1px solid rgba(102,35,105,0.08);
           border-radius:100px;
-padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
+          padding:3px 10px 3px 8px;
+          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           transition:box-shadow 0.3s ease;
         }
         .ms-nav.ms-nav-scrolled{
@@ -2343,12 +2931,11 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
         }
         .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
 
-      /* ── Logo: bigger, no animation. Net height = 130 + (-33 * 2) = 64px, navbar height same ── */
-/* Logo overflows outside the navbar pill. Net layout height = 180 + (-58 * 2) = 64px */
+/* Logo overflows outside the navbar pill. Net layout height = 130 + (-33 * 2) = 64px */
 .ns-logo{
-  height:130px;          /* was 170px */
+  height:130px;
   width:auto;
-  margin:-33px 0;        /* net 130 - 66 = 64px */
+  margin:-33px 0;
   object-fit:contain;
   cursor:pointer;
   flex-shrink:0;
@@ -2452,19 +3039,6 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           color:#fff !important;
         }
 
-        /* Hub has more nav items than Ms. Ellevation, and the logo is now larger,
-           so the hamburger kicks in earlier to avoid link wrapping/overflow. */
-     @media (max-width: 1280px){
-  .ns-links-desktop{ display:none; }
-  .ns-menu-toggle{ display:flex; }
-}
- @media (max-width: 560px){
-  .ns-back-home span{ display:none; }
-  .ns-back-home{ padding:9px 12px; }
-  .ns-logo{ height:120px; margin:-38px 0; }   /* 120 - 76 = 44px net */
-  .ms-nav{ padding:3px 8px; gap:10px; }
-}
-
         /* ═══════════════════════════════════════
            RESPONSIVE — section grids collapse
            on tablet / mobile so nothing overflows
@@ -2474,22 +3048,7 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           .hub-home-btn-row{ justify-content:center !important; }
           .hub-about-two-col{ grid-template-columns:1fr !important; }
           .hub-directory-grid{ grid-template-columns:repeat(2,1fr) !important; }
-/* Programs: 4 pathway cards in one row on desktop */
-.hub-programs-grid .hub-about-card{
-  display:flex;
-  flex-direction:column;
-  padding:24px 20px !important;
-}
-.hub-programs-grid .hub-about-card .hub-programs-chip{
-  margin-top:auto !important;
-}
-@media (max-width: 1100px){
-  .hub-programs-grid{ grid-template-columns:repeat(2, 1fr) !important; }
-}
-@media (max-width: 640px){
-  .hub-programs-grid{ grid-template-columns:1fr !important; }
-}
-            .hub-opportunities-grid{ grid-template-columns:repeat(2,1fr) !important; }
+          .hub-opportunities-grid{ grid-template-columns:repeat(2,1fr) !important; }
           .hub-opportunities-listing-grid{ grid-template-columns:1fr !important; }
           .hub-events-grid{ grid-template-columns:1fr !important; }
           .hub-impact-stats{ grid-template-columns:repeat(2,1fr) !important; }
@@ -2498,6 +3057,23 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           .hub-impact-grid{ grid-template-columns:1fr !important; }
           .hub-form-row{ grid-template-columns:1fr !important; }
         }
+
+        /* Programs: 4 pathway cards in one row on desktop */
+        .hub-programs-grid .hub-about-card{
+          display:flex;
+          flex-direction:column;
+          padding:24px 20px !important;
+        }
+        .hub-programs-grid .hub-about-card .hub-programs-chip{
+          margin-top:auto !important;
+        }
+        @media (max-width: 1100px){
+          .hub-programs-grid{ grid-template-columns:repeat(2, 1fr) !important; }
+        }
+        @media (max-width: 640px){
+          .hub-programs-grid{ grid-template-columns:1fr !important; }
+        }
+
         @media (max-width: 600px){
           .hub-directory-grid{ grid-template-columns:1fr !important; }
           .hub-opportunities-grid{ grid-template-columns:1fr !important; }
@@ -2532,12 +3108,6 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
 
         /* ── Dark Mode Overrides ── */
 
-        /* Root background & text */
-        // [data-theme="dark"] .hub-root {
-        //   background: #0d0614 !important;
-        //   color: #e8e0f8 !important;
-        // }
-
         /* Navbar */
         [data-theme="dark"] .ms-nav {
           background: rgba(22, 13, 34, 0.92) !important;
@@ -2546,9 +3116,25 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
         [data-theme="dark"] .ms-nav.ms-nav-scrolled {
           box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
         }
-       [data-theme="dark"] .ns-logo {
-  filter: drop-shadow(0 0 6px rgba(215,178,100,0.55));
-}
+        /* Root background must follow the theme, otherwise a light strip shows
+           behind/around the fixed navbar in dark mode */
+        [data-theme="dark"] .hub-root {
+          background: #0d0614 !important;
+          color: #e8e0f8 !important;
+        }
+        /* Dark-mode logo is smaller (net layout height stays 64px / 44px,
+           so the navbar height doesn't change) */
+        [data-theme="dark"] .ns-logo {
+          filter: none;
+          height: 96px;
+          margin: -16px 0;
+        }
+        @media (max-width: 1280px) {
+          [data-theme="dark"] .ns-logo { height: 96px; margin: -16px 0; }
+        }
+        @media (max-width: 560px) {
+          [data-theme="dark"] .ns-logo { height: 76px; margin: -16px 0; }
+        }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
         }
@@ -2641,13 +3227,17 @@ padding:3px 10px 3px 8px;          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           border-color: rgba(155, 109, 190, 0.3) !important;
           color: #d9a8cd !important;
         }
+        [data-theme="dark"] .hub-tier-tab.active {
+          color: #fff !important;
+        }
         [data-theme="dark"] .hub-input {
           background: #0d0614 !important;
           border-color: rgba(155, 109, 190, 0.25) !important;
           color: #e8e0f8 !important;
         }
         [data-theme="dark"] .hub-input::placeholder {
-          color: rgba(232, 224, 248, 0.35) !important;
+          color: #ffffff !important;
+          opacity: 1 !important;
         }
         [data-theme="dark"] .hub-purpose-tile {
           border-color: rgba(155, 109, 190, 0.3) !important;
