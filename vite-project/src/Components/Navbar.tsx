@@ -9,22 +9,35 @@ type NavItem = {
   dropdown?: DropdownItem[];
 };
 
+// Order: Home – About – Ellevation Hub – Ms Ellevation – Conversations – Events – Connect
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Ms Ellevation", href: "/ms-ellevation" },
   { label: "Ellevation Hub", href: "/hub" },
+  { label: "Ms Ellevation", href: "/ms-ellevation" },
   { label: "Conversations", href: "/Conversations" },
-  { label: "Event", href: "/Event" },
+  { label: "Events", href: "/Event" },
   { label: "Connect", href: "/Connect" },
 ];
 
-const NAV_BG = "#4B1E56";   // navbar background — same in both modes now
-const JOIN_COLOR = "#D7B264"; // Join button — same in both modes now
+const NAV_BG = "#4B1E56"; // navbar background — same in both modes
+const JOIN_COLOR = "#D7B264"; // Join button — same in both modes
 const FONT_FAMILY = "'Aster', sans-serif";
 
+// Font sizes defined once so they are easy to tweak.
+const FS = {
+  navLink: "19px", // was 16
+  dropdownItem: "17px", // was 14
+  button: "16px", // was 13 (Dark/Light, Get Listed, Join)
+  mobileItem: "20px", // was 17
+  mobileSub: "18px", // was 15
+  mobileButton: "18px", // was 15
+  mobileIcon: "18px", // was 15 (theme toggle icon)
+};
+
 // Breakpoint below which we switch to the hamburger / drawer layout.
-const MOBILE_BREAKPOINT = 1024;
+// Raised from 1024 because larger text needs more horizontal room.
+const MOBILE_BREAKPOINT = 1280;
 
 /** Tracks viewport width so we can branch layout logic in JS
  *  (inline styles can't use media queries on their own). */
@@ -66,7 +79,7 @@ function DropdownMenu({
         border: "1px solid rgba(255,255,255,0.15)",
         borderRadius: "12px",
         padding: "8px 0",
-        minWidth: "210px",
+        minWidth: "230px",
         zIndex: 1000,
         opacity: open ? 1 : 0,
         pointerEvents: open ? "all" : "none",
@@ -87,7 +100,7 @@ function DropdownMenu({
             style={{
               display: "block",
               padding: "10px 22px",
-              fontSize: "14px",
+              fontSize: FS.dropdownItem,
               color: "#ffffff",
               backgroundColor: isSubItemActive
                 ? "rgba(255,255,255,0.12)"
@@ -134,8 +147,14 @@ function NavItemComponent({ item }: { item: NavItem }) {
       <div
         ref={ref}
         style={{ position: "relative" }}
-        onMouseEnter={() => { setOpen(true); setIsHovered(true); }}
-        onMouseLeave={() => { setOpen(false); setIsHovered(false); }}
+        onMouseEnter={() => {
+          setOpen(true);
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setOpen(false);
+          setIsHovered(false);
+        }}
       >
         <button
           onClick={() => setOpen((v) => !v)}
@@ -146,7 +165,7 @@ function NavItemComponent({ item }: { item: NavItem }) {
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: "16px",
+            fontSize: FS.navLink,
             color: baseColor,
             opacity: currentOpacity,
             fontFamily: FONT_FAMILY,
@@ -173,7 +192,7 @@ function NavItemComponent({ item }: { item: NavItem }) {
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       style={{
-        fontSize: "16px",
+        fontSize: FS.navLink,
         color: baseColor,
         opacity: currentOpacity,
         textDecoration: "none",
@@ -227,7 +246,7 @@ function MobileNavItem({
             background: "none",
             border: "none",
             cursor: "pointer",
-            fontSize: "17px",
+            fontSize: FS.mobileItem,
             color: textColor,
             fontFamily: FONT_FAMILY,
             fontWeight: isActive ? 600 : 500,
@@ -240,7 +259,7 @@ function MobileNavItem({
               display: "inline-block",
               transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
               transition: "transform 0.2s ease",
-              fontSize: "13px",
+              fontSize: "15px",
             }}
           >
             ▾
@@ -249,7 +268,8 @@ function MobileNavItem({
 
         <div
           style={{
-            maxHeight: expanded ? `${item.dropdown.length * 48 + 12}px` : "0px",
+            // Taller rows now that sub-items use larger text
+            maxHeight: expanded ? `${item.dropdown.length * 56 + 12}px` : "0px",
             overflow: "hidden",
             transition: "max-height 0.25s ease",
           }}
@@ -264,7 +284,7 @@ function MobileNavItem({
                 style={{
                   display: "block",
                   padding: "12px 16px",
-                  fontSize: "15px",
+                  fontSize: FS.mobileSub,
                   color: textColor,
                   opacity: subActive ? 1 : 0.75,
                   fontWeight: subActive ? 600 : 400,
@@ -293,7 +313,7 @@ function MobileNavItem({
       style={{
         display: "block",
         padding: "16px 4px",
-        fontSize: "17px",
+        fontSize: FS.mobileItem,
         color: textColor,
         opacity: isActive ? 1 : 0.9,
         fontWeight: isActive ? 600 : 500,
@@ -354,7 +374,7 @@ const NAV_HEIGHT_MOBILE = 72;
 
 // Logo box sizes — height matches the navbar so the logo is as big as
 // possible without ever making the navbar taller.
-const LOGO_WIDTH_DESKTOP = 280;
+const LOGO_WIDTH_DESKTOP = 240; // was 280, reduced to make room for larger text
 const LOGO_HEIGHT_DESKTOP = NAV_HEIGHT_DESKTOP; // 110
 const LOGO_WIDTH_MOBILE = 160;
 const LOGO_HEIGHT_MOBILE = NAV_HEIGHT_MOBILE - 4; // 68
@@ -502,7 +522,16 @@ export default function EllevationNavbar() {
               </div>
 
               {/* Right Actions Block (desktop) */}
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", flexShrink: 0, position: "relative", zIndex: 1 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  flexShrink: 0,
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
                 <button
                   onClick={toggleTheme}
                   style={{
@@ -512,12 +541,13 @@ export default function EllevationNavbar() {
                     background: "rgba(255,255,255,0.08)",
                     border: "1.5px solid rgba(255,255,255,0.3)",
                     borderRadius: "20px",
-                    padding: "6px 14px",
+                    padding: "7px 16px",
                     cursor: "pointer",
-                    fontSize: "13px",
+                    fontSize: FS.button,
                     color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 500,
+                    whiteSpace: "nowrap",
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
@@ -530,34 +560,6 @@ export default function EllevationNavbar() {
                   {darkMode ? "Light" : "Dark"}
                 </button>
 
-                <Link
-                  to="/get-involved/directories"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    background: "transparent",
-                    border: "1.5px solid rgba(255,255,255,0.3)",
-                    borderRadius: "20px",
-                    padding: "6px 16px",
-                    cursor: "pointer",
-                    fontSize: "13px",
-                    color: "#ffffff",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 500,
-                    textDecoration: "none",
-                    whiteSpace: "nowrap",
-                    transition: "all 0.2s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "#ffffff";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
-                  }}
-                >
-                  Get Listed
-                </Link>
 
                 {/* Signature Action Button */}
                 <Link
@@ -569,9 +571,9 @@ export default function EllevationNavbar() {
                     background: JOIN_COLOR,
                     border: "none",
                     borderRadius: "20px",
-                    padding: "8px 22px",
+                    padding: "9px 24px",
                     cursor: "pointer",
-                    fontSize: "13px",
+                    fontSize: FS.button,
                     color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 600,
@@ -607,13 +609,14 @@ export default function EllevationNavbar() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "36px",
-                  height: "36px",
+                  width: "40px",
+                  height: "40px",
                   background: "rgba(255,255,255,0.08)",
                   border: "1.5px solid rgba(255,255,255,0.3)",
                   borderRadius: "50%",
                   cursor: "pointer",
-                  fontSize: "15px",
+                  fontSize: FS.mobileIcon,
+                  color: "#ffffff",
                 }}
               >
                 {darkMode ? "☀" : "☾"}
@@ -627,8 +630,8 @@ export default function EllevationNavbar() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "40px",
-                  height: "40px",
+                  width: "44px",
+                  height: "44px",
                   background: "transparent",
                   border: "none",
                   cursor: "pointer",
@@ -690,26 +693,6 @@ export default function EllevationNavbar() {
                   marginTop: "20px",
                 }}
               >
-                <Link
-                  to="/get-involved/directories"
-                  onClick={() => setMenuOpen(false)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "transparent",
-                    border: "1.5px solid rgba(255,255,255,0.3)",
-                    borderRadius: "24px",
-                    padding: "12px 16px",
-                    fontSize: "15px",
-                    color: "#ffffff",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 500,
-                    textDecoration: "none",
-                  }}
-                >
-                  Get Listed
-                </Link>
 
                 <Link
                   to="/get-involved/join"
@@ -721,8 +704,8 @@ export default function EllevationNavbar() {
                     background: JOIN_COLOR,
                     border: "none",
                     borderRadius: "24px",
-                    padding: "13px 16px",
-                    fontSize: "15px",
+                    padding: "14px 16px",
+                    fontSize: FS.mobileButton,
                     color: "#ffffff",
                     fontFamily: FONT_FAMILY,
                     fontWeight: 600,

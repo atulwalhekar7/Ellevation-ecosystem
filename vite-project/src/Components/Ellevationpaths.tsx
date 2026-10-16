@@ -31,22 +31,6 @@ interface Path {
 
 const paths: Path[] = [
   {
-    eyebrow: "Women & Young Women Focus (17–25)",
-    title: "Ms. Ellevation",
-    description:
-      "Dedicated to building the modern woman. A focused space designed to cultivate authentic identity, deep character, unshakeable confidence, and strategic leadership.",
-    features: [
-      "Leadership Workshops",
-      "Mentorship (Identity, Confidence, Healing)",
-      "Women Speaking Events",
-      "Curated Community Events",
-    ],
-    cta: "Explore Programs",
-    route: "/ms-ellevation",
-    logoLight: msEllevationLogoLight,
-    logoDark: msEllevationLogoDark,
-  },
-  {
     eyebrow: "Community Ecosystem & Pathways",
     title: "Ellevation Hub",
     description:
@@ -62,6 +46,22 @@ const paths: Path[] = [
     logoLight: ellevationHubLogoLight,
     logoDark: ellevationHubLogoDark,
   },
+  {
+    eyebrow: "Women & Young Women Focus (17–25)",
+    title: "Ms Ellevation",
+    description:
+      "Dedicated to building the modern woman. A focused space designed to cultivate authentic identity, deep character, unshakeable confidence, and strategic leadership.",
+    features: [
+      "Leadership Workshops",
+      "Mentorship (Identity, Confidence, Healing)",
+      "Women Speaking Events",
+      "Curated Community Events",
+    ],
+    cta: "Explore Programs",
+    route: "/ms-ellevation",
+    logoLight: msEllevationLogoLight,
+    logoDark: msEllevationLogoDark,
+  },
 ];
 
 /* ══════════════════════════════════════════════
@@ -74,6 +74,7 @@ const paths: Path[] = [
 
 const HERO_PLUM_800 = "#4B1E56";
 const HERO_MAGENTA_500 = "#C81E6B";
+const JOIN_ROUTE = "/get-involved/join";
 
 const HERO_INK_600 = "#5B4A61";
 const HERO_DISPLAY_FONT = "'Astrid Regular', serif";
@@ -284,8 +285,8 @@ function EllevationHeroSection() {
     fontSize: "52px",
     lineHeight: 1.15,
     color: "#4B1E56",
-    margin: 0,
-    fontWeight: 700,
+margin: "0 0 28px",   
+  fontWeight: 700,
     letterSpacing: "-0.01em",
   }}
 >
@@ -300,39 +301,39 @@ function EllevationHeroSection() {
             on the ground. Wherever you fit in, there's a seat here.
           </p>
 
-          <div className="ellevation-hero-actions" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
-            <Link
-              to="/get-involved/join"
-              className="ellevation-cta-primary"
-              style={{
-                background: "#D7B264",
-                color: "#fff",
-                textDecoration: "none",
-                padding: "14px 30px",
-                borderRadius: "999px",
-                fontWeight: 600,
-                fontSize: "0.95rem",
-              }}
-            >
-              Join the Ecosystem
-            </Link>
-            <Link
-              to="/hub"
-              className="ellevation-cta-secondary"
-              style={{
-                background: "#D7B264",
-                 color: "#fff",
-                textDecoration: "none",
-                padding: "14px 30px",
-                borderRadius: "999px",
-                fontWeight: 600,
-                fontSize: "0.95rem",
-                border: "#D7B264",
-              }}
-            >
-              Explore the Hub
-            </Link>
-          </div>
+         <div className="ellevation-hero-actions" style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+  <Link
+    to="/hub"
+    className="ellevation-cta-primary"
+    style={{
+      background: "#D7B264",
+      color: "#fff",
+      textDecoration: "none",
+      padding: "14px 30px",
+      borderRadius: "999px",
+      fontWeight: 600,
+      fontSize: "0.95rem",
+    }}
+  >
+    Explore the Hub
+  </Link>
+  <Link
+    to={JOIN_ROUTE}
+    className="ellevation-cta-secondary"
+    style={{
+      background: "#D7B264",
+      color: "#fff",
+      textDecoration: "none",
+      padding: "14px 30px",
+      borderRadius: "999px",
+      fontWeight: 600,
+      fontSize: "0.95rem",
+      border: "none",
+    }}
+  >
+Join the Ecosystem
+  </Link>
+</div>
         </div>
 
         <div className={`ellevation-hero-visual${visible ? " visible" : ""}`}>

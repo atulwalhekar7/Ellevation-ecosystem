@@ -7,7 +7,7 @@ import emailjs from "@emailjs/browser";
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join";
+type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join" | "register";
 type MembershipTier = "DISCOVER" | "RISE" | "ELEVATE";
 
 // `nav` accepts an optional membership tier so the Membership page can send
@@ -29,8 +29,8 @@ const NAV_LINKS: { label: string; page: Page }[] = [
   { label: "About", page: "about" },
   { label: "Your Journey", page: "journey" },
   { label: "Programs", page: "programs" },
-  { label: "Membership", page: "membership" },
-  { label: "Events", page: "events" },
+  { label: "Our Community", page: "membership" },
+    { label: "Events", page: "events" },
   { label: "Stories", page: "stories" },
   { label: "Start Your Journey", page: "join" },
 ];
@@ -67,10 +67,10 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Explore Ms. Ellevation's programs and workshops designed to help women build confidence, strengthen identity, develop leadership and connect with community.",
   },
-  membership: {
-    title: "Membership | Discover, Rise, Elevate | Ms. Ellevation",
+    membership: {
+    title: "Our Community | Discover, Rise, Elevate | Ms. Ellevation",
     description:
-      "Explore Ms. Ellevation membership — Discover, Rise and Elevate — designed to help women move from self-discovery to leadership and lasting impact.",
+      "Explore the Ms. Ellevation community — Discover, Rise and Elevate — designed to help women move from self-discovery to leadership and lasting impact.",
   },
   events: {
     title: "Events | Ms. Ellevation",
@@ -82,10 +82,15 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Read real stories of transformation from women whose lives have been changed through the Ms. Ellevation community.",
   },
-  join: {
-    title: "Join Ellevation | Membership",
+   join: {
+    title: "Join Our Community | Ms. Ellevation",
     description:
-      "Apply for Ms. Ellevation membership — Discover, Rise or Elevate — and become part of a community committed to growth, leadership and connection.",
+      "Whether you're discovering Ms Ellevation for the first time or ready to become a member, we're here to support your journey.",
+  },
+  register: {
+    title: "Program Registration | Ms. Ellevation",
+    description:
+      "Register your interest in a Ms. Ellevation program. Registrations help us run more sessions based on demand.",
   },
 };
 
@@ -316,10 +321,6 @@ function ClosingCtaSection({
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: NavFn }) {
-  const scrollToCommunity = () => {
-    document.getElementById("community-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
     <div className="hp-page" style={hp.page}>
       <div style={hp.bgGrad} />
@@ -340,7 +341,7 @@ function HomePage({ nav }: { nav: NavFn }) {
           </p>
           <div className="hp-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-            <button style={hp.btnSecondary} onClick={scrollToCommunity}>JOIN OUR COMMUNITY</button>
+            <button style={hp.btnSecondary} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>
           </div>
         </div>
         <div className="hp-card" style={hp.card}>
@@ -350,18 +351,16 @@ function HomePage({ nav }: { nav: NavFn }) {
               <div key={item.label} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{item.label}</div>
             ))}
           </div>
-          <p style={hp.cardNote}>Because lasting transformation happens when women are supported as whole individuals.</p>
         </div>
       </div>
     </div>
   );
 }
-
 const hp: Record<string, React.CSSProperties> = {
   page: { position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center", padding: "60px 48px" },
-  bgGrad: {
+   bgGrad: {
     position: "absolute", inset: 0,
-    background: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${BANNER_IMAGES.home}')`,
+    background: `linear-gradient(135deg, rgba(75,30,86,0.82) 0%, rgba(122,40,120,0.72) 55%, rgba(200,70,140,0.60) 100%), url('${BANNER_IMAGES.home}')`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     zIndex: 0,
@@ -624,8 +623,7 @@ function AboutPage({ nav }: { nav: NavFn }) {
           </p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32, flexWrap:"wrap" as const }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-            <button className="ab-btn-outline" style={ab.btnL} onClick={() => nav("join")}>JOIN OUR COMMUNITY</button>
-          </div>
+<button className="ab-btn-outline" style={ab.btnL} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>          </div>
         </div>
       </section>
 
@@ -769,10 +767,10 @@ function AboutPage({ nav }: { nav: NavFn }) {
         nav={nav}
         title="When Women Rise, Communities Rise."
         body="Whether you are seeking confidence, connection, leadership development or a community that understands your journey, there is a place for you here. Find your place. Lift your voice. Flourish."
-        buttons={[
-          { label: "START YOUR JOURNEY", page: "join" },
-          { label: "JOIN OUR COMMUNITY", page: "join", variant: "outline" },
-        ]}
+      buttons={[
+  { label: "START YOUR JOURNEY", page: "join" },
+  { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
+]}
       />
     </div>
   );
@@ -826,7 +824,7 @@ const JOURNEY_FOCUS_ITEMS = [
 ];
 
 const JOURNEY_WHO_FOR = [
-  "Young women (17–25)",
+  "Young women (Age 17 – 25)",
   "Women from CALD communities",
   "Migrant and refugee women",
   "Emerging leaders",
@@ -901,14 +899,16 @@ function JourneyPage({ nav }: { nav: NavFn }) {
         note="No matter where you begin, there is a place for you here."
       />
 
+            <ProgramCards nav={nav} />
+
+
       <ClosingCtaSection
         nav={nav}
         title="Your Next Chapter Starts Here."
         body="You already have the potential. This journey helps you discover it, strengthen it and use it to create meaningful impact. Identity → Confidence → Leadership. Find your place. Lift your voice. Flourish."
         buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
-          { label: "JOIN OUR COMMUNITY", page: "join", variant: "outline" },
-        ]}
+{ label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },        ]}
       />
     </div>
   );
@@ -1000,7 +1000,40 @@ function ProgramIcon({ type }: { type: string }) {
     </svg>
   );
 }
-
+function ProgramCards({ nav }: { nav: NavFn }) {
+  return (
+    <section className="pr-section" style={pr.section}>
+      <div className="pr-grid" style={pr.grid}>
+        {PROGRAMS.map((p, idx) => (
+          <div key={p.title} className={`pr-card pr-card-${idx}`}>
+            <div className="pr-card-glow" />
+            <div className="pr-card-icon"><ProgramIcon type={p.icon} /></div>
+            <span className="pr-card-tag">{p.tag}</span>
+            <h3 className="pr-card-title">{p.title}</h3>
+            <p className="pr-card-body">{p.desc}</p>
+            <p className="pr-card-label">{p.label}</p>
+            <ul className="pr-list">
+              {p.items.map(f => (
+                <li key={f} className="pr-list-item">
+                  <svg className="pr-list-check" width="13" height="13" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <button className="pr-book-btn" onClick={() => nav("register", p.title)}>
+              REGISTER NOW
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 function ProgramsPage({ nav }: { nav: NavFn }) {
   return (
     <div className="pr-page-root">
@@ -1046,36 +1079,7 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
       <JourneyFrameworkStrip />
 
       {/* Programs */}
-      <section className="pr-section" style={pr.section}>
-        <div className="pr-grid" style={pr.grid}>
-          {PROGRAMS.map((p, idx) => (
-            <div key={p.title} className={`pr-card pr-card-${idx}`}>
-              <div className="pr-card-glow" />
-              <div className="pr-card-icon"><ProgramIcon type={p.icon} /></div>
-              <span className="pr-card-tag">{p.tag}</span>
-              <h3 className="pr-card-title">{p.title}</h3>
-              <p className="pr-card-body">{p.desc}</p>
-              <p className="pr-card-label">{p.label}</p>
-              <ul className="pr-list">
-                {p.items.map(f => (
-                  <li key={f} className="pr-list-item">
-                    <svg className="pr-list-check" width="13" height="13" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <button className="pr-book-btn" onClick={() => nav("join")}>
-                START YOUR JOURNEY
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
+            <ProgramCards nav={nav} />
 
       {/* Ecosystem */}
       <section className="pathway2-section">
@@ -1106,8 +1110,7 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
         body="Every program, workshop and community experience is designed to help women honour their stories, strengthen their identity, build confidence and step into leadership. Find your place. Lift your voice. Shine."
         buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
-          { label: "JOIN OUR COMMUNITY", page: "join", variant: "outline" },
-        ]}
+{ label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },        ]}
       />
     </div>
   );
@@ -1284,8 +1287,8 @@ function MembershipPage({ nav }: { nav: NavFn }) {
           <h1 className="mb-banner-title" style={mb.title}>Discover → Rise → Elevate</h1>
           <p className="mb-pillars" style={mb.pillars}>Identity • Confidence • Leadership • Impact</p>
           <p className="mb-question" style={mb.question}>The question is: "Who am I becoming?"</p>
-          <button style={mb.heroBtn} onClick={() => nav("join", "discover")}>START YOUR JOURNEY</button>
-        </div>
+          <button style={mb.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
+                  </div>
       </section>
 
       {/* ── Philosophy ── */}
@@ -1600,147 +1603,151 @@ const st: Record<string, React.CSSProperties> = {
 };
 
 // ─── JOIN PAGE (Membership Form) ──────────────────────────────────────────────
-function JoinPage() {
-  // The Membership page links here with ?page=join&tier=discover|rise|elevate
+function JoinPage({ nav }: { nav: NavFn }) {
   const [searchParams] = useSearchParams();
   const tierParam = (searchParams.get("tier") || "").toUpperCase();
-  const initialTier: MembershipTier = (TIERS as string[]).includes(tierParam) ? (tierParam as MembershipTier) : "DISCOVER";
+  const tier: MembershipTier | null = (TIERS as string[]).includes(tierParam) ? (tierParam as MembershipTier) : null;
 
-  const [activeTier, setActiveTier] = useState<MembershipTier>(initialTier);
-  const [forms, setForms] = useState<Record<MembershipTier, FormData>>({ DISCOVER: emptyForm(), RISE: emptyForm(), ELEVATE: emptyForm() });
-  const [errors, setErrors] = useState<Record<MembershipTier, FormErrors>>({ DISCOVER: {}, RISE: {}, ELEVATE: {} });
-  const [submitted, setSubmitted] = useState<Record<MembershipTier, boolean>>({ DISCOVER: false, RISE: false, ELEVATE: false });
+  const [form, setForm] = useState<FormData>(emptyForm());
+  const [errs, setErrs] = useState<FormErrors>({});
+  const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const [formVisible, setFormVisible] = useState(true);
   const formRef = useRef<HTMLDivElement>(null);
 
-  // keep the selected tab in sync if the URL's tier changes while on this page
-  useEffect(() => { setActiveTier(initialTier); }, [initialTier]);
+  // reset the success message if the visitor switches between enquiry / tier application
+  useEffect(() => { setSubmitted(false); }, [tier]);
 
-  const handleTierChange = (tier: MembershipTier) => {
-    if (tier === activeTier) return;
-    setFormVisible(false);
-    setTimeout(() => { setActiveTier(tier); setFormVisible(true); }, 350);
-  };
-  const handleChange = (tier: MembershipTier, field: keyof FormData, value: string | boolean) => {
-    setForms(prev => ({ ...prev, [tier]: { ...prev[tier], [field]: value } }));
-    if (errors[tier][field as keyof FormErrors]) setErrors(prev => ({ ...prev, [tier]: { ...prev[tier], [field]: undefined } }));
-  };
-  const handleSubmit = async (tier: MembershipTier) => {
-  const currentForm = forms[tier];
-  const errs = validateForm(currentForm);
-
-  if (Object.keys(errs).length > 0) {
-    setErrors(prev => ({ ...prev, [tier]: errs }));
-    formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior: "smooth", block: "center" });
-    return;
-  }
-
-  const templateParams = {
-     form_title: "New Ms Ellevation Application - Enquiry",
-  ms_display: "block",
-  hub_display: "none",
-  subject_detail: TIER_META[tier].label,
-    form_source: "Ms. Ellevation — Membership Application",
-    logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
-
-    membership_tier: TIER_META[tier].label,
-    first_name: currentForm.firstName,
-    last_name: currentForm.lastName,
-    email: currentForm.email,
-    phone: currentForm.phone || "",
-
-    location: currentForm.location,
-    profession: currentForm.profession,
-    referral: currentForm.referral,
-    goals: currentForm.goals,
-
-    purpose: "",
-    industry: "",
-    notes: "",
-
-    enquiry_type: "",
-    organization: "",
-    message: "",
+  const handleChange = (field: keyof FormData, value: string | boolean) => {
+    setForm(prev => ({ ...prev, [field]: value }));
+    if (errs[field as keyof FormErrors]) setErrs(prev => ({ ...prev, [field]: undefined }));
   };
 
-  console.log("Sending to EmailJS:", templateParams);
-  setSending(true);
+  const handleSubmit = async () => {
+    const e = validateForm(form);
+    if (Object.keys(e).length > 0) {
+      setErrs(e);
+      formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
 
-  try {
-    const response = await emailjs.send(
-      "service_ux9vfej",
-      "template_i4p3erl",
-      templateParams,
-      { publicKey: "Pu2wZN2ERnHjdboLI" }
-    );
-    console.log("EmailJS SUCCESS:", response);
-    setSubmitted(prev => ({ ...prev, [tier]: true }));
-  } catch (error) {
-    console.error("EmailJS FAILED:", error);
-    alert("Your application could not be sent. Please try again.");
-  } finally {
-    setSending(false);
-  }
-};
+    const detail = tier ? TIER_META[tier].label : "General Enquiry";
+    const templateParams = {
+      form_title: tier ? "New Ms Ellevation Application - Enquiry" : "New Ms Ellevation General Enquiry",
+      ms_display: "block",
+      hub_display: "none",
+      subject_detail: detail,
+      form_source: tier ? "Ms. Ellevation — Membership Application" : "Ms. Ellevation — General Enquiry",
+      logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
 
-  const meta = TIER_META[activeTier];
-  const form = forms[activeTier];
-  const errs = errors[activeTier];
-  const isSubmitted = submitted[activeTier];
+      membership_tier: detail,
+      first_name: form.firstName,
+      last_name: form.lastName,
+      email: form.email,
+      phone: form.phone || "",
+
+      location: form.location,
+      profession: form.profession,
+      referral: form.referral,
+      goals: form.goals,
+
+      purpose: "",
+      industry: "",
+      notes: "",
+
+      enquiry_type: "",
+      organization: "",
+      message: "",
+    };
+
+    setSending(true);
+    try {
+      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
+      setSubmitted(true);
+      setForm(emptyForm());
+    } catch (error) {
+      console.error("EmailJS FAILED:", error);
+      alert("Your submission could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const accent = tier ? TIER_META[tier].color : "#4B1E56";
 
   return (
     <div className="jp-page-root">
       <section className="jp-banner" style={jp.banner}>
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>MEMBERSHIP</span><span className="jp-line" style={jp.line}/></div>
-          <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Ellevation</h1>
+          <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>START YOUR JOURNEY</span><span className="jp-line" style={jp.line}/></div>
+          <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Our Community</h1>
+          <p className="jp-banner-sub" style={jp.bannerSub}>
+            Whether you're discovering Ms Ellevation for the first time or ready to become a member,
+            we're here to support your journey.
+          </p>
         </div>
       </section>
 
       <section className="jp-form-section" style={jp.formSection}>
-        <div style={jp.tabsRow}>
-          {TIERS.map(tier => (
-            <button key={tier} className={`jp-tabBtn ${activeTier === tier ? 'active' : ''}`} style={{ ...jp.tabBtn, ...(activeTier === tier ? { ...jp.tabActive, background: "#D7B264" } : {}) }} onClick={() => handleTierChange(tier)}>{tier}</button>
-          ))}
+        {/* New to Ms Ellevation? */}
+        <div style={jp.introBox}>
+          <h2 className="jp-intro-title" style={jp.introTitle}>New to Ms Ellevation?</h2>
+          <p className="jp-intro-text" style={jp.introText}>
+            Learn more about who we are and how we empower women through our{" "}
+            <strong>Discover, Rise, Elevate</strong> pathway.
+          </p>
         </div>
 
-        <div ref={formRef} className="jp-card" style={{ ...jp.card, opacity: formVisible?1:0, transform: formVisible?"translateY(0)":"translateY(24px)", transition:"opacity 0.35s ease,transform 0.35s ease", borderTop:`3px solid ${meta.color}` }}>
-          {isSubmitted ? (
+        {/* Form */}
+        <div ref={formRef} className="jp-card" style={{ ...jp.card, borderTop: `3px solid ${accent}` }}>
+          {submitted ? (
             <div style={jp.successBox}>
-              <h2 className="jp-success-title" style={{ ...jp.successTitle, color: meta.color }}>Application Submitted!</h2>
-              <p className="jp-success-text" style={jp.successText}>Thank you for applying for <strong>{meta.label} Membership</strong>. Our team will be in touch within 48 hours.</p>
-              <button style={{ ...jp.submitBtn }} onClick={() => setSubmitted(prev => ({ ...prev, [activeTier]: false }))}>SUBMIT ANOTHER</button>
+              <h2 className="jp-success-title" style={{ ...jp.successTitle, color: accent }}>
+                {tier ? "Application Submitted!" : "Enquiry Sent!"}
+              </h2>
+              <p className="jp-success-text" style={jp.successText}>
+                {tier
+                  ? <>Thank you for applying for <strong>{TIER_META[tier].label} Membership</strong>. Our team will be in touch within 48 hours.</>
+                  : <>Thank you for getting in touch. Our team will be in touch within 48 hours.</>}
+              </p>
+              <button style={{ ...jp.submitBtn }} onClick={() => setSubmitted(false)}>SUBMIT ANOTHER</button>
             </div>
           ) : (
             <>
               <div style={jp.formHeader}>
-                <h2 className="jp-form-title" style={jp.formTitle}>Apply for {meta.label} Membership</h2>
+                <h2 className="jp-form-title" style={jp.formTitle}>
+                  {tier ? `Apply for ${TIER_META[tier].label} Membership` : "Complete our general enquiry form"}
+                </h2>
                 <p className="jp-form-sub" style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
-                <p className="jp-tagline" style={{ ...jp.tagline, color: meta.color }}>{meta.tagline}</p>
+                {tier && <p className="jp-tagline" style={{ ...jp.tagline, color: accent }}>{TIER_META[tier].tagline}</p>}
               </div>
               <div className="jp-row" style={jp.row}>
-                <Field label="First Name *" value={form.firstName} error={errs.firstName} onChange={v => handleChange(activeTier,"firstName",v)} />
-                <Field label="Last Name *"  value={form.lastName}  error={errs.lastName}  onChange={v => handleChange(activeTier,"lastName",v)} />
+                <Field label="First Name *" value={form.firstName} error={errs.firstName} onChange={v => handleChange("firstName", v)} />
+                <Field label="Last Name *"  value={form.lastName}  error={errs.lastName}  onChange={v => handleChange("lastName", v)} />
               </div>
-              <Field label="Email Address *" type="email" value={form.email} error={errs.email} onChange={v => handleChange(activeTier,"email",v)} />
-              <Field label="Phone Number" type="tel" value={form.phone} error={errs.phone} onChange={v => handleChange(activeTier,"phone",v)} />
-              <Field label="City, State, Country *" value={form.location} error={errs.location} onChange={v => handleChange(activeTier,"location",v)} />
-              <Field label="Profession / Industry *" value={form.profession} error={errs.profession} onChange={v => handleChange(activeTier,"profession",v)} />
-              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.referral?"true":undefined}>
-                <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.referral?"#1a0a2e":"#b09fc0" }} value={form.referral} onChange={e => handleChange(activeTier,"referral",e.target.value)}>
+              <Field label="Email Address *" type="email" value={form.email} error={errs.email} onChange={v => handleChange("email", v)} />
+              <Field label="Phone Number" type="tel" value={form.phone} error={errs.phone} onChange={v => handleChange("phone", v)} />
+              <Field label="City, State, Country *" value={form.location} error={errs.location} onChange={v => handleChange("location", v)} />
+              <Field label="Profession / Industry *" value={form.profession} error={errs.profession} onChange={v => handleChange("profession", v)} />
+              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.referral ? "true" : undefined}>
+                <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.referral ? "#1a0a2e" : "#b09fc0" }} value={form.referral} onChange={e => handleChange("referral", e.target.value)}>
                   <option value="" disabled>How did you hear about us? *</option>
                   {REFERRAL_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
                 {errs.referral && <span style={jp.errMsg}>{errs.referral}</span>}
               </div>
-              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.goals?"true":undefined}>
-                <textarea className="jp-textarea" style={{ ...jp.input, ...jp.textarea, ...(errs.goals?jp.inputErr:{}) }} placeholder="What are you hoping to gain from your Ellevation membership? *" value={form.goals} onChange={e => handleChange(activeTier,"goals",e.target.value)} />
+              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.goals ? "true" : undefined}>
+                <textarea
+                  className="jp-textarea"
+                  style={{ ...jp.input, ...jp.textarea, ...(errs.goals ? jp.inputErr : {}) }}
+                  placeholder={tier ? "What are you hoping to gain from your Ellevation membership? *" : "How can we help? What are you hoping to gain from Ms Ellevation? *"}
+                  value={form.goals}
+                  onChange={e => handleChange("goals", e.target.value)}
+                />
                 {errs.goals && <span style={jp.errMsg}>{errs.goals}</span>}
               </div>
-              <div style={jp.agreeRow} data-error={errs.agree?"true":undefined}>
+              <div style={jp.agreeRow} data-error={errs.agree ? "true" : undefined}>
                 <label style={jp.agreeLabel}>
-                  <input type="checkbox" checked={form.agree} onChange={e => handleChange(activeTier,"agree",e.target.checked)} style={jp.checkbox} />
+                  <input type="checkbox" checked={form.agree} onChange={e => handleChange("agree", e.target.checked)} style={jp.checkbox} />
                   <span>
                     I agree to the{" "}
                     <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
@@ -1753,10 +1760,184 @@ function JoinPage() {
               <button
                 disabled={sending}
                 style={{ ...jp.submitBtn, opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}
-                onClick={() => handleSubmit(activeTier)}
-                onMouseEnter={e => { if (!sending) { (e.currentTarget as HTMLButtonElement).style.opacity="0.88"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(-2px)"; } }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity= sending ? "0.7" : "1"; (e.currentTarget as HTMLButtonElement).style.transform="translateY(0)"; }}>
-                {sending ? "SENDING..." : "SUBMIT APPLICATION"}
+                onClick={handleSubmit}
+              >
+                {sending ? "SENDING..." : tier ? "SUBMIT APPLICATION" : "SUBMIT ENQUIRY"}
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Ready to Join? */}
+        <div style={jp.readyBox}>
+          <h2 className="jp-intro-title" style={jp.introTitle}>Ready to Join?</h2>
+          <p className="jp-intro-text" style={jp.introText}>
+            Explore our membership options and become part of a community that inspires growth,
+            confidence, leadership, and impact.
+          </p>
+          <button style={{ ...jp.submitBtn, width: "auto", padding: "15px 36px", margin: "20px auto" }} onClick={() => nav("membership")}>
+            VIEW MEMBERSHIP PLANS
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── PROGRAM REGISTRATION PAGE ───────────────────────────────────────────────
+interface RegisterData {
+  firstName: string; lastName: string; email: string; phone: string;
+  location: string; program: string; notes: string; agree: boolean;
+}
+type RegisterErrors = Partial<Record<keyof RegisterData, string>>;
+const emptyRegister = (program = ""): RegisterData => ({ firstName:"", lastName:"", email:"", phone:"", location:"", program, notes:"", agree:false });
+
+function RegisterPage() {
+  const [searchParams] = useSearchParams();
+  const programParam = searchParams.get("program") || "";
+  const programTitles = PROGRAMS.map(p => p.title);
+  const initialProgram = programTitles.includes(programParam) ? programParam : "";
+
+  const [form, setForm] = useState<RegisterData>(emptyRegister(initialProgram));
+  const [errs, setErrs] = useState<RegisterErrors>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setForm(prev => ({ ...prev, program: initialProgram }));
+    setSubmitted(false);
+  }, [initialProgram]);
+
+  const handleChange = (field: keyof RegisterData, value: string | boolean) => {
+    setForm(prev => ({ ...prev, [field]: value }));
+    if (errs[field]) setErrs(prev => ({ ...prev, [field]: undefined }));
+  };
+
+  const validate = (d: RegisterData): RegisterErrors => {
+    const e: RegisterErrors = {};
+    if (!d.firstName.trim()) e.firstName = "First name is required.";
+    if (!d.lastName.trim())  e.lastName  = "Last name is required.";
+    if (!d.email.trim()) e.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) e.email = "Enter a valid email address.";
+    if (d.phone && !/^\+?[\d\s\-().]{7,}$/.test(d.phone)) e.phone = "Enter a valid phone number.";
+    if (!d.location.trim()) e.location = "City, State, Country is required.";
+    if (!d.program) e.program = "Please select a program.";
+    if (!d.agree) e.agree = "You must agree to the Privacy Policy and Terms.";
+    return e;
+  };
+
+  const handleSubmit = async () => {
+    const e = validate(form);
+    if (Object.keys(e).length > 0) {
+      setErrs(e);
+      formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    const templateParams = {
+      form_title: "New Ms Ellevation Program Registration",
+      ms_display: "block",
+      hub_display: "none",
+      subject_detail: form.program,
+      form_source: "Ms. Ellevation — Program Registration",
+      logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
+
+      membership_tier: `Program Registration: ${form.program}`,
+      first_name: form.firstName,
+      last_name: form.lastName,
+      email: form.email,
+      phone: form.phone || "",
+
+      location: form.location,
+      profession: "",
+      referral: "",
+      goals: form.notes || "—",
+
+      purpose: "",
+      industry: "",
+      notes: "",
+
+      enquiry_type: "",
+      organization: "",
+      message: "",
+    };
+
+    setSending(true);
+    try {
+      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
+      setSubmitted(true);
+    } catch (error) {
+      console.error("EmailJS FAILED:", error);
+      alert("Your registration could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <div className="jp-page-root">
+      <section className="jp-banner" style={jp.banner}>
+        <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
+          <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>PROGRAM REGISTRATION</span><span className="jp-line" style={jp.line}/></div>
+          <h1 className="jp-banner-title" style={jp.bannerTitle}>Register Now</h1>
+          <p className="jp-banner-sub" style={jp.bannerSub}>
+            Tell us which program you're interested in. Your registration helps us run more sessions based on popular demand.
+          </p>
+        </div>
+      </section>
+
+      <section className="jp-form-section" style={jp.formSection}>
+        <div ref={formRef} className="jp-card" style={{ ...jp.card, borderTop: "3px solid #4B1E56" }}>
+          {submitted ? (
+            <div style={jp.successBox}>
+              <h2 className="jp-success-title" style={{ ...jp.successTitle, color: "#4B1E56" }}>Registration Received!</h2>
+              <p className="jp-success-text" style={jp.successText}>
+                Thank you for registering for <strong>{form.program}</strong>. Our team will be in touch within 48 hours with the next steps.
+              </p>
+              <button style={{ ...jp.submitBtn }} onClick={() => { setForm(emptyRegister(initialProgram)); setSubmitted(false); }}>REGISTER FOR ANOTHER</button>
+            </div>
+          ) : (
+            <>
+              <div style={jp.formHeader}>
+                <h2 className="jp-form-title" style={jp.formTitle}>Program Registration</h2>
+                <p className="jp-form-sub" style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
+              </div>
+              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.program ? "true" : undefined}>
+                <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.program ? "#1a0a2e" : "#b09fc0" }} value={form.program} onChange={e => handleChange("program", e.target.value)}>
+                  <option value="" disabled>Select a program *</option>
+                  {programTitles.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+                {errs.program && <span style={jp.errMsg}>{errs.program}</span>}
+              </div>
+              <div className="jp-row" style={jp.row}>
+                <Field label="First Name *" value={form.firstName} error={errs.firstName} onChange={v => handleChange("firstName", v)} />
+                <Field label="Last Name *"  value={form.lastName}  error={errs.lastName}  onChange={v => handleChange("lastName", v)} />
+              </div>
+              <Field label="Email Address *" type="email" value={form.email} error={errs.email} onChange={v => handleChange("email", v)} />
+              <Field label="Phone Number" type="tel" value={form.phone} error={errs.phone} onChange={v => handleChange("phone", v)} />
+              <Field label="City, State, Country *" value={form.location} error={errs.location} onChange={v => handleChange("location", v)} />
+              <div className="jp-field-wrap" style={jp.fieldWrap}>
+                <textarea className="jp-textarea" style={{ ...jp.input, ...jp.textarea }} placeholder="Anything you'd like us to know? (e.g. preferred days/times, questions) — optional" value={form.notes} onChange={e => handleChange("notes", e.target.value)} />
+              </div>
+              <div style={jp.agreeRow} data-error={errs.agree ? "true" : undefined}>
+                <label style={jp.agreeLabel}>
+                  <input type="checkbox" checked={form.agree} onChange={e => handleChange("agree", e.target.checked)} style={jp.checkbox} />
+                  <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                    {" "}and{" "}
+                    <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  </span>
+                </label>
+                {errs.agree && <span style={jp.errMsg}>{errs.agree}</span>}
+              </div>
+              <button
+                disabled={sending}
+                style={{ ...jp.submitBtn, opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}
+                onClick={handleSubmit}
+              >
+                {sending ? "SENDING..." : "REGISTER NOW"}
               </button>
             </>
           )}
@@ -1765,6 +1946,7 @@ function JoinPage() {
     </div>
   );
 }
+
 
 function Field({ label, value, error, onChange, type="text" }: { label:string; value:string; error?:string; onChange:(v:string)=>void; type?:string }) {
   return (
@@ -1776,8 +1958,7 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 }
 
 const jp: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"36px 24px 32px", textAlign:"center", minHeight:"clamp(190px, 21vw, 280px)", display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg, #4B1E56 0%, #1a0a2e 100%)" },
-  eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
+  banner: { position:"relative", overflow:"hidden", padding:"56px 24px 48px", textAlign:"center", minHeight:"clamp(240px, 26vw, 340px)", display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg, #4B1E56 0%, #1a0a2e 100%)" },  eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
   line: { display:"inline-block", width:40, height:1, background:"rgba(255,255,255,0.6)" },
   eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#EFBF68" },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
@@ -1806,6 +1987,12 @@ const jp: Record<string, React.CSSProperties> = {
   successBox: { textAlign:"center", padding:"40px 24px" },
   successTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
   successText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, maxWidth:620, margin:"14px auto 0", position:"relative", zIndex:1 },
+  introBox: { textAlign:"center", marginBottom:40 },
+  introTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"clamp(1.6rem,3vw,2.1rem)", fontWeight:700, color:"#1a0a2e", marginBottom:12 },
+  introText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.8, maxWidth:620, margin:"0 auto" },
+  readyBox: { textAlign:"center", marginTop:64 },
+
 };
 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
@@ -1842,11 +2029,13 @@ export default function EllevationPage() {
     metaDescTag.setAttribute("content", meta.description);
   }, [page]);
 
-  const nav: NavFn = (p, tier) => {
+    const nav: NavFn = (p, param) => {
     if (p === "home") {
       setSearchParams({});
-    } else if (tier) {
-      setSearchParams({ page: p, tier });
+    } else if (p === "register" && param) {
+      setSearchParams({ page: p, program: param });
+    } else if (param) {
+      setSearchParams({ page: p, tier: param });
     } else {
       setSearchParams({ page: p });
     }
@@ -1900,7 +2089,7 @@ export default function EllevationPage() {
           padding:16px 20px 0;
         }
         .ms-nav{
-          width:100%; max-width:1180px; display:flex; align-items:center; gap:14px;
+          width:100%; max-width:1300px; display:flex; align-items:center; gap:14px;
           background:rgba(255,255,255,0.92);
           backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
           border:1px solid rgba(75,30,86,0.08); border-radius:100px;
@@ -1910,7 +2099,7 @@ export default function EllevationPage() {
         .ms-nav.ms-nav-scrolled{ box-shadow:0 4px 32px rgba(75,30,86,0.18); }
         .ns-back-home{
           display:flex; align-items:center; gap:6px;
-          font-family:'Montserrat', sans-serif; font-size:0.78rem; font-weight:600;
+          font-family:'Montserrat', sans-serif; font-size:0.9rem; font-weight:600;
           color:#4B1E56; background:rgba(75,30,86,0.06);
           border:1px solid rgba(75,30,86,0.12); border-radius:100px;
           padding:9px 16px; cursor:pointer; white-space:nowrap; transition:all 0.2s ease; flex-shrink:0;
@@ -1929,11 +2118,11 @@ export default function EllevationPage() {
 }
 
         .ns-links-desktop{ display:flex; align-items:center; gap:2px; flex:1; justify-content:center; flex-wrap:wrap; }
-        .ns-link{
-          font-family:'Montserrat', sans-serif; font-size:0.84rem; font-weight:500;
-          color:#4B1E56; background:transparent; border:none; cursor:pointer;
-          padding:9px 15px; border-radius:100px; transition:all 0.2s ease; white-space:nowrap;
-        }
+       .ns-link{
+  font-family:'Montserrat', sans-serif; font-size:0.98rem; font-weight:500;   /* was 0.84rem */
+  color:#4B1E56; background:transparent; border:none; cursor:pointer;
+  padding:10px 14px; border-radius:100px; transition:all 0.2s ease; white-space:nowrap;
+}
         .ns-link:hover{ background:rgba(75,30,86,0.06); opacity:1; transform:none; }
         .ns-link.active{
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
@@ -1942,10 +2131,10 @@ export default function EllevationPage() {
         .ns-link.active:hover{ opacity:1; }
 
         /* 8 nav items now — tighten the desktop links a touch so they stay on one row */
-        @media (min-width: 1025px) and (max-width: 1240px){
-          .ns-link{ padding:9px 10px; font-size:0.78rem; }
-          .ms-nav{ gap:8px; }
-        }
+@media (min-width: 1025px) and (max-width: 1320px){
+  .ns-link{ padding:9px 10px; font-size:0.88rem; }
+  .ms-nav{ gap:8px; }
+}
 
         .ns-menu-toggle{
           display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
@@ -1957,13 +2146,13 @@ export default function EllevationPage() {
         .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
         .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
         .ns-mobile-menu{
-          max-height:0; overflow:hidden; width:100%; max-width:1180px; opacity:0;
+          max-height:0; overflow:hidden; width:100%; max-width:1300px; opacity:0;
           transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
         }
         .ns-mobile-menu.open{ max-height:480px; opacity:1; margin-top:10px; }
         .ns-mobile-menu .ns-mobile-link{
           display:block; width:100%; text-align:left;
-          font-family:'Montserrat', sans-serif; font-size:0.92rem; font-weight:500;
+          font-family:'Montserrat', sans-serif; font-size:1.08rem; font-weight:500;
           color:#4B1E56; background:transparent; border:none; cursor:pointer;
           padding:13px 18px; border-radius:14px; transition:all 0.2s ease;
         }
@@ -2024,8 +2213,8 @@ export default function EllevationPage() {
           .ev-section{ padding:40px 24px 64px !important; }
           .st-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .st-section{ padding:48px 24px 64px !important; }
-          .jp-banner{ padding:28px 24px 24px !important; min-height:clamp(160px, 30vw, 210px) !important; }
-          .jp-card{ padding:36px 24px 40px !important; }
+.jp-banner{ padding:40px 24px 36px !important; min-height:auto !important; }   /* inside max-width:768px */
+.jp-banner{ min-height:auto !important; }                                       /* inside max-width:560px */          .jp-card{ padding:36px 24px 40px !important; }
           .story-section, .story-inner{ padding-left:24px !important; padding-right:24px !important; }
           .values-grid{ grid-template-columns:1fr !important; }
           .pathways-grid{ grid-template-columns:1fr !important; }
@@ -2669,7 +2858,8 @@ export default function EllevationPage() {
         [data-theme="dark"] .impact-card-desc { color: #cbd5e1 !important; }
         [data-theme="dark"] .impact-tag-icon { color: #c9a3d9 !important; }
         [data-theme="dark"] .impact-tag-name { color: #ffffff !important; }
-
+[data-theme="dark"] .jp-intro-text { color: #d9a8cd !important; }
+[data-theme="dark"] .jp-banner-sub { color: rgba(255,255,255,0.9) !important; }
         [data-theme="dark"] .welcome-section, [data-theme="dark"] .jf-strip, [data-theme="dark"] .focus-section,
         [data-theme="dark"] .bullet-section { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .welcome-image-frame { border-color: rgba(155, 109, 190, 0.25) !important; }
@@ -2795,7 +2985,7 @@ export default function EllevationPage() {
             title="Your Next Chapter Starts Here"
             body="Join a community where women are empowered to grow, lead and thrive."
             buttons={[
-              { label: "JOIN OUR COMMUNITY", page: "join" },
+{ label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
               { label: "EXPLORE OUR PROGRAMS", page: "programs", variant: "outline" },
             ]}
           />
@@ -2807,7 +2997,8 @@ export default function EllevationPage() {
       {page === "membership" && <MembershipPage nav={nav} />}
       {page === "events"     && <EventsPage     nav={nav} />}
       {page === "stories"    && <StoriesPage />}
-      {page === "join"       && <JoinPage />}
-    </div>
+          {page === "join"       && <JoinPage nav={nav} />}
+      {page === "register"   && <RegisterPage />}
+         </div>
   );
 }

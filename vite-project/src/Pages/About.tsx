@@ -40,7 +40,9 @@ const whoWeAreParagraphs = [
   "Across Australia, many individuals, families and communities possess the resilience, talent and ambition to succeed but often lack access to the networks, confidence, support systems and opportunities needed to move forward.",
   "Ellevation brings these worlds together through one connected ecosystem that strengthens belonging, develops leadership, supports wellbeing and creates opportunities for long-term participation, contribution and growth.",
 ];
-
+const JOIN_ROUTE = "/get-involved/join";
+// Ecosystem Partner is a real Hub membership, so partners land on it preselected
+const PARTNER_ROUTE = `${JOIN_ROUTE}?path=hub&membership=partner`;
 const pipelineStages = ["Children", "Youth", "Women", "Men", "Families", "Community"];
 
 const overviewCards = [
@@ -52,27 +54,28 @@ const overviewCards = [
     label: "Vision",
     text: "A future where culturally and linguistically diverse communities thrive with confidence, leadership and opportunity while remaining connected to their identity, culture and lived experience.",
   },
-  {
-    label: "Core Model",
-    text: "Ms Ellevation builds the woman — her identity, confidence, leadership and wellbeing. Ellevation Hub builds the ecosystem — pathways, partnerships and opportunity for the wider community.",
-  },
+ {
+  label: "Core Model",
+  text: "Ellevation Hub builds the ecosystem — pathways, partnerships and opportunity for the wider community. Ms Ellevation builds the woman — her identity, confidence, leadership and wellbeing.",
+},
 ];
 
 /* ── Core Model data (detailed section) ── */
 const coreModel = [
-  {
-    label: "Ms Ellevation",
-    title: "Building the Woman",
-    body: "Ms Ellevation focuses on women and young women, supporting identity, confidence, wellbeing, leadership and personal growth. Through mentoring, programs, events, community conversations and leadership opportunities, women are empowered to grow while remaining connected to their culture, values and lived experience.",
-    tags: ["Identity", "Confidence", "Leadership", "Wellbeing", "Community"],
-    accent: "#4B1E56",
-    bg: "rgba(255, 255, 255, 0.75)",
-  },
+ 
   {
     label: "Ellevation Hub",
     title: "Building the Ecosystem",
     body: "Ellevation Hub focuses on pathways, partnerships and opportunity. The Hub connects businesses, professionals, entrepreneurs, community organisations and service providers to strengthen collaboration, visibility, employment pathways, entrepreneurship and community impact.",
     tags: ["Partnerships", "Community Development", "Employment Pathways", "Entrepreneurship", "Visibility", "Strategic Collaboration"],
+    accent: "#4B1E56",
+    bg: "rgba(255, 255, 255, 0.75)",
+  },
+   {
+    label: "Ms Ellevation",
+    title: "Building the Woman",
+    body: "Ms Ellevation focuses on women and young women, supporting identity, confidence, wellbeing, leadership and personal growth. Through mentoring, programs, events, community conversations and leadership opportunities, women are empowered to grow while remaining connected to their culture, values and lived experience.",
+    tags: ["Identity", "Confidence", "Leadership", "Wellbeing", "Community"],
     accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
@@ -231,22 +234,23 @@ useEffect(() => {
       </div>
 
       {/* Bottom float card */}
-      <div
-        className="elv-float-card-bottom"
-        style={{
-          position: "absolute", bottom: 0, left: -12,
-          width: 175, borderRadius: 16,
-          background: "#1a0a2e", padding: "12px 16px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-          border: "1px solid rgba(255,255,255,0.06)",
-          zIndex: 20,
-        }}
-      >
-        <div style={{ marginBottom: 6 }}><CrownIcon /></div>
-        <p style={{ fontSize: 12.5, lineHeight: 1.5, color: "rgba(255,255,255,0.8)", fontFamily: "'Montserrat',sans-serif", margin: 0 }}>
-          Mentoring, programs, events and community pathways.
-        </p>
-      </div>
+     <div
+  className="elv-float-card-bottom"
+  style={{
+    position: "absolute", bottom: 0, left: -12,
+    width: 220, borderRadius: 18,
+    background: "#ffffff",
+    padding: "14px 18px",
+    boxShadow: "0 14px 34px rgba(124, 92, 191, 0.18)",
+    border: "1px solid rgba(124, 92, 191, 0.2)",
+    zIndex: 20,
+  }}
+>
+       <div style={{ marginBottom: 8 }}><CrownIcon /></div>
+  <p style={{ fontSize: 14, lineHeight: 1.5, color: "#403452", fontWeight: 500, fontFamily: "'Montserrat',sans-serif", margin: 0 }}>
+    Mentoring, programs, events and community pathways.
+  </p>
+</div>
     </div>
   );
 }
@@ -302,7 +306,7 @@ function Hero() {
 
           <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
            <Link
-  to="/Connect"
+  to="/get-involved/join"
   onMouseEnter={() => setPinkHov(true)}
   onMouseLeave={() => setPinkHov(false)}
   style={{
@@ -574,27 +578,38 @@ function FounderSection() {
           ...fade(left.inView, 0),
           display: "flex", flexDirection: "column", alignItems: "center", gap: 20, flexShrink: 0,
         }}>
-          <div style={{ position: "relative", width: 300, height: 320 }}>
-            <div style={{ width: "100%", height: "100%", borderRadius: 28, overflow: "hidden", border: "1px solid rgba(124, 92, 191, 0.15)" }}>
-              <img
-                src={aboutBg}
-                alt="Hannah Gongar"
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  target.style.display = "none";
-                  const parent = target.parentElement;
-                  if (parent && !parent.querySelector(".initials-fallback")) {
-                    const fallback = document.createElement("div");
-                    fallback.className = "initials-fallback";
-                    fallback.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6f3fa 0%,#ede7f5 100%);font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:600;color:#662369;";
-                    fallback.textContent = "HG";
-                    parent.appendChild(fallback);
-                  }
-                }}
-              />
-            </div>
-          </div>
+          <div style={{ position: "relative", width: 300, height: 300 }}>
+  <div
+    style={{
+      width: "100%", height: "100%",
+      borderRadius: "50%", overflow: "hidden",
+      boxShadow: "0 18px 40px rgba(75, 30, 86, 0.18)",
+    }}
+  >
+    <img
+      src={aboutBg}
+      alt="Hannah Gongar"
+      style={{
+        width: "100%", height: "100%",
+        objectFit: "cover", objectPosition: "center",
+        transform: "scale(1.12)", // trims the black edge; lower it if the ring looks cut off
+        display: "block",
+      }}
+      onError={(e) => {
+        const target = e.currentTarget;
+        target.style.display = "none";
+        const parent = target.parentElement;
+        if (parent && !parent.querySelector(".initials-fallback")) {
+          const fallback = document.createElement("div");
+          fallback.className = "initials-fallback";
+          fallback.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6f3fa 0%,#ede7f5 100%);font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:600;color:#662369;";
+          fallback.textContent = "HG";
+          parent.appendChild(fallback);
+        }
+      }}
+    />
+  </div>
+</div>
           <div style={{ textAlign: "center" }}>
             <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16.5, fontWeight: 700, color: "#1a0a2e", margin: "0 0 4px" }}>Hannah Gongar</p>
             <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, fontWeight: 600, color: "#662369", letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Founder</p>
@@ -637,28 +652,24 @@ function FounderSection() {
               color: "#4B1E56",
             }}
           >
-            {["Children", "Youth", "Women", "Men", "Families", "Community"].map((stage, idx, arr) => (
-              <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-<span
-  style={{
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: "13.5px",
-    fontWeight: 600,
-    color:
-      document.documentElement.getAttribute("data-theme") === "dark"
-        ? "#ffffff"
-        : idx === arr.length - 1
-        ? "#4B1E56"
-        : "#1a0a2e",
-  }}
->
-  {stage}
-</span>                 
-                {idx < arr.length - 1 && (
-                  <span style={{ color: "rgba(124, 92, 191, 0.4)", fontSize: "12px", fontWeight: 700 }}>→</span>
-                )}
-              </div>
-            ))}
+           {["Children", "Youth", "Women", "Men", "Families", "Community"].map((stage, idx, arr) => (
+  <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+    <span
+      className={`founder-pipeline-stage${idx === arr.length - 1 ? " is-last" : ""}`}
+      style={{
+        fontFamily: "'Montserrat', sans-serif",
+        fontSize: "13.5px",
+        fontWeight: 600,
+      }}
+    >
+      {stage}
+    </span>
+    {idx < arr.length - 1 && (
+      <span className="founder-pipeline-arrow" style={{ fontSize: "12px", fontWeight: 700 }}>→</span>
+    )}
+  </div>
+))}
+            
           </div>
         </div>
       </div>
@@ -783,6 +794,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
   const [hov, setHov] = useState(false);
 
   return (
+    
     <div
       ref={ref}
       onMouseEnter={() => setHov(true)}
@@ -841,6 +853,8 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
 function CoreModelSection() {
   const head = useInView(0.1);
   const arrow = useInView(0.1);
+  const hubCard = coreModel.find((c) => c.label === "Ellevation Hub")!;
+const msCard = coreModel.find((c) => c.label === "Ms Ellevation")!;
 
   return (
     <section
@@ -867,22 +881,22 @@ function CoreModelSection() {
         display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto",
         justifyContent: "center", alignItems: "stretch",fontFamily: "'Astrid Regular',serif",
       }}>
-        <CoreModelCard item={coreModel[0]} />
+       <CoreModelCard item={hubCard} />
 
-        <div
-          ref={arrow.ref}
-          style={{
-            ...fade(arrow.inView, 260),
-            display: "flex", alignItems: "center", justifyContent: "center",
-            width: 44, height: 44, borderRadius: "50%",
-            background: "rgba(124, 92, 191, 0.1)", color: "#662369",
-            fontSize: 18, fontWeight: 700, flexShrink: 0, alignSelf: "center",
-          }}
-        >
-          →
-        </div>
+<div
+  ref={arrow.ref}
+  style={{
+    ...fade(arrow.inView, 260),
+    display: "flex", alignItems: "center", justifyContent: "center",
+    width: 44, height: 44, borderRadius: "50%",
+    background: "rgba(124, 92, 191, 0.1)", color: "#662369",
+    fontSize: 18, fontWeight: 700, flexShrink: 0, alignSelf: "center",
+  }}
+>
+  +
+</div>
 
-        <CoreModelCard item={coreModel[1]} />
+<CoreModelCard item={msCard} />
       </div>
     </section>
   );
@@ -972,32 +986,31 @@ function WhoWeServeSection() {
 
 /* ── CTA SECTION ── */
 
-function CTABtn({ label, primary }: { label: string; primary: boolean }) {
+function CTALink({ label, to }: { label: string; to: string }) {
   const [hov, setHov] = useState(false);
   return (
-    <button
+    <Link
+      to={to}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
+        display: "inline-block",
+        textDecoration: "none",
         padding: "14px 28px",
         borderRadius: 14,
-        border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
         background: "#D7B264",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
         fontFamily: "'Montserrat',sans-serif",
         fontSize: 13,
         fontWeight: 600,
         letterSpacing: "0.05em",
-        cursor: "pointer",
-        boxShadow: primary && hov ? "0 6px 20px rgba(75, 30, 86, 0.45)" : "none",
+        boxShadow: hov ? "0 6px 20px rgba(75, 30, 86, 0.45)" : "none",
         transform: hov ? "translateY(-2px)" : "translateY(0)",
         transition: "all 0.2s ease",
       }}
     >
       {label}
-    </button>
+    </Link>
   );
 }
 
@@ -1056,12 +1069,10 @@ function CTASection() {
           ecosystem.
         </p>
         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-          <a href="/join" style={{ textDecoration: "none" }}>
-            <CTABtn label="Join the Ecosystem" primary />
-          </a>
-          <a href="/partner-with-us" style={{ textDecoration: "none" }}>
-            <CTABtn label="Partner With Us" primary={false} />
-          </a>
+         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+  <CTALink label="Join the Ecosystem" to={JOIN_ROUTE} />
+  <CTALink label="Partner With Us" to={PARTNER_ROUTE} />
+</div>
         </div>
       </div>
     </section>
@@ -1195,7 +1206,22 @@ export default function AboutPage() {
           background: rgba(25, 16, 38, 0.6) !important;
           border-color: rgba(155, 109, 190, 0.15) !important;
         }
+/* Founder pipeline – light mode */
+.about-founder .founder-pipeline-stage { color: #1a0a2e !important; }
+.about-founder .founder-pipeline-stage.is-last { color: #4B1E56 !important; }
+.about-founder .founder-pipeline-arrow { color: rgba(124, 92, 191, 0.6) !important; }
 
+/* Founder pipeline – dark mode: white text */
+[data-theme="dark"] .about-founder .founder-pipeline-stage,
+[data-theme="dark"] .about-founder .founder-pipeline-stage.is-last { color: #ffffff !important; }
+[data-theme="dark"] .about-founder .founder-pipeline-arrow { color: rgba(201, 163, 217, 0.8) !important; }
+[data-theme="dark"] .about-founder .founder-pipeline-box {
+  background: rgba(75, 30, 86, 0.35) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+  /* Bottom CTA section – dark mode text */
+[data-theme="dark"] .about-cta p { color: #cbd5e1 !important; }
+[data-theme="dark"] .about-cta p:first-child { color: #c9a3d9 !important; }
         [data-theme="dark"] .about-founder { background: #160d22 !important; border-bottom-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .about-vision { background: #0d0614 !important; }
         [data-theme="dark"] .about-core-model { background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important; }
@@ -1210,7 +1236,9 @@ export default function AboutPage() {
           background: rgba(25, 16, 38, 0.6) !important;
           border-color: rgba(155, 109, 190, 0.15) !important;
         }
-
+[data-theme="dark"] .elv-float-card-bottom { background: rgba(75, 30, 86, 0.95) !important; border-color: rgba(255,255,255,0.15) !important; }
+[data-theme="dark"] .elv-float-card-bottom p { color: #ffffff !important; }
+[data-theme="dark"] .elv-float-card-bottom svg path { stroke: #D7B264 !important; }
         [data-theme="dark"] .elv-float-card-top { background: rgba(25, 16, 38, 0.9) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
         [data-theme="dark"] .elv-float-card-top div > div { background: rgba(90, 63, 160, 0.2) !important; color: #cbd5e1 !important; }
       `}</style>

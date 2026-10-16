@@ -34,7 +34,9 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 }
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Page = "home" | "about" | "membership" | "directory" | "programs" | "opportunities" | "events" | "impact" | "connect";
+type Page = "home" | "about" | "membership" | "directory" | "programs" | "opportunities" | "events" | "impact" | "connect" | "register";
+// `nav` accepts an optional param (used to pre-select a program on the Register page)
+type NavFn = (p: Page, param?: string) => void;
 type HubTier = "BELONG" | "GROW" | "INFLUENCE" | "PARTNER";
 type Theme = "light" | "dark";
 
@@ -98,6 +100,11 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Reach out to Ellevation Hub for partnerships, programmatic guidance, or community connections — submit an enquiry through our unified request portal.",
   },
+  register: {
+    title: "Register for a Program | Ellevation Hub",
+    description:
+      "Register for the next Ellevation Hub program or request support, such as business coaching, mentoring or leadership guidance.",
+  },
 };
 
 /* ── Home page content (client-final) ── */
@@ -115,9 +122,10 @@ const HOME_FOR_EVERYONE = [
   { title: "Supporters & Partners",   desc: "Help create opportunities that transform lives." },
 ];
 
+// Hub on the LEFT, Ms Ellevation on the RIGHT — always
 const HOME_ECOSYSTEM: { eyebrow: string; title: string; route: string }[] = [
-  { eyebrow: "Building the Woman",   title: "Ms Ellevation",  route: "/ms-ellevation" }, // <- your Ms Ellevation route
   { eyebrow: "Building Opportunity", title: "Ellevation Hub", route: "/hub" },
+  { eyebrow: "Building the Woman",   title: "Ms Ellevation",  route: "/ms-ellevation" }, // <- your Ms Ellevation route
 ];
 
 /* ── About page content (client-final) ── */
@@ -154,9 +162,10 @@ const ABOUT_COMMITMENTS = [
   "We believe strong communities create stronger futures.",
 ];
 
+// Hub first, then Ms Ellevation, then Together
 const ABOUT_ECOSYSTEM_CONNECTION = [
-  { title: "Ms Ellevation", desc: "Supporting women to honour their stories, strengthen their identity, build confidence and grow into leadership." },
   { title: "Ellevation Hub", desc: "Creating pathways into opportunity through business support, mentoring, partnerships, leadership development, visibility and economic participation." },
+  { title: "Ms Ellevation", desc: "Supporting women to honour their stories, strengthen their identity, build confidence and grow into leadership." },
   { title: "Together", desc: "Women, young people, businesses, organisations and communities can access the support, networks and opportunities they need to grow, lead and thrive." },
 ];
 
@@ -314,7 +323,7 @@ const PROGRAM_PATHWAYS: { title: string; desc?: string; focus?: string[]; tag?: 
     focus: ["Wellbeing & Personal Growth", "Confidence & Resilience", "Leadership Development", "Community Leadership", "Personal & Professional Growth"],
     icon: "◑",
   },
-   {
+  {
     title: "Business & Enterprise",
     desc: "Supporting entrepreneurs, professionals and businesses through visibility, mentoring, networking and growth opportunities.",
     focus: ["Business Support", "Business Growth", "Networking Opportunities", "Mentoring & Guidance", "Visibility & Promotion"],
@@ -338,9 +347,10 @@ const PROGRAMS_PARTNERS = [
   "Government Agencies", "Sponsors & Supporters",
 ];
 
+// Hub on the LEFT, Ms Ellevation on the RIGHT — always
 const PROGRAMS_ECOSYSTEM = [
-  { eyebrow: "Building the Woman",   title: "Ms Ellevation", line: "Identity. Confidence. Leadership." },
   { eyebrow: "Building Opportunity", title: "Ellevation Hub", line: "Wellbeing. Business. Community. Impact." },
+  { eyebrow: "Building the Woman",   title: "Ms Ellevation", line: "Identity. Confidence. Leadership." },
 ];
 
 /* ── Opportunity "type" overview cards (compact) ── */
@@ -499,10 +509,18 @@ const IMPACT_STATS = [
   { n: "$2.1M+", l: "In referred opportunities" },
 ];
 
+// Children & Youth outcomes (section that was missing on the Impact page)
+const CHILDREN_YOUTH_OUTCOMES = [
+  { title: "Mentoring & Development",  desc: "Children and young people matched with mentors who help them grow in skills, direction and self-belief.", icon: "✦" },
+  { title: "Leadership & Life Skills", desc: "Leadership days, workshops and practical life-skills sessions that prepare young people for what's next.", icon: "◑" },
+  { title: "Confidence Building",      desc: "Safe, encouraging spaces where children and young people find their voice and try new things.",           icon: "❀" },
+  { title: "Future Pathways",          desc: "Connections to education, training, work experience and career pathways for young people.",               icon: "❖" },
+];
+
 const CALD_OUTCOMES = [
   { title: "Language-Inclusive Programming",  desc: "Sessions and resources delivered with interpreter and multilingual support across our core programs.", icon: "✦" },
   { title: "Culturally Responsive Mentorship", desc: "Mentors matched with an understanding of cultural context, not just industry or skill.",                icon: "✿" },
-  { title: "Multilingual Directory Access",    desc: "Directory support that helps CALD-owned businesses get discovered and understood by new customers.",   icon: "◈" },
+  { title: "Multilingual Directory Access",    desc: "Browse the whole site in major world languages using the language selector, so people who can't read English can still find businesses and support.", icon: "◈" },
   { title: "Pathways for Newly Arrived Families", desc: "Orientation, referrals, and community connection for families settling into life in Perth.",         icon: "❖" },
 ];
 
@@ -514,14 +532,21 @@ const BUSINESS_GROWTH_STATS = [
 ];
 
 const PROGRAMS_IN_ACTION = [
-  { title: "Youth Development",     desc: "Mentorship circles and leadership days helping young people build confidence and direction.", icon: "✦" },
+  { title: "Children & Youth",      desc: "Mentorship circles and leadership days helping children and young people build confidence and direction.", icon: "✦" },
   { title: "Men's Pathway",         desc: "Allyship and growth programs supporting men to show up for their families and communities.",   icon: "◎" },
   { title: "Community Development", desc: "Grassroots initiatives strengthening connection across Perth's diverse neighbourhoods.",       icon: "✿" },
   { title: "Business Directory",    desc: "Visibility and referral pathways helping member businesses grow sustainably.",                 icon: "◈" },
 ];
 
+// ─── Language selector (Google Translate website widget) ────────────────────
+
+
+
+
+
+
 // ─── Navbar ──────────────────────────────────────────────────────────────────
-function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
+function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
@@ -591,7 +616,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
           <span>Back to Home</span>
         </button>
 
-        {/* Logo — larger, slow pop-up animation, swaps automatically between light/dark variants */}
+        {/* Logo — swaps automatically between light/dark variants */}
         <img
           src={theme === "dark" ? hubLogoDark : hubLogoLight}
           alt="Ellevation Hub Logo"
@@ -611,6 +636,8 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
             </button>
           ))}
         </div>
+
+        {/* Language selector */}
 
         {/* Mobile hamburger toggle */}
         <button
@@ -645,7 +672,7 @@ function Navbar({ current, nav }: { current: Page; nav: (p: Page) => void }) {
    HOME PAGE — built to the client-final developer version
    Structure: 1 Hero · 2 Opportunities · 3 For Everyone · 4 Ecosystem · 5 Final CTA
    ══════════════════════════════════════════════════════════════════════════ */
-function HomeSection({ nav }: { nav: (p: Page) => void }) {
+function HomeSection({ nav }: { nav: NavFn }) {
   const routerNavigate = useNavigate();
   const opp = useInView(0.1);
   const every = useInView(0.1);
@@ -661,7 +688,6 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
         <div style={hp.blobBR} />
         <div className="hub-home-grid" style={hp.grid}>
           <div style={hp.left}>
-            {/* <p style={hp.eyebrow}>ELLEVATION HUB</p> */}
             <h1 className="hub-home-headline" style={hp.headline}>Every Pathway Into Opportunity, In One Ecosystem.</h1>
             <p className="hub-home-sub" style={hp.sub}>
               Connecting culturally and linguistically diverse (CALD) communities, businesses, organisations and collaborators through opportunity, connection and impact.
@@ -675,9 +701,6 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
             </div>
           </div>
           <div className="hub-card" style={hp.card}>
-            {/* <div style={hp.cardTop}>
-              <span style={hp.cardBadge}>Professional Tier</span>
-            </div> */}
             <p className="hub-card-desc" style={hp.cardDesc}>One ecosystem connecting directory, programs, and opportunity — built for the whole community.</p>
             <div style={hp.cardFeatures}>
               {["Business directory & categories", "Youth and men's development programs", "Jobs, grants & collaboration board", "Community events calendar"].map(feat => (
@@ -725,7 +748,7 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* 4 ── THE ECOSYSTEM */}
+      {/* 4 ── THE ECOSYSTEM (Hub left, Ms Ellevation right) */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
           <h2 className="hub-about-title" style={ab.title}>The Ecosystem</h2>
@@ -777,7 +800,7 @@ function HomeSection({ nav }: { nav: (p: Page) => void }) {
 /* ══════════════════════════════════════════════════════════════════════════
    ABOUT PAGE — built to the client-final developer version
    ══════════════════════════════════════════════════════════════════════════ */
-function AboutSection({ nav }: { nav: (p: Page) => void }) {
+function AboutSection({ nav }: { nav: NavFn }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
@@ -939,7 +962,7 @@ function AboutSection({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* 9 ── THE ELLEVATION ECOSYSTEM */}
+      {/* 9 ── THE ELLEVATION ECOSYSTEM (Hub, Ms Ellevation, Together) */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={e.ref} style={{ ...ab.container, ...fade(e.inView, 0) }}>
           <p className="hub-about-eye" style={ab.eye}>THE ELLEVATION ECOSYSTEM</p>
@@ -1340,9 +1363,6 @@ function MembershipSection() {
 
     console.log("Sending to EmailJS:", templateParams);
     setSending(true);
-    //service Id :service_ux9vfej
-    //Template ID : template_oczchp4
-    //Public Key: Pu2wZN2ERnHjdboLI
     try {
       const response = await emailjs.send(
         "service_ux9vfej",
@@ -1514,7 +1534,7 @@ function MembershipSection() {
           <p className="mp-hint">Swipe sideways to see every plan on smaller screens.</p>
         </div>
 
-        {/* ── 5. HUB + MS ELLEVATION ── */}
+        {/* ── 5. HUB + MS ELLEVATION (Hub left, Ms Ellevation right) ── */}
         <div className="mp-bridge">
           <div className="mp-block-head">
             <p className="mp-eye">One Connected Journey</p>
@@ -1677,7 +1697,7 @@ function MembershipSection() {
   );
 }
 
-function DirectorySection({ nav }: { nav: (p: Page) => void }) {
+function DirectorySection({ nav }: { nav: NavFn }) {
   return (
     <section className="hub-directory-section" style={dr.section}>
       <div style={dr.container}>
@@ -1699,7 +1719,7 @@ function DirectorySection({ nav }: { nav: (p: Page) => void }) {
   );
 }
 
-function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
+function ProgramsSection({ nav }: { nav: NavFn }) {
   const path = useInView(0.08);
   const who = useInView(0.1);
   const part = useInView(0.1);
@@ -1721,11 +1741,11 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
           <p className="hub-programs-card-title" style={pg.tagline}>
             From childhood to leadership. From ideas to opportunity.
           </p>
-          <button style={pg.ctaBtn} onClick={() => nav("connect")}>ENQUIRE ABOUT A PROGRAM</button>
+          <button style={pg.ctaBtn} onClick={() => nav("register")}>REGISTER OR REQUEST SUPPORT</button>
         </div>
       </section>
 
-      {/* 2 ── OUR PATHWAYS */}
+      {/* 2 ── OUR PATHWAYS (each card has a "Register Now!" button) */}
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={path.ref} style={{ ...ab.container, ...fade(path.inView, 0) }}>
           <h2 className="hub-about-title" style={ab.title}>Our Pathways</h2>
@@ -1748,6 +1768,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
                   </>
                 )}
                 {p.tag && <span className="hub-programs-chip" style={pg.chip}>{p.tag}</span>}
+                <button style={pg.registerBtn} onClick={() => nav("register", p.title)}>REGISTER NOW!</button>
               </div>
             ))}
           </div>
@@ -1788,7 +1809,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
         </div>
       </section>
 
-      {/* 5 ── THE ELLEVATION ECOSYSTEM */}
+      {/* 5 ── THE ELLEVATION ECOSYSTEM (Hub left, Ms Ellevation right) */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
           <h2 className="hub-about-title" style={ab.title}>The Ellevation Ecosystem</h2>
@@ -1824,6 +1845,7 @@ function ProgramsSection({ nav }: { nav: (p: Page) => void }) {
     </div>
   );
 }
+
 /* ── Opportunity listing card + quick-apply flow ── */
 function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply: (o: OpportunityListing) => void }) {
   return (
@@ -1898,7 +1920,7 @@ function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListi
   );
 }
 
-function OpportunitiesSection({ nav }: { nav: (p: Page) => void }) {
+function OpportunitiesSection({ nav }: { nav: NavFn }) {
   const [activeCategory, setActiveCategory] = useState<OpportunityCategory>("All Openings");
   const [applying, setApplying] = useState<OpportunityListing | null>(null);
 
@@ -2057,7 +2079,7 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
   );
 }
 
-function EventsSection({ events = [] }: { nav: (p: Page) => void; events?: EventItem[] }) {
+function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
   const [activeCategory, setActiveCategory] = useState<EventCategory>("All Events");
   const [registering, setRegistering] = useState<EventItem | null>(null);
 
@@ -2131,6 +2153,21 @@ function ImpactSection() {
         ))}
       </div>
 
+      {/* Children & Youth (previously missing) */}
+      <div className="hub-impact-subsection" style={st.subSection}>
+        <p className="hub-impact-eye" style={st.sectionEye}>CHILDREN &amp; YOUTH</p>
+        <h3 className="hub-impact-subtitle" style={st.subtitle}>Building Confidence, Skills and Future Opportunities</h3>
+        <div className="hub-impact-cald-grid" style={st.caldGrid}>
+          {CHILDREN_YOUTH_OUTCOMES.map(c => (
+            <div key={c.title} className="hub-impact-cald-card" style={st.caldCard}>
+              <div style={st.caldIcon}>{c.icon}</div>
+              <h4 className="hub-impact-cald-title" style={st.caldTitle}>{c.title}</h4>
+              <p className="hub-impact-cald-text" style={st.caldText}>{c.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* CALD community outcomes */}
       <div className="hub-impact-subsection" style={st.subSection}>
         <p className="hub-impact-eye" style={st.sectionEye}>CALD COMMUNITY OUTCOMES</p>
@@ -2202,8 +2239,12 @@ function ImpactSection() {
   );
 }
 
-/* ── Connect: Hero Banner ── */
-function ConnectHero() {
+/* ── Connect: Hero Banner (reusable — also used by the Register page) ── */
+function ConnectHero({
+  eyebrow = "Connect With Us",
+  title = "Ecosystem Hub Enquiry",
+  text = "Whether you are looking to collaborate, seek programmatic guidance, or establish community connections, let us build pathways together.",
+}: { eyebrow?: string; title?: string; text?: string }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
@@ -2235,7 +2276,7 @@ function ConnectHero() {
         }}>
           <div className={mounted ? "line-draw" : ""} style={{ width: 40, height: 1, background: "rgba(255,255,255,0.6)", transformOrigin: "right center" }} />
           <span style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", color: "#fff" }}>
-            Connect With Us
+            {eyebrow}
           </span>
           <div className={mounted ? "line-draw" : ""} style={{ width: 40, height: 1, background: "rgba(255,255,255,0.6)", transformOrigin: "left center" }} />
         </div>
@@ -2247,7 +2288,7 @@ function ConnectHero() {
           fontWeight: 700,
           color: "#fff", margin: "0 0 20px", lineHeight: 1.1,
         }}>
-          Ecosystem Hub Enquiry
+          {title}
         </h1>
 
         <p style={{
@@ -2256,7 +2297,7 @@ function ConnectHero() {
           fontSize: "clamp(15px,1.8vw,17px)",
           color: "rgba(255,255,255,0.9)", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
         }}>
-          Whether you are looking to collaborate, seek programmatic guidance, or establish community connections, let us build pathways together.
+          {text}
         </p>
 
         <div style={{ ...fade(mounted, 380), marginTop: 40 }}>
@@ -2548,6 +2589,237 @@ function ConnectSection() {
   );
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   REGISTER PAGE — "Register Now!" from the Programs page lands here.
+   One form for (a) registering for the next program and (b) asking for
+   support (e.g. business coaching).
+   ══════════════════════════════════════════════════════════════════════════ */
+const SUPPORT_AREAS = [
+  "Business coaching / support",
+  "Mentoring",
+  "Leadership development",
+  "Wellbeing & personal growth",
+  "Children & youth support",
+  "Community project support",
+  "Something else",
+];
+
+function RegisterSection() {
+  const [searchParams] = useSearchParams();
+  const programParam = searchParams.get("program") || "";
+  const programTitles = PROGRAM_PATHWAYS.map(p => p.title);
+  const initialProgram = programTitles.includes(programParam) ? programParam : "";
+
+  const { ref, inView } = useInView(0.1);
+  const [requestType, setRequestType] = useState<"register" | "support">("register");
+  const [program, setProgram] = useState(initialProgram);
+  const [supportArea, setSupportArea] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
+  const [messageBody, setMessageBody] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => { setProgram(initialProgram); setSubmitted(false); }, [initialProgram]);
+
+  const REQUEST_LABELS = {
+    register: "Program Registration",
+    support: "Support Request",
+  } as const;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!fullName.trim() || !emailAddress.trim()) {
+      alert("Please fill in your name and email before submitting.");
+      return;
+    }
+    if (!program) {
+      alert("Please choose a program.");
+      return;
+    }
+    if (requestType === "support" && !supportArea) {
+      alert("Please tell us what kind of support you need.");
+      return;
+    }
+    if (!agreed) {
+      alert("Please agree to the Privacy Policy and Terms & Conditions.");
+      return;
+    }
+
+    const nameParts = fullName.trim().split(/\s+/);
+    const firstName = nameParts[0] || "";
+    const lastName = nameParts.slice(1).join(" ") || "";
+    const label = REQUEST_LABELS[requestType];
+
+    const templateParams = {
+      form_title: `New Ellevation Hub - ${label}`,
+      ms_display: "none",
+      hub_display: "block",
+      subject_detail: `${label}: ${program}`,
+      form_source: `Ellevation Hub — ${label}`,
+      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
+
+      membership_tier: "",
+      first_name: firstName,
+      last_name: lastName,
+      email: emailAddress,
+      phone: phoneNumber || "",
+
+      location: "",
+      profession: "",
+      referral: "",
+      goals: "",
+
+      purpose: "",
+      industry: requestType === "support" ? supportArea : "",
+      notes: "",
+
+      enquiry_type: `${label} — ${program}`,
+      organization: organizationName || "",
+      message: messageBody || (requestType === "support" ? `Support needed: ${supportArea}` : "—"),
+    };
+
+    setSending(true);
+    try {
+      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
+      setSubmitted(true);
+    } catch (error) {
+      console.error("EmailJS FAILED:", error);
+      alert("Your request could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const tiles: { id: "register" | "support"; label: string; desc: string }[] = [
+    { id: "register", label: "Register for a Program", desc: "Put my name down for the next upcoming program." },
+    { id: "support",  label: "Request Support",        desc: "I need help, e.g. business coaching or mentoring." },
+  ];
+
+  return (
+    <div className="hub-connect-section">
+      <ConnectHero
+        eyebrow="Join In"
+        title="Register Now"
+        text="Don't just read about it. Join the next program, or tell us what support you need and we'll point you in the right direction."
+      />
+
+      <section className="enquiry-form-section" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "80px 24px 100px" }}>
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <div ref={ref} style={{ ...fade(inView, 0), background: "#fff", border: "1.5px solid rgba(124, 92, 191, 0.18)", borderRadius: 24, padding: "48px 40px", boxShadow: "0 16px 48px rgba(124,92,191,0.10)" }} className="form-wrapper-card">
+            {submitted ? (
+              <div style={{ textAlign: "center", padding: "40px 0" }}>
+                <h3 style={{ fontFamily: "'Astrid Regular',serif", fontSize: 32, color: "#1a0a2e", marginBottom: 12 }}>Thank You</h3>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
+                  {requestType === "register"
+                    ? <>Your registration for <strong>{program}</strong> has been received. Our team will be in touch with the next steps.</>
+                    : <>Your support request has been received. Our team will be in touch shortly.</>}
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                <div>
+                  <label className="field-label" style={{ textTransform: "uppercase", letterSpacing: "0.08em", color: "#4B1E56", fontSize: 12, fontWeight: 700 }}>
+                    What would you like to do?
+                  </label>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 12 }}>
+                    {tiles.map(t => (
+                      <label
+                        key={t.id}
+                        className="radio-tile"
+                        style={{
+                          display: "flex", alignItems: "flex-start", gap: 10, padding: "14px 16px", borderRadius: 14, border: "1.5px solid",
+                          borderColor: requestType === t.id ? "#4B1E56" : "rgba(124, 92, 191, 0.25)",
+                          background: requestType === t.id ? "rgba(75,30,86,0.06)" : "transparent",
+                          cursor: "pointer", fontFamily: "'Montserrat',sans-serif", fontSize: 14, color: "#1a0a2e",
+                        }}
+                      >
+                        <input type="radio" name="requestType" checked={requestType === t.id} onChange={() => setRequestType(t.id)} style={{ accentColor: "#4B1E56", marginTop: 3 }} />
+                        <span>
+                          <span style={{ display: "block", fontWeight: 600 }}>{t.label}</span>
+                          <span style={{ display: "block", fontSize: 12, opacity: 0.8, marginTop: 2 }}>{t.desc}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="program" className="field-label">Program / Pathway *</label>
+                  <select id="program" className="form-input" value={program} onChange={e => setProgram(e.target.value)} required>
+                    <option value="" disabled>Select a program</option>
+                    {programTitles.map(t => <option key={t} value={t}>{t}</option>)}
+                    <option value="Not sure yet">Not sure yet</option>
+                  </select>
+                </div>
+
+                {requestType === "support" && (
+                  <div>
+                    <label htmlFor="supportArea" className="field-label">What kind of support do you need? *</label>
+                    <select id="supportArea" className="form-input" value={supportArea} onChange={e => setSupportArea(e.target.value)} required>
+                      <option value="" disabled>Select support type</option>
+                      {SUPPORT_AREAS.map(s => <option key={s} value={s}>{s}</option>)}
+                    </select>
+                  </div>
+                )}
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+                  <div>
+                    <label htmlFor="regName" className="field-label">Full Name *</label>
+                    <input id="regName" type="text" required className="form-input" placeholder="Your name" value={fullName} onChange={e => setFullName(e.target.value)} />
+                  </div>
+                  <div>
+                    <label htmlFor="regEmail" className="field-label">Email Address *</label>
+                    <input id="regEmail" type="email" required className="form-input" placeholder="name@domain.com" value={emailAddress} onChange={e => setEmailAddress(e.target.value)} />
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+                  <div>
+                    <label htmlFor="regPhone" className="field-label">Phone Number</label>
+                    <input id="regPhone" type="tel" className="form-input" placeholder="Optional" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+                  </div>
+                  <div>
+                    <label htmlFor="regOrg" className="field-label">Business / Organization</label>
+                    <input id="regOrg" type="text" className="form-input" placeholder="If applicable" value={organizationName} onChange={e => setOrganizationName(e.target.value)} />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="regMsg" className="field-label">
+                    {requestType === "register" ? "Anything we should know? (optional)" : "Tell us a bit about what you need (optional)"}
+                  </label>
+                  <textarea id="regMsg" rows={4} className="form-input" style={{ resize: "vertical" }} placeholder="Preferred days/times, questions, or details…" value={messageBody} onChange={e => setMessageBody(e.target.value)} />
+                </div>
+
+                <label className="field-label" style={{ display: "flex", alignItems: "flex-start", gap: 10, fontWeight: 500, cursor: "pointer", marginBottom: 0 }}>
+                  <input type="checkbox" checked={agreed} onChange={e => setAgreed(e.target.checked)} required style={{ accentColor: "#4B1E56", marginTop: 3, cursor: "pointer", flexShrink: 0 }} />
+                  <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                    {" "}and{" "}
+                    <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  </span>
+                </label>
+
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <button type="submit" disabled={sending} style={{ padding: "14px 36px", borderRadius: 999, border: "none", background: "#D7B264", color: "#fff", fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", cursor: sending ? "not-allowed" : "pointer", opacity: sending ? 0.7 : 1, width: "100%", maxWidth: 260 }}>
+                    {sending ? "Sending..." : requestType === "register" ? "Register Now" : "Request Support"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 // ─── STYLES ──────────────────────────────────────────────────────────────────
 const hp: Record<string, React.CSSProperties> = {
   page: { position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center", padding: "60px 48px" },
@@ -2681,10 +2953,11 @@ const pg: Record<string, React.CSSProperties> = {
   cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", color: "#1a0a2e", marginBottom: 10 },
   cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6 },
   ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1, boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  registerBtn: { marginTop: "auto", alignSelf: "stretch", fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 700, letterSpacing: "0.12em", padding: "13px 18px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 16px rgba(215,35,143,0.25)" },
   lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 12px", position: "relative", zIndex: 1 },
   tagline: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", fontStyle: "italic", color: "#4B1E56", margin: "0 auto 32px", position: "relative", zIndex: 1 },
   pathGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "left", alignItems: "stretch" },
-  focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10 },
+  focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10, marginBottom: 24 },
   focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "0.86rem", color: "#554866" },
   focusDot: { flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 },
   chipRow: { display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" as const },
@@ -2845,9 +3118,12 @@ export default function EllevationHub() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
-  const nav = (p: Page) => {
+  // `param` is the program title when going to the Register page
+  const nav: NavFn = (p, param) => {
     if (p === "home") {
       setSearchParams({});
+    } else if (p === "register" && param) {
+      setSearchParams({ page: p, program: param });
     } else {
       setSearchParams({ page: p });
     }
@@ -2878,31 +3154,31 @@ export default function EllevationHub() {
         button:hover { opacity: 0.9; transform: translateY(-1px); }
         button:active { transform: translateY(0); }
 
+        [data-theme="dark"] .hub-programs-chip {
+          background: rgba(255,255,255,0.07) !important;
+          border-color: rgba(155,109,190,0.3) !important;
+          color: #d9a8cd !important;
+        }
+        [data-theme="dark"] .hub-programs-section .hub-programs-card-text { color: rgba(255,255,255,0.75) !important; }
+        [data-theme="dark"] .hub-programs-section .hub-programs-card-title { color: #e8e0f8 !important; }
+
         /* ═══════════════════════════════════════
            NAVBAR — single centered pill row,
-           FIXED to the viewport at all times
+           FIXED to the viewport at all times.
+           NOTE: the base rules come FIRST and the @media overrides
+           come AFTER them, otherwise the base rules win.
            ═══════════════════════════════════════ */
-
-[data-theme="dark"] .hub-programs-chip {
-  background: rgba(255,255,255,0.07) !important;
-  border-color: rgba(155,109,190,0.3) !important;
-  color: #d9a8cd !important;
-}
-[data-theme="dark"] .hub-programs-section .hub-programs-card-text { color: rgba(255,255,255,0.75) !important; }
-[data-theme="dark"] .hub-programs-section .hub-programs-card-title { color: #e8e0f8 !important; }
-
-
-       .ms-nav-row{
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  display:flex; flex-direction:column; align-items:center;
-  padding:10px 20px 0;
-}
+        .ms-nav-row{
+          position:fixed; top:0; left:0; right:0; z-index:100;
+          display:flex; flex-direction:column; align-items:center;
+          padding:10px 20px 0;
+        }
         .ms-nav{
           width:100%;
-          max-width:1240px;
+          max-width:1360px;
           display:flex;
           align-items:center;
-          gap:14px;
+          gap:12px;
           background:rgba(255,255,255,0.92);
           backdrop-filter:blur(16px);
           -webkit-backdrop-filter:blur(16px);
@@ -2918,7 +3194,7 @@ export default function EllevationHub() {
         .ns-back-home{
           display:flex; align-items:center; gap:6px;
           font-family:'Montserrat', sans-serif;
-          font-size:0.78rem; font-weight:600;
+          font-size:0.9rem; font-weight:600;
           color:#662369;
           background:rgba(102,35,105,0.06);
           border:1px solid rgba(102,35,105,0.12);
@@ -2931,32 +3207,17 @@ export default function EllevationHub() {
         }
         .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
 
-/* Logo overflows outside the navbar pill. Net layout height = 130 + (-33 * 2) = 64px */
-.ns-logo{
-  height:130px;
-  width:auto;
-  margin:-33px 0;
-  object-fit:contain;
-  cursor:pointer;
-  flex-shrink:0;
-  position:relative;
-  z-index:5;
-}
-
-/* Tablet + mobile: hamburger menu, desktop links hide */
-@media (max-width: 1280px){
-  .ns-links-desktop{ display:none; }
-  .ns-menu-toggle{ display:flex; }
-  .ns-logo{ height:140px; margin:-38px 0; }   /* net 64px */
-}
-
-/* Small mobile */
-@media (max-width: 560px){
-  .ns-back-home span{ display:none; }
-  .ns-back-home{ padding:9px 12px; }
-  .ns-logo{ height:120px; margin:-38px 0; }   /* net 44px */
-  .ms-nav{ padding:3px 8px; gap:10px; }
-}
+        /* Logo overflows outside the navbar pill. Net layout height = 130 + (-33 * 2) = 64px */
+        .ns-logo{
+          height:130px;
+          width:auto;
+          margin:-33px 0;
+          object-fit:contain;
+          cursor:pointer;
+          flex-shrink:0;
+          position:relative;
+          z-index:5;
+        }
 
         .ns-links-desktop{
           display:flex; align-items:center; gap:2px;
@@ -2966,10 +3227,10 @@ export default function EllevationHub() {
         }
         .ns-link{
           font-family:'Montserrat', sans-serif;
-          font-size:0.8rem; font-weight:500;
+          font-size:0.95rem; font-weight:500;
           color:#662369; background:transparent;
           border:none; cursor:pointer;
-          padding:9px 13px; border-radius:100px;
+          padding:9px 12px; border-radius:100px;
           transition:all 0.2s ease; white-space:nowrap;
         }
         .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
@@ -2979,6 +3240,16 @@ export default function EllevationHub() {
           box-shadow:0 2px 12px rgba(26,10,46,0.25);
         }
         .ns-link.active:hover{ opacity:1; }
+
+        /* Language selector */
+        .ns-lang{ display:flex; align-items:center; gap:6px; flex-shrink:0; color:#662369; position:relative; }
+        .ns-lang select{
+          font-family:'Montserrat', sans-serif; font-size:0.85rem; font-weight:600;
+          color:#662369; background:rgba(102,35,105,0.06);
+          border:1px solid rgba(102,35,105,0.12); border-radius:100px;
+          padding:8px 12px; max-width:150px; cursor:pointer;
+        }
+
         .ns-menu-toggle{
           display:none;
           flex-direction:column;
@@ -3004,7 +3275,7 @@ export default function EllevationHub() {
           max-height:0;
           overflow:hidden;
           width:100%;
-          max-width:1240px;
+          max-width:1360px;
           opacity:0;
           transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
         }
@@ -3027,7 +3298,7 @@ export default function EllevationHub() {
           width:100%;
           text-align:left;
           font-family:'Montserrat', sans-serif;
-          font-size:0.92rem; font-weight:500;
+          font-size:1.05rem; font-weight:500;
           color:#662369; background:transparent;
           border:none; cursor:pointer;
           padding:13px 18px; border-radius:14px;
@@ -3038,6 +3309,35 @@ export default function EllevationHub() {
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important;
           color:#fff !important;
         }
+
+        /* Slightly smaller links on small laptops so all 9 + language selector fit */
+        @media (min-width: 1241px) and (max-width: 1400px){
+          .ns-link{ padding:9px 8px; font-size:0.88rem; }
+          .ms-nav{ gap:8px; }
+          .ns-back-home{ padding:9px 12px; font-size:0.85rem; }
+        }
+
+        /* Tablet + mobile: hamburger menu, desktop links hide (MUST stay below the base rules) */
+        @media (max-width: 1240px){
+          .ns-links-desktop{ display:none; }
+          .ns-menu-toggle{ display:flex; }
+          .ns-lang{ margin-left:auto; }
+          .ns-logo{ height:140px; margin:-38px 0; }   /* net 64px */
+        }
+
+        /* Small mobile */
+        @media (max-width: 560px){
+          .ns-back-home span{ display:none; }
+          .ns-back-home{ padding:9px 12px; }
+          .ns-logo{ height:120px; margin:-38px 0; }   /* net 44px */
+          .ms-nav{ padding:3px 8px; gap:10px; }
+          .ns-lang select{ max-width:96px; font-size:0.78rem; padding:7px 8px; }
+        }
+
+        /* Hide Google Translate's default top banner / tooltip so the page doesn't shift */
+        body > .skiptranslate, .goog-te-banner-frame{ display:none !important; }
+        body{ top:0 !important; }
+        #goog-gt-tt, .goog-tooltip, .goog-text-highlight{ display:none !important; background:none !important; box-shadow:none !important; }
 
         /* ═══════════════════════════════════════
            RESPONSIVE — section grids collapse
@@ -3122,14 +3422,14 @@ export default function EllevationHub() {
           background: #0d0614 !important;
           color: #e8e0f8 !important;
         }
-        /* Dark-mode logo is smaller (net layout height stays 64px / 44px,
+        /* Dark-mode logo is smaller (net layout height stays the same,
            so the navbar height doesn't change) */
         [data-theme="dark"] .ns-logo {
           filter: none;
           height: 96px;
           margin: -16px 0;
         }
-        @media (max-width: 1280px) {
+        @media (max-width: 1240px) {
           [data-theme="dark"] .ns-logo { height: 96px; margin: -16px 0; }
         }
         @media (max-width: 560px) {
@@ -3162,6 +3462,8 @@ export default function EllevationHub() {
         [data-theme="dark"] .ns-mobile-link:hover {
           background: rgba(217, 168, 205, 0.1) !important;
         }
+        [data-theme="dark"] .ns-lang { color: #d9a8cd; }
+        [data-theme="dark"] .ns-lang select { color: #d9a8cd; background: #160d22; border-color: rgba(217,168,205,0.25); }
 
         /* Home section */
         [data-theme="dark"] .hub-home-bg {
@@ -3465,7 +3767,7 @@ export default function EllevationHub() {
           color: #e8e0f8 !important;
         }
 
-        /* ── Connect section: hero + enquiry form ── */
+        /* ── Connect + Register: hero + enquiry form ── */
         .blob { position: absolute; border-radius: 50%; pointer-events: none; }
         .blob-1 { top: -100px; left: -80px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(75,30,86,0.35) 0%, transparent 68%); animation: floatA 9s ease-in-out infinite; }
         .blob-2 { bottom: -80px; right: -60px; width: 420px; height: 420px; background: radial-gradient(circle, rgba(102,35,105,0.30) 0%, transparent 68%); animation: floatB 11s ease-in-out infinite 2s; }
@@ -3556,6 +3858,7 @@ export default function EllevationHub() {
         {page === "events"        && <EventsSection nav={nav} events={EVENTS} />}
         {page === "impact"        && <ImpactSection />}
         {page === "connect"       && <ConnectSection />}
+        {page === "register"      && <RegisterSection />}
       </div>
     </div>
   );

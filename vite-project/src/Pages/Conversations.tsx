@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-
+import { Link } from "react-router-dom";
 import heroBg from "../assets/banner6.avif"; // Single banner background image
 
 /* ── helpers ── */
@@ -204,24 +204,26 @@ Share your personal or professional journey through video, audio, writing, or di
             >
               Submit Your Story →
             </button>
-            <button
-              onMouseEnter={() => setDarkHov(true)}
-              onMouseLeave={() => setDarkHov(false)}
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                padding: "14px 28px", borderRadius: 14,
-                background: "#D7B264",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                border: "1.5px solid rgba(255,255,255,0.3)",
-                color: "#fff", fontFamily: "'Montserrat',sans-serif",
-                fontWeight: 600, fontSize: 13, cursor: "pointer",
-                transform: darkHov ? "translateY(-2px)" : "translateY(0)",
-                transition: "transform 0.2s",
-              }}
-            >
-              Explore Conversations →
-            </button>
+          <Link
+  to="/get-involved/join"
+  onMouseEnter={() => setDarkHov(true)}
+  onMouseLeave={() => setDarkHov(false)}
+  style={{
+    display: "inline-flex", alignItems: "center", gap: 8,
+    padding: "14px 28px", borderRadius: 14,
+    background: "#D7B264",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    border: "1.5px solid rgba(255,255,255,0.3)",
+    color: "#fff", fontFamily: "'Montserrat',sans-serif",
+    fontWeight: 600, fontSize: 13, cursor: "pointer",
+    textDecoration: "none",
+    transform: darkHov ? "translateY(-2px)" : "translateY(0)",
+    transition: "transform 0.2s",
+  }}
+>
+  Explore Conversations →
+</Link>
           </div>
         </div>
       </div>

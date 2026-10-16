@@ -344,14 +344,14 @@ const FinalInvitationSection = () => {
               Enter the ecosystem. Find your pathway.
             </h2>
 
-            <div className="fi-buttons">
-              <a href="/ms-ellevation" className="fi-btn-primary">
-                Ms. Ellevation <span className="fi-arrow">→</span>
-              </a>
-              <a href="/hub" className="fi-btn-secondary">
-                Ellevation Hub <span className="fi-arrow">→</span>
-              </a>
-            </div>
+         <div className="fi-buttons">
+  <a href="/hub" className="fi-btn-primary">
+    Ellevation Hub <span className="fi-arrow">→</span>
+  </a>
+  <a href="/ms-ellevation" className="fi-btn-secondary">
+    Ms Ellevation <span className="fi-arrow">→</span>
+  </a>
+</div>
           </div>
         </div>
       </section>
