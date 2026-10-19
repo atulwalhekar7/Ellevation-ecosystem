@@ -191,17 +191,18 @@ function NavItemComponent({ item }: { item: NavItem }) {
       to={item.href || "#"}
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
-      style={{
-        fontSize: FS.navLink,
-        color: baseColor,
-        opacity: currentOpacity,
-        textDecoration: "none",
-        fontFamily: FONT_FAMILY,
-        fontWeight: isActive ? 600 : 400,
-        padding: "6px 4px",
-        whiteSpace: "nowrap",
-        transition: "opacity 0.2s ease",
-      }}
+       style={{
+         fontSize: FS.navLink,
+         color: baseColor,
+         opacity: currentOpacity,
+         textDecoration: "none",
+         fontFamily: FONT_FAMILY,
+         fontWeight: isActive ? 600 : 400,
+         padding: "6px 4px",
+         whiteSpace: "nowrap",
+         transition: "opacity 0.2s ease",
+         borderBottom: isActive ? "2px solid #D7B264" : "2px solid transparent",
+       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -310,17 +311,18 @@ function MobileNavItem({
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       onClick={onNavigate}
-      style={{
-        display: "block",
-        padding: "16px 4px",
-        fontSize: FS.mobileItem,
-        color: textColor,
-        opacity: isActive ? 1 : 0.9,
-        fontWeight: isActive ? 600 : 500,
-        textDecoration: "none",
-        fontFamily: FONT_FAMILY,
-        borderBottom: "1px solid rgba(255,255,255,0.1)",
-      }}
+       style={{
+         display: "block",
+         padding: "16px 4px",
+         fontSize: FS.mobileItem,
+         color: textColor,
+         opacity: isActive ? 1 : 0.9,
+         fontWeight: isActive ? 600 : 500,
+         textDecoration: "none",
+         fontFamily: FONT_FAMILY,
+         borderBottom: "1px solid rgba(255,255,255,0.1)",
+         borderLeft: isActive ? "3px solid #D7B264" : "3px solid transparent",
+       }}
     >
       {item.label}
     </Link>
