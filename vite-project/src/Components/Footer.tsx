@@ -1,6 +1,6 @@
 import ellevationHubLogo from "../assets/Ellevation-darkmode-logo.png";
 import msEllevationLogo from "../assets/ms-ellevation-darkmode-logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const JOIN_ROUTE = "/get-involved/join";
 
@@ -86,8 +86,12 @@ const ArrowRight = () => (
   </svg>
 );
 
-const socialIcons = [
-  { icon: <InstagramIcon />, label: "Instagram", href: "https://www.instagram.com/ms_ellevation/" },
+const MS_ELLEVATION_INSTAGRAM = "https://www.instagram.com/ms_ellevation/";
+const HUB_INSTAGRAM =
+  "https://www.instagram.com/ellevation.hub?vrfl=MTVtbTdkMTlrenFxaw%3D%3D&utm_source=qr";
+
+const getSocialIcons = (instagramHref: string) => [
+  { icon: <InstagramIcon />, label: "Instagram", href: instagramHref },
   { icon: <YoutubeIcon />, label: "YouTube", href: "https://www.youtube.com/@EllevationOfficial" },
   { icon: <TiktokIcon />, label: "TikTok", href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs" },
   { icon: <MailIcon />, label: "Email", href: "mailto:hello@ellevationhub.com.au" },
@@ -163,7 +167,14 @@ const AustralianFlag = () => (
 /* ------------------------------------------------------------------ */
 
 export default function EllevationFooter() {
+
+  const { pathname } = useLocation();
+  const isHubPage = pathname === "/hub" || pathname.startsWith("/hub/");
+  const socialIcons = getSocialIcons(
+    isHubPage ? HUB_INSTAGRAM : MS_ELLEVATION_INSTAGRAM
+  );
   return (
+    
     <>
       <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"

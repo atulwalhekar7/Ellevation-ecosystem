@@ -1300,7 +1300,7 @@ function MembershipSection() {
   const [phone, setPhone]         = useState("");
   const [industry, setIndustry]   = useState("");
   const [notes, setNotes]         = useState("");
-  const [agreed, setAgreed]       = useState(false);
+  const [agreed, setAgreed]       = useState(true);
 
   const money = (n: number) => `$${n.toLocaleString("en-AU")}`;
   const billingLabel = billing === "annual" ? "Annual" : "Monthly";
@@ -2322,7 +2322,7 @@ function CommonEnquiryForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [messageBody, setMessageBody] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed] = useState(true);
 
   const ENQUIRY_STREAM_LABELS: Record<string, string> = {
     general: "General Enquiry",
@@ -2619,7 +2619,7 @@ function RegisterSection() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [messageBody, setMessageBody] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
 
