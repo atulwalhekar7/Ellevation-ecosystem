@@ -379,6 +379,10 @@ const LOGO_HEIGHT_DESKTOP = NAV_HEIGHT_DESKTOP; // 110
 const LOGO_WIDTH_MOBILE = 160;
 const LOGO_HEIGHT_MOBILE = NAV_HEIGHT_MOBILE - 4; // 68
 
+// Extra space between the logo and the first nav link (desktop only).
+// Adds on top of the nav's flex gap. Tweak to taste.
+const LOGO_RIGHT_SPACING_DESKTOP = 40;
+
 export default function EllevationNavbar() {
   const [darkMode, setDarkMode] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
@@ -480,6 +484,8 @@ export default function EllevationNavbar() {
               flexShrink: 0,
               position: "relative",
               zIndex: 1,
+              // Gap between logo and "Home"
+              marginRight: isMobile ? "0px" : `${LOGO_RIGHT_SPACING_DESKTOP}px`,
             }}
           >
             <div

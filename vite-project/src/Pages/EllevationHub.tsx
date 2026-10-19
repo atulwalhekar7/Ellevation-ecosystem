@@ -538,13 +538,6 @@ const PROGRAMS_IN_ACTION = [
   { title: "Business Directory",    desc: "Visibility and referral pathways helping member businesses grow sustainably.",                 icon: "◈" },
 ];
 
-// ─── Language selector (Google Translate website widget) ────────────────────
-
-
-
-
-
-
 // ─── Navbar ──────────────────────────────────────────────────────────────────
 function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
   const [scrolled, setScrolled] = useState(false);
@@ -636,8 +629,6 @@ function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
             </button>
           ))}
         </div>
-
-        {/* Language selector */}
 
         {/* Mobile hamburger toggle */}
         <button
@@ -3162,176 +3153,135 @@ export default function EllevationHub() {
         [data-theme="dark"] .hub-programs-section .hub-programs-card-text { color: rgba(255,255,255,0.75) !important; }
         [data-theme="dark"] .hub-programs-section .hub-programs-card-title { color: #e8e0f8 !important; }
 
-        /* ═══════════════════════════════════════
-           NAVBAR — single centered pill row,
-           FIXED to the viewport at all times.
-           NOTE: the base rules come FIRST and the @media overrides
-           come AFTER them, otherwise the base rules win.
-           ═══════════════════════════════════════ */
-        .ms-nav-row{
+        /* ═══════════════ NAVBAR — matches Ms Ellevation ═══════════════
+           Every rule is scoped under .hub-root so it beats any other
+           .ms-nav rule coming from another stylesheet. */
+        .hub-root .ms-nav-row{
           position:fixed; top:0; left:0; right:0; z-index:100;
           display:flex; flex-direction:column; align-items:center;
-          padding:10px 20px 0;
+          padding:22px 24px 0;
         }
-        .ms-nav{
+        .hub-root .ms-nav{
           width:100%;
-          max-width:1360px;
-          display:flex;
-          align-items:center;
-          gap:12px;
+          max-width:1620px !important;      /* centred, same side space as Ms Ellevation */
+          margin:0 auto !important;
+          display:flex; align-items:center;
+          gap:28px;
+          min-height:124px;
           background:rgba(255,255,255,0.92);
           backdrop-filter:blur(16px);
           -webkit-backdrop-filter:blur(16px);
           border:1px solid rgba(102,35,105,0.08);
           border-radius:100px;
-          padding:3px 10px 3px 8px;
+          padding:0 20px 0 12px;
           box-shadow:0 2px 16px rgba(102,35,105,0.08);
           transition:box-shadow 0.3s ease;
         }
-        .ms-nav.ms-nav-scrolled{
-          box-shadow:0 4px 32px rgba(102,35,105,0.18);
-        }
-        .ns-back-home{
-          display:flex; align-items:center; gap:6px;
-          font-family:'Montserrat', sans-serif;
-          font-size:0.9rem; font-weight:600;
+        .hub-root .ms-nav.ms-nav-scrolled{ box-shadow:0 4px 32px rgba(102,35,105,0.18); }
+
+        .hub-root .ns-back-home{
+          display:flex; align-items:center; gap:8px;
+          font-family:'Montserrat',sans-serif;
+          font-size:0.95rem; font-weight:600;
           color:#662369;
           background:rgba(102,35,105,0.06);
           border:1px solid rgba(102,35,105,0.12);
           border-radius:100px;
-          padding:9px 16px;
-          cursor:pointer;
-          white-space:nowrap;
+          padding:11px 22px;
+          cursor:pointer; white-space:nowrap; flex-shrink:0;
           transition:all 0.2s ease;
-          flex-shrink:0;
         }
-        .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
+        .hub-root .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
 
-        /* Logo overflows outside the navbar pill. Net layout height = 130 + (-33 * 2) = 64px */
-        .ns-logo{
-          height:130px;
-          width:auto;
-          margin:-33px 0;
+        /* Bigger logo. Net height stays 124px thanks to the negative margins. */
+        .hub-root .ns-logo{
+          height:150px !important;
+          width:auto !important;
+          max-width:none !important;
+          margin:-13px 0 !important;
           object-fit:contain;
-          cursor:pointer;
-          flex-shrink:0;
-          position:relative;
-          z-index:5;
+          cursor:pointer; flex-shrink:0;
+          position:relative; z-index:5;
         }
 
-        .ns-links-desktop{
-          display:flex; align-items:center; gap:2px;
-          flex:1;
-          justify-content:center;
-          flex-wrap:wrap;
+        .hub-root .ns-links-desktop{
+          display:flex; align-items:center; justify-content:center;
+          gap:8px; flex:1; flex-wrap:nowrap;
         }
-        .ns-link{
-          font-family:'Montserrat', sans-serif;
-          font-size:0.95rem; font-weight:500;
-          color:#662369; background:transparent;
-          border:none; cursor:pointer;
-          padding:9px 12px; border-radius:100px;
-          transition:all 0.2s ease; white-space:nowrap;
-        }
-        .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
-        .ns-link.active{
-          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
-          color:#fff; font-weight:600;
-          box-shadow:0 2px 12px rgba(26,10,46,0.25);
-        }
-        .ns-link.active:hover{ opacity:1; }
-
-        /* Language selector */
-        .ns-lang{ display:flex; align-items:center; gap:6px; flex-shrink:0; color:#662369; position:relative; }
-        .ns-lang select{
-          font-family:'Montserrat', sans-serif; font-size:0.85rem; font-weight:600;
-          color:#662369; background:rgba(102,35,105,0.06);
-          border:1px solid rgba(102,35,105,0.12); border-radius:100px;
-          padding:8px 12px; max-width:150px; cursor:pointer;
-        }
-
-        .ns-menu-toggle{
-          display:none;
-          flex-direction:column;
-          justify-content:center;
-          align-items:center;
-          gap:5px;
-          width:38px; height:38px;
-          border-radius:50%;
-          border:none;
-          background:rgba(102,35,105,0.06);
-          cursor:pointer;
-          flex-shrink:0;
-        }
-        .ns-menu-toggle span{
-          display:block; width:18px; height:2px;
-          background:#662369; border-radius:2px;
-          transition:all 0.25s ease;
-        }
-        .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
-        .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
-        .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
-        .ns-mobile-menu{
-          max-height:0;
-          overflow:hidden;
-          width:100%;
-          max-width:1360px;
-          opacity:0;
-          transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
-        }
-        .ns-mobile-menu.open{
-          max-height:520px;
-          opacity:1;
-          margin-top:10px;
-          display:flex; flex-direction:column; gap:4px;
-          background:rgba(255,255,255,0.97);
-          backdrop-filter:blur(16px);
-          border-radius:22px;
-          padding:10px;
-          box-shadow:0 12px 40px rgba(102,35,105,0.16);
-          border:1px solid rgba(102,35,105,0.08);
-          overflow-y:auto;
-          max-height:calc(100vh - 100px);
-        }
-        .ns-mobile-menu .ns-mobile-link{
-          display:block;
-          width:100%;
-          text-align:left;
-          font-family:'Montserrat', sans-serif;
+        .hub-root .ns-link{
+          font-family:'Montserrat',sans-serif;
           font-size:1.05rem; font-weight:500;
           color:#662369; background:transparent;
           border:none; cursor:pointer;
-          padding:13px 18px; border-radius:14px;
-          transition:all 0.2s ease;
+          padding:11px 16px; border-radius:100px;
+          transition:all 0.2s ease; white-space:nowrap;
         }
-        .ns-mobile-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
-        .ns-mobile-link.active{
-          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important;
-          color:#fff !important;
+        .hub-root .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
+        .hub-root .ns-link.active{
+          background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%);
+          color:#fff; font-weight:600;
+          box-shadow:0 2px 12px rgba(26,10,46,0.25);
+        }
+        .hub-root .ns-link.active:hover{ opacity:1; }
+
+        .hub-root .ns-menu-toggle{
+          display:none; flex-direction:column; justify-content:center; align-items:center;
+          gap:5px; width:42px; height:42px; border-radius:50%; border:none;
+          background:rgba(102,35,105,0.06); cursor:pointer; flex-shrink:0;
+          margin-left:auto;
+        }
+        .hub-root .ns-menu-toggle span{ display:block; width:18px; height:2px; background:#662369; border-radius:2px; transition:all 0.25s ease; }
+        .hub-root .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+        .hub-root .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
+        .hub-root .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+        .hub-root .ns-mobile-menu{
+          max-height:0; overflow:hidden; width:100%; max-width:1620px; opacity:0;
+          transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
+        }
+        .hub-root .ns-mobile-menu.open{
+          opacity:1; margin-top:10px;
+          display:flex; flex-direction:column; gap:4px;
+          background:rgba(255,255,255,0.97);
+          backdrop-filter:blur(16px);
+          border-radius:22px; padding:10px;
+          box-shadow:0 12px 40px rgba(102,35,105,0.16);
+          border:1px solid rgba(102,35,105,0.08);
+          overflow-y:auto; max-height:calc(100vh - 100px);
+        }
+        .hub-root .ns-mobile-link{
+          display:block; width:100%; text-align:left;
+          font-family:'Montserrat',sans-serif; font-size:1.05rem; font-weight:500;
+          color:#662369; background:transparent; border:none; cursor:pointer;
+          padding:13px 18px; border-radius:14px; transition:all 0.2s ease;
+        }
+        .hub-root .ns-mobile-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
+        .hub-root .ns-mobile-link.active{
+          background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%) !important; color:#fff !important;
         }
 
-        /* Slightly smaller links on small laptops so all 9 + language selector fit */
-        @media (min-width: 1241px) and (max-width: 1400px){
-          .ns-link{ padding:9px 8px; font-size:0.88rem; }
-          .ms-nav{ gap:8px; }
-          .ns-back-home{ padding:9px 12px; font-size:0.85rem; }
+        /* Smaller laptops: tighten so all 9 links fit */
+        @media (max-width:1560px){
+          .hub-root .ms-nav{ gap:16px; min-height:112px; }
+          .hub-root .ns-logo{ height:132px !important; margin:-10px 0 !important; }
+          .hub-root .ns-link{ padding:10px 11px; font-size:0.95rem; }
+          .hub-root .ns-links-desktop{ gap:2px; }
+          .hub-root .ns-back-home{ padding:10px 16px; font-size:0.88rem; }
         }
 
-        /* Tablet + mobile: hamburger menu, desktop links hide (MUST stay below the base rules) */
-        @media (max-width: 1240px){
-          .ns-links-desktop{ display:none; }
-          .ns-menu-toggle{ display:flex; }
-          .ns-lang{ margin-left:auto; }
-          .ns-logo{ height:140px; margin:-38px 0; }   /* net 64px */
+        /* Tablet + mobile: hamburger */
+        @media (max-width:1240px){
+          .hub-root .ms-nav-row{ padding:16px 16px 0; }
+          .hub-root .ms-nav{ min-height:76px; gap:12px; padding:0 12px 0 10px; }
+          .hub-root .ns-links-desktop{ display:none; }
+          .hub-root .ns-menu-toggle{ display:flex; }
+          .hub-root .ns-logo{ height:110px !important; margin:-17px 0 !important; }
         }
-
-        /* Small mobile */
-        @media (max-width: 560px){
-          .ns-back-home span{ display:none; }
-          .ns-back-home{ padding:9px 12px; }
-          .ns-logo{ height:120px; margin:-38px 0; }   /* net 44px */
-          .ms-nav{ padding:3px 8px; gap:10px; }
-          .ns-lang select{ max-width:96px; font-size:0.78rem; padding:7px 8px; }
+        @media (max-width:560px){
+          .hub-root .ms-nav{ min-height:60px; }
+          .hub-root .ns-back-home span{ display:none; }
+          .hub-root .ns-back-home{ padding:9px 12px; }
+          .hub-root .ns-logo{ height:88px !important; margin:-14px 0 !important; }
         }
 
         /* Hide Google Translate's default top banner / tooltip so the page doesn't shift */
@@ -3408,32 +3358,16 @@ export default function EllevationHub() {
 
         /* ── Dark Mode Overrides ── */
 
-        /* Navbar */
-        [data-theme="dark"] .ms-nav {
-          background: rgba(22, 13, 34, 0.92) !important;
-          border-color: rgba(155, 109, 190, 0.15) !important;
-        }
-        [data-theme="dark"] .ms-nav.ms-nav-scrolled {
-          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important;
-        }
+        /* Navbar (pill background + logo; sizes are set in the scoped block above) */
+        [data-theme="dark"] .hub-root .ms-nav{ background:rgba(22,13,34,0.92) !important; border-color:rgba(155,109,190,0.15) !important; }
+        [data-theme="dark"] .hub-root .ms-nav.ms-nav-scrolled{ box-shadow:0 4px 32px rgba(0,0,0,0.35) !important; }
+        [data-theme="dark"] .hub-root .ns-logo{ filter:none; }
+
         /* Root background must follow the theme, otherwise a light strip shows
            behind/around the fixed navbar in dark mode */
         [data-theme="dark"] .hub-root {
           background: #0d0614 !important;
           color: #e8e0f8 !important;
-        }
-        /* Dark-mode logo is smaller (net layout height stays the same,
-           so the navbar height doesn't change) */
-        [data-theme="dark"] .ns-logo {
-          filter: none;
-          height: 96px;
-          margin: -16px 0;
-        }
-        @media (max-width: 1240px) {
-          [data-theme="dark"] .ns-logo { height: 96px; margin: -16px 0; }
-        }
-        @media (max-width: 560px) {
-          [data-theme="dark"] .ns-logo { height: 76px; margin: -16px 0; }
         }
         [data-theme="dark"] .ns-link {
           color: #d9a8cd !important;
@@ -3462,8 +3396,6 @@ export default function EllevationHub() {
         [data-theme="dark"] .ns-mobile-link:hover {
           background: rgba(217, 168, 205, 0.1) !important;
         }
-        [data-theme="dark"] .ns-lang { color: #d9a8cd; }
-        [data-theme="dark"] .ns-lang select { color: #d9a8cd; background: #160d22; border-color: rgba(217,168,205,0.25); }
 
         /* Home section */
         [data-theme="dark"] .hub-home-bg {

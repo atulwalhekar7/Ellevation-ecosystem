@@ -30,7 +30,7 @@ const NAV_LINKS: { label: string; page: Page }[] = [
   { label: "Your Journey", page: "journey" },
   { label: "Programs", page: "programs" },
   { label: "Our Community", page: "membership" },
-    { label: "Events", page: "events" },
+  { label: "Events", page: "events" },
   { label: "Stories", page: "stories" },
   { label: "Start Your Journey", page: "join" },
 ];
@@ -67,7 +67,7 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Explore Ms. Ellevation's programs and workshops designed to help women build confidence, strengthen identity, develop leadership and connect with community.",
   },
-    membership: {
+  membership: {
     title: "Our Community | Discover, Rise, Elevate | Ms. Ellevation",
     description:
       "Explore the Ms. Ellevation community — Discover, Rise and Elevate — designed to help women move from self-discovery to leadership and lasting impact.",
@@ -82,7 +82,7 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Read real stories of transformation from women whose lives have been changed through the Ms. Ellevation community.",
   },
-   join: {
+  join: {
     title: "Join Our Community | Ms. Ellevation",
     description:
       "Whether you're discovering Ms Ellevation for the first time or ready to become a member, we're here to support your journey.",
@@ -138,6 +138,7 @@ function validateForm(data: FormData): FormErrors {
 function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const rowRef = useRef<HTMLDivElement>(null);
   const routerNavigate = useNavigate(); // ✅ react-router navigation (same tab)
 
   useEffect(() => {
@@ -148,6 +149,28 @@ function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
 
   // close mobile menu whenever the active page changes
   useEffect(() => { setMenuOpen(false); }, [current]);
+
+  // The navbar is `position: fixed`, so measure its real height (including the
+  // expanded mobile dropdown) and publish it as --nav-height for page content.
+  useEffect(() => {
+    const el = rowRef.current;
+    if (!el) return;
+
+    const setVar = () => {
+      document.documentElement.style.setProperty("--nav-height", `${el.offsetHeight}px`);
+    };
+
+    setVar();
+
+    const ro = new ResizeObserver(setVar);
+    ro.observe(el);
+    window.addEventListener("resize", setVar);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", setVar);
+    };
+  }, [menuOpen, current]);
 
   const goHome = () => { routerNavigate("/"); setMenuOpen(false); };
   const goPage = (p: Page) => { nav(p); setMenuOpen(false); };
@@ -172,7 +195,7 @@ function Navbar({ current, nav }: { current: Page; nav: NavFn }) {
 
 
   return (
-    <div className="ms-nav-row">
+    <div className="ms-nav-row" ref={rowRef}>
       <nav className={`ms-nav ${scrolled ? "ms-nav-scrolled" : ""}`}>
         {/* Back to Home */}
         <button onClick={goHome} className="ns-back-home" aria-label="Back to home">
@@ -358,7 +381,7 @@ function HomePage({ nav }: { nav: NavFn }) {
 }
 const hp: Record<string, React.CSSProperties> = {
   page: { position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center", padding: "60px 48px" },
-   bgGrad: {
+  bgGrad: {
     position: "absolute", inset: 0,
     background: `linear-gradient(135deg, rgba(75,30,86,0.82) 0%, rgba(122,40,120,0.72) 55%, rgba(200,70,140,0.60) 100%), url('${BANNER_IMAGES.home}')`,
     backgroundSize: "cover",
@@ -623,7 +646,8 @@ function AboutPage({ nav }: { nav: NavFn }) {
           </p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32, flexWrap:"wrap" as const }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-<button className="ab-btn-outline" style={ab.btnL} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>          </div>
+            <button className="ab-btn-outline" style={ab.btnL} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>
+          </div>
         </div>
       </section>
 
@@ -767,10 +791,10 @@ function AboutPage({ nav }: { nav: NavFn }) {
         nav={nav}
         title="When Women Rise, Communities Rise."
         body="Whether you are seeking confidence, connection, leadership development or a community that understands your journey, there is a place for you here. Find your place. Lift your voice. Flourish."
-      buttons={[
-  { label: "START YOUR JOURNEY", page: "join" },
-  { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
-]}
+        buttons={[
+          { label: "START YOUR JOURNEY", page: "join" },
+          { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
+        ]}
       />
     </div>
   );
@@ -899,7 +923,7 @@ function JourneyPage({ nav }: { nav: NavFn }) {
         note="No matter where you begin, there is a place for you here."
       />
 
-            <ProgramCards nav={nav} />
+      <ProgramCards nav={nav} />
 
 
       <ClosingCtaSection
@@ -908,7 +932,8 @@ function JourneyPage({ nav }: { nav: NavFn }) {
         body="You already have the potential. This journey helps you discover it, strengthen it and use it to create meaningful impact. Identity → Confidence → Leadership. Find your place. Lift your voice. Flourish."
         buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
-{ label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },        ]}
+          { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
+        ]}
       />
     </div>
   );
@@ -1079,7 +1104,7 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
       <JourneyFrameworkStrip />
 
       {/* Programs */}
-            <ProgramCards nav={nav} />
+      <ProgramCards nav={nav} />
 
       {/* Ecosystem */}
       <section className="pathway2-section">
@@ -1110,7 +1135,8 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
         body="Every program, workshop and community experience is designed to help women honour their stories, strengthen their identity, build confidence and step into leadership. Find your place. Lift your voice. Shine."
         buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
-{ label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },        ]}
+          { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
+        ]}
       />
     </div>
   );
@@ -1288,7 +1314,7 @@ function MembershipPage({ nav }: { nav: NavFn }) {
           <p className="mb-pillars" style={mb.pillars}>Identity • Confidence • Leadership • Impact</p>
           <p className="mb-question" style={mb.question}>The question is: "Who am I becoming?"</p>
           <button style={mb.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
-                  </div>
+        </div>
       </section>
 
       {/* ── Philosophy ── */}
@@ -1958,7 +1984,8 @@ function Field({ label, value, error, onChange, type="text" }: { label:string; v
 }
 
 const jp: Record<string, React.CSSProperties> = {
-  banner: { position:"relative", overflow:"hidden", padding:"56px 24px 48px", textAlign:"center", minHeight:"clamp(240px, 26vw, 340px)", display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg, #4B1E56 0%, #1a0a2e 100%)" },  eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
+  banner: { position:"relative", overflow:"hidden", padding:"56px 24px 48px", textAlign:"center", minHeight:"clamp(240px, 26vw, 340px)", display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg, #4B1E56 0%, #1a0a2e 100%)" },
+  eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
   line: { display:"inline-block", width:40, height:1, background:"rgba(255,255,255,0.6)" },
   eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#EFBF68" },
   bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
@@ -2029,7 +2056,7 @@ export default function EllevationPage() {
     metaDescTag.setAttribute("content", meta.description);
   }, [page]);
 
-    const nav: NavFn = (p, param) => {
+  const nav: NavFn = (p, param) => {
     if (p === "home") {
       setSearchParams({});
     } else if (p === "register" && param) {
@@ -2073,115 +2100,140 @@ export default function EllevationPage() {
         button:active{transform:translateY(0);}
         button:disabled:hover{opacity:0.7;transform:none;filter:none;}
 
-        /* ═══════════════════════════════════════
-           NAVBAR
-           Logo: NO animation. Overflows the pill a little (top + bottom)
-           without making the navbar taller.
-           Net logo layout height = height + margin-top + margin-bottom
-           Desktop : 130 - 23 - 23 = 84px
-           Tablet  : 110 - 19 - 19 = 72px
-           Mobile  :  90 - 15 - 15 = 60px
-           ═══════════════════════════════════════ */
-        .ms-ellevation-root{ padding-top: 124px; }
-        .ms-nav-row{
+        /* ═══════════════ NAVBAR — same as Ellevation Hub ═══════════════
+           Every rule is scoped under .ms-ellevation-root so it always wins.
+           The navbar is position:fixed, so the page content is pushed down by
+           --nav-height (measured in <Navbar>). 146px = 22px padding + 124px pill
+           is the first-paint fallback. */
+        .ms-ellevation-root{ padding-top: var(--nav-height, 146px); }
+
+        .ms-ellevation-root .ms-nav-row{
           position:fixed; top:0; left:0; right:0; z-index:100;
           display:flex; flex-direction:column; align-items:center;
-          padding:16px 20px 0;
+          padding:22px 24px 0;
         }
-        .ms-nav{
-          width:100%; max-width:1300px; display:flex; align-items:center; gap:14px;
+        .ms-ellevation-root .ms-nav{
+          width:100%;
+          max-width:1620px !important;      /* centred, same side space as Ellevation Hub */
+          margin:0 auto !important;
+          display:flex; align-items:center;
+          gap:28px;
+          min-height:124px;
           background:rgba(255,255,255,0.92);
-          backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-          border:1px solid rgba(75,30,86,0.08); border-radius:100px;
-          padding:8px 10px 8px 8px; box-shadow:0 2px 16px rgba(75,30,86,0.08);
+          backdrop-filter:blur(16px);
+          -webkit-backdrop-filter:blur(16px);
+          border:1px solid rgba(102,35,105,0.08);
+          border-radius:100px;
+          padding:0 20px 0 12px;
+          box-shadow:0 2px 16px rgba(102,35,105,0.08);
           transition:box-shadow 0.3s ease;
         }
-        .ms-nav.ms-nav-scrolled{ box-shadow:0 4px 32px rgba(75,30,86,0.18); }
-        .ns-back-home{
-          display:flex; align-items:center; gap:6px;
-          font-family:'Montserrat', sans-serif; font-size:0.9rem; font-weight:600;
-          color:#4B1E56; background:rgba(75,30,86,0.06);
-          border:1px solid rgba(75,30,86,0.12); border-radius:100px;
-          padding:9px 16px; cursor:pointer; white-space:nowrap; transition:all 0.2s ease; flex-shrink:0;
+        .ms-ellevation-root .ms-nav.ms-nav-scrolled{ box-shadow:0 4px 32px rgba(102,35,105,0.18); }
+
+        .ms-ellevation-root .ns-back-home{
+          display:flex; align-items:center; gap:8px;
+          font-family:'Montserrat',sans-serif;
+          font-size:0.95rem; font-weight:600;
+          color:#662369;
+          background:rgba(102,35,105,0.06);
+          border:1px solid rgba(102,35,105,0.12);
+          border-radius:100px;
+          padding:11px 22px;
+          cursor:pointer; white-space:nowrap; flex-shrink:0;
+          transition:all 0.2s ease;
         }
-        .ns-back-home:hover{ background:rgba(75,30,86,0.12); opacity:1; }
+        .ms-ellevation-root .ns-back-home:hover{ background:rgba(102,35,105,0.12); opacity:1; }
 
- .ns-logo {
-  height: 100px;          /* was 110px */
-  width: auto;
-  margin: -8px 0;        /* net 64px */
-  object-fit: contain;
-  cursor: pointer;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 5;
-}
-
-        .ns-links-desktop{ display:flex; align-items:center; gap:2px; flex:1; justify-content:center; flex-wrap:wrap; }
-       .ns-link{
-  font-family:'Montserrat', sans-serif; font-size:0.98rem; font-weight:500;   /* was 0.84rem */
-  color:#4B1E56; background:transparent; border:none; cursor:pointer;
-  padding:10px 14px; border-radius:100px; transition:all 0.2s ease; white-space:nowrap;
-}
-        .ns-link:hover{ background:rgba(75,30,86,0.06); opacity:1; transform:none; }
-        .ns-link.active{
-          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
-          color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(26,10,46,0.25);
+        /* Big logo that overflows the pill. Net height stays 124px thanks to the negative margins. */
+        .ms-ellevation-root .ns-logo{
+          height:150px !important;
+          width:auto !important;
+          max-width:none !important;
+          margin:-13px 0 !important;
+          object-fit:contain;
+          cursor:pointer; flex-shrink:0;
+          position:relative; z-index:5;
         }
-        .ns-link.active:hover{ opacity:1; }
 
-        /* 8 nav items now — tighten the desktop links a touch so they stay on one row */
-@media (min-width: 1025px) and (max-width: 1320px){
-  .ns-link{ padding:9px 10px; font-size:0.88rem; }
-  .ms-nav{ gap:8px; }
-}
-
-        .ns-menu-toggle{
-          display:none; flex-direction:column; justify-content:center; align-items:center; gap:5px;
-          width:38px; height:38px; border-radius:50%; border:none; background:rgba(75,30,86,0.06); cursor:pointer; flex-shrink:0;
+        .ms-ellevation-root .ns-links-desktop{
+          display:flex; align-items:center; justify-content:center;
+          gap:8px; flex:1; flex-wrap:nowrap;
         }
-        .ns-menu-toggle:hover{ background:rgba(75,30,86,0.12); }
-        .ns-menu-toggle span{ display:block; width:18px; height:2px; background:#4B1E56; border-radius:2px; transition:all 0.25s ease; }
-        .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
-        .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
-        .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
-        .ns-mobile-menu{
-          max-height:0; overflow:hidden; width:100%; max-width:1300px; opacity:0;
+        .ms-ellevation-root .ns-link{
+          font-family:'Montserrat',sans-serif;
+          font-size:1.05rem; font-weight:500;
+          color:#662369; background:transparent;
+          border:none; cursor:pointer;
+          padding:11px 16px; border-radius:100px;
+          transition:all 0.2s ease; white-space:nowrap;
+        }
+        .ms-ellevation-root .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; transform:none; }
+        .ms-ellevation-root .ns-link.active{
+          background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%);
+          color:#fff; font-weight:600;
+          box-shadow:0 2px 12px rgba(26,10,46,0.25);
+        }
+        .ms-ellevation-root .ns-link.active:hover{ opacity:1; }
+
+        .ms-ellevation-root .ns-menu-toggle{
+          display:none; flex-direction:column; justify-content:center; align-items:center;
+          gap:5px; width:42px; height:42px; border-radius:50%; border:none;
+          background:rgba(102,35,105,0.06); cursor:pointer; flex-shrink:0;
+          margin-left:auto;
+        }
+        .ms-ellevation-root .ns-menu-toggle:hover{ background:rgba(102,35,105,0.12); }
+        .ms-ellevation-root .ns-menu-toggle span{ display:block; width:18px; height:2px; background:#662369; border-radius:2px; transition:all 0.25s ease; }
+        .ms-ellevation-root .ns-menu-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+        .ms-ellevation-root .ns-menu-toggle.open span:nth-child(2){ opacity:0; }
+        .ms-ellevation-root .ns-menu-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+        .ms-ellevation-root .ns-mobile-menu{
+          max-height:0; overflow:hidden; width:100%; max-width:1620px; opacity:0;
           transition:max-height 0.3s ease, opacity 0.25s ease, margin 0.3s ease;
         }
-        .ns-mobile-menu.open{ max-height:480px; opacity:1; margin-top:10px; }
-        .ns-mobile-menu .ns-mobile-link{
+        .ms-ellevation-root .ns-mobile-menu.open{
+          opacity:1; margin-top:10px;
+          display:flex; flex-direction:column; gap:4px;
+          background:rgba(255,255,255,0.97);
+          backdrop-filter:blur(16px);
+          border-radius:22px; padding:10px;
+          box-shadow:0 12px 40px rgba(102,35,105,0.16);
+          border:1px solid rgba(102,35,105,0.08);
+          overflow-y:auto; max-height:calc(100vh - 100px);
+        }
+        .ms-ellevation-root .ns-mobile-link{
           display:block; width:100%; text-align:left;
-          font-family:'Montserrat', sans-serif; font-size:1.08rem; font-weight:500;
-          color:#4B1E56; background:transparent; border:none; cursor:pointer;
+          font-family:'Montserrat',sans-serif; font-size:1.05rem; font-weight:500;
+          color:#662369; background:transparent; border:none; cursor:pointer;
           padding:13px 18px; border-radius:14px; transition:all 0.2s ease;
         }
-        .ns-mobile-menu.open{
-          display:flex; flex-direction:column; gap:4px;
-          background:rgba(255,255,255,0.97); backdrop-filter:blur(16px);
-          border-radius:22px; padding:10px; box-shadow:0 12px 40px rgba(75,30,86,0.16);
-          border:1px solid rgba(75,30,86,0.08);
-        }
-        .ns-mobile-link:hover{ background:rgba(75,30,86,0.06); opacity:1; transform:none; }
-        .ns-mobile-link.active{
-          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%) !important; color:#fff !important;
+        .ms-ellevation-root .ns-mobile-link:hover{ background:rgba(102,35,105,0.06); opacity:1; transform:none; }
+        .ms-ellevation-root .ns-mobile-link.active{
+          background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%) !important; color:#fff !important;
         }
 
-        /* Tablet: hamburger menu, slightly smaller logo */
-        @media (max-width: 1024px){
-          .ns-links-desktop{ display:none; }
-          .ns-menu-toggle{ display:flex; }
-          .ns-logo{ height:110px; margin:-19px 0; }   /* net 72px */
-          .ms-ellevation-root{ padding-top: 112px; }
+        /* Smaller laptops: tighten so all 8 links still fit on one row */
+        @media (min-width:1241px) and (max-width:1560px){
+          .ms-ellevation-root .ms-nav{ gap:14px; min-height:112px; }
+          .ms-ellevation-root .ns-logo{ height:110px !important; margin:-10px 0 !important; }
+          .ms-ellevation-root .ns-link{ padding:10px 9px; font-size:0.92rem; }
+          .ms-ellevation-root .ns-links-desktop{ gap:2px; }
+          .ms-ellevation-root .ns-back-home{ padding:10px 16px; font-size:0.88rem; }
         }
-        /* Mobile */
-        @media (max-width: 560px){
-          .ns-back-home span{ display:none; }
-          .ns-back-home{ padding:9px 12px; }
-          .ns-logo{ height:90px; margin:-15px 0; }    /* net 60px */
-          .ms-nav{ padding:7px 8px; gap:10px; }
-          .ms-nav-row{ padding:12px 14px 0; }
-          .ms-ellevation-root{ padding-top: 96px; }
+
+        /* Tablet + mobile: hamburger */
+        @media (max-width:1240px){
+          .ms-ellevation-root .ms-nav-row{ padding:16px 16px 0; }
+          .ms-ellevation-root .ms-nav{ min-height:76px; gap:12px; padding:0 12px 0 10px; }
+          .ms-ellevation-root .ns-links-desktop{ display:none; }
+          .ms-ellevation-root .ns-menu-toggle{ display:flex; }
+          .ms-ellevation-root .ns-logo{ height:110px !important; margin:-17px 0 !important; }
+        }
+        @media (max-width:560px){
+          .ms-ellevation-root .ms-nav{ min-height:60px; }
+          .ms-ellevation-root .ns-back-home span{ display:none; }
+          .ms-ellevation-root .ns-back-home{ padding:9px 12px; }
+          .ms-ellevation-root .ns-logo{ height:88px !important; margin:-14px 0 !important; }
         }
 
         @media (max-width: 900px){
@@ -2213,8 +2265,8 @@ export default function EllevationPage() {
           .ev-section{ padding:40px 24px 64px !important; }
           .st-banner{ padding:56px 24px 48px !important; min-height:clamp(320px, 60vw, 420px) !important; }
           .st-section{ padding:48px 24px 64px !important; }
-.jp-banner{ padding:40px 24px 36px !important; min-height:auto !important; }   /* inside max-width:768px */
-.jp-banner{ min-height:auto !important; }                                       /* inside max-width:560px */          .jp-card{ padding:36px 24px 40px !important; }
+          .jp-banner{ padding:40px 24px 36px !important; min-height:auto !important; }
+          .jp-card{ padding:36px 24px 40px !important; }
           .story-section, .story-inner{ padding-left:24px !important; padding-right:24px !important; }
           .values-grid{ grid-template-columns:1fr !important; }
           .pathways-grid{ grid-template-columns:1fr !important; }
@@ -2257,7 +2309,7 @@ export default function EllevationPage() {
         /* ═══════════════════════════════════════
            Home page: Community section
            ═══════════════════════════════════════ */
-        .welcome-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 50px 24px; scroll-margin-top: 140px; }
+        .welcome-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 50px 24px; scroll-margin-top: calc(var(--nav-height, 146px) + 16px); }
         .welcome-grid { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
         .welcome-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #662369; margin: 0 0 14px; }
         .welcome-title { font-family: 'Astrid Regular', serif; font-size: clamp(34px, 4.5vw, 50px); font-weight: 700; line-height: 1.18; color: #1a0a2e; margin: 0 0 22px; }
@@ -2804,15 +2856,22 @@ export default function EllevationPage() {
 
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .ms-ellevation-root { background: #0d0614 !important; color: #e8e0f8 !important; }
-        [data-theme="dark"] .ms-nav { background: rgba(22, 13, 34, 0.92) !important; border-color: rgba(155, 109, 190, 0.15) !important; box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important; }
+
+        /* Navbar (pill background; sizes are set in the scoped block above) */
+        [data-theme="dark"] .ms-ellevation-root .ms-nav { background: rgba(22, 13, 34, 0.92) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
+        [data-theme="dark"] .ms-ellevation-root .ms-nav.ms-nav-scrolled { box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35) !important; }
+        [data-theme="dark"] .ms-ellevation-root .ns-logo { filter: none; }
         [data-theme="dark"] .ns-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
+        [data-theme="dark"] .ns-link.active { color: #ffffff !important; }
         [data-theme="dark"] .ns-back-home { color: #d9a8cd !important; background: rgba(217, 168, 205, 0.1) !important; border-color: rgba(217, 168, 205, 0.25) !important; }
         [data-theme="dark"] .ns-menu-toggle { background: rgba(217, 168, 205, 0.1) !important; }
         [data-theme="dark"] .ns-menu-toggle span { background: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-menu.open { background: rgba(22, 13, 34, 0.97) !important; border-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
+        [data-theme="dark"] .ns-mobile-link.active { color: #ffffff !important; }
+
         [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
         [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title,
         [data-theme="dark"] .mb-banner-title { color: #ffffff !important; }
@@ -2858,8 +2917,8 @@ export default function EllevationPage() {
         [data-theme="dark"] .impact-card-desc { color: #cbd5e1 !important; }
         [data-theme="dark"] .impact-tag-icon { color: #c9a3d9 !important; }
         [data-theme="dark"] .impact-tag-name { color: #ffffff !important; }
-[data-theme="dark"] .jp-intro-text { color: #d9a8cd !important; }
-[data-theme="dark"] .jp-banner-sub { color: rgba(255,255,255,0.9) !important; }
+        [data-theme="dark"] .jp-intro-text { color: #d9a8cd !important; }
+        [data-theme="dark"] .jp-banner-sub { color: rgba(255,255,255,0.9) !important; }
         [data-theme="dark"] .welcome-section, [data-theme="dark"] .jf-strip, [data-theme="dark"] .focus-section,
         [data-theme="dark"] .bullet-section { background: linear-gradient(180deg, #160d22 0%, #0d0614 100%) !important; }
         [data-theme="dark"] .welcome-image-frame { border-color: rgba(155, 109, 190, 0.25) !important; }
@@ -2985,7 +3044,7 @@ export default function EllevationPage() {
             title="Your Next Chapter Starts Here"
             body="Join a community where women are empowered to grow, lead and thrive."
             buttons={[
-{ label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
+              { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
               { label: "EXPLORE OUR PROGRAMS", page: "programs", variant: "outline" },
             ]}
           />
@@ -2997,8 +3056,8 @@ export default function EllevationPage() {
       {page === "membership" && <MembershipPage nav={nav} />}
       {page === "events"     && <EventsPage     nav={nav} />}
       {page === "stories"    && <StoriesPage />}
-          {page === "join"       && <JoinPage nav={nav} />}
+      {page === "join"       && <JoinPage nav={nav} />}
       {page === "register"   && <RegisterPage />}
-         </div>
+    </div>
   );
 }
