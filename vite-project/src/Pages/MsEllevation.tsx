@@ -117,7 +117,7 @@ const TIER_META: Record<MembershipTier, { label: string; tagline: string; color:
   ELEVATE:  { label: "Elevate",  tagline: "Influence & Legacy — create lasting impact across both ecosystems.",  color: "#6b2f7a" },
 };
 const REFERRAL_OPTIONS = ["Social Media","Friend or Colleague","Event","Search Engine","Press / Media","Other"];
-const emptyForm = (): FormData => ({ firstName:"",lastName:"",email:"",phone:"",location:"",profession:"",referral:"",goals:"",agree:false });
+const emptyForm = (): FormData => ({ firstName:"",lastName:"",email:"",phone:"",location:"",profession:"",referral:"",goals:"",agree:true });
 
 function validateForm(data: FormData): FormErrors {
   const e: FormErrors = {};
@@ -1816,7 +1816,7 @@ interface RegisterData {
   location: string; program: string; notes: string; agree: boolean;
 }
 type RegisterErrors = Partial<Record<keyof RegisterData, string>>;
-const emptyRegister = (program = ""): RegisterData => ({ firstName:"", lastName:"", email:"", phone:"", location:"", program, notes:"", agree:false });
+const emptyRegister = (program = ""): RegisterData => ({ firstName:"", lastName:"", email:"", phone:"", location:"", program, notes:"", agree:true });
 
 function RegisterPage() {
   const [searchParams] = useSearchParams();

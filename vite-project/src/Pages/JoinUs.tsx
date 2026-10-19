@@ -676,10 +676,12 @@ export default function JoinPage() {
                         checked={form.agree}
                         onChange={(e) => handleChange("agree", e.target.checked)}
                       />
-                      <span>
-                        I agree to the Ellevation{" "}
-                        <a href="#">Community Guidelines</a> and <a href="#">Terms of Membership</a>.
-                      </span>
+                                      <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                    {" "}and{" "}
+                    <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  </span>
                     </label>
                     {errors.agree && <span className="join-error">{errors.agree}</span>}
                   </div>

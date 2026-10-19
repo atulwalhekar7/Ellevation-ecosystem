@@ -539,11 +539,12 @@ export function EventDetailAndRSVP() {
                       onChange={(e) => handleChange("agree", e.target.checked)}
                       style={ev.checkbox}
                     />
-                    <span className="hub-event-agree-text" style={ev.agreeText}>
-                      I agree to the Ellevation{" "}
-                      <a href="#" style={ev.agreeLink}>Event Guidelines</a>{" "}
-                      and understand seats are non-transferable.
-                    </span>
+                                   <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
+                    {" "}and{" "}
+                    <a href="/terms" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Terms &amp; Conditions</a>
+                  </span>
                   </label>
                   {errors.agree && <span style={ev.errorMsg}>{errors.agree}</span>}
                 </div>

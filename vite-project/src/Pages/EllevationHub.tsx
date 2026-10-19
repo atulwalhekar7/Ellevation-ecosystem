@@ -1291,7 +1291,7 @@ function MembershipSection() {
   const [phone, setPhone]         = useState("");
   const [industry, setIndustry]   = useState("");
   const [notes, setNotes]         = useState("");
-  const [agreed, setAgreed]       = useState(false);
+  const [agreed, setAgreed]       = useState(true);
 
   const money = (n: number) => `$${n.toLocaleString("en-AU")}`;
   const billingLabel = billing === "annual" ? "Annual" : "Monthly";
@@ -2313,7 +2313,7 @@ function CommonEnquiryForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [messageBody, setMessageBody] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed] = useState(true);
 
   const ENQUIRY_STREAM_LABELS: Record<string, string> = {
     general: "General Enquiry",
@@ -2610,7 +2610,7 @@ function RegisterSection() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [messageBody, setMessageBody] = useState("");
-  const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -3204,21 +3204,23 @@ export default function EllevationHub() {
           position:relative; z-index:5;
         }
 
-        .hub-root .ns-links-desktop{
-          display:flex; align-items:center; justify-content:center;
-          gap:8px; flex:1; flex-wrap:nowrap;
+        .ns-links-desktop{
+          display:flex; align-items:center; gap:2px;
+          flex:1;
+          justify-content:center;
+          flex-wrap:wrap;
         }
-        .hub-root .ns-link{
-          font-family:'Montserrat',sans-serif;
-          font-size:1.05rem; font-weight:500;
+        .ns-link{
+          font-family:'Montserrat', sans-serif;
+          font-size:0.95rem; font-weight:500;
           color:#662369; background:transparent;
           border:none; cursor:pointer;
           padding:11px 16px; border-radius:100px;
           transition:all 0.2s ease; white-space:nowrap;
         }
-        .hub-root .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
-        .hub-root .ns-link.active{
-          background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%);
+        .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
+        .ns-link.active{
+          background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
           color:#fff; font-weight:600;
           box-shadow:0 2px 12px rgba(26,10,46,0.25);
         }

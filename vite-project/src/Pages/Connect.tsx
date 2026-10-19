@@ -249,6 +249,27 @@ Reach Out to Us          </h2>
                 />
               </div>
 
+              {/* Privacy & Terms consent */}
+<label className="consent-row" htmlFor="termsAccepted">
+  <input
+    type="checkbox"
+    id="termsAccepted"
+    required
+    className="consent-checkbox"
+  />
+  <span className="consent-text">
+    I agree to the{" "}
+    <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="consent-link">
+      Privacy Policy
+    </a>{" "}
+    and{" "}
+    <a href="/terms-condition" target="_blank" rel="noopener noreferrer" className="consent-link">
+      Terms &amp; Conditions
+    </a>
+    . *
+  </span>
+</label>
+
               {/* Action Operations Execution block */}
               <div style={{ marginTop: 8, display: "flex", justifyContent: "flex-end" }}>
                 <button
@@ -371,6 +392,35 @@ export default function EventsPage() {
           box-shadow: 0 4px 12px rgba(155,125,184,0.06);
         }
 
+        .consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+.consent-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: #9b7db8;
+  cursor: pointer;
+}
+.consent-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #2a183a;
+}
+.consent-link {
+  color: #662369;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.consent-link:hover { color: #D7B264; }
+
         /* ── Theme Switch Dark Mode System ── */
         [data-theme="dark"] body { background: #0f0a1a !important; }
         [data-theme="dark"] .events-hero { background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), url(${banner2}) !important; background-size: cover !important; }
@@ -384,6 +434,9 @@ export default function EventsPage() {
         [data-theme="dark"] .form-wrapper-card h3 { color: #f3ebff !important; }
         [data-theme="dark"] .form-wrapper-card p { color: #b8a8c8 !important; }
         [data-theme="dark"] .bounce-arrow { color: #a78bfa !important; }
+        [data-theme="dark"] .consent-text { color: #d8ccf4 !important; }
+[data-theme="dark"] .consent-link { color: #EFBF68 !important; }
+[data-theme="dark"] .consent-link:hover { color: #ffffff !important; }
       `}</style>
 
       <Hero />
