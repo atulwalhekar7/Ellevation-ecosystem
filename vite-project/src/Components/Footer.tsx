@@ -90,7 +90,7 @@ const socialIcons = [
   { icon: <InstagramIcon />, label: "Instagram", href: "https://www.instagram.com/ms_ellevation/" },
   { icon: <YoutubeIcon />, label: "YouTube", href: "https://www.youtube.com/@EllevationOfficial" },
   { icon: <TiktokIcon />, label: "TikTok", href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs" },
-  { icon: <MailIcon />, label: "Email", href: "/contact" },
+  { icon: <MailIcon />, label: "Email", href: "mailto:hello@ellevationhub.com.au" },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -226,22 +226,23 @@ export default function EllevationFooter() {
 
         /* Buttons are now real links (no <button> nested inside <a>),
            so clicking them always navigates. */
-        .btn-purple, .btn-ghost {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          padding: 14px 28px;
-          border-radius: 14px;
-          color: #ffffff;
-          font-family: 'Montserrat', sans-serif;
-          font-weight: 600;
-          font-size: 13px;
-          letter-spacing: 0.05em;
-          text-decoration: none;
-          cursor: pointer;
-          white-space: nowrap;
-        }
+       .btn-purple, .btn-ghost {
+  box-sizing: border-box;      /* NEW */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 14px;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
         .btn-purple {
           background: #D7B264;
           border: none;
@@ -292,15 +293,15 @@ export default function EllevationFooter() {
           background: rgba(255, 255, 255, 0.2);
         }
 
-        .footer-tagline {
-          font-family: 'Astrid Regular', serif;
-          font-size: 30px;
-          font-weight: 700;
-          line-height: 1.2;
-          color: #ffffff;
-          margin: 0 0 16px 0;
-          letter-spacing: -0.01em;
-        }
+       .footer-tagline {
+  font-family: 'Astrid Regular', serif;
+  font-size: 20px;       /* pehle 30px tha */
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+}
 
         .footer-flags {
           display: flex;
@@ -319,25 +320,29 @@ export default function EllevationFooter() {
         .footer-flag svg { width: 100%; height: 100%; display: block; }
 
         @media (max-width: 968px) {
-          .footer-grid {
-            grid-template-columns: 1fr !important;
-            gap: 48px !important;
-          }
+        .footer-grid {
+  grid-template-columns: minmax(0, 1fr) !important;   /* was 1fr */
+  gap: 48px !important;
+}
           .links-matrix {
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
             width: 100% !important;
           }
         }
         @media (max-width: 600px) {
-          .footer-brand-actions {
-            flex-direction: column;
-            gap: 14px;
-            width: 100%;
-          }
-          .btn-purple, .btn-ghost { width: 100%; }
+        .footer-brand-actions {
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+.btn-purple, .btn-ghost {
+  width: 100%;
+  padding: 14px 20px;     /* mobile pe thoda kam padding */
+  white-space: normal;    /* bahut chhoti screen pe text wrap ho sake */
+}
           .footer-logo-divider { display: none; }
           .footer-logo-link { width: 150px; height: 80px; }
-          .footer-tagline { font-size: 26px; }
+.footer-tagline { font-size: 18px; }   /* pehle 26px tha */
           .footer-ack { flex-direction: column; align-items: flex-start !important; }
         }
       `}</style>

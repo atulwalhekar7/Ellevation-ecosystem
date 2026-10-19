@@ -168,6 +168,7 @@ const FinalInvitationSection = () => {
         }
 
         .fi-content {
+         width: 100%;   
           text-align: center;
           display: flex;
           flex-direction: column;
@@ -232,6 +233,8 @@ const FinalInvitationSection = () => {
           box-shadow: 0 4px 14px rgba(90, 63, 160, 0.2);
           transition: background 0.2s, transform 0.2s, box-shadow 0.2s, gap 0.2s;
           white-space: nowrap;
+            box-sizing: border-box; 
+            justify-content: center; 
         }
 
         .fi-btn-primary:hover {
@@ -260,6 +263,8 @@ const FinalInvitationSection = () => {
           box-shadow: 0 4px 14px rgba(90, 63, 160, 0.2);
           transition: background 0.2s, transform 0.2s, box-shadow 0.2s, gap 0.2s;
           white-space: nowrap;
+            box-sizing: border-box; 
+            justify-content: center; 
         }
 
         .fi-btn-secondary:hover {
@@ -280,20 +285,20 @@ const FinalInvitationSection = () => {
           .final-invitation-section { padding: 80px 24px !important; }
         }
 
-        @media (max-width: 600px) {
-          .fi-buttons {
-            flex-direction: column;
-            gap: 14px;
-            width: 100%;
-          }
-          .fi-btn-primary,
-          .fi-btn-secondary {
-            width: 100%;
-            max-width: 280px;
-            justify-content: center;
-          }
-        }
-
+      @media (max-width: 600px) {
+  .fi-buttons {
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+  }
+  .fi-btn-primary,
+  .fi-btn-secondary {
+    width: 100%;
+    max-width: 100%;           /* was 280px */
+    padding: 14px 20px;
+    white-space: normal;       /* chhoti screen pe text wrap ho sake */
+  }
+}
         /* ── Dark Mode Overrides ── */
         [data-theme="dark"] .final-invitation-section {
           background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);

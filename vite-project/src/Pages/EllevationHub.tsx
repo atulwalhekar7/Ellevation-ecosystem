@@ -3219,12 +3219,13 @@ export default function EllevationHub() {
           z-index:5;
         }
 
-        .ns-links-desktop{
-          display:flex; align-items:center; gap:2px;
-          flex:1;
-          justify-content:center;
-          flex-wrap:wrap;
-        }
+.ns-links-desktop{
+  display:flex; align-items:center; gap:2px;
+  flex:1;
+  justify-content:flex-start;  
+  margin-left:8px;             
+}
+
         .ns-link{
           font-family:'Montserrat', sans-serif;
           font-size:0.95rem; font-weight:500;
@@ -3233,8 +3234,10 @@ export default function EllevationHub() {
           padding:9px 12px; border-radius:100px;
           transition:all 0.2s ease; white-space:nowrap;
         }
-        .ns-link:hover{ background:rgba(102,35,105,0.06); opacity:1; }
-        .ns-link.active{
+
+        .ns-link:hover { background:rgba(102,35,105,0.06); opacity:1; }
+        .ns-link.active 
+        {
           background:linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%);
           color:#fff; font-weight:600;
           box-shadow:0 2px 12px rgba(26,10,46,0.25);
