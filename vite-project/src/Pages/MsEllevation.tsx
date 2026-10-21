@@ -392,18 +392,18 @@ const hp: Record<string, React.CSSProperties> = {
   blobBR: { position: "absolute", bottom: -100, right: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation: "floatBlob 13s ease-in-out infinite reverse", zIndex: 1 },
   grid: { position: "relative", zIndex: 2, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 48, alignItems: "center", maxWidth: 1200, margin: "0 auto", width: "100%", animation: "fadeSlideUp 0.9s ease both" },
   left: { display: "flex", flexDirection: "column", gap: 24 },
-  eyebrow: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", color: "#ffffff" },
-  headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.4rem,4vw,3.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
+  eyebrow: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.22em", color: "#ffffff" },
+  headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,56px)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
   btnRow: { display: "flex", gap: 14, flexWrap: "wrap" as const },
-  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
-  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
+  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
+  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
   card: { background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderRadius: 24, padding: "32px", boxShadow: "0 8px 48px rgba(26,10,46,0.08)", border: "1px solid rgba(255,255,255,0.7)" },
-  cardDesc: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
+  cardDesc: { fontFamily: "'Astrid Regular',serif", fontSize: "18px", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
   cardFeatures: { display: "flex", flexDirection: "column", gap: 10 },
-  feat: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
+  feat: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
   check: { color: "#4B1E56", fontWeight: 700 },
-  cardNote: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", fontStyle: "italic", color: "#4B1E56", marginTop: 16, lineHeight: 1.6 },
+  cardNote: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", fontStyle: "italic", color: "#4B1E56", marginTop: 16, lineHeight: 1.6 },
 };
 
 /* ══════════════════════════════════════════════
@@ -807,17 +807,17 @@ const ab: Record<string, React.CSSProperties> = {
     background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.about}') center/cover no-repeat`,
     zIndex:0
   },
-  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16 },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#ffffff", lineHeight:1.15, marginBottom:20, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, maxWidth:640, margin:"0 auto" },
-  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(0,0,0,0.35)" },
-  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(255,255,255,0.6)", background:"transparent", color:"#ffffff", cursor:"pointer" },
+  bannerEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.25em", color:"#EFBF68", marginBottom:16 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", lineHeight:1.15, marginBottom:20, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, maxWidth:640, margin:"0 auto" },
+  btnD: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", transition:"all 0.2s", boxShadow:"0 4px 20px rgba(0,0,0,0.35)" },
+  btnL: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 28px", borderRadius:100, border:"1.5px solid rgba(255,255,255,0.6)", background:"transparent", color:"#ffffff", cursor:"pointer" },
   storiesTeaser: { position:"relative", overflow:"hidden", padding:"80px 48px", textAlign:"center" },
   storiesTeaserBg: { position:"absolute", inset:0, background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", zIndex:0 },
-  tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
-  tTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
-  tSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"#443355", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
-  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"13px 32px", borderRadius:100, border:"2px solid #D7B264", background:"#D7B264", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
+  tEye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.2em", color:"#662369", marginBottom:16, position:"relative", zIndex:1 },
+  tTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,52px)", fontWeight:700, color:"#1a0a2e", marginBottom:16, position:"relative", zIndex:1 },
+  tSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#443355", lineHeight:1.7, maxWidth:520, margin:"0 auto 32px", position:"relative", zIndex:1 },
+  tBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 32px", borderRadius:100, border:"2px solid #D7B264", background:"#D7B264", color:"#ffffff", cursor:"pointer", position:"relative", zIndex:1 },
 };
 
 // ─── YOUR JOURNEY PAGE ──────────────────────────────────────────────────────
@@ -942,16 +942,16 @@ function JourneyPage({ nav }: { nav: NavFn }) {
 const jn: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:340, display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.journey}') center/cover no-repeat`, zIndex:0 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.25em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4.5vw,3.6rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.75, maxWidth:620, margin:"0 auto 12px", position:"relative", zIndex:1 },
-  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:24, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.25em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.75, maxWidth:620, margin:"0 auto 12px", position:"relative", zIndex:1 },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:24, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
   stagesSection: { padding:"32px 48px 80px", background:"#ffffff" },
   stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
   stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
   stageNum: { fontFamily:"'Astrid Regular', serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
-  stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"1.4rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
-  stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.9rem", fontWeight:300, color:"#554866", lineHeight:1.7 },
+  stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"22px", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
+  stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#554866", lineHeight:1.7 },
 };
 
 // ─── PROGRAMS PAGE ───────────────────────────────────────────────────────────
@@ -1084,7 +1084,7 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
       <section className="story-section" style={{ paddingBottom: 24 }}>
         <div className="story-inner">
           <p className="story-eyebrow">The Ms. Ellevation Difference</p>
-          <h2 className="story-title" style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>We Don't Believe Women Need Fixing.</h2>
+          <h2 className="story-title" style={{ fontSize: "clamp(36px,5vw,52px)" }}>We Don't Believe Women Need Fixing.</h2>
           <p className="story-p">
             We believe women already carry strength, resilience and potential within them. Our role
             is to create the environment, community and opportunities that help women recognise
@@ -1145,10 +1145,10 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
 const pr: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"95px 85px 85px", textAlign:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.programs}') center/cover no-repeat`, zIndex:0 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:640, margin:"0 auto 10px" },
-  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:20, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.2em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:640, margin:"0 auto 10px" },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:20, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
   section: { padding:"32px 48px 96px", background:"#ffffff" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1160, margin:"0 auto" },
 };
@@ -1321,7 +1321,7 @@ function MembershipPage({ nav }: { nav: NavFn }) {
       <section className="story-section" style={{ paddingBottom: 56 }}>
         <div className="story-inner">
           <p className="story-eyebrow">Membership Philosophy</p>
-          <h2 className="story-title" style={{ fontSize: "clamp(1.8rem,3.5vw,2.6rem)" }}>From Self-Discovery to Lasting Impact</h2>
+          <h2 className="story-title" style={{ fontSize: "clamp(36px,5vw,52px)" }}>From Self-Discovery to Lasting Impact</h2>
           <p className="story-p">
             Ms Ellevation is a women-focused leadership and empowerment ecosystem. Unlike Ellevation Hub,
             which focuses on opportunities, business visibility and partnerships, Ms Ellevation focuses on
@@ -1504,11 +1504,11 @@ function MembershipPage({ nav }: { nav: NavFn }) {
 const mb: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"90px 48px 80px", textAlign:"center", minHeight:"clamp(380px, 42vw, 520px)", display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.membership}') center/cover no-repeat #2d1740`, zIndex:0 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,5vw,3.8rem)", fontWeight:700, color:"#ffffff", marginBottom:14, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  pillars: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:400, letterSpacing:"0.06em", color:"rgba(255,255,255,0.92)", marginBottom:10, position:"relative", zIndex:1 },
-  question: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(1.05rem,2vw,1.35rem)", fontStyle:"italic", color:"#EFBF68", maxWidth:620, margin:"0 auto", position:"relative", zIndex:1 },
-  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:600, letterSpacing:"0.16em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:28, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.2em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:14, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  pillars: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:400, letterSpacing:"0.06em", color:"rgba(255,255,255,0.92)", marginBottom:10, position:"relative", zIndex:1 },
+  question: { fontFamily:"'Astrid Regular', serif", fontSize:"1.2rem", fontStyle:"italic", color:"#EFBF68", maxWidth:620, margin:"0 auto", position:"relative", zIndex:1 },
+  heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:28, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
 };
 
 // ─── EVENTS PAGE ────────────────────────────────────────────────────────────
@@ -1550,19 +1550,19 @@ function EventsPage({ nav }: { nav: NavFn }) {
 const ev: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 560px)", display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.events}') center/cover no-repeat`, zIndex:0 },
-  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:600, letterSpacing:"0.22em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
-  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.2rem,4vw,3.4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
+  eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.2em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
+  title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
   section: { padding:"60px 48px 96px", background:"#ffffff" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
   dateBadge: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
-  cardTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"1.25rem", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
+  cardTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"22px", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
   cardLoc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:14 },
-  cardDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
+  cardDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
   rsvpBtn: {
     fontFamily: "'Montserrat',sans-serif",
-    fontSize: "0.72rem",
+    fontSize: "14px",
     fontWeight: 700,
     letterSpacing: "0.1em",
     padding: "12px",
@@ -1616,16 +1616,16 @@ function StoriesPage() {
 const st: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"80px 48px 72px", textAlign:"center", minHeight:"clamp(380px, 42vw, 560px)", display:"flex", alignItems:"center", justifyContent:"center" },
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.stories}') center/cover no-repeat`, zIndex:0 },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2.4rem,5vw,4rem)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", fontWeight:300, color:"rgba(255,255,255,0.9)", position:"relative", zIndex:1 },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", position:"relative", zIndex:1 },
   section: { background:"linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding:"72px 48px 96px" },
   grid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:24, maxWidth:1000, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"40px 36px 36px", boxShadow:"0 4px 32px rgba(75,30,86,0.07)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:20 },
   quoteIcon: { fontFamily:"'Astrid Regular',serif", fontSize:"3rem", color:"#8a5a97", lineHeight:1, height:32, display:"block" },
-  quote: { fontFamily:"'Astrid Regular',serif", fontSize:"1.15rem", fontStyle:"italic", color:"#1a0a2e", lineHeight:1.75, flexGrow:1 },
+  quote: { fontFamily:"'Astrid Regular',serif", fontSize:"1.3rem", fontStyle:"italic", color:"#1a0a2e", lineHeight:1.75, flexGrow:1 },
   author: { borderTop:"1px solid #ede7f5", paddingTop:20 },
   name: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", fontWeight:600, color:"#1a0a2e", marginBottom:4 },
-  role: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:500, letterSpacing:"0.14em", color:"#8a5a97" },
+  role: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", fontWeight:500, letterSpacing:"0.14em", color:"#8a5a97" },
 };
 
 // ─── JOIN PAGE (Membership Form) ──────────────────────────────────────────────
@@ -1987,16 +1987,16 @@ const jp: Record<string, React.CSSProperties> = {
   banner: { position:"relative", overflow:"hidden", padding:"56px 24px 48px", textAlign:"center", minHeight:"clamp(240px, 26vw, 340px)", display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg, #4B1E56 0%, #1a0a2e 100%)" },
   eyebrowRow: { display:"flex", alignItems:"center", gap:12, justifyContent:"center", marginBottom:16, position:"relative", zIndex:1 },
   line: { display:"inline-block", width:40, height:1, background:"rgba(255,255,255,0.6)" },
-  eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:11, fontWeight:600, letterSpacing:"0.28em", color:"#EFBF68" },
-  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(2rem,4vw,3rem)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
+  eyebrowTxt: { fontFamily:"'Montserrat', sans-serif", fontSize:14, fontWeight:700, letterSpacing:"0.25em", color:"#EFBF68" },
+  bannerTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
   formSection: { maxWidth:780, margin:"0 auto", padding:"64px 24px 96px", animation:"fadeSlideUp 0.9s cubic-bezier(.22,1,.36,1) 0.1s both" },
   tabsRow: { display:"flex", justifyContent:"center", gap:12, marginBottom:36, flexWrap:"wrap" as const },
-  tabBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.72rem", fontWeight:600, letterSpacing:"0.18em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.25s ease" },
+  tabBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"10px 28px", borderRadius:100, border:"1.5px solid #ded4ee", background:"transparent", color:"#1a0a2e", cursor:"pointer", transition:"all 0.25s ease" },
   tabActive: { color:"#fff", border:"1.5px solid transparent", boxShadow:"0 4px 20px rgba(75,30,86,0.28)", transform:"translateY(-1px)" },
   card: { background:"#fff", borderRadius:20, padding:"48px 52px 52px", boxShadow:"0 8px 60px rgba(75,30,86,0.10),0 2px 16px rgba(75,30,86,0.06)" },
   formHeader: { textAlign:"center", marginBottom:40 },
   formTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, color:"#1a0a2e", marginBottom:8 },
-  formSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.88rem", color:"#8a5a97", fontWeight:300, marginBottom:8 },
+  formSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", color:"#8a5a97", fontWeight:300, marginBottom:8 },
   tagline: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.82rem", fontWeight:500, letterSpacing:"0.05em", marginTop:6 },
   row: { display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 },
   fieldWrap: { display:"flex", flexDirection:"column", marginBottom:16 },
@@ -2006,18 +2006,18 @@ const jp: Record<string, React.CSSProperties> = {
   textarea: { resize:"vertical", minHeight:110, lineHeight:1.6 },
   errMsg: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.75rem", color:"#a04a70", marginTop:5, paddingLeft:4 },
   agreeRow: { marginBottom:28, marginTop:4 },
-  agreeLabel: { display:"flex", alignItems:"flex-start", gap:10, cursor:"pointer" },
+  agreeLabel: { display:"flex", alignItems:"flex-start", gap:10, cursor:"pointer", fontFamily:"'Montserrat', sans-serif", fontSize:"14px" },
   checkbox: { marginTop:3, accentColor:"#4B1E56", width:15, height:15, flexShrink:0 },
-  agreeText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.83rem", color:"#554866", lineHeight:1.5 },
+  agreeText: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", color:"#554866", lineHeight:1.5 },
   agreeLink: { textDecoration:"underline", textUnderlineOffset:"2px" },
-  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem",background: "#D7B264" ,fontWeight:600, letterSpacing:"0.18em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
+  submitBtn: { width:"100%", fontFamily:"'Montserrat', sans-serif", fontSize:"14px",background: "#D7B264" ,fontWeight:700, letterSpacing:"0.1em", color:"#fff", border:"none", borderRadius:10, padding:"15px 24px", cursor:"pointer", transition:"opacity 0.2s,transform 0.2s,box-shadow 0.2s", boxShadow:"0 6px 24px rgba(75,30,86,0.30)" },
   successBox: { textAlign:"center", padding:"40px 24px" },
   successTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"2rem", fontWeight:600, marginBottom:12 },
-  successText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.95rem", color:"#554866", lineHeight:1.7, marginBottom:32 },
-  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"1rem", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, maxWidth:620, margin:"14px auto 0", position:"relative", zIndex:1 },
+  successText: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", color:"#554866", lineHeight:1.7, marginBottom:32 },
+  bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, maxWidth:620, margin:"14px auto 0", position:"relative", zIndex:1 },
   introBox: { textAlign:"center", marginBottom:40 },
-  introTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"clamp(1.6rem,3vw,2.1rem)", fontWeight:700, color:"#1a0a2e", marginBottom:12 },
-  introText: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.98rem", fontWeight:300, color:"#554866", lineHeight:1.8, maxWidth:620, margin:"0 auto" },
+  introTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"clamp(36px,5vw,52px)", fontWeight:700, color:"#1a0a2e", marginBottom:12 },
+  introText: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#554866", lineHeight:1.8, maxWidth:620, margin:"0 auto" },
   readyBox: { textAlign:"center", marginTop:64 },
 
 };
@@ -2161,7 +2161,7 @@ export default function EllevationPage() {
         }
         .ms-ellevation-root .ns-link{
           font-family:'Montserrat',sans-serif;
-          font-size:1.05rem; font-weight:500;
+          font-size:0.95rem; font-weight:500;
           color:#662369; background:transparent;
           border:none; cursor:pointer;
           padding:11px 16px; border-radius:100px;
@@ -2216,7 +2216,7 @@ export default function EllevationPage() {
         @media (min-width:1241px) and (max-width:1560px){
           .ms-ellevation-root .ms-nav{ gap:14px; min-height:112px; }
           .ms-ellevation-root .ns-logo{ height:110px !important; margin:-10px 0 !important; }
-          .ms-ellevation-root .ns-link{ padding:10px 9px; font-size:0.92rem; }
+          .ms-ellevation-root .ns-link{ padding:10px 9px; font-size:0.95rem; }
           .ms-ellevation-root .ns-links-desktop{ gap:2px; }
           .ms-ellevation-root .ns-back-home{ padding:10px 16px; font-size:0.88rem; }
         }
@@ -2289,8 +2289,8 @@ export default function EllevationPage() {
         .impact-blob { position: absolute; border-radius: 50%; pointer-events: none; }
         .impact-blob-1 { top: -100px; right: -80px; width: 380px; height: 380px; background: radial-gradient(circle, rgba(75,30,86,0.08) 0%, transparent 70%); }
         .impact-blob-2 { bottom: -60px; left: -100px; width: 340px; height: 340px; background: radial-gradient(circle, rgba(124,92,191,0.1) 0%, transparent 70%); }
-        .impact-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 18px; }
-        .impact-title { font-family: 'Astrid Regular', serif; font-size: 52px; font-weight: 700; line-height: 1.1; color: #4B1E56; margin: 0 0 40px; }
+        .impact-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 18px; }
+        .impact-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; line-height: 1.1; color: #4B1E56; margin: 0 0 40px; }
         .impact-glass-card {
           display: inline-block; max-width: 640px; margin: 0 auto;
           background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -2299,24 +2299,24 @@ export default function EllevationPage() {
           transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
         .impact-glass-card:hover { transform: translateY(-4px); box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16); }
-        .impact-card-title { font-family: 'Montserrat', sans-serif; color: #662369; font-size: 20px; font-weight: 700; margin: 0 0 16px; line-height: 1.3; }
-        .impact-card-desc { font-family: 'Montserrat', sans-serif; font-size: 15.5px; line-height: 1.7; color: #554866; margin: 0; }
+        .impact-card-title { font-family: 'Montserrat', sans-serif; color: #662369; font-size: 22px; font-weight: 700; margin: 0 0 16px; line-height: 1.3; }
+        .impact-card-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; line-height: 1.7; color: #554866; margin: 0; }
         .impact-tags { display: flex; justify-content: center; gap: 28px; margin-top: 28px; flex-wrap: wrap; }
         .impact-tag { display: flex; align-items: center; gap: 8px; }
-        .impact-tag-icon { color: #662369; font-size: 15px; }
-        .impact-tag-name { font-family: 'Astrid Regular', serif; font-size: 16px; font-weight: 700; color: #1a0a2e; }
+        .impact-tag-icon { color: #662369; font-size: 18px; }
+        .impact-tag-name { font-family: 'Astrid Regular', serif; font-size: 18px; font-weight: 700; color: #1a0a2e; }
 
         /* ═══════════════════════════════════════
            Home page: Community section
            ═══════════════════════════════════════ */
         .welcome-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 50px 24px; scroll-margin-top: calc(var(--nav-height, 146px) + 16px); }
         .welcome-grid { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-        .welcome-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #662369; margin: 0 0 14px; }
-        .welcome-title { font-family: 'Astrid Regular', serif; font-size: clamp(34px, 4.5vw, 50px); font-weight: 700; line-height: 1.18; color: #1a0a2e; margin: 0 0 22px; }
-        .welcome-desc { font-family: 'Montserrat', sans-serif; font-size: 15.5px; line-height: 1.75; color: #554866; margin: 0 0 32px; max-width: 460px; }
+        .welcome-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin: 0 0 14px; }
+        .welcome-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; line-height: 1.18; color: #1a0a2e; margin: 0 0 22px; }
+        .welcome-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; line-height: 1.75; color: #554866; margin: 0 0 32px; max-width: 460px; }
         .welcome-cta {
           display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 14px; border: none;
-          background: #D7B264; color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 13px;
+          background: #D7B264; color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 14px;
           letter-spacing: 0.03em; text-decoration: none; cursor: pointer; box-shadow: 0 4px 14px rgba(75, 30, 86, 0.25);
           transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -2328,8 +2328,8 @@ export default function EllevationPage() {
           box-shadow: 0 14px 34px rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px;
         }
         .welcome-badge-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(75, 30, 86, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .welcome-badge-title { font-family: 'Astrid Regular', serif; font-size: 16px; font-weight: 700; color: #fff; margin: 0; line-height: 1.2; }
-        .welcome-badge-sub { font-family: 'Montserrat', sans-serif; font-size: 11px; color: rgba(255,255,255,0.65); margin: 0; }
+        .welcome-badge-title { font-family: 'Astrid Regular', serif; font-size: 18px; font-weight: 700; color: #fff; margin: 0; line-height: 1.2; }
+        .welcome-badge-sub { font-family: 'Montserrat', sans-serif; font-size: 14px; color: rgba(255,255,255,0.65); margin: 0; }
 
         @media (max-width: 868px) {
           .welcome-grid { grid-template-columns: 1fr !important; gap: 60px !important; }
@@ -2346,13 +2346,13 @@ export default function EllevationPage() {
            ═══════════════════════════════════════ */
         .pathways-section { background: #ffffff; padding: 100px 24px 110px; }
         .pathways-inner { max-width: 1080px; margin: 0 auto; text-align: center; }
-        .pathways-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
-        .pathways-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.9rem,4vw,2.8rem); font-weight: 700; color: #1a0a2e; margin-bottom: 48px; }
+        .pathways-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
+        .pathways-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; color: #1a0a2e; margin-bottom: 48px; }
         .pathways-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
         .pathways-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 20px; padding: 30px 24px; box-shadow: 0 4px 32px rgba(75,30,86,0.07); text-align: left; transition: transform 0.25s ease, box-shadow 0.25s ease; }
         .pathways-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(75,30,86,0.14); }
-        .pathways-card-title { font-family: 'Astrid Regular', serif; font-size: 1.15rem; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
-        .pathways-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; font-weight: 300; color: #554866; line-height: 1.65; }
+        .pathways-card-title { font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
+        .pathways-card-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.65; }
 
         /* ═══════════════════════════════════════
            Home page: Hero carousel controls
@@ -2366,12 +2366,12 @@ export default function EllevationPage() {
            ═══════════════════════════════════════ */
         .jf-strip { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 56px 24px 72px; }
         .jf-inner { max-width: 1120px; margin: 0 auto; }
-        .jf-path { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #662369; margin-bottom: 32px; }
+        .jf-path { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 32px; }
         .jf-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; }
         .jf-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 16px; padding: 22px 18px; text-align: center; transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
         .jf-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(75,30,86,0.14); border-color: rgba(124, 92, 191, 0.3); }
-        .jf-card-title { font-family: 'Astrid Regular', serif; font-size: 1.05rem; font-weight: 600; color: #4B1E56; margin-bottom: 8px; }
-        .jf-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 300; color: #554866; line-height: 1.5; }
+        .jf-card-title { font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; color: #4B1E56; margin-bottom: 8px; }
+        .jf-card-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.5; }
 
         /* ═══════════════════════════════════════
            Shared: narrative / story-style text blocks
@@ -2379,14 +2379,14 @@ export default function EllevationPage() {
         .story-section { background: #ffffff; padding: 96px 24px 80px; }
         .story-inner { max-width: 760px; margin: 0 auto; }
         .story-inner-narrow { max-width: 820px; text-align: center; padding: 0 24px; }
-        .story-framework-lead { font-family: 'Montserrat', sans-serif; font-size: 0.98rem; font-weight: 300; color: #554866; line-height: 1.8; }
-        .story-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 14px; }
-        .story-title { font-family: 'Astrid Regular', serif; font-size: clamp(2rem,4vw,2.9rem); font-weight: 700; color: #1a0a2e; margin-bottom: 10px; }
-        .story-subtitle { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 500; color: #8a5a97; margin-bottom: 28px; }
-        .story-p { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 300; color: #554866; line-height: 1.85; margin-bottom: 18px; }
+        .story-framework-lead { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.8; }
+        .story-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 14px; }
+        .story-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; color: #1a0a2e; margin-bottom: 10px; }
+        .story-subtitle { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; color: #8a5a97; margin-bottom: 28px; }
+        .story-p { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.85; margin-bottom: 18px; }
         .story-p-strong { font-weight: 600; color: #4B1E56; }
         .story-inline-list { list-style: none; display: flex; flex-wrap: wrap; gap: 12px 22px; margin-top: 8px; }
-        .story-inline-list li { font-family: 'Montserrat', sans-serif; font-size: 0.88rem; color: #554866; display: flex; align-items: center; gap: 8px; }
+        .story-inline-list li { font-family: 'Montserrat', sans-serif; font-size: 18px; color: #554866; display: flex; align-items: center; gap: 8px; }
         .story-inline-list li::before { content: "✓"; color: #4B1E56; font-weight: 700; }
 
         /* ═══════════════════════════════════════
@@ -2397,64 +2397,64 @@ export default function EllevationPage() {
         .vm-card { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); border: 1px solid rgba(124, 92, 191, 0.15); border-top: 3px solid #4B1E56; border-radius: 22px; padding: 40px 36px; box-shadow: 0 4px 32px rgba(75,30,86,0.07); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .vm-card:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(75,30,86,0.14); }
         .vm-card:nth-child(2) { border-top-color: #D7B264; }
-        .vm-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
-        .vm-text { font-family: 'Montserrat', sans-serif; font-size: 0.95rem; font-weight: 300; color: #554866; line-height: 1.85; }
+        .vm-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
+        .vm-text { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.85; }
 
         /* ═══════════════════════════════════════
            Shared: Values grid
            ═══════════════════════════════════════ */
         .values-section { background: #ffffff; padding: 96px 24px; }
         .values-inner { max-width: 1120px; margin: 0 auto; text-align: center; }
-        .values-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 40px; }
+        .values-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 40px; }
         .values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
         .values-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 20px; padding: 30px 26px; text-align: left; box-shadow: 0 4px 32px rgba(75,30,86,0.07); }
-        .values-card-title { font-family: 'Astrid Regular', serif; font-size: 1.2rem; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
-        .values-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; font-weight: 300; color: #554866; line-height: 1.7; }
+        .values-card-title { font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; color: #4B1E56; margin-bottom: 10px; }
+        .values-card-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.7; }
 
         /* ═══════════════════════════════════════
            Shared: Focus icon row (used in About + Journey)
            ═══════════════════════════════════════ */
         .focus-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 96px 24px; }
         .focus-inner { max-width: 800px; margin: 0 auto; text-align: center; }
-        .focus-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
-        .focus-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.8rem,3.5vw,2.4rem); font-weight: 700; color: #1a0a2e; margin-bottom: 36px; }
+        .focus-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 16px; }
+        .focus-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; color: #1a0a2e; margin-bottom: 36px; }
         .icon-tags-row { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 28px; }
         .icon-tag { display: flex; align-items: center; gap: 8px; }
-        .icon-tag-icon { color: #662369; font-size: 16px; }
-        .icon-tag-label { font-family: 'Astrid Regular', serif; font-size: 15px; font-weight: 700; color: #1a0a2e; }
-        .focus-note { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 300; color: #554866; }
+        .icon-tag-icon { color: #662369; font-size: 18px; }
+        .icon-tag-label { font-family: 'Astrid Regular', serif; font-size: 18px; font-weight: 700; color: #1a0a2e; }
+        .focus-note { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; }
 
         /* ═══════════════════════════════════════
            Shared: Two Pathways / Ecosystem cards
            ═══════════════════════════════════════ */
         .pathway2-section { background: #ffffff; padding: 96px 24px; }
         .pathway2-inner { max-width: 1000px; margin: 0 auto; text-align: center; }
-        .pathway2-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #662369; margin-bottom: 36px; }
+        .pathway2-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 36px; }
         .pathway2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; text-align: left; }
         .pathway2-card { background: rgba(255,255,255,0.85); border: 1px solid rgba(124,92,191,0.15); border-radius: 22px; padding: 34px 30px; box-shadow: 0 4px 32px rgba(75,30,86,0.07); }
         .pathway2-card-dark { background: #1a0a2e; border: none; color: #fff; box-shadow: 0 8px 48px rgba(26,10,46,0.3); }
-        .pathway2-card-title { font-family: 'Astrid Regular', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 12px; color: #1a0a2e; }
+        .pathway2-card-title { font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; margin-bottom: 12px; color: #1a0a2e; }
         .pathway2-card-dark .pathway2-card-title { color: #fff; }
-        .pathway2-card-desc { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 300; color: #554866; line-height: 1.7; }
+        .pathway2-card-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.7; }
         .pathway2-card-dark .pathway2-card-desc { color: rgba(255,255,255,0.8); }
         .pathway2-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .pathway2-list li { font-family: 'Montserrat', sans-serif; font-size: 0.86rem; color: #554866; }
+        .pathway2-list li { font-family: 'Montserrat', sans-serif; font-size: 18px; color: #554866; }
         .pathway2-card-dark .pathway2-list li { color: rgba(255,255,255,0.82); }
         .pathway2-list li::before { content: "• "; color: #4B1E56; font-weight: 700; }
         .pathway2-card-dark .pathway2-list li::before { color: #EFBF68; }
-        .pathway2-note { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 300; color: #554866; margin-top: 32px; }
+        .pathway2-note { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; margin-top: 32px; }
 
         /* ═══════════════════════════════════════
            Shared: Bullet list section (Who We Support / Who Is This For)
            ═══════════════════════════════════════ */
         .bullet-section { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 90px 24px; }
         .bullet-inner { max-width: 760px; margin: 0 auto; text-align: center; }
-        .bullet-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #662369; margin-bottom: 14px; }
-        .bullet-title { font-family: 'Astrid Regular', serif; font-size: clamp(1.8rem,3.5vw,2.4rem); font-weight: 700; color: #1a0a2e; margin-bottom: 32px; }
+        .bullet-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 14px; }
+        .bullet-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; color: #1a0a2e; margin-bottom: 32px; }
         .bullet-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 32px; text-align: left; margin-bottom: 20px; }
-        .bullet-list li { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; color: #554866; display: flex; align-items: center; gap: 10px; }
+        .bullet-list li { font-family: 'Montserrat', sans-serif; font-size: 18px; color: #554866; display: flex; align-items: center; gap: 10px; }
         .bullet-list li::before { content: "◈"; color: #4B1E56; font-size: 0.8rem; }
-        .bullet-note { font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-style: italic; color: #662369; margin-top: 12px; }
+        .bullet-note { font-family: 'Montserrat', sans-serif; font-size: 18px; font-style: italic; color: #662369; margin-top: 12px; }
         @media (max-width: 640px) { .bullet-list { grid-template-columns: 1fr !important; } }
 
         /* ═══════════════════════════════════════
@@ -2463,12 +2463,12 @@ export default function EllevationPage() {
         .closing-cta { position: relative; overflow: hidden; padding: 96px 24px; text-align: center; }
         .closing-cta-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #1a0a2e 0%, #4B1E56 100%); z-index: 0; }
         .closing-cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
-        .closing-cta-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #EFBF68; margin-bottom: 16px; }
-        .closing-cta-title { font-family: 'Astrid Regular', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 700; color: #fff; margin-bottom: 18px; }
-        .closing-cta-body { font-family: 'Montserrat', sans-serif; font-size: 0.98rem; font-weight: 300; color: rgba(255,255,255,0.85); line-height: 1.8; margin-bottom: 32px; }
+        .closing-cta-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #EFBF68; margin-bottom: 16px; }
+        .closing-cta-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; color: #fff; margin-bottom: 18px; }
+        .closing-cta-body { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: rgba(255,255,255,0.85); line-height: 1.8; margin-bottom: 32px; }
         .closing-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
         .closing-btn-solid, .closing-btn-outline {
-          font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.16em;
+          font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em;
           padding: 13px 30px; border-radius: 100px; cursor: pointer; transition: all 0.2s ease;
         }
         .closing-btn-solid { border: none; background: #D7B264; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
@@ -2500,7 +2500,7 @@ export default function EllevationPage() {
         }
         .jn-stage-heading {
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.82rem;
+          font-size: 18px;
           font-weight: 600;
           letter-spacing: 0.03em;
           color: #8a5a97;
@@ -2595,9 +2595,9 @@ export default function EllevationPage() {
         .pr-card-tag {
           display: inline-block;
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.66rem;
+          font-size: 14px;
           font-weight: 700;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
           color: var(--pr-accent-1, #4B1E56);
           margin-bottom: 10px;
@@ -2605,7 +2605,7 @@ export default function EllevationPage() {
         }
         .pr-card-title {
           font-family: 'Astrid Regular', serif;
-          font-size: 1.4rem;
+          font-size: 22px;
           font-weight: 600;
           color: #1a0a2e;
           margin-bottom: 12px;
@@ -2614,7 +2614,7 @@ export default function EllevationPage() {
         }
         .pr-card-body {
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.87rem;
+          font-size: 18px;
           font-weight: 300;
           color: #554866;
           line-height: 1.7;
@@ -2623,9 +2623,9 @@ export default function EllevationPage() {
         }
         .pr-card-label {
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.68rem;
+          font-size: 14px;
           font-weight: 700;
-          letter-spacing: 0.14em;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
           color: #8a5a97;
           margin-bottom: 12px;
@@ -2644,7 +2644,7 @@ export default function EllevationPage() {
           align-items: center;
           gap: 9px;
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.85rem;
+          font-size: 18px;
           color: #3d2e47;
           font-weight: 400;
         }
@@ -2663,9 +2663,9 @@ export default function EllevationPage() {
           justify-content: center;
           gap: 8px;
           font-family: 'Montserrat', sans-serif;
-          font-size: 0.74rem;
+          font-size: 14px;
           font-weight: 700;
-          letter-spacing: 0.14em;
+          letter-spacing: 0.12em;
           padding: 15px;
           border-radius: 100px;
           border: none;
@@ -2781,7 +2781,7 @@ export default function EllevationPage() {
 
         .mb-btn {
           display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 24px;
-          font-family: 'Montserrat', sans-serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.14em;
+          font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.14em;
           padding: 14px 30px; border-radius: 100px; border: none; background: #D7B264; color: #fff; cursor: pointer;
           box-shadow: 0 8px 22px rgba(75,30,86,0.28);
           transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
@@ -2792,14 +2792,14 @@ export default function EllevationPage() {
 
         .mb-panel-bottom { position: relative; z-index: 1; margin-top: 32px; padding-top: 28px; border-top: 1px solid rgba(124, 92, 191, 0.16); }
         .mb-list { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; margin-bottom: 26px; }
-        .mb-list-item { display: flex; align-items: flex-start; gap: 10px; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 400; line-height: 1.5; color: #3d2e47; }
+        .mb-list-item { display: flex; align-items: flex-start; gap: 10px; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 400; line-height: 1.5; color: #3d2e47; }
         .mb-list-item-lead { grid-column: 1 / -1; font-weight: 700; color: #1a0a2e; }
         .mb-list-check { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-top: 1px; border-radius: 50%; background: var(--mb-a1, #4B1E56); color: #fff; }
         .mb-list-check svg { width: 11px; height: 11px; }
 
         .mb-outcome { padding: 16px 20px; border-radius: 14px; background: rgba(215, 178, 100, 0.12); border-left: 3px solid #D7B264; }
         .mb-outcome-label { display: block; font-family: 'Montserrat', sans-serif; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #8a5a97; margin-bottom: 6px; }
-        .mb-outcome-text { font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 500; color: #1a0a2e; line-height: 1.55; }
+        .mb-outcome-text { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 500; color: #1a0a2e; line-height: 1.55; }
 
         /* Comparison table */
         .mb-compare { background: linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%); padding: 96px 24px 104px; }
@@ -2991,7 +2991,7 @@ export default function EllevationPage() {
           border: 1px solid rgba(75, 30, 86, 0.14);
           border-radius: 100px;
           padding: 7px 16px;
-          font-size: 0.82rem !important;
+          font-size: 0.78rem !important;
           transition: transform 0.2s ease, border-color 0.2s ease;
         }
         .pathway2-list li:hover { transform: translateY(-2px); border-color: rgba(75, 30, 86, 0.3); }

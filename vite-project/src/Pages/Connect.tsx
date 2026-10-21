@@ -82,7 +82,7 @@ function Hero() {
         <p style={{
           ...fade(mounted, 260),
           fontFamily: "'Montserrat',sans-serif",
-          fontSize: "clamp(15px,1.8vw,17px)",
+          fontSize: "18px",
           color: "#fff", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
         }}>
           Whether you are looking to collaborate, seek programmatic guidance, or establish community connections, let us build pathways together.
@@ -283,7 +283,7 @@ Reach Out to Us          </h2>
                     background: submitHov ? "#4B1E56" : "#D7B264",
                     color: "#fff",
                     fontFamily: "'Montserrat',sans-serif",
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",

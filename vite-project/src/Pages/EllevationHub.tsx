@@ -760,7 +760,7 @@ function HomeSection({ nav }: { nav: NavFn }) {
                 style={{ ...ab.card, ...ab.accessCard, ...fade(eco.inView, 100 + i * 100) }}
               >
                 <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
-                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
+                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "22px" }}>{item.title}</h3>
                 <span className="hub-about-link" style={ab.cardLink}>Visit →</span>
               </button>
             ))}
@@ -869,7 +869,7 @@ function AboutSection({ nav }: { nav: NavFn }) {
       <section className="hub-about-section" style={ab.sectionDark}>
         <div ref={y.ref} style={{ ...ab.containerNarrow, ...fade(y.inView, 0) }}>
           <p style={{ ...ab.eye, color: "#c9a3d9" }}>WHY ELLEVATION HUB MATTERS</p>
-          <h2 style={{ ...ab.title, color: "#fff", fontSize: "clamp(1.7rem,4vw,2.5rem)", fontStyle: "italic" }}>
+          <h2 style={{ ...ab.title, color: "#fff", fontSize: "clamp(32px,4.5vw,52px)", fontStyle: "italic" }}>
             For many people and communities, opportunity is not always the challenge. Access is.
           </h2>
           <p style={{ ...ab.para, color: "rgba(255,255,255,0.82)" }}>
@@ -971,7 +971,7 @@ function AboutSection({ nav }: { nav: NavFn }) {
               >
                 <h3
                   className="hub-about-card-title"
-                  style={{ ...ab.cardTitle, fontSize: "1.4rem", ...(item.title === "Together" ? { color: "#fff" } : {}) }}
+                  style={{ ...ab.cardTitle, fontSize: "22px", ...(item.title === "Together" ? { color: "#fff" } : {}) }}
                 >
                   {item.title}
                 </h3>
@@ -1041,8 +1041,8 @@ const MEMBERSHIP_CSS = `
 
 /* Header */
 .mp-head{ text-align:center; max-width:820px; margin:0 auto 40px; }
-.mp-eye{ font-size:0.7rem; font-weight:700; letter-spacing:0.2em; color:var(--mp-eye); margin-bottom:14px; text-transform:uppercase; }
-.mp-title{ font-family:'Astrid Regular',serif; font-weight:700; font-size:clamp(2rem,4.6vw,3.2rem); line-height:1.12; color:var(--mp-title); margin-bottom:12px; }
+.mp-eye{ font-size:14px; font-weight:700; letter-spacing:0.2em; color:var(--mp-eye); margin-bottom:14px; text-transform:uppercase; }
+.mp-title{ font-family:'Astrid Regular',serif; font-weight:700; font-size:clamp(36px,5vw,52px); line-height:1.12; color:var(--mp-title); margin-bottom:12px; }
 .mp-journey{ display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:8px; margin:6px 0 16px; }
 .mp-journey span{ font-size:0.78rem; font-weight:700; letter-spacing:0.08em; padding:7px 16px; border-radius:100px; color:var(--mp-accent); background:rgba(75,30,86,0.08); border:1px solid var(--mp-border); }
 [data-theme="dark"] .mp-journey span{ background:rgba(255,255,255,0.06); }
@@ -1053,13 +1053,13 @@ const MEMBERSHIP_CSS = `
 .mp-philo{ background:var(--mp-grad); color:#fff; border-radius:24px; padding:40px 44px; margin:0 auto 56px; max-width:1000px; text-align:left; position:relative; overflow:hidden; box-shadow:var(--mp-shadow); }
 .mp-philo::after{ content:""; position:absolute; right:-80px; top:-80px; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle, rgba(215,178,100,0.28) 0%, transparent 70%); pointer-events:none; }
 .mp-philo h3{ font-family:'Astrid Regular',serif; font-size:1.6rem; margin-bottom:12px; color:#fff; position:relative; }
-.mp-philo p{ font-size:0.95rem; line-height:1.8; color:rgba(255,255,255,0.88); margin-bottom:12px; position:relative; }
+.mp-philo p{ font-size:18px; line-height:1.8; color:rgba(255,255,255,0.88); margin-bottom:12px; position:relative; }
 .mp-philo p:last-child{ margin-bottom:0; }
 .mp-philo-tag{ display:inline-block; margin-top:6px; font-size:0.74rem; font-weight:700; letter-spacing:0.08em; color:#35143d; background:var(--mp-gold); padding:7px 16px; border-radius:100px; }
 
 /* ── Plans: selector (left) + details panel (right) — same layout as Ms Ellevation ── */
 .mp-plans-head{ max-width:900px; margin:0 auto 44px; text-align:center; }
-.mp-block-title{ font-family:'Astrid Regular',serif; font-weight:700; font-size:clamp(1.6rem,3.4vw,2.3rem); color:var(--mp-title); }
+.mp-block-title{ font-family:'Astrid Regular',serif; font-weight:700; font-size:clamp(32px,4.5vw,52px); color:var(--mp-title); }
 .mp-split{ max-width:1180px; margin:0 auto 80px; display:grid; grid-template-columns:minmax(300px,390px) minmax(0,1fr); gap:32px; align-items:start; }
 
 .mp-list-col{ display:flex; flex-direction:column; gap:14px; }
@@ -1113,20 +1113,20 @@ const MEMBERSHIP_CSS = `
 .mp-chips{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; margin-bottom:4px; padding:0; }
 .mp-chips li{ font-size:0.76rem; font-weight:500; color:#4B1E56; background:rgba(75,30,86,0.07); border:1px solid rgba(75,30,86,0.12); padding:6px 13px; border-radius:100px; }
 
-.mp-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; margin-top:24px; font-family:'Montserrat',sans-serif; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; padding:14px 30px; border-radius:100px; border:none; background:#D7B264; color:#fff; cursor:pointer; box-shadow:0 8px 22px rgba(75,30,86,0.28); transition:transform .25s ease, box-shadow .25s ease, opacity .2s ease; }
+.mp-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; margin-top:24px; font-family:'Montserrat',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.14em; padding:14px 30px; border-radius:100px; border:none; background:#D7B264; color:#fff; cursor:pointer; box-shadow:0 8px 22px rgba(75,30,86,0.28); transition:transform .25s ease, box-shadow .25s ease, opacity .2s ease; }
 .mp-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(75,30,86,0.36); opacity:1; }
 .mp-btn svg{ transition:transform .25s ease; }
 .mp-btn:hover svg{ transform:translateX(3px); }
 
 .mp-panel-bottom{ position:relative; z-index:1; margin-top:32px; padding-top:28px; border-top:1px solid rgba(124,92,191,0.16); }
 .mp-list{ list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 32px; margin:0 0 26px; padding:0; }
-.mp-list-item{ display:flex; align-items:flex-start; gap:10px; font-size:0.85rem; font-weight:400; line-height:1.5; color:#3d2e47; }
+.mp-list-item{ display:flex; align-items:flex-start; gap:10px; font-size:18px; font-weight:400; line-height:1.5; color:#3d2e47; }
 .mp-list-item-lead{ grid-column:1 / -1; font-weight:700; color:#1a0a2e; }
 .mp-list-check{ flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; margin-top:1px; border-radius:50%; background:var(--a1); color:#fff; }
 .mp-list-check svg{ width:11px; height:11px; }
 .mp-outcome{ padding:16px 20px; border-radius:14px; background:rgba(215,178,100,0.12); border-left:3px solid #D7B264; }
 .mp-outcome-label{ display:block; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#8a5a97; margin-bottom:6px; }
-.mp-outcome-text{ font-size:0.88rem; font-weight:500; color:#1a0a2e; line-height:1.55; }
+.mp-outcome-text{ font-size:18px; font-weight:500; color:#1a0a2e; line-height:1.55; }
 
 /* ── Comparison table — same look as Ms Ellevation ── */
 .mp-compare{ text-align:center; margin-bottom:80px; }
@@ -1152,11 +1152,11 @@ const MEMBERSHIP_CSS = `
 .mp-bridge .mp-block-head{ text-align:center; margin-bottom:28px; }
 .mp-bridge-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:18px; align-items:stretch; max-width:1000px; margin:0 auto 24px; text-align:left; }
 .mp-bridge-card{ background:var(--mp-card); border:1.5px solid var(--mp-border); border-radius:20px; padding:28px; box-shadow:var(--mp-shadow); }
-.mp-bridge-card h4{ font-family:'Astrid Regular',serif; font-size:1.3rem; color:var(--mp-title); margin-bottom:8px; }
-.mp-bridge-card p{ font-size:0.88rem; line-height:1.7; color:var(--mp-text); }
+.mp-bridge-card h4{ font-family:'Astrid Regular',serif; font-size:22px; color:var(--mp-title); margin-bottom:8px; }
+.mp-bridge-card p{ font-size:18px; line-height:1.7; color:var(--mp-text); }
 .mp-bridge-card .tag{ display:inline-block; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; color:var(--mp-eye); margin-bottom:10px; }
 .mp-bridge-plus{ align-self:center; width:48px; height:48px; border-radius:50%; background:var(--mp-gold); color:#fff; font-size:1.5rem; font-weight:700; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 18px rgba(215,178,100,0.5); }
-.mp-bridge-note{ max-width:820px; margin:0 auto; font-size:0.95rem; line-height:1.8; color:var(--mp-text); }
+.mp-bridge-note{ max-width:820px; margin:0 auto; font-size:18px; line-height:1.8; color:var(--mp-text); }
 
 /* Form area */
 .mp-form-wrap{ width:100%; max-width:720px; margin:0 auto; scroll-margin-top:calc(var(--nav-height, 96px) + 16px); }
@@ -1164,7 +1164,7 @@ const MEMBERSHIP_CSS = `
 .mp-summary b{ font-family:'Astrid Regular',serif; font-size:1.1rem; color:var(--mp-title); }
 .mp-summary span{ font-size:0.82rem; color:var(--mp-text); }
 .mp-select-billing{ display:inline-flex; gap:6px; }
-.mp-select-billing button{ font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.06em; padding:7px 14px; border-radius:100px; border:1.5px solid var(--mp-border); background:transparent; color:var(--mp-text); cursor:pointer; }
+.mp-select-billing button{ font-family:'Montserrat',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.06em; padding:7px 14px; border-radius:100px; border:1.5px solid var(--mp-border); background:transparent; color:var(--mp-text); cursor:pointer; }
 .mp-select-billing button.on{ background:var(--mp-gold); border-color:var(--mp-gold); color:#fff; }
 
 /* ── Dark mode: plans + table ── */
@@ -1553,7 +1553,7 @@ function MembershipSection() {
         <div id="membership-form" className="mp-form-wrap">
           <div style={{ textAlign: "center", marginBottom: 28 }}>
             <p className="hub-form-eye" style={mb.pageEye}>EXPRESSION OF INTEREST</p>
-            <h2 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "2.2rem" }}>Ready to Join? Reach Out</h2>
+            <h2 className="hub-form-title" style={{ ...jp.formTitle, fontSize: "clamp(36px,5vw,52px)" }}>Ready to Join? Reach Out</h2>
             <p className="hub-form-sub" style={{ ...jp.formSub, maxWidth: 520, margin: "8px auto 0" }}>
               Pick your package, then submit an Expression of Interest below. Our team will follow up shortly.
             </p>
@@ -1659,7 +1659,7 @@ function MembershipSection() {
                 {/* Privacy Policy & Terms agreement */}
                 <label
                   className="hub-form-sub"
-                  style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 20, fontSize: "0.82rem", cursor: "pointer" }}
+                  style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 20, fontSize: "14px", cursor: "pointer" }}
                 >
                   <input
                     type="checkbox"
@@ -1808,13 +1808,13 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
             {PROGRAMS_ECOSYSTEM.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
                 <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
-                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "1.4rem" }}>{item.title}</h3>
+                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "22px" }}>{item.title}</h3>
                 <p className="hub-about-card-text" style={ab.cardText}>{item.line}</p>
               </div>
             ))}
             <div className="hub-about-card" style={{ ...ab.card, ...ab.cardHighlight, ...fade(eco.inView, 300) }}>
               <p style={{ ...ab.eyeLeft, color: "#D7B264" }}>TOGETHER</p>
-              <h3 style={{ ...ab.cardTitle, fontSize: "1.2rem", color: "#fff" }}>Creating pathways for thriving communities.</h3>
+              <h3 style={{ ...ab.cardTitle, fontSize: "22px", color: "#fff" }}>Creating pathways for thriving communities.</h3>
             </div>
           </div>
         </div>
@@ -2275,7 +2275,7 @@ function ConnectHero({
         <h1 style={{
           ...fade(mounted, 130),
           fontFamily: "'Astrid Regular', serif",
-          fontSize: "clamp(38px,7.5vw,82px)",
+          fontSize: "clamp(36px,5vw,56px)",
           fontWeight: 700,
           color: "#fff", margin: "0 0 20px", lineHeight: 1.1,
         }}>
@@ -2285,7 +2285,7 @@ function ConnectHero({
         <p style={{
           ...fade(mounted, 260),
           fontFamily: "'Montserrat',sans-serif",
-          fontSize: "clamp(15px,1.8vw,17px)",
+          fontSize: 18,
           color: "rgba(255,255,255,0.9)", maxWidth: 580, margin: "0 auto", lineHeight: 1.75,
         }}>
           {text}
@@ -2399,7 +2399,7 @@ function CommonEnquiryForm() {
           <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>
             Get in Touch
           </p>
-          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(30px,4.5vw,44px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
+          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
             Unified Request Portal
           </h2>
         </div>
@@ -2417,7 +2417,7 @@ function CommonEnquiryForm() {
           {formSubmitted ? (
             <div style={{ textAlign: "center", padding: "40px 0" }}>
               <h3 style={{ fontFamily: "'Astrid Regular',serif", fontSize: 32, color: "#1a0a2e", marginBottom: 12 }}>Thank You</h3>
-              <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
+              <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 18, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
                 Your request has been successfully synchronized with our leadership network. We will get back to you shortly.
               </p>
             </div>
@@ -2545,7 +2545,7 @@ function CommonEnquiryForm() {
                     background: "#D7B264",
                     color: "#fff",
                     fontFamily: "'Montserrat',sans-serif",
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
@@ -2705,7 +2705,7 @@ function RegisterSection() {
             {submitted ? (
               <div style={{ textAlign: "center", padding: "40px 0" }}>
                 <h3 style={{ fontFamily: "'Astrid Regular',serif", fontSize: 32, color: "#1a0a2e", marginBottom: 12 }}>Thank You</h3>
-                <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 15, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
+                <p style={{ fontFamily: "'Montserrat',sans-serif", color: "#554866", fontSize: 18, lineHeight: 1.6, maxWidth: 445, margin: "0 auto" }}>
                   {requestType === "register"
                     ? <>Your registration for <strong>{program}</strong> has been received. Our team will be in touch with the next steps.</>
                     : <>Your support request has been received. Our team will be in touch shortly.</>}
@@ -2798,7 +2798,7 @@ function RegisterSection() {
                 </label>
 
                 <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                  <button type="submit" disabled={sending} style={{ padding: "14px 36px", borderRadius: 999, border: "none", background: "#D7B264", color: "#fff", fontFamily: "'Montserrat',sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", cursor: sending ? "not-allowed" : "pointer", opacity: sending ? 0.7 : 1, width: "100%", maxWidth: 260 }}>
+                  <button type="submit" disabled={sending} style={{ padding: "14px 36px", borderRadius: 999, border: "none", background: "#D7B264", color: "#fff", fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", cursor: sending ? "not-allowed" : "pointer", opacity: sending ? 0.7 : 1, width: "100%", maxWidth: 260 }}>
                     {sending ? "Sending..." : requestType === "register" ? "Register Now" : "Request Support"}
                   </button>
                 </div>
@@ -2825,19 +2825,19 @@ const hp: Record<string, React.CSSProperties> = {
   blobBR: { position: "absolute", bottom: -100, right: -80, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(26,10,46,0.1) 0%,transparent 70%)", animation: "floatBlob 13s ease-in-out infinite reverse", zIndex: 1 },
   grid: { position: "relative", zIndex: 2, display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 48, alignItems: "center", maxWidth: 1200, margin: "0 auto", width: "100%", animation: "fadeSlideUp 0.9s ease both" },
   left: { display: "flex", flexDirection: "column", gap: 24 },
-  eyebrow: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", color: "#ffffff" },
-  headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.4rem,4vw,3.6rem)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
+  eyebrow: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.22em", color: "#ffffff" },
+  headline: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,56px)", fontWeight: 700, color: "#ffffff", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em" },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", fontWeight: 400, color: "#ffffff", lineHeight: 1.7, maxWidth: 480 },
   btnRow: { display: "flex", gap: 14, flexWrap: "wrap" as const },
-  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
-  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
+  btnPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", transition: "all 0.2s ease", boxShadow: "0 4px 20px rgba(215,35,143,0.35)" },
+  btnSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 28px", borderRadius: 100, border: "none", background: "#D7B264", color: "#ffffff", cursor: "pointer", transition: "all 0.2s ease" },
   card: { background: "rgba(255,255,255,0.85)", backdropFilter: "blur(20px)", borderRadius: 24, padding: "32px", boxShadow: "0 8px 48px rgba(26,10,46,0.08)", border: "1px solid rgba(255,255,255,0.7)" },
   cardTop: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 },
   cardIcon: { width: 48, height: 48, borderRadius: "50%", background: "#662369", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" },
   cardBadge: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.8rem", fontWeight: 600, color: "#1a0a2e", background: "rgba(75,30,86,0.10)", padding: "5px 14px", borderRadius: 100 },
-  cardDesc: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
+  cardDesc: { fontFamily: "'Astrid Regular',serif", fontSize: "18px", fontWeight: 500, color: "#1a0a2e", lineHeight: 1.4, marginBottom: 20 },
   cardFeatures: { display: "flex", flexDirection: "column", gap: 10 },
-  feat: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
+  feat: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
   check: { color: "#4B1E56", fontWeight: 700 },
 };
 
@@ -2851,11 +2851,11 @@ const ab: Record<string, React.CSSProperties> = {
     backgroundSize: "cover", backgroundPosition: "center",
   },
   heroInner: { maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 },
-  heroEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.25em", color: "#D7B264", marginBottom: 20 },
-  heroTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.4rem,6vw,4.2rem)", color: "#fff", lineHeight: 1.1, marginBottom: 28 },
+  heroEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.25em", color: "#D7B264", marginBottom: 20 },
+  heroTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,56px)", color: "#fff", lineHeight: 1.1, marginBottom: 28 },
   heroText: {
     fontFamily: "'Montserrat',sans-serif",
-    fontSize: "1.02rem",
+    fontSize: "18px",
     color: "rgba(255,255,255,0.9)",
     lineHeight: 1.8,
     maxWidth: 860,
@@ -2870,12 +2870,12 @@ const ab: Record<string, React.CSSProperties> = {
   containerNarrow: { maxWidth: 780, margin: "0 auto", textAlign: "center" },
 
   /* Typography */
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
-  eyeLeft: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#8a5a97", letterSpacing: "0.2em", marginBottom: 10 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2rem,4.5vw,3rem)", color: "#4B1E56", marginBottom: 40, lineHeight: 1.15 },
-  para: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "#554866", lineHeight: 1.85, marginBottom: 18 },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
+  eyeLeft: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#8a5a97", letterSpacing: "0.2em", marginBottom: 10 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 40, lineHeight: 1.15 },
+  para: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.85, marginBottom: 18 },
   cardHeading: { fontFamily: "'Astrid Regular', serif", fontSize: "1.8rem", color: "#1a0a2e", marginBottom: 14 },
-  bodyText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.98rem", color: "#554866", lineHeight: 1.8 },
+  bodyText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8 },
 
   /* Vision / mission */
   twoCol: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, textAlign: "left" },
@@ -2887,31 +2887,31 @@ const ab: Record<string, React.CSSProperties> = {
   card: { padding: 28, background: "#fff", borderRadius: 20, border: "1px solid rgba(124,92,191,0.15)", boxShadow: "0 4px 16px rgba(124,92,191,0.06)" },
   cardHighlight: { background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", border: "1px solid transparent" },
   icon: { fontSize: "1.7rem", color: "#4B1E56", marginBottom: 14 },
-  cardTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "1.2rem", color: "#1a0a2e", marginBottom: 10 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.86rem", color: "#554866", lineHeight: 1.65 },
+  cardTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 10 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65 },
   accessCard: { textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", font: "inherit" },
-  cardLink: { marginTop: "auto", paddingTop: 16, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#8a5a97" },
+  cardLink: { marginTop: "auto", paddingTop: 16, fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.08em", color: "#8a5a97" },
 
   /* Commitment */
   commitGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16, textAlign: "left", maxWidth: 960, margin: "0 auto" },
-  commitItem: { display: "flex", alignItems: "center", gap: 14, padding: "18px 22px", borderRadius: 16, background: "#f6f3fa", border: "1px solid rgba(124,92,191,0.15)", fontFamily: "'Montserrat',sans-serif", fontSize: "0.95rem", fontWeight: 500, color: "#1a0a2e" },
+  commitItem: { display: "flex", alignItems: "center", gap: 14, padding: "18px 22px", borderRadius: 16, background: "#f6f3fa", border: "1px solid rgba(124,92,191,0.15)", fontFamily: "'Montserrat',sans-serif", fontSize: "18px", fontWeight: 500, color: "#1a0a2e" },
   commitDot: { flexShrink: 0, width: 28, height: 28, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.8rem", fontWeight: 700 },
 
   /* CTA */
   ctaRow: { display: "flex", justifyContent: "center", gap: 14, flexWrap: "wrap" as const, marginTop: 32 },
-  ctaPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", padding: "15px 34px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.25)" },
-  ctaSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.1em", padding: "15px 34px", borderRadius: 100, border: "2px solid rgba(255,255,255,0.7)", background: "transparent", color: "#fff", cursor: "pointer" },
-  positioning: { marginTop: 48, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.18)", fontFamily: "'Astrid Regular', serif", fontStyle: "italic", fontSize: "1.1rem", color: "rgba(255,255,255,0.8)", lineHeight: 1.6 },
+  ctaPrimary: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "15px 34px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(0,0,0,0.25)" },
+  ctaSecondary: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "15px 34px", borderRadius: 100, border: "2px solid rgba(255,255,255,0.7)", background: "transparent", color: "#fff", cursor: "pointer" },
+  positioning: { marginTop: 48, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.18)", fontFamily: "'Astrid Regular', serif", fontStyle: "italic", fontSize: "18px", color: "rgba(255,255,255,0.8)", lineHeight: 1.6 },
 };
 
 const mb: Record<string, React.CSSProperties> = {
   tabsRow: { display: "flex", justifyContent: "center", gap: 10, marginBottom: 28, flexWrap: "wrap" as const },
-  tabBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "10px 22px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "transparent", color: "#662369", cursor: "pointer", transition: "all 0.25s ease" },
+  tabBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "10px 22px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "transparent", color: "#662369", cursor: "pointer", transition: "all 0.25s ease" },
   tabActive: { color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 20px rgba(102,35,105,0.30)" },
   benefitsList: { display: "flex", flexDirection: "column", gap: 10, margin: "0 0 8px" },
   benefitItem: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
   benefitDot: { width: 6, height: 6, borderRadius: "50%", flexShrink: 0 },
-  pageEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 12 },
+  pageEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 12 },
   divider: { height: 1, background: "#ede7f5", margin: "24px 0" },
   formLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#4B1E56", marginBottom: 12 },
   purposeRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12 },
@@ -2923,33 +2923,33 @@ const mb: Record<string, React.CSSProperties> = {
 const dr: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginBottom: 48 },
   card: { padding: 28, background: "#fff", borderRadius: 18, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
   icon: { fontSize: "1.5rem", color: "#4B1E56", marginBottom: 12 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.15rem", color: "#1a0a2e", marginBottom: 6 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 6 },
   cardCount: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.06em", color: "#8a5a97" },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
 };
 
 const pg: Record<string, React.CSSProperties> = {
   section: { position: "relative", padding: "100px 48px", overflow: "hidden", textAlign: "center", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, position: "relative", zIndex: 1 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2rem,4vw,2.8rem)", color: "#4B1E56", lineHeight: 1.25, maxWidth: 760, margin: "0 auto 48px", position: "relative", zIndex: 1 },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, position: "relative", zIndex: 1 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", lineHeight: 1.25, maxWidth: 760, margin: "0 auto 48px", position: "relative", zIndex: 1 },
   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, maxWidth: 1000, margin: "0 auto 40px" },
   card: { padding: 32, background: "#fff", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left", boxShadow: "0 4px 16px rgba(124,92,191,0.06)" },
   icon: { fontSize: "1.6rem", color: "#4B1E56", marginBottom: 14 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", color: "#1a0a2e", marginBottom: 10 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6 },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1, boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
-  registerBtn: { marginTop: "auto", alignSelf: "stretch", fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 700, letterSpacing: "0.12em", padding: "13px 18px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 16px rgba(215,35,143,0.25)" },
-  lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1.02rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 12px", position: "relative", zIndex: 1 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 10 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.6 },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", position: "relative", zIndex: 1, boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  registerBtn: { marginTop: "auto", alignSelf: "stretch", fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.12em", padding: "13px 18px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 16px rgba(215,35,143,0.25)" },
+  lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 12px", position: "relative", zIndex: 1 },
   tagline: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", fontStyle: "italic", color: "#4B1E56", margin: "0 auto 32px", position: "relative", zIndex: 1 },
   pathGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "left", alignItems: "stretch" },
   focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10, marginBottom: 24 },
-  focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "0.86rem", color: "#554866" },
+  focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866" },
   focusDot: { flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 },
   chipRow: { display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" as const },
   chip: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.03em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "10px 20px", borderRadius: 100, marginTop: 16, width: "fit-content" },
@@ -2959,24 +2959,24 @@ const pg: Record<string, React.CSSProperties> = {
 const op: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", position: "relative", overflow: "hidden" },
   container: { maxWidth: 1140, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 40px" },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 40px" },
 
   // Compact "type" overview cards
   grid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14, marginBottom: 60 },
   card: { padding: "18px 16px", background: "#fff", borderRadius: 14, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)", transition: "all 0.2s ease" },
   icon: { fontSize: "1.15rem", color: "#4B1E56", marginBottom: 8 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "0.96rem", color: "#1a0a2e", marginBottom: 4 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.76rem", color: "#554866", lineHeight: 1.5 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 4 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.5 },
 
   divider: { height: 1, background: "rgba(75,30,86,0.14)", margin: "0 0 40px", maxWidth: 1100, marginLeft: "auto", marginRight: "auto" },
 
-  boardEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 12 },
-  boardTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(1.8rem,4vw,2.6rem)", color: "#4B1E56", marginBottom: 32 },
+  boardEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 12 },
+  boardTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(32px,4.5vw,52px)", color: "#4B1E56", marginBottom: 32 },
 
   filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
-  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
+  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
   filterBtnActive: { background: "#D7B264", borderColor: "#D7B264", color: "#fff", boxShadow: "0 4px 16px rgba(215,35,143,0.30)" },
 
   // Live opportunity listing cards
@@ -2986,13 +2986,13 @@ const op: Record<string, React.CSSProperties> = {
   typeBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#fff", background: "#1a0a2e", padding: "5px 12px", borderRadius: 100 },
   categoryPill: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.04em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "4px 11px", borderRadius: 100 },
   listMeta: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 600, color: "#8a5a97", marginBottom: 6 },
-  listTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.2rem", color: "#1a0a2e", marginBottom: 8 },
-  listText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, marginBottom: 18, flexGrow: 1 },
+  listTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 8 },
+  listText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.6, marginBottom: 18, flexGrow: 1 },
   listFooterRow: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginTop: "auto", flexWrap: "wrap" as const },
   deadline: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 600, color: "#8a5a97" },
-  applyBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.08em", padding: "11px 20px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", whiteSpace: "nowrap" as const },
+  applyBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.08em", padding: "11px 20px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", whiteSpace: "nowrap" as const },
 
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
 
   // Quick-apply modal
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(26,10,46,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
@@ -3001,25 +3001,25 @@ const op: Record<string, React.CSSProperties> = {
   modalEyebrow: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#8a5a97", marginBottom: 10 },
   modalTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
   modalSub: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, textAlign: "left" },
-  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: 4 },
+  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: 4 },
 };
 
 const evs: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "#fff" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
+  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
   grid: { display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 24, textAlign: "left" },
   card: { padding: "28px 26px", background: "#f6f3fa", borderRadius: 18, border: "1px solid rgba(124, 92, 191, 0.15)", display: "flex", flexDirection: "column", gap: 0 },
   dateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", color: "#fff", background: "#1a0a2e", padding: "5px 12px", borderRadius: 100, marginBottom: 12, width: "fit-content" },
   categoryPill: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "4px 11px", borderRadius: 100, marginBottom: 10, width: "fit-content" },
   category: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#8a5a97", marginBottom: 8 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", color: "#1a0a2e", marginBottom: 8 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
-  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: "auto" },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 8 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
+  rsvpBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "12px", borderRadius: 100, border: "2px solid #D7B264", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: "auto" },
   filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
-  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
+  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
   filterBtnActive: { background: "#D7B264", borderColor: "#D7B264", color: "#fff", boxShadow: "0 4px 16px rgba(215,35,143,0.30)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(26,10,46,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
   modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(26,10,46,0.35)" },
@@ -3027,8 +3027,8 @@ const evs: Record<string, React.CSSProperties> = {
   modalDateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.1em", color: "#8a5a97", marginBottom: 10 },
   modalTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.5rem", color: "#1a0a2e", marginBottom: 10, textAlign: "left" },
   modalSub: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", color: "#554866", lineHeight: 1.6, textAlign: "left" },
-  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: 4 },
-  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#D7B264", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
+  modalSubmitBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", marginTop: 4 },
+  modalCtaLink: { display: "inline-block", marginTop: 20, fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.08em", color: "#fff", background: "#D7B264", padding: "14px 24px", borderRadius: 100, textDecoration: "none" },
 };
 
 const jp: Record<string, React.CSSProperties> = {
@@ -3036,18 +3036,18 @@ const jp: Record<string, React.CSSProperties> = {
   card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", border: "1px solid rgba(124, 92, 191, 0.12)", width: "100%" },
   formHeader: { textAlign: "center", marginBottom: 32 },
   formTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "2rem", color: "#1a0a2e", marginBottom: 8 },
-  formSub: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", color: "#554866" },
+  formSub: { fontFamily: "'Montserrat', sans-serif", fontSize: "18px", color: "#554866" },
   row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
   input: { width: "100%", padding: "14px 18px", borderRadius: 12, border: "1px solid #ede7f5", background: "#fdf9fc", fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", outline: "none" },
   select: { appearance: "none" as const, cursor: "pointer" },
-  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", fontWeight: 700, fontSize: "0.85rem", cursor: "pointer", letterSpacing: "0.1em" },
+  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", fontWeight: 700, fontSize: "14px", cursor: "pointer", letterSpacing: "0.1em" },
 };
 
 const st: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", textAlign: "center" },
-  sectionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 14 },
-  bannerTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "2.8rem", color: "#4B1E56", marginBottom: 16, maxWidth: 780, marginLeft: "auto", marginRight: "auto", lineHeight: 1.15 },
-  lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 680, margin: "0 auto 48px" },
+  sectionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 14 },
+  bannerTitle: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 16, maxWidth: 780, marginLeft: "auto", marginRight: "auto", lineHeight: 1.15 },
+  lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 680, margin: "0 auto 48px" },
   statsGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 20, maxWidth: 900, margin: "0 auto 56px" },
   statCard: { padding: "24px 16px", background: "#fff", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)" },
   statNum: { fontFamily: "'Astrid Regular',serif", fontSize: "2rem", fontWeight: 600, color: "#1a0a2e", marginBottom: 6 },
@@ -3057,20 +3057,20 @@ const st: Record<string, React.CSSProperties> = {
   caldGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 },
   caldCard: { padding: "24px 20px", background: "#fff", borderRadius: 16, border: "1px solid rgba(124, 92, 191, 0.15)", textAlign: "left" },
   caldIcon: { fontSize: "1.4rem", color: "#4B1E56", marginBottom: 10 },
-  caldTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.05rem", color: "#1a0a2e", marginBottom: 6 },
-  caldText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "#554866", lineHeight: 1.55 },
+  caldTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 6 },
+  caldText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.55 },
   programsGrid: { display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 },
   programCard: { padding: "24px 20px", background: "#1a0a2e", borderRadius: 16, textAlign: "left" },
   programIcon: { fontSize: "1.4rem", color: "#fff", marginBottom: 10 },
-  programTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.05rem", color: "#fff", marginBottom: 6 },
-  programText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.82rem", color: "rgba(255,255,255,0.75)", lineHeight: 1.55 },
+  programTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#fff", marginBottom: 6 },
+  programText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "rgba(255,255,255,0.75)", lineHeight: 1.55 },
   grid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, maxWidth: 900, margin: "0 auto" },
   card: { padding: 40, border: "1px solid rgba(124, 92, 191, 0.15)", borderRadius: 24, textAlign: "left", background: "#fff" },
   quote: { fontFamily: "'Astrid Regular', serif", fontSize: "1.3rem", fontStyle: "italic", color: "#554866", lineHeight: 1.6, marginBottom: 20 },
   name: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.85rem", fontWeight: 700, color: "#1a0a2e" },
   role: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.75rem", color: "#8a5a97", marginTop: 2 },
   visionBox: { maxWidth: 700, margin: "0 auto", padding: "32px 28px", background: "#1a0a2e", borderRadius: 20 },
-  visionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.2em", color: "#c9a3d9", marginBottom: 12 },
+  visionEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.2em", color: "#c9a3d9", marginBottom: 12 },
   visionText: { fontFamily: "'Astrid Regular',serif", fontSize: "1.2rem", fontStyle: "italic", color: "#fff", lineHeight: 1.6 },
 };
 

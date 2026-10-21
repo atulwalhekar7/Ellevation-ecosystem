@@ -297,7 +297,7 @@ function Hero() {
             One Community. <br />Endless <span style={{ color: "#EFBF68" }}>Pathways.</span>
           </h1>
 
-          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 15.5, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
+          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 18, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
             Ellevation is a community-led ecosystem where identity, leadership and opportunity
             come together. We support culturally and linguistically diverse (CALD) communities
             to grow, connect and thrive while remaining grounded in their identity, culture and
@@ -319,7 +319,7 @@ function Hero() {
     color: "#fff",
     fontFamily: "'Montserrat'",
     fontWeight: 600,
-    fontSize: 13,
+    fontSize: 14,
     textDecoration: "none",
     boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
     transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
@@ -343,7 +343,7 @@ function Hero() {
     color: "#fff",
     fontFamily: "'Montserrat', sans-serif",
     fontWeight: 600,
-    fontSize: 13,
+    fontSize: 14,
     textDecoration: "none",
     boxShadow: "0 4px 14px rgba(90, 63, 160, 0.2)",
     transform: darkHov ? "translateY(-2px)" : "translateY(0)",
@@ -402,14 +402,14 @@ function OverviewCard({
       }}
     >
       <p style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 600,
         letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56",
         margin: "0 0 10px",
       }}>
         {item.label}
       </p>
       <p style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 14, lineHeight: 1.65,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65,
         color: "#554866", margin: 0,
       }}>
         {item.text}
@@ -435,7 +435,7 @@ function WhoWeAreSection() {
       <div style={{ maxWidth: 1140, margin: "0 auto" }}>
         {/* Header */}
         <div ref={head.ref} style={{ ...fade(head.inView, 0), textAlign: "center", marginBottom: 40 }}>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Who We Are
           </p>
           <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#1a0a2e", margin: 0 }}>
@@ -461,7 +461,7 @@ function WhoWeAreSection() {
               key={i}
               style={{
                 fontFamily: "'Montserrat',sans-serif",
-                fontSize: 15.5,
+                fontSize: 18,
                 lineHeight: 1.75,
                 color: "#554866",
                 margin: i === whoWeAreParagraphs.length - 1 ? 0 : "0 0 16px",
@@ -618,7 +618,7 @@ function FounderSection() {
 
         {/* RIGHT: text */}
         <div ref={right.ref} style={{ flex: "1 1 380px", maxWidth: 640 }}>
-          <p style={{ ...fade(right.inView, 60), fontFamily: "'Montserrat', sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+          <p style={{ ...fade(right.inView, 60), fontFamily: "'Montserrat', sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Meet Hannah Gongar
           </p>
           <h2 style={{ ...fade(right.inView, 130), fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,46px)", fontWeight: 700, color: "#4B1E56", lineHeight: 1.2, margin: "0 0 24px" }}>
@@ -631,7 +631,7 @@ function FounderSection() {
             { delay: 280, text: "Her journey has been shaped by resilience, perseverance and transformation — including the realities of migration, domestic violence and mental health challenges, and the long journey of rebuilding self-worth into confidence and leadership. Her mother, a single parent and NGO worker who dedicated her life to educating and protecting women and young people, shaped Hannah's deep commitment to service, empowerment and advocacy." },
             { delay: 360, text: "Before launching Ms Ellevation, Hannah spent several years providing grassroots support through micro-finance initiatives, helping migrant women start businesses, secure housing, build financial independence and access opportunities for a better future. In 2024, that vision evolved into Ms Ellevation and the broader Ellevation ecosystem." },
           ].map((p, i) => (
-            <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'Montserrat', sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
+            <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'Montserrat', sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
               {p.text}
             </p>
           ))}
@@ -698,7 +698,7 @@ function VisionSection() {
         <div ref={h.ref} style={{ textAlign: "center", marginBottom: "56px" }}>
           <span style={{
             fontFamily: "'Montserrat', sans-serif",
-            fontSize: "12px",
+            fontSize: "14px",
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.08em",
@@ -772,7 +772,7 @@ function VisionSection() {
               </span>
               <p style={{
                 fontFamily: "'Montserrat', sans-serif",
-                fontSize: "15.5px",
+                fontSize: "18px",
                 color: "#554866",
                 lineHeight: 1.65,
                 margin: 0,
@@ -823,13 +823,13 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
         {item.label}
       </p>
       <h3 style={{
-        fontFamily: "'Astrid Regular',serif", fontSize: 32, fontWeight: 700,
+        fontFamily: "'Astrid Regular',serif", fontSize: 22, fontWeight: 700,
         color: "#1a0a2e", margin: "0 0 14px", lineHeight: 1.2,
       }}>
         {item.title}
       </h3>
       <p style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 15, lineHeight: 1.65,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65,
         color: "#554866", margin: "0 0 24px",
       }}>
         {item.body}
@@ -869,7 +869,7 @@ const msCard = coreModel.find((c) => c.label === "Ms Ellevation")!;
           marginBottom: "48px",
         }}
       >
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
           Core Ecosystem Structure
         </p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
@@ -921,7 +921,7 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
         border: "1px solid",
         borderColor: hov ? "rgba(75, 30, 86, 0.3)" : "rgba(124, 92, 191, 0.15)",
         borderRadius: 18, padding: "20px 16px", textAlign: "left",
-        boxShadow: hov ? "0 18px 40px rgba(124, 92, 191, 0.1)" : "0 8px 22px rgba(124, 92, 191, 0.02)",
+        boxShadow: hov ? "0 18px 40px rgba(124, 92, 191, 0.1)" : "0 8px 12px rgba(124, 92, 191, 0.02)",
         transition: "transform 0.4s cubic-bezier(.25,1,.5,1), box-shadow 0.4s ease, border-color 0.3s ease, background 0.3s ease",
         transform: hov ? "translateY(-5px)" : "translateY(0)",
         position: "relative", overflow: "hidden", cursor: "default",
@@ -938,13 +938,13 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
         {item.icon}
       </div>
       <h3 style={{
-        fontFamily: "'Astrid Regular',serif", fontSize: 16.5, fontWeight: 700,
+        fontFamily: "'Astrid Regular',serif", fontSize: 22, fontWeight: 700,
         color: "#1a0a2e", margin: "0 0 7px", lineHeight: 1.25,
       }}>
         {item.title}
       </h3>
       <p style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 12, lineHeight: 1.55,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 14, lineHeight: 1.55,
         color: "#554866", margin: 0,
       }}>
         {item.body}
@@ -961,7 +961,7 @@ function WhoWeServeSection() {
       style={{ background: "#ffffff", padding: "80px 24px" }}
     >
       <div ref={ref} style={{ ...fade(inView, 0), textAlign: "center", marginBottom: 48 }}>
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
           Who We Serve
         </p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
@@ -1001,7 +1001,7 @@ function CTALink({ label, to }: { label: string; to: string }) {
         background: "#D7B264",
         color: "#ffffff",
         fontFamily: "'Montserrat',sans-serif",
-        fontSize: 13,
+        fontSize: 14,
         fontWeight: 600,
         letterSpacing: "0.05em",
         boxShadow: hov ? "0 6px 20px rgba(75, 30, 86, 0.45)" : "none",
@@ -1034,7 +1034,7 @@ function CTASection() {
         <p style={{
           ...fade(inView, 0),
           fontFamily: "'Montserrat',sans-serif",
-          fontSize: 13,
+          fontSize: 14,
           fontWeight: 600,
           letterSpacing: "0.08em",
           textTransform: "uppercase",
@@ -1058,7 +1058,7 @@ function CTASection() {
         <p style={{
           ...fade(inView, 110),
           fontFamily: "'Montserrat',sans-serif",
-          fontSize: 15.5,
+          fontSize: 18,
           color: "#554866",
           lineHeight: 1.65,
           maxWidth: 620,

@@ -183,7 +183,7 @@ function Hero() {
             When women connect, <br />share, and support, <br /> <span style={{ color: "#EFBF68" }}>communities transform.</span>
           </h1>
 
-          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 16, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
+          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 18, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
 Share your personal or professional journey through video, audio, writing, or digital art to inspire women across Australia.          </p>
 
           <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -196,7 +196,7 @@ Share your personal or professional journey through video, audio, writing, or di
                 padding: "14px 28px", borderRadius: 14,
                 background: "#D7B264",
                 color: "#fff", fontFamily: "'Montserrat',sans-serif",
-                fontWeight: 600, fontSize: 13, border: "none", cursor: "pointer",
+                fontWeight: 600, fontSize: 14, border: "none", cursor: "pointer",
                 boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
                 transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
                 transition: "transform 0.2s, box-shadow 0.2s",
@@ -216,7 +216,7 @@ Share your personal or professional journey through video, audio, writing, or di
     WebkitBackdropFilter: "blur(10px)",
     border: "1.5px solid rgba(255,255,255,0.3)",
     color: "#fff", fontFamily: "'Montserrat',sans-serif",
-    fontWeight: 600, fontSize: 13, cursor: "pointer",
+    fontWeight: 600, fontSize: 14, cursor: "pointer",
     textDecoration: "none",
     transform: darkHov ? "translateY(-2px)" : "translateY(0)",
     transition: "transform 0.2s",
@@ -241,17 +241,17 @@ function VisionSection() {
     <section className="about-vision" style={{ background: "#linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px", textAlign: "center" }}>
       <div style={{ maxWidth: 740, margin: "0 auto" }}>
         <div ref={h.ref} style={fade(h.inView, 0)}>
-          <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
+          <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
             Our Purpose
           </span>
           <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,52px)", fontWeight: 700, lineHeight: 1.2, marginBottom: "32px", color: "#1a0a2e" }}>
             A Blueprint of Inspiration For  CALD Backgrounds
           </h2>
         </div>
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
           By sharing your story, you're giving Ms. Ellevation permission to share your experiences on our platform — not only contributing to a growing community of strength, but also helping create a circle of support where women can feel seen, heard, and connected.
         </p>
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "15.5px", color: "#554866", lineHeight: 1.65, margin: 0 }}>
+        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, margin: 0 }}>
           Your journey could be the spark of encouragement someone else needs. Together, these stories weave a powerful tapestry of resilience, courage, and possibility — showing every CALD woman in Australia that she is not alone, and that success, belonging, and confidence are within reach.
         </p>
       </div>
@@ -287,8 +287,8 @@ function ConversationCard({ item }: { item: typeof conversationContent[0] }) {
       }}
     >
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: hov ? "#4B1E56" : "transparent", transition: "background 0.3s" }} />
-      <h3 className="conversation-card-title" style={{ fontFamily: "'Astrid Regular',serif", fontSize: 32, fontWeight: 700, color: "#662369", margin: "0 0 18px" }}>{item.title}</h3>
-      <p className="conversation-card-body" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14.5, lineHeight: 1.65, color: "#554866", margin: 0 }}>{item.body}</p>
+      <h3 className="conversation-card-title" style={{ fontFamily: "'Astrid Regular',serif", fontSize: 22, fontWeight: 700, color: "#662369", margin: "0 0 18px" }}>{item.title}</h3>
+      <p className="conversation-card-body" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65, color: "#554866", margin: 0 }}>{item.body}</p>
     </div>
   );
 }
@@ -308,7 +308,7 @@ function SocialFollowRow() {
       }}
     >
       <p className="social-follow-label" style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600,
+        fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600,
         letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: 0
       }}>
         Follow the Conversation
@@ -341,7 +341,7 @@ function ConversationSection() {
   return (
     <section className="about-vmv" style={{ background: "#ffffff", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
-        <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>Ellevation Conversations</p>
+        <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>Ellevation Conversations</p>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto", justifyContent: "center" }}>
 {conversationContent.map((item, i) => <ConversationCard key={i} item={item} />)}
@@ -380,7 +380,7 @@ function FormatCard({ item }: { item: typeof submissionFormats[0] }) {
       }}
     >
       <h3 className="format-card-title" style={{ fontFamily: "'Astrid Regular',serif", fontSize: 22, fontWeight: 700, color: "#4B1E56", margin: "0 0 10px", lineHeight: 1.2 }}>{item.title}</h3>
-      <p className="format-card-body" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14.5, lineHeight: 1.6, color: "#4B1E56", margin: 0 }}>{item.body}</p>
+      <p className="format-card-body" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.6, color: "#4B1E56", margin: 0 }}>{item.body}</p>
     </div>
   );
 }
@@ -389,7 +389,7 @@ function FormatsSection() {
   return (
     <section className="about-who-we-serve" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px" }}>
       <div style={{ textAlign: "center", marginBottom: 44 }}>
-        <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Submission Modalities</p>
+        <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>Submission Modalities</p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>We Welcome Stories in Many Forms</h2>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1140, margin: "0 auto", justifyContent: "center" }}>
@@ -504,13 +504,13 @@ function StorySubmissionSection() {
     >
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 44, opacity: inView ? 1 : 0, transition: "opacity 0.7s ease" }}>
-          <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
+          <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
             Share Your Journey
           </p>
           <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: "0 0 16px" }}>
             Submit Your Story
           </h2>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 15.5, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto" }}>
+          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto" }}>
             Fill in the details below and attach your written reflection, audio, video, or artwork — or paste a link if it's already hosted somewhere. By submitting, you're giving Ms. Ellevation permission to share your experience across our platform.
           </p>
         </div>
@@ -543,7 +543,7 @@ function StorySubmissionSection() {
                 style={{
                   padding: "14px 28px", borderRadius: 14, border: "1.5px solid rgba(124, 92, 191, 0.3)",
                   background: "transparent", color: "#4B1E56", fontFamily: "'Montserrat',sans-serif",
-                  fontWeight: 600, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase",
+                  fontWeight: 600, fontSize: 14, letterSpacing: "0.05em", textTransform: "uppercase",
                   cursor: "pointer", transition: "all 0.2s ease"
                 }}
               >
@@ -560,7 +560,7 @@ function StorySubmissionSection() {
                   onChange={(e) => update("anonymous", e.target.checked)}
                   style={{ width: 18, height: 18, accentColor: "#4B1E56", cursor: "pointer" }}
                 />
-                <label htmlFor="anonymous" className="story-check-label" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14.5, color: "#554866", cursor: "pointer" }}>
+                <label htmlFor="anonymous" className="story-check-label" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", cursor: "pointer" }}>
                   I'd like to share my story anonymously
                 </label>
               </div>
@@ -613,7 +613,7 @@ function StorySubmissionSection() {
                         background: form.format === opt ? "#4B1E56" : "#fff",
                         color: form.format === opt ? "#fff" : "#554866",
                         fontFamily: "'Montserrat',sans-serif",
-                        fontSize: 13, fontWeight: 600, cursor: "pointer",
+                        fontSize: 14, fontWeight: 600, cursor: "pointer",
                         transition: "all 0.2s",
                       }}
                     >
@@ -720,7 +720,7 @@ function StorySubmissionSection() {
                   onChange={(e) => update("consent", e.target.checked)}
                   style={{ width: 18, height: 18, marginTop: 2, accentColor: "#4B1E56", cursor: "pointer" }}
                 />
-                <label htmlFor="consent" className="story-check-label" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 13.5, color: "#554866", lineHeight: 1.6, cursor: "pointer" }}>
+                <label htmlFor="consent" className="story-check-label" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, color: "#554866", lineHeight: 1.6, cursor: "pointer" }}>
 I give Ms. Ellevation permission to share my story and any attached media or linked content across the full Ms. Ellevation and Ellevation Ecosystem— including this website, Ellevation Hub, our social media channels, newsletters, and community events.
                 </label>
               </div>
