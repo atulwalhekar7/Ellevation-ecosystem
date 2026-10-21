@@ -124,7 +124,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
       <p
         className="testimonial-quote"
         style={{
-          fontSize: "15px",
+          fontSize: "18px",
           lineHeight: 1.65,
           color: "#403452",
           fontFamily: "'Montserrat', sans-serif",
@@ -162,7 +162,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
             className="testimonial-name"
             style={{
               margin: 0,
-              fontSize: "14.5px",
+              fontSize: "18px",
               fontWeight: 500,
               color: "#1a0a2e",
               fontFamily: "'Montserrat', sans-serif",
