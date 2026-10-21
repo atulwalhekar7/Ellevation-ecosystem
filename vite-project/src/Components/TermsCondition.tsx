@@ -189,9 +189,9 @@ function SectionBlock({ section, index }: { section: Section; index: number }) {
   return (
     <div ref={ref} style={{ ...fade(inView, Math.min(index * 40, 200)), marginBottom: 44 }}>
       <h2 style={{
-        fontFamily: "'Cormorant Garamond',serif",
-        fontSize: "1.55rem",
-        fontWeight: 600,
+        fontFamily: "'Astrid Regular', serif",
+        fontSize: 22,
+        fontWeight: 400,
         color: "#d11a8e",
         marginBottom: 6,
         paddingBottom: 12,
@@ -203,12 +203,12 @@ function SectionBlock({ section, index }: { section: Section; index: number }) {
         {section.clauses.map((c) => (
           <div key={c.n} style={{ display: "flex", gap: 14 }}>
             <span style={{
-              fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 700,
+              fontFamily: "'Montserrat',sans-serif", fontSize: 18, fontWeight: 700,
               color: "#9b7db8", minWidth: 40, flexShrink: 0,
             }}>
               {c.n}
             </span>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, color: "#3a2e50", lineHeight: 1.8, margin: 0 }}>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#3a2e50", lineHeight: 1.8, margin: 0 }}>
               {c.text}
             </p>
           </div>
@@ -227,7 +227,7 @@ export default function TermsConditionsPage() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@400;500;600&display=swap');
         *, *::before, *::after { box-sizing: border-box; }
         .legal-blob { position: absolute; border-radius: 50%; pointer-events: none; }
         .legal-blob-1 { top: -80px; left: -80px; width: 340px; height: 340px; background: radial-gradient(circle, rgba(255,182,210,0.4) 0%, transparent 70%); animation: legalFloat 9s ease-in-out infinite; }
@@ -267,7 +267,7 @@ export default function TermsConditionsPage() {
               boxShadow: "0 20px 60px rgba(140,110,180,0.08)",
             }}
           >
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14.5, color: "#3a2e50", lineHeight: 1.85, marginBottom: 40 }}>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#3a2e50", lineHeight: 1.85, marginBottom: 40 }}>
               These Terms are important and you should ensure that you read them carefully and contact us with any questions before you use the Site. If you continue to browse and use this Site, you acknowledge and agree that you have had sufficient chance to read and understand the Terms and you agree to be bound by them. If you do not agree to the Terms, please do not use the Site.
             </p>
 
@@ -287,7 +287,7 @@ export default function TermsConditionsPage() {
               textAlign: "center",
             }}
           >
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: "#3a2e50", lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#3a2e50", lineHeight: 1.7, margin: 0 }}>
               Questions about these Terms? Contact us at{" "}
               <a href="mailto:hello@msellevation.com" style={{ color: "#9b7db8", fontWeight: 600, textDecoration: "underline" }}>
                 hello@msellevation.com
