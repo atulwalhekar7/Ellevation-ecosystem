@@ -317,7 +317,7 @@ export default function EllevationFooter() {
 
         .footer-tagline {
           font-family: 'Astrid Regular', serif;
-          font-size: 20px;
+          font-size: 22px;
           font-weight: 700;
           line-height: 1.3;
           color: #ffffff;
@@ -336,7 +336,7 @@ export default function EllevationFooter() {
         .footer-column-heading {
           font-family: 'Montserrat', sans-serif;
           font-weight: 700;
-          font-size: 12px;
+          font-size: 14px;
           line-height: var(--heading-lh);
           color: #D7B264;
           margin: 0 0 24px 0;

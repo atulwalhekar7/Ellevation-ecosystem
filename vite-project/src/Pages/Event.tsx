@@ -822,19 +822,19 @@ useEffect(() => {
 const evs: Record<string, React.CSSProperties> = {
   section: { padding: "100px 48px", background: "#fff" },
   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" },
+  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" },
   title: { fontFamily: "'Astrid Regular',serif", fontSize: "clamp(2.2rem,5vw,3.2rem)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "1rem", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
+  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
   grid: { display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 24, textAlign: "left" },
   card: { padding: "28px 26px", background: "rgba(255,255,255,0.75)", borderRadius: 24, border: "1px solid rgba(124, 92, 191, 0.15)", display: "flex", flexDirection: "column", gap: 0, boxShadow: "0 10px 30px rgba(124, 92, 191, 0.02)" },
   dateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", color: "#fff", background: "#1a0a2e", padding: "5px 12px", borderRadius: 100, marginBottom: 12, width: "fit-content" },
   categoryPill: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "4px 11px", borderRadius: 100, marginBottom: 10, width: "fit-content" },
   category: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", color: "#9b7db8", marginBottom: 8 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "1.25rem", color: "#4B1E56", marginBottom: 8 },
-  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
+  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#4B1E56", marginBottom: 8 },
+  cardText: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.6, marginBottom: 20, flexGrow: 1 },
 rsvpBtn: {
   fontFamily: "'Montserrat', sans-serif",
-  fontSize: "0.72rem",
+  fontSize: "14px",
   fontWeight: 700,
   letterSpacing: "0.1em",
   padding: "12px",
@@ -846,7 +846,7 @@ rsvpBtn: {
   marginTop: "auto",
   transition: "all 0.2s ease",
 },  filterRow: { display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, marginBottom: 40 },
-  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid rgba(124, 92, 191, 0.2)", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
+  filterBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 600, letterSpacing: "0.04em", padding: "10px 18px", borderRadius: 100, border: "1.5px solid rgba(124, 92, 191, 0.2)", background: "#fff", color: "#554866", cursor: "pointer", transition: "all 0.2s ease" },
   filterBtnActive: { background: "#d7B264", borderColor: "#4B1E56", color: "#fff", boxShadow: "0 4px 16px rgba(75,30,86,0.3)" },
   modalOverlay: { position: "fixed", inset: 0, background: "rgba(20,10,34,0.55)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 1000 },
   modalCard: { background: "#fff", borderRadius: 22, padding: "36px 32px", maxWidth: 440, width: "100%", position: "relative", boxShadow: "0 24px 64px rgba(124,92,191,0.18)" },
@@ -878,7 +878,7 @@ const ev: Record<string, React.CSSProperties> = {
   dateBadge: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.12em", color: "#fff", background: NAVY, padding: "5px 12px", borderRadius: 100, border: "1px solid rgba(255,255,255,0.25)" },
   categoryPill: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.06em", color: "#f0d9f5", background: "rgba(75,30,86,0.3)", border: "1px solid rgba(155,109,190,0.35)", padding: "4px 11px", borderRadius: 100 },
 
-  eyebrowText: { fontFamily: "'Montserrat', sans-serif", fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.2em", color: "#c98fd6", marginBottom: 16, textTransform: "uppercase" as const },
+  eyebrowText: { fontFamily: "'Montserrat', sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.2em", color: "#c98fd6", marginBottom: 16, textTransform: "uppercase" as const },
   heroTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.8rem, 6vw, 4.6rem)", fontWeight: 500, color: "#fff", lineHeight: 1.08, marginBottom: 18, letterSpacing: "-0.01em" },
   heroSub: { fontFamily: "'Montserrat', sans-serif", fontSize: "1rem", fontWeight: 400, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, maxWidth: 520, margin: "0 auto" },
 
@@ -889,7 +889,7 @@ const ev: Record<string, React.CSSProperties> = {
   infoValue: { fontFamily: "'Astrid Regular', serif", fontSize: "1.2rem", fontWeight: 600, color: NAVY },
 
   section: { padding: "100px 48px", background: "#fff", textAlign: "center" },
-  eyebrowLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.7rem", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" as const },
+  eyebrowLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16, textTransform: "uppercase" as const },
   sectionTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "clamp(2.2rem, 5vw, 3.2rem)", fontWeight: 500, color: PLUM, marginBottom: 48, lineHeight: 1.1 },
 
   highlightsGrid: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, maxWidth: 1000, margin: "0 auto" },

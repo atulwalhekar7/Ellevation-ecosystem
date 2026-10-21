@@ -731,7 +731,7 @@ export default function JoinPage() {
           font-family: ${DISPLAY_FONT}; font-size: 52px; font-weight: 700; color: #4B1E56;
           margin: 0 0 20px; line-height: 1.15; letter-spacing: -0.01em;
         }
-        .join-header-sub { font-size: 15px; line-height: 1.6; color: #554866; margin: 0; }
+        .join-header-sub { font-size: 18px; line-height: 1.6; color: #554866; margin: 0; }
 
         .join-container { max-width: 1240px; margin: 0 auto; padding: 24px 24px 96px; }
         .join-step { margin-bottom: 56px; scroll-margin-top: 100px; }
@@ -739,7 +739,7 @@ export default function JoinPage() {
           font-family: ${DISPLAY_FONT}; font-size: 38px; font-weight: 700; color: #4B1E56;
           margin: 0 0 8px; line-height: 1.2;
         }
-        .join-hint { font-size: 14.5px; color: #662369; margin: 0 0 20px; font-weight: 500; }
+        .join-hint { font-size: 18px; color: #662369; margin: 0 0 20px; font-weight: 500; }
         .join-intro { max-width: 780px; margin: 12px 0 8px; }
 
         /* ── Shared text styles (same as Paths cards) ── */
@@ -751,7 +751,7 @@ export default function JoinPage() {
           font-family: ${DISPLAY_FONT}; font-size: 38px; font-weight: 700; color: #1a0a2e;
           margin: 0; line-height: 1.2; transition: color 0.3s ease;
         }
-        .join-desc { font-size: 15px; line-height: 1.6; color: #554866; margin: 0; }
+        .join-desc { font-size: 18px; line-height: 1.6; color: #554866; margin: 0; }
 
         /* ── Cards (same look as Paths cards) ── */
         .join-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: stretch; }
@@ -834,7 +834,7 @@ export default function JoinPage() {
         /* CTA — same gold button as Paths */
         .join-cta {
           display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-          font-family: ${BODY_FONT}; font-size: 13px; font-weight: 600; letter-spacing: 0.05em;
+          font-family: ${BODY_FONT}; font-size: 14px; font-weight: 600; letter-spacing: 0.05em;
           color: #ffffff; background: #D7B264; border: none; border-radius: 14px;
           padding: 14px 28px; cursor: pointer; text-decoration: none;
           box-shadow: 0 4px 14px rgba(90, 63, 160, 0.2);
