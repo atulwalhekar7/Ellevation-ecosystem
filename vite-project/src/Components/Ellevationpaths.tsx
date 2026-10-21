@@ -295,7 +295,7 @@ margin: "0 0 28px",
             built by <em style={{ color: HERO_PLUM_800, fontStyle: "italic" }}>everyone</em> who shows up.
           </h1>
 
-          <p className="ellevation-hero-desc" style={{ fontSize: "1.08rem", lineHeight: 1.65, color: HERO_INK_600, maxWidth: "520px", margin: "0 0 36px" }}>
+          <p className="ellevation-hero-desc" style={{ fontSize: "18px", lineHeight: 1.65, color: HERO_INK_600, maxWidth: "520px", margin: "0 0 36px" }}>
             Ellevation is the shared table behind every part of this network — for parents and kids,
             professionals and founders, businesses and the community organisations doing the work
             on the ground. Wherever you fit in, there's a seat here.
@@ -312,7 +312,7 @@ margin: "0 0 28px",
       padding: "14px 30px",
       borderRadius: "999px",
       fontWeight: 600,
-      fontSize: "0.95rem",
+      fontSize: "14px",
     }}
   >
     Explore the Hub
@@ -327,7 +327,7 @@ margin: "0 0 28px",
       padding: "14px 30px",
       borderRadius: "999px",
       fontWeight: 600,
-      fontSize: "0.95rem",
+      fontSize: "14px",
       border: "none",
     }}
   >
@@ -479,7 +479,7 @@ export default function EllevationPaths() {
 
         .path-card-eyebrow {
           font-family: 'Montserrat', sans-serif;
-          font-size: 12px;
+          font-size: ;
           font-weight: 600;
           letter-spacing: 0.08em;
           text-transform: uppercase;

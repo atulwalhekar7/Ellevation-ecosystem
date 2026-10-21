@@ -167,14 +167,13 @@ const AustralianFlag = () => (
 /* ------------------------------------------------------------------ */
 
 export default function EllevationFooter() {
-
   const { pathname } = useLocation();
   const isHubPage = pathname === "/hub" || pathname.startsWith("/hub/");
   const socialIcons = getSocialIcons(
     isHubPage ? HUB_INSTAGRAM : MS_ELLEVATION_INSTAGRAM
   );
+
   return (
-    
     <>
       <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
@@ -191,10 +190,20 @@ export default function EllevationFooter() {
           font-display: swap;
         }
 
+        /* ---------------------------------------------------------
+           ALIGNMENT: one shared logo height drives both the logo row
+           (left) and the yellow headings' offset (right), so the
+           headings always sit on the logos' vertical centre line.
+           --------------------------------------------------------- */
+        .footer-grid {
+          --logo-h: 100px;         /* height of the logo row (original size) */
+          --heading-lh: 15px;      /* line-height of the yellow headings */
+        }
+
         .footer-link {
           color: #cbd5e1;
           font-family: 'Montserrat', sans-serif;
-          font-size: 15px;
+          font-size: 18px;
           font-weight: 500;
           text-decoration: none;
           display: block;
@@ -235,25 +244,25 @@ export default function EllevationFooter() {
           box-shadow: 0 8px 18px rgba(75, 30, 86, 0.45);
         }
 
-        /* Buttons are now real links (no <button> nested inside <a>),
+        /* Buttons are real links (no <button> nested inside <a>),
            so clicking them always navigates. */
-       .btn-purple, .btn-ghost {
-  box-sizing: border-box;      /* NEW */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 28px;
-  border-radius: 14px;
-  color: #ffffff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
+        .btn-purple, .btn-ghost {
+          box-sizing: border-box;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 14px 28px;
+          border-radius: 14px;
+          color: #ffffff;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          letter-spacing: 0.05em;
+          text-decoration: none;
+          cursor: pointer;
+          white-space: nowrap;
+        }
         .btn-purple {
           background: #D7B264;
           border: none;
@@ -277,6 +286,7 @@ export default function EllevationFooter() {
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
+        /* ---------- Logo row (left) ---------- */
         .footer-logos {
           display: flex;
           align-items: center;
@@ -289,13 +299,14 @@ export default function EllevationFooter() {
           align-items: center;
           justify-content: center;
           width: 190px;
-          height: 100px;
+          height: var(--logo-h);
           overflow: hidden;
         }
         .footer-logo-link img {
           width: 100%;
           height: 100%;
           object-fit: contain;
+          object-position: center;
           filter: drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.35));
         }
         .footer-logo-divider {
@@ -304,15 +315,34 @@ export default function EllevationFooter() {
           background: rgba(255, 255, 255, 0.2);
         }
 
-       .footer-tagline {
-  font-family: 'Astrid Regular', serif;
-  font-size: 20px;       /* pehle 30px tha */
-  font-weight: 700;
-  line-height: 1.3;
-  color: #ffffff;
-  margin: 0 0 16px 0;
-  letter-spacing: -0.01em;
-}
+        .footer-tagline {
+          font-family: 'Astrid Regular', serif;
+          font-size: 20px;
+          font-weight: 700;
+          line-height: 1.3;
+          color: #ffffff;
+          margin: 0 0 16px 0;
+          letter-spacing: -0.01em;
+        }
+
+        /* ---------- Link columns (right) ---------- */
+        .links-matrix {
+          display: grid;
+          grid-template-columns: repeat(3, 180px);
+          gap: 40px;
+          /* centre the heading text on the logo row's centre line */
+          padding-top: calc((var(--logo-h) - var(--heading-lh)) / 2);
+        }
+        .footer-column-heading {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: 12px;
+          line-height: var(--heading-lh);
+          color: #D7B264;
+          margin: 0 0 24px 0;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
 
         .footer-flags {
           display: flex;
@@ -331,29 +361,31 @@ export default function EllevationFooter() {
         .footer-flag svg { width: 100%; height: 100%; display: block; }
 
         @media (max-width: 968px) {
-        .footer-grid {
-  grid-template-columns: minmax(0, 1fr) !important;   /* was 1fr */
-  gap: 48px !important;
-}
+          .footer-grid {
+            grid-template-columns: minmax(0, 1fr) !important;
+            gap: 48px !important;
+          }
           .links-matrix {
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
-            width: 100% !important;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            width: 100%;
+            padding-top: 0;   /* stacked layout: no offset needed */
           }
         }
         @media (max-width: 600px) {
-        .footer-brand-actions {
-  flex-direction: column;
-  gap: 14px;
-  width: 100%;
-}
-.btn-purple, .btn-ghost {
-  width: 100%;
-  padding: 14px 20px;     /* mobile pe thoda kam padding */
-  white-space: normal;    /* bahut chhoti screen pe text wrap ho sake */
-}
+          .footer-grid { --logo-h: 80px; }
+          .footer-brand-actions {
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+          }
+          .btn-purple, .btn-ghost {
+            width: 100%;
+            padding: 14px 20px;
+            white-space: normal;
+          }
           .footer-logo-divider { display: none; }
-          .footer-logo-link { width: 150px; height: 80px; }
-.footer-tagline { font-size: 18px; }   /* pehle 26px tha */
+          .footer-logo-link { width: 150px; }
+          .footer-tagline { font-size: 18px; }
           .footer-ack { flex-direction: column; align-items: flex-start !important; }
         }
       `}</style>
@@ -409,7 +441,7 @@ export default function EllevationFooter() {
             <p
               className="footer-description"
               style={{
-                fontSize: "15px",
+                fontSize: "18px",
                 lineHeight: 1.7,
                 color: "#cbd5e1",
                 fontWeight: 400,
@@ -434,30 +466,10 @@ export default function EllevationFooter() {
           </div>
 
           {/* Right Block: Main Website – Ellevation Hub – Ms Ellevation */}
-          <div
-            className="links-matrix"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 180px)",
-              gap: "40px",
-            }}
-          >
+          <div className="links-matrix">
             {footerLinks.map(({ heading, links }) => (
               <div key={heading}>
-                <h4
-                  className="footer-column-heading"
-                  style={{
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontWeight: 700,
-                    fontSize: "12px",
-                    color: "#D7B264",
-                    marginBottom: "24px",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {heading}
-                </h4>
+                <h4 className="footer-column-heading">{heading}</h4>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                   {links.map((link) => (
                     <li key={link.label}>
@@ -502,7 +514,7 @@ export default function EllevationFooter() {
           </div>
           <p
             style={{
-              fontSize: "14px",
+              fontSize: "18px",
               lineHeight: 1.7,
               color: "#cbd5e1",
               fontWeight: 400,
