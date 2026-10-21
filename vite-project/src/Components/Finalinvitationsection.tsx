@@ -141,13 +141,13 @@ const FinalInvitationSection = () => {
         }
         .ellevation-audience-card-label {
           font-family: 'Astrid Regular', serif;
-          font-size: 1.05rem;
+          font-size: 22px;
           color: #231226;
           margin-bottom: 8px;
           font-weight: 700;
         }
         .ellevation-audience-card-copy {
-          font-size: 0.9rem;
+          font-size: 18px;
           line-height: 1.55;
           color: #5B4A61;
         }
@@ -255,7 +255,7 @@ const FinalInvitationSection = () => {
           border: none;
           border-radius: 14px;
           font-family: 'Montserrat', sans-serif;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 600;
           letter-spacing: 0.05em;
           cursor: pointer;

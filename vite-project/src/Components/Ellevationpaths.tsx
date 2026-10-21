@@ -522,7 +522,7 @@ export default function EllevationPaths() {
         /* Interior animations when card expands */
         .path-desc {
           font-family: 'Montserrat', sans-serif;
-          font-size: 15px;
+          font-size: 18px;
           line-height: 1.6;
           color: #554866;
           margin: 20px 0 24px 0;
@@ -548,7 +548,7 @@ export default function EllevationPaths() {
           align-items: center;
           gap: 12px;
           font-family: 'Montserrat', sans-serif;
-          font-size: 14.5px;
+          font-size: 18px;
           color: #403452;
           opacity: 0;
           transform: translateX(-8px);
@@ -578,7 +578,7 @@ export default function EllevationPaths() {
           justify-content: center;
           gap: 8px;
           font-family: 'Montserrat', sans-serif;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 600;
           letter-spacing: 0.05em;
           color: #ffffff;
