@@ -278,7 +278,9 @@ function Hero() {
       <div style={{ position: "absolute", top: -60, right: -60, width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,92,191,0.15) 0%,transparent 70%)", pointerEvents: "none" }} />
       <div style={{ position: "absolute", bottom: 60, left: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(75,30,86,0.06) 0%,transparent 70%)", pointerEvents: "none" }} />
 
-      <div style={{
+      <div
+        className="about-hero-grid"
+        style={{
         flex: 1,
         maxWidth: 1200, margin: "0 auto", width: "100%",
         padding: "80px 24px",
@@ -287,7 +289,7 @@ function Hero() {
         gap: 48,
         alignItems: "center",
       }}>
-        <div style={{ opacity: visible ? 1 : 0 }}>
+        <div style={{ opacity: visible ? 1 : 0, minWidth: 0 }}>
           <h1 className={visible ? "elv-animate-2" : ""} style={{
             fontFamily: "'Astrid Regular', serif",
             fontSize: "clamp(36px,4.5vw,56px)",
@@ -355,7 +357,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className={visible ? "elv-carousel-entry" : ""} style={{ opacity: visible ? 1 : 0 }}>
+        <div className={visible ? "elv-carousel-entry" : ""} style={{ opacity: visible ? 1 : 0, minWidth: 0 }}>
           <Carousel />
         </div>
       </div>
@@ -726,7 +728,8 @@ function VisionSection() {
         {/* Narrative Grid */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          // RESPONSIVE FIX: min(100%, 300px) stops the grid overflowing on very narrow screens
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
           gap: "40px",
         }}>
           {[
@@ -797,6 +800,7 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
     
     <div
       ref={ref}
+      className="core-model-card"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -885,6 +889,7 @@ const msCard = coreModel.find((c) => c.label === "Ms Ellevation")!;
 
 <div
   ref={arrow.ref}
+  className="core-model-plus"
   style={{
     ...fade(arrow.inView, 260),
     display: "flex", alignItems: "center", justifyContent: "center",
@@ -910,6 +915,7 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
   return (
     <div
       ref={ref}
+      className="who-we-serve-card"
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
@@ -1160,24 +1166,60 @@ export default function AboutPage() {
           0%   { background-position: 200% center; }
           100% { background-position: -200% center; }
         }
+
+        /* ───────────────────────────────────────────────
+           RESPONSIVE FIXES
+           ─────────────────────────────────────────────── */
+
+        /* HERO: stack text above carousel on tablet/mobile
+           (the 2-column grid was squeezing the text and pushing
+           the floating cards over it / off-screen) */
+        @media (max-width: 900px) {
+          .about-hero { min-height: auto !important; }
+          .about-hero-grid {
+            grid-template-columns: 1fr !important;
+            padding: 56px 20px !important;
+            gap: 40px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .elv-float-card-top { width: 160px !important; padding: 11px 12px !important; }
+          .elv-float-card-bottom { width: 190px !important; left: -6px !important; padding: 12px 14px !important; }
+        }
+
+        /* CORE MODEL: cards were clipped on mobile because the
+           "flex: 1 1 340px" basis became a fixed HEIGHT once the
+           container switched to column direction. Let them size to content. */
         @media (max-width: 640px) {
           .about-core-model > div:last-child { flex-direction: column; }
           .about-core-model > div:last-child > div:nth-child(2) { transform: rotate(90deg); }
+          .core-model-card {
+            flex: 0 0 auto !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            height: auto !important;
+            padding: 28px 22px !important;
+          }
         }
 
-        /* Who We Serve: keep single row, shrink further on small screens */
+        /* WHO WE SERVE: cards were forced into one row and cut off.
+           Now they wrap into a 3-column grid (tablet) / 2-column grid (mobile)
+           and keep their descriptions visible. */
         @media (max-width: 900px) {
-          .who-we-serve-row { gap: 10px !important; }
+          .who-we-serve-row { flex-wrap: wrap !important; gap: 14px !important; }
+          .who-we-serve-card { flex: 1 1 calc(33.333% - 14px) !important; min-width: 0 !important; }
         }
         @media (max-width: 640px) {
-          .who-we-serve-row h3 { font-size: 13px !important; }
-          .who-we-serve-row p { display: none; }
-          .who-we-serve-row { gap: 8px !important; }
+          .who-we-serve-row { gap: 12px !important; }
+          .who-we-serve-card { flex: 1 1 calc(50% - 12px) !important; padding: 18px 14px !important; }
+          .who-we-serve-card h3 { font-size: 18px !important; }
         }
 
-        /* Mobile: thoda aur compact padding taaki gap zyada na lage */
+        /* Mobile: thoda aur compact padding taaki gap zyada na lage
+           (.about-hero removed from this list: its padding now lives on .about-hero-grid) */
         @media (max-width: 640px) {
-          .about-hero, .about-who-we-are, .about-founder,
+          .about-who-we-are, .about-founder,
           .about-vision, .about-core-model, .about-who-we-serve, .about-cta {
             padding: 56px 20px !important;
           }

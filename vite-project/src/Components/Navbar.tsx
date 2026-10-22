@@ -191,18 +191,18 @@ function NavItemComponent({ item }: { item: NavItem }) {
       to={item.href || "#"}
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
-       style={{
-         fontSize: FS.navLink,
-         color: baseColor,
-         opacity: currentOpacity,
-         textDecoration: "none",
-         fontFamily: FONT_FAMILY,
-         fontWeight: isActive ? 600 : 400,
-         padding: "6px 4px",
-         whiteSpace: "nowrap",
-         transition: "opacity 0.2s ease",
-         borderBottom: isActive ? "2px solid #D7B264" : "2px solid transparent",
-       }}
+      style={{
+        fontSize: FS.navLink,
+        color: baseColor,
+        opacity: currentOpacity,
+        textDecoration: "none",
+        fontFamily: FONT_FAMILY,
+        fontWeight: isActive ? 600 : 400,
+        padding: "6px 4px",
+        whiteSpace: "nowrap",
+        transition: "opacity 0.2s ease",
+        borderBottom: isActive ? "2px solid #D7B264" : "2px solid transparent",
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -311,18 +311,18 @@ function MobileNavItem({
       target={shouldOpenInNewTab ? "_blank" : undefined}
       rel={shouldOpenInNewTab ? "noopener noreferrer" : undefined}
       onClick={onNavigate}
-       style={{
-         display: "block",
-         padding: "16px 4px",
-         fontSize: FS.mobileItem,
-         color: textColor,
-         opacity: isActive ? 1 : 0.9,
-         fontWeight: isActive ? 600 : 500,
-         textDecoration: "none",
-         fontFamily: FONT_FAMILY,
-         borderBottom: "1px solid rgba(255,255,255,0.1)",
-         borderLeft: isActive ? "3px solid #D7B264" : "3px solid transparent",
-       }}
+      style={{
+        display: "block",
+        padding: "16px 4px",
+        fontSize: FS.mobileItem,
+        color: textColor,
+        opacity: isActive ? 1 : 0.9,
+        fontWeight: isActive ? 600 : 500,
+        textDecoration: "none",
+        fontFamily: FONT_FAMILY,
+        borderBottom: "1px solid rgba(255,255,255,0.1)",
+        borderLeft: isActive ? "3px solid #D7B264" : "3px solid transparent",
+      }}
     >
       {item.label}
     </Link>
@@ -420,6 +420,7 @@ export default function EllevationNavbar() {
     const onScroll = () => {
       setIsFixed(window.scrollY >= navTopRef.current);
     };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -447,6 +448,20 @@ export default function EllevationNavbar() {
     localStorage.setItem("theme", next);
     setDarkMode(next === "dark");
   };
+
+  // Opening the menu while the navbar is still lower on the page scrolls
+  // the navbar to the top of the screen first, so the drawer is never
+  // cut off by the viewport and always sits directly under the bar.
+  const toggleMenu = () => {
+    if (!menuOpen && !isFixed) {
+      window.scrollTo({ top: navTopRef.current });
+    }
+    setMenuOpen((open) => !open);
+  };
+
+  // Drawer + backdrop must use the SAME positioning mode as the <nav>,
+  // otherwise they detach from it (fixed = stuck to screen, absolute = in page).
+  const overlayPosition = isFixed ? "fixed" : "absolute";
 
   return (
     <>
@@ -568,7 +583,6 @@ export default function EllevationNavbar() {
                   {darkMode ? "Light" : "Dark"}
                 </button>
 
-
                 {/* Signature Action Button */}
                 <Link
                   to="/get-involved/join"
@@ -631,7 +645,7 @@ export default function EllevationNavbar() {
               </button>
 
               <button
-                onClick={() => setMenuOpen((v) => !v)}
+                onClick={toggleMenu}
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={menuOpen}
                 style={{
@@ -654,12 +668,15 @@ export default function EllevationNavbar() {
         {/* Mobile drawer + backdrop */}
         {isMobile && (
           <>
+            {/* Backdrop */}
             <div
               onClick={() => setMenuOpen(false)}
               style={{
-                position: "fixed",
-                inset: 0,
+                position: overlayPosition,
+                left: 0,
+                right: 0,
                 top: `${navHeight}px`,
+                ...(isFixed ? { bottom: 0 } : { height: "100vh" }),
                 background: "rgba(0,0,0,0.35)",
                 opacity: menuOpen ? 1 : 0,
                 pointerEvents: menuOpen ? "all" : "none",
@@ -667,13 +684,15 @@ export default function EllevationNavbar() {
                 zIndex: 98,
               }}
             />
+
+            {/* Drawer */}
             <div
               style={{
-                position: "fixed",
+                position: overlayPosition,
                 top: `${navHeight}px`,
                 left: 0,
                 right: 0,
-                maxHeight: menuOpen ? "calc(100vh - " + navHeight + "px)" : "0px",
+                maxHeight: menuOpen ? `calc(100vh - ${navHeight}px)` : "0px",
                 overflowY: "auto",
                 background: NAV_BG,
                 borderBottom: menuOpen
@@ -701,7 +720,6 @@ export default function EllevationNavbar() {
                   marginTop: "20px",
                 }}
               >
-
                 <Link
                   to="/get-involved/join"
                   onClick={() => setMenuOpen(false)}
