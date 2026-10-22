@@ -9,7 +9,7 @@ type NavItem = {
   dropdown?: DropdownItem[];
 };
 
-// Order: Home – About – Ellevation Hub – Ms Ellevation – Conversations – Events – Connect
+// Order: Home | About | Ellevation Hub | Ms Ellevation | Conversations | Events | Get Involved
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -17,27 +17,33 @@ const navItems: NavItem[] = [
   { label: "Ms Ellevation", href: "/ms-ellevation" },
   { label: "Conversations", href: "/Conversations" },
   { label: "Events", href: "/Event" },
-  { label: "Connect", href: "/Connect" },
+  { label: "Get Involved", href: "/get-involved/join" },
 ];
 
+// Action buttons (per client notes)
+// Gold CTA  -> universal "Join the Community" form
+// Secondary -> Contact us
+const JOIN_COMMUNITY_HREF = "/ms-ellevation?page=join";
+const CONTACT_HREF = "/contact"; // TODO: confirm final Contact us route
+
 const NAV_BG = "#4B1E56"; // navbar background — same in both modes
-const JOIN_COLOR = "#D7B264"; // Join button — same in both modes
+const JOIN_COLOR = "#D7B264"; // Gold CTA — same in both modes
 const FONT_FAMILY = "'Aster', sans-serif";
 
 // Font sizes defined once so they are easy to tweak.
 const FS = {
-  navLink: "19px", // was 16
-  dropdownItem: "17px", // was 14
-  button: "16px", // was 13 (Dark/Light, Get Listed, Join)
-  mobileItem: "20px", // was 17
-  mobileSub: "18px", // was 15
-  mobileButton: "18px", // was 15
-  mobileIcon: "18px", // was 15 (theme toggle icon)
+  navLink: "18px",
+  dropdownItem: "17px",
+  button: "15px",
+  mobileItem: "20px",
+  mobileSub: "18px",
+  mobileButton: "18px",
+  mobileIcon: "18px", // theme toggle icon
 };
 
 // Breakpoint below which we switch to the hamburger / drawer layout.
-// Raised from 1024 because larger text needs more horizontal room.
-const MOBILE_BREAKPOINT = 1280;
+// Raised because 7 links + 2 action buttons + theme toggle need more room.
+const MOBILE_BREAKPOINT = 1360;
 
 /** Tracks viewport width so we can branch layout logic in JS
  *  (inline styles can't use media queries on their own). */
@@ -269,7 +275,6 @@ function MobileNavItem({
 
         <div
           style={{
-            // Taller rows now that sub-items use larger text
             maxHeight: expanded ? `${item.dropdown.length * 56 + 12}px` : "0px",
             overflow: "hidden",
             transition: "max-height 0.25s ease",
@@ -376,14 +381,13 @@ const NAV_HEIGHT_MOBILE = 72;
 
 // Logo box sizes — height matches the navbar so the logo is as big as
 // possible without ever making the navbar taller.
-const LOGO_WIDTH_DESKTOP = 240; // was 280, reduced to make room for larger text
-const LOGO_HEIGHT_DESKTOP = NAV_HEIGHT_DESKTOP; // 110
+const LOGO_WIDTH_DESKTOP = 170;
+const LOGO_HEIGHT_DESKTOP = NAV_HEIGHT_DESKTOP;
 const LOGO_WIDTH_MOBILE = 160;
-const LOGO_HEIGHT_MOBILE = NAV_HEIGHT_MOBILE - 4; // 68
+const LOGO_HEIGHT_MOBILE = NAV_HEIGHT_MOBILE - 4;
 
 // Extra space between the logo and the first nav link (desktop only).
-// Adds on top of the nav's flex gap. Tweak to taste.
-const LOGO_RIGHT_SPACING_DESKTOP = 40;
+const LOGO_RIGHT_SPACING_DESKTOP = 16;
 
 export default function EllevationNavbar() {
   const [darkMode, setDarkMode] = useState(false);
@@ -473,7 +477,7 @@ export default function EllevationNavbar() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: isMobile ? "12px" : "24px",
+            gap: isMobile ? "12px" : "12px",
             padding: isMobile ? "0 16px" : "0 24px",
             height: `${navHeight}px`,
             background: NAV_BG,
@@ -501,7 +505,6 @@ export default function EllevationNavbar() {
               flexShrink: 0,
               position: "relative",
               zIndex: 1,
-              // Gap between logo and "Home"
               marginRight: isMobile ? "0px" : `${LOGO_RIGHT_SPACING_DESKTOP}px`,
             }}
           >
@@ -531,7 +534,7 @@ export default function EllevationNavbar() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "24px",
+                  gap: "14px",
                   flex: 1,
                   flexWrap: "nowrap",
                   position: "relative",
@@ -549,28 +552,30 @@ export default function EllevationNavbar() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "12px",
+                  gap: "10px",
                   flexShrink: 0,
                   position: "relative",
                   zIndex: 1,
                 }}
               >
+                {/* Theme toggle (compact icon to save space) */}
                 <button
                   onClick={toggleTheme}
+                  aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                  title={darkMode ? "Light mode" : "Dark mode"}
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "6px",
+                    justifyContent: "center",
+                    width: "40px",
+                    height: "40px",
+                    flexShrink: 0,
                     background: "rgba(255,255,255,0.08)",
                     border: "1.5px solid rgba(255,255,255,0.3)",
-                    borderRadius: "20px",
-                    padding: "7px 16px",
+                    borderRadius: "50%",
                     cursor: "pointer",
-                    fontSize: FS.button,
+                    fontSize: FS.mobileIcon,
                     color: "#ffffff",
-                    fontFamily: FONT_FAMILY,
-                    fontWeight: 500,
-                    whiteSpace: "nowrap",
                     transition: "all 0.2s ease",
                   }}
                   onMouseEnter={(e) => {
@@ -580,12 +585,42 @@ export default function EllevationNavbar() {
                     e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)";
                   }}
                 >
-                  {darkMode ? "Light" : "Dark"}
+                  {darkMode ? "☀" : "☾"}
                 </button>
 
-                {/* Signature Action Button */}
+                {/* Secondary action: Contact us */}
                 <Link
-                  to="/get-involved/join"
+                  to={CONTACT_HREF}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    background: "transparent",
+                    border: "1.5px solid rgba(255,255,255,0.6)",
+                    borderRadius: "20px",
+                    padding: "7px 18px",
+                    fontSize: FS.button,
+                    color: "#ffffff",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 500,
+                    textDecoration: "none",
+                    whiteSpace: "nowrap",
+                    transition: "all 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "#ffffff";
+                    e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)";
+                    e.currentTarget.style.background = "transparent";
+                  }}
+                >
+                  Contact us
+                </Link>
+
+                {/* Gold CTA: Join the Community */}
+                <Link
+                  to={JOIN_COMMUNITY_HREF}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -593,7 +628,7 @@ export default function EllevationNavbar() {
                     background: JOIN_COLOR,
                     border: "none",
                     borderRadius: "20px",
-                    padding: "9px 24px",
+                    padding: "9px 20px",
                     cursor: "pointer",
                     fontSize: FS.button,
                     color: "#ffffff",
@@ -605,7 +640,7 @@ export default function EllevationNavbar() {
                     transition: "all 0.2s ease",
                   }}
                 >
-                  Join
+                  Join the Community
                 </Link>
               </div>
             </>
@@ -720,8 +755,9 @@ export default function EllevationNavbar() {
                   marginTop: "20px",
                 }}
               >
+                {/* Gold CTA: Join the Community */}
                 <Link
-                  to="/get-involved/join"
+                  to={JOIN_COMMUNITY_HREF}
                   onClick={() => setMenuOpen(false)}
                   style={{
                     display: "flex",
@@ -738,7 +774,29 @@ export default function EllevationNavbar() {
                     textDecoration: "none",
                   }}
                 >
-                  Join
+                  Join the Community
+                </Link>
+
+                {/* Secondary action: Contact us */}
+                <Link
+                  to={CONTACT_HREF}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "transparent",
+                    border: "1.5px solid rgba(255,255,255,0.6)",
+                    borderRadius: "24px",
+                    padding: "13px 16px",
+                    fontSize: FS.mobileButton,
+                    color: "#ffffff",
+                    fontFamily: FONT_FAMILY,
+                    fontWeight: 500,
+                    textDecoration: "none",
+                  }}
+                >
+                  Contact us
                 </Link>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import ellevationHubLogo from "../assets/Ellevation-darkmode-logo.png";
 import msEllevationLogo from "../assets/ms-ellevation-darkmode-logo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const JOIN_ROUTE = "/get-involved/join";
 
@@ -10,12 +10,14 @@ const footerLinks = [
     heading: "Main Website",
     links: [
       { label: "Home", href: "/" },
+      { label: "Main Website", href: "https://www.ellevationhub.com.au" },
       { label: "About", href: "/about" },
       { label: "Ellevation Hub", href: "/hub" },
       { label: "Ms Ellevation", href: "/ms-ellevation" },
-      { label: "Conversations", href: "/Conversations" },
+      { label: "Conversations", href: "https://www.ellevationhub.com.au/Conversations" },
       { label: "Events", href: "/Event" },
       { label: "Connect", href: "/Connect" },
+      { label: "Feedback & Complaints", href: "/feedback-complaints" },
     ],
   },
   {
@@ -87,11 +89,11 @@ const ArrowRight = () => (
 );
 
 const MS_ELLEVATION_INSTAGRAM = "https://www.instagram.com/ms_ellevation/";
-const HUB_INSTAGRAM =
-  "https://www.instagram.com/ellevation.hub?vrfl=MTVtbTdkMTlrenFxaw%3D%3D&utm_source=qr";
+const HUB_INSTAGRAM = "https://www.instagram.com/ellevation.hub";
 
-const getSocialIcons = (instagramHref: string) => [
-  { icon: <InstagramIcon />, label: "Instagram", href: instagramHref },
+const getSocialIcons = () => [
+  { icon: <InstagramIcon />, label: "Ellevation Hub Instagram", href: HUB_INSTAGRAM },
+  { icon: <InstagramIcon />, label: "Ms Ellevation Instagram", href: MS_ELLEVATION_INSTAGRAM },
   { icon: <YoutubeIcon />, label: "YouTube", href: "https://www.youtube.com/@EllevationOfficial" },
   { icon: <TiktokIcon />, label: "TikTok", href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs" },
   { icon: <MailIcon />, label: "Email", href: "mailto:hello@ellevationhub.com.au" },
@@ -167,11 +169,7 @@ const AustralianFlag = () => (
 /* ------------------------------------------------------------------ */
 
 export default function EllevationFooter() {
-  const { pathname } = useLocation();
-  const isHubPage = pathname === "/hub" || pathname.startsWith("/hub/");
-  const socialIcons = getSocialIcons(
-    isHubPage ? HUB_INSTAGRAM : MS_ELLEVATION_INSTAGRAM
-  );
+  const socialIcons = getSocialIcons();
 
   return (
     <>
@@ -473,9 +471,15 @@ export default function EllevationFooter() {
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                   {links.map((link) => (
                     <li key={link.label}>
-                      <Link to={link.href} className="footer-link">
-                        {link.label}
-                      </Link>
+                      {link.href.startsWith("http") ? (
+                        <a href={link.href} className="footer-link">
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link to={link.href} className="footer-link">
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -565,7 +569,7 @@ export default function EllevationFooter() {
             </Link>
 
             <Link to="/terms-condition" className="footer-utility-link">
-              Terms & Conditions
+              Terms &amp; Conditions
             </Link>
           </div>
 

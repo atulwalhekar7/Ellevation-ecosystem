@@ -329,6 +329,7 @@ const money = (n: number) => `$${n.toLocaleString("en-AU")}`;
 // Fonts + colours match the Ellevation Paths section:
 // headings = 'Astrid Regular', body = 'Montserrat', plum #4B1E56, gold #D7B264
 const DISPLAY_FONT = "'Astrid Regular', serif";
+const JOIN_URL = "https://www.ellevationhub.com.au/get-involved/join";
 const BODY_FONT = "'Montserrat', sans-serif";
 
 export default function JoinPage() {
@@ -438,15 +439,19 @@ export default function JoinPage() {
   return (
     <div className="join-page-root">
       {/* ===== Header ===== */}
+          {/* ===== Header ===== */}
       <section className="join-header">
-        <p className="join-eyebrow">Membership</p>
-        <h1 className="join-main-title">Join Ellevation</h1>
+        <h1 className="join-main-title">Choose Your Pathway</h1>
         <p className="join-header-sub">
-          Choose your path, pick the membership that fits you, and tell us a little about
-          yourself.
+          Welcome to Ellevation. Whether you’re looking to connect, grow, collaborate,
+          contribute, or explore new opportunities, we offer two unique pathways to help you
+          get involved. Select the pathway that best aligns with your interests and goals.
         </p>
+        <div className="join-header-btns">
+          <a className="join-cta" href={JOIN_URL}>Join our membership</a>
+          <a className="join-cta join-cta-outline" href={JOIN_URL}>Join the ecosystem</a>
+        </div>
       </section>
-
       <div className="join-container">
         {/* ===== Step 1: path ===== */}
         <section className="join-step">
@@ -733,6 +738,11 @@ export default function JoinPage() {
         }
         .join-header-sub { font-size: 18px; line-height: 1.6; color: #554866; margin: 0; }
 
+        .join-header { max-width: 820px; }
+.join-header-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+.join-cta-outline { background: transparent; color: #4B1E56; border: 1.5px solid #4B1E56; box-shadow: none; }
+.join-cta-outline:hover { background: #4B1E56; color: #ffffff; }
+
         .join-container { max-width: 1240px; margin: 0 auto; padding: 24px 24px 96px; }
         .join-step { margin-bottom: 56px; scroll-margin-top: 100px; }
         .join-step-title {
@@ -909,6 +919,7 @@ export default function JoinPage() {
           .join-row { grid-template-columns: 1fr; gap: 0; }
           .join-form-card { padding: 32px 22px; }
           .join-card { padding: 26px; }
+          .join-header-btns .join-cta { width: 100%; }
         }
         @media (prefers-reduced-motion: reduce) {
           .join-card, .join-drawer, .join-chevron { transition: none; }
@@ -920,6 +931,8 @@ export default function JoinPage() {
         [data-theme="dark"] .join-main-title,
         [data-theme="dark"] .join-step-title { color: #ffffff; }
         [data-theme="dark"] .join-header-sub,
+        [data-theme="dark"] .join-cta-outline { color: #ffffff; border-color: rgba(255,255,255,0.4); }
+[data-theme="dark"] .join-cta-outline:hover { background: #6B3179; border-color: #6B3179; }
         [data-theme="dark"] .join-desc,
         [data-theme="dark"] .join-price span,
         [data-theme="dark"] .join-price-alt { color: #cbd5e1; }

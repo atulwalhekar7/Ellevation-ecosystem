@@ -15,10 +15,12 @@ type MembershipTier = "DISCOVER" | "RISE" | "ELEVATE";
 type NavFn = (p: Page, tier?: string) => void;
 
 interface FormData {
+  interest: string;
   firstName: string; lastName: string; email: string; phone: string;
   location: string; profession: string; referral: string; goals: string; agree: boolean;
 }
 interface FormErrors {
+  interest?: string;
   firstName?: string; lastName?: string; email?: string; phone?: string;
   location?: string; profession?: string; referral?: string; goals?: string; agree?: string;
 }
@@ -82,10 +84,10 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Read real stories of transformation from women whose lives have been changed through the Ms. Ellevation community.",
   },
-  join: {
-    title: "Join Our Community | Ms. Ellevation",
+   join: {
+    title: "Join the Community | Ellevation",
     description:
-      "Whether you're discovering Ms Ellevation for the first time or ready to become a member, we're here to support your journey.",
+      "New to the Ellevation family? Discover how we bring together individuals, families, communities, businesses, organisations and partners to create opportunities for connection, collaboration, growth and positive change.",
   },
   register: {
     title: "Program Registration | Ms. Ellevation",
@@ -117,20 +119,36 @@ const TIER_META: Record<MembershipTier, { label: string; tagline: string; color:
   ELEVATE:  { label: "Elevate",  tagline: "Influence & Legacy — create lasting impact across both ecosystems.",  color: "#6b2f7a" },
 };
 const REFERRAL_OPTIONS = ["Social Media","Friend or Colleague","Event","Search Engine","Press / Media","Other"];
-const emptyForm = (): FormData => ({ firstName:"",lastName:"",email:"",phone:"",location:"",profession:"",referral:"",goals:"",agree:true });
+const INTEREST_OPTIONS = [
+  "Join Ellevation Hub",
+  "Join Ms Ellevation",
+  "Attend an Event or Program",
+  "Volunteer with Ellevation",
+  "Partner with Us",
+  "Sponsor an Initiative or Event",
+  "Business or Organisation Enquiry",
+  "Collaboration Opportunity",
+  "Learn More About Ellevation",
+  "General Enquiry",
+];
 
+const emptyForm = (interest = ""): FormData => ({
+  interest, firstName:"", lastName:"", email:"", phone:"", location:"",
+  profession:"", referral:"", goals:"", agree:true,
+});
 function validateForm(data: FormData): FormErrors {
   const e: FormErrors = {};
+  if (!data.interest) e.interest = "Please tell us what brings you to Ellevation.";
   if (!data.firstName.trim()) e.firstName = "First name is required.";
   if (!data.lastName.trim())  e.lastName  = "Last name is required.";
   if (!data.email.trim()) e.email = "Email is required.";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) e.email = "Enter a valid email address.";
   if (data.phone && !/^\+?[\d\s\-().]{7,}$/.test(data.phone)) e.phone = "Enter a valid phone number.";
   if (!data.location.trim())   e.location   = "City, State, Country is required.";
-  if (!data.profession.trim()) e.profession = "Profession / Industry is required.";
+  if (!data.profession.trim()) e.profession = "Profession / Industry / Organisation is required.";
   if (!data.referral) e.referral = "Please select how you heard about us.";
-  if (!data.goals.trim()) e.goals = "Please share what you hope to gain.";
-  if (!data.agree) e.agree = "You must agree to the Community Guidelines and Terms.";
+  if (!data.goals.trim()) e.goals = "Please tell us how we can help.";
+  if (!data.agree) e.agree = "You must agree to the Privacy Policy and Terms.";
   return e;
 }
 
@@ -1578,9 +1596,16 @@ const ev: Record<string, React.CSSProperties> = {
 
 // ─── STORIES PAGE ─────────────────────────────────────────────────────────────
 const STORIES = [
-  { quote:"After 18 years in a career that no longer lit me up, Ms. Ellevation gave me the courage to walk away and build something of my own. I've never looked back.", name:"Michelle T.", role:"Former Corporate Executive" },
+  { quote:"Ms Elevation was nothing short of AMAZING! I had the opportunity to connect with phenomenal women from diverse backgrounds and across different sectors. I walked away feeling empowered, more confident, and reminded of the importance of stepping into opportunities that stretch you, challenge you, and allow you to grow. Sometimes, all it takes is saying YES to something that scares you a little to discover a whole new level of yourself!", name:"Youngor Kpatar", role:"" },
+  { quote:"An incredibly rewarding and empowering experience, built on genuine collaboration, shared values, and a passion for uplifting women and making a meaningful impact in our community. Working with MS Elevation has been incredibly rewarding, both personally and professionally. It has reinforced my belief that when women support one another, we can create real and lasting change.", name:"Lola Lumi", role:"" },
+  { quote:"Sensational. It was liberating, dynamic, powerful and surrounded by amazing women. A sense of belonging. New friends and partners were established. Invigorating on the soul. A feel-good feeling.", name:"Louise Cully", role:"" },
+  { quote:"It was such an inspirational event bringing women together, not only to celebrate each other’s successes, but also help each other grow as a community. I’ve had some really great connections to learn from and support me in my business journey.", name:"Loveness", role:"" },
+  { quote:"It was really lovely to know that there are people out there who genuinely want to mentor and support others in growing their businesses and achieving success. Through Ms Ellevation, I feel motivated to work harder and grow my business. I want more for myself, to keep learning, gain more knowledge and push myself beyond my comfort zone. I want to grow, succeed and reach places I once thought were impossible.", name:"Omodele", role:"" },
+  { quote:"I was so impressed with the calibre of guests and the warm welcome I felt in the room. Women in business, politics and education shared their stories of challenges and how they have risen above and flourished. Ms Ellevation and Ellevation Hub are a place of potential, purpose and support for a better and positive future. I'm inspired by how Ms Ellevation is not just talking, but actually activating growth, education and support with shared skills and knowledge, passing on experience and wisdom to others so they can navigate challenges and flourish beyond.", name:"Vonda", role:"" },
+  // Kept from the existing set
   { quote:"I came in broken and overwhelmed. I left whole. Ms. Ellevation gave me tools, community, and the belief that I was worth investing in.", name:"Kezia O.", role:"Mother & Entrepreneur" },
   { quote:"The coaching was extraordinary. But more than that, it was finding my tribe — women who hold each other to a higher standard with so much love.", name:"Sasha R.", role:"Nonprofit Director" },
+  { quote:"After 18 years in a career that no longer lit me up, Ms. Ellevation gave me the courage to walk away and build something of my own. I've never looked back.", name:"Michelle T.", role:"Former Corporate Executive" },
   { quote:"I had everything the world said I should want and still felt empty. This journey reconnected me to what truly matters and who I truly am.", name:"Yemi A.", role:"Healthcare Professional" },
 ];
 
@@ -1603,7 +1628,8 @@ function StoriesPage() {
               <p className="st-quote" style={st.quote}>{s.quote}</p>
               <div style={st.author}>
                 <p className="st-name" style={st.name}>{s.name}</p>
-                <p className="st-role" style={st.role}>{s.role}</p>
+{s.role && <p className="st-role" style={st.role}>{s.role}</p>}
+
               </div>
             </div>
           ))}
@@ -1629,19 +1655,26 @@ const st: Record<string, React.CSSProperties> = {
 };
 
 // ─── JOIN PAGE (Membership Form) ──────────────────────────────────────────────
+// ─── JOIN PAGE (site-wide Join the Community form) ────────────────────────────
 function JoinPage({ nav }: { nav: NavFn }) {
   const [searchParams] = useSearchParams();
   const tierParam = (searchParams.get("tier") || "").toUpperCase();
   const tier: MembershipTier | null = (TIERS as string[]).includes(tierParam) ? (tierParam as MembershipTier) : null;
 
-  const [form, setForm] = useState<FormData>(emptyForm());
+  // Coming from a membership plan pre-selects "Join Ms Ellevation"; otherwise the visitor chooses.
+  const defaultInterest = tier ? "Join Ms Ellevation" : "";
+
+  const [form, setForm] = useState<FormData>(emptyForm(defaultInterest));
   const [errs, setErrs] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
-  // reset the success message if the visitor switches between enquiry / tier application
-  useEffect(() => { setSubmitted(false); }, [tier]);
+  // reset when the visitor arrives from a different membership tier link
+  useEffect(() => {
+    setSubmitted(false);
+    setForm(prev => ({ ...prev, interest: tier ? "Join Ms Ellevation" : prev.interest }));
+  }, [tier]);
 
   const handleChange = (field: keyof FormData, value: string | boolean) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -1656,13 +1689,15 @@ function JoinPage({ nav }: { nav: NavFn }) {
       return;
     }
 
-    const detail = tier ? TIER_META[tier].label : "General Enquiry";
+    // If they came via a membership plan, keep the tier in the details
+    const detail = tier ? `${form.interest} — ${TIER_META[tier].label} Membership` : form.interest;
+
     const templateParams = {
-      form_title: tier ? "New Ms Ellevation Application - Enquiry" : "New Ms Ellevation General Enquiry",
+      form_title: "New Ellevation Join the Community Enquiry",
       ms_display: "block",
       hub_display: "none",
       subject_detail: detail,
-      form_source: tier ? "Ms. Ellevation — Membership Application" : "Ms. Ellevation — General Enquiry",
+      form_source: "Ellevation — Join the Community",
       logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
 
       membership_tier: detail,
@@ -1676,11 +1711,11 @@ function JoinPage({ nav }: { nav: NavFn }) {
       referral: form.referral,
       goals: form.goals,
 
-      purpose: "",
+      purpose: form.interest,
       industry: "",
       notes: "",
 
-      enquiry_type: "",
+      enquiry_type: form.interest,
       organization: "",
       message: "",
     };
@@ -1689,7 +1724,7 @@ function JoinPage({ nav }: { nav: NavFn }) {
     try {
       await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
       setSubmitted(true);
-      setForm(emptyForm());
+      setForm(emptyForm(defaultInterest));
     } catch (error) {
       console.error("EmailJS FAILED:", error);
       alert("Your submission could not be sent. Please try again.");
@@ -1707,19 +1742,20 @@ function JoinPage({ nav }: { nav: NavFn }) {
           <div style={jp.eyebrowRow}><span className="jp-line" style={jp.line}/><span className="jp-eyebrow-txt" style={jp.eyebrowTxt}>START YOUR JOURNEY</span><span className="jp-line" style={jp.line}/></div>
           <h1 className="jp-banner-title" style={jp.bannerTitle}>Join Our Community</h1>
           <p className="jp-banner-sub" style={jp.bannerSub}>
-            Whether you're discovering Ms Ellevation for the first time or ready to become a member,
+            Whether you're discovering Ellevation for the first time or ready to take the next step,
             we're here to support your journey.
           </p>
         </div>
       </section>
 
       <section className="jp-form-section" style={jp.formSection}>
-        {/* New to Ms Ellevation? */}
+        {/* New to the Ellevation family? */}
         <div style={jp.introBox}>
-          <h2 className="jp-intro-title" style={jp.introTitle}>New to Ms Ellevation?</h2>
+          <h2 className="jp-intro-title" style={jp.introTitle}>New to the Ellevation family?</h2>
           <p className="jp-intro-text" style={jp.introText}>
-            Learn more about who we are and how we empower women through our{" "}
-            <strong>Discover, Rise, Elevate</strong> pathway.
+            Discover how we bring together individuals, families, communities, businesses,
+            organisations, and partners to create opportunities for connection, collaboration,
+            growth, and positive change.
           </p>
         </div>
 
@@ -1728,12 +1764,10 @@ function JoinPage({ nav }: { nav: NavFn }) {
           {submitted ? (
             <div style={jp.successBox}>
               <h2 className="jp-success-title" style={{ ...jp.successTitle, color: accent }}>
-                {tier ? "Application Submitted!" : "Enquiry Sent!"}
+                Thank You!
               </h2>
               <p className="jp-success-text" style={jp.successText}>
-                {tier
-                  ? <>Thank you for applying for <strong>{TIER_META[tier].label} Membership</strong>. Our team will be in touch within 48 hours.</>
-                  : <>Thank you for getting in touch. Our team will be in touch within 48 hours.</>}
+                We've received your message. Our team will be in touch within 48 hours.
               </p>
               <button style={{ ...jp.submitBtn }} onClick={() => setSubmitted(false)}>SUBMIT ANOTHER</button>
             </div>
@@ -1741,11 +1775,27 @@ function JoinPage({ nav }: { nav: NavFn }) {
             <>
               <div style={jp.formHeader}>
                 <h2 className="jp-form-title" style={jp.formTitle}>
-                  {tier ? `Apply for ${TIER_META[tier].label} Membership` : "Complete our general enquiry form"}
+                  {tier ? `Apply for ${TIER_META[tier].label} Membership` : "Tell us how we can help"}
                 </h2>
                 <p className="jp-form-sub" style={jp.formSub}>Complete this form and our team will be in touch within 48 hours.</p>
                 {tier && <p className="jp-tagline" style={{ ...jp.tagline, color: accent }}>{TIER_META[tier].tagline}</p>}
               </div>
+
+              {/* What brings you to Ellevation today? */}
+              <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.interest ? "true" : undefined}>
+                <select
+                  className="jp-select"
+                  style={{ ...jp.input, ...jp.select, ...(errs.interest ? jp.inputErr : {}), color: form.interest ? "#1a0a2e" : "#b09fc0" }}
+                  value={form.interest}
+                  onChange={e => handleChange("interest", e.target.value)}
+                  aria-label="What brings you to Ellevation today?"
+                >
+                  <option value="" disabled>What brings you to Ellevation today? *</option>
+                  {INTEREST_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+                {errs.interest && <span style={jp.errMsg}>{errs.interest}</span>}
+              </div>
+
               <div className="jp-row" style={jp.row}>
                 <Field label="First Name *" value={form.firstName} error={errs.firstName} onChange={v => handleChange("firstName", v)} />
                 <Field label="Last Name *"  value={form.lastName}  error={errs.lastName}  onChange={v => handleChange("lastName", v)} />
@@ -1753,7 +1803,7 @@ function JoinPage({ nav }: { nav: NavFn }) {
               <Field label="Email Address *" type="email" value={form.email} error={errs.email} onChange={v => handleChange("email", v)} />
               <Field label="Phone Number" type="tel" value={form.phone} error={errs.phone} onChange={v => handleChange("phone", v)} />
               <Field label="City, State, Country *" value={form.location} error={errs.location} onChange={v => handleChange("location", v)} />
-              <Field label="Profession / Industry *" value={form.profession} error={errs.profession} onChange={v => handleChange("profession", v)} />
+              <Field label="Profession / Industry / Organisation *" value={form.profession} error={errs.profession} onChange={v => handleChange("profession", v)} />
               <div className="jp-field-wrap" style={jp.fieldWrap} data-error={errs.referral ? "true" : undefined}>
                 <select className="jp-select" style={{ ...jp.input, ...jp.select, color: form.referral ? "#1a0a2e" : "#b09fc0" }} value={form.referral} onChange={e => handleChange("referral", e.target.value)}>
                   <option value="" disabled>How did you hear about us? *</option>
@@ -1765,7 +1815,7 @@ function JoinPage({ nav }: { nav: NavFn }) {
                 <textarea
                   className="jp-textarea"
                   style={{ ...jp.input, ...jp.textarea, ...(errs.goals ? jp.inputErr : {}) }}
-                  placeholder={tier ? "What are you hoping to gain from your Ellevation membership? *" : "How can we help? What are you hoping to gain from Ms Ellevation? *"}
+                  placeholder="How can we help? Tell us a little about what you're looking for. *"
                   value={form.goals}
                   onChange={e => handleChange("goals", e.target.value)}
                 />
@@ -1788,7 +1838,7 @@ function JoinPage({ nav }: { nav: NavFn }) {
                 style={{ ...jp.submitBtn, opacity: sending ? 0.7 : 1, cursor: sending ? "not-allowed" : "pointer" }}
                 onClick={handleSubmit}
               >
-                {sending ? "SENDING..." : tier ? "SUBMIT APPLICATION" : "SUBMIT ENQUIRY"}
+                {sending ? "SENDING..." : tier ? "SUBMIT APPLICATION" : "SUBMIT"}
               </button>
             </>
           )}
@@ -2810,25 +2860,26 @@ export default function EllevationPage() {
           box-shadow: 0 8px 40px rgba(75,30,86,0.10);
         }
         .mb-table-wrap:focus-visible { outline: 3px solid rgba(75,30,86,0.35); outline-offset: 2px; }
-        .mb-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 680px; }
-        .mb-table thead th {
-          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%); color: #ffffff;
-          font-family: 'Astrid Regular', serif; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em;
-          text-align: center; padding: 18px 16px; white-space: nowrap;
-        }
-        .mb-table thead th.mb-th-feature { text-align: left; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding-left: 22px; }
-        .mb-table tbody th, .mb-table tbody td { padding: 15px 16px; border-bottom: 1px solid rgba(124, 92, 191, 0.12); font-family: 'Montserrat', sans-serif; font-size: 0.86rem; color: #3d2e47; vertical-align: middle; }
+.mb-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 820px; }
+.mb-table thead th {
+  background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%); color: #ffffff;
+  font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.02em;
+  text-align: center; padding: 22px 18px; white-space: nowrap;
+}
+.mb-table thead th.mb-th-feature { text-align: left; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding-left: 24px; }      
+.mb-table tbody th, .mb-table tbody td { padding: 18px 18px; border-bottom: 1px solid rgba(124, 92, 191, 0.12); font-family: 'Montserrat', sans-serif; font-size: 18px; line-height: 1.45; color: #3d2e47; vertical-align: middle; }
+.mb-table tbody th { text-align: left; font-weight: 600; color: #1a0a2e; padding-left: 24px; background: #ffffff; position: sticky; left: 0; z-index: 1; min-width: 270px; }
         .mb-table tbody th { text-align: left; font-weight: 600; color: #1a0a2e; padding-left: 22px; background: #ffffff; position: sticky; left: 0; z-index: 1; min-width: 210px; }
         .mb-table tbody td { text-align: center; font-weight: 400; }
         .mb-table tbody tr:nth-child(even) th, .mb-table tbody tr:nth-child(even) td { background: #faf7fd; }
         .mb-table tbody tr:last-child th, .mb-table tbody tr:last-child td { border-bottom: none; }
         .mb-table thead th.mb-th-feature { position: sticky; left: 0; z-index: 2; }
         .mb-row-strong td { font-weight: 700; color: #4B1E56; }
-        .mb-yes { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: rgba(75, 30, 86, 0.10); color: #4B1E56; }
+.mb-yes { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(75, 30, 86, 0.10); color: #4B1E56; }
+.mb-yes svg { width: 17px; height: 17px; }
         .mb-no { color: #b09fc0; font-weight: 400; }
         .mb-text { display: inline-block; }
-        .mb-table-hint { display: none; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-style: italic; color: #8a5a97; margin-top: 14px; }
-
+.mb-table-hint { display: none; font-family: 'Montserrat', sans-serif; font-size: 14px; font-style: italic; color: #8a5a97; margin-top: 14px; }
         @media (max-width: 1000px) {
           .mb-split { grid-template-columns: 1fr !important; gap: 24px !important; }
           .mb-list-col { flex-direction: row !important; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; -webkit-overflow-scrolling: touch; }
@@ -2851,7 +2902,8 @@ export default function EllevationPage() {
           .mb-tab { min-width: 225px; padding: 14px; }
           .mb-tab-avatar { width: 42px; height: 42px; }
           .mb-btn { width: 100%; }
-          .mb-table tbody th { min-width: 160px; }
+          .mb-table tbody th { min-width: 190px; font-size: 16px; }
+.mb-table tbody td { font-size: 16px; }
         }
 
         /* ── Dark Mode Overrides ── */

@@ -1131,21 +1131,21 @@ const MEMBERSHIP_CSS = `
 /* ── Comparison table — same look as Ms Ellevation ── */
 .mp-compare{ text-align:center; margin-bottom:80px; }
 .mp-compare .mp-block-title{ margin-bottom:32px; }
-.mp-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; text-align:left; background:var(--mp-card); border:1px solid rgba(124,92,191,0.16); border-radius:20px; box-shadow:0 8px 40px rgba(75,30,86,0.10); max-width:1040px; margin:0 auto; }
+.mp-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; text-align:left; background:var(--mp-card); border:1px solid rgba(124,92,191,0.16); border-radius:20px; box-shadow:0 8px 40px rgba(75,30,86,0.10); max-width:1180px; margin:0 auto; }
+.mp-table{ width:100%; border-collapse:separate; border-spacing:0; min-width:940px; }
 .mp-table-wrap:focus-visible{ outline:3px solid rgba(75,30,86,0.35); outline-offset:2px; }
-.mp-table{ width:100%; border-collapse:separate; border-spacing:0; min-width:760px; }
-.mp-table thead th{ background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%); color:#fff; font-family:'Astrid Regular',serif; font-size:1.05rem; font-weight:600; letter-spacing:0.02em; text-align:center; padding:18px 16px; white-space:nowrap; }
-.mp-table thead th.mp-th-feature{ text-align:left; font-family:'Montserrat',sans-serif; font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding-left:22px; position:sticky; left:0; z-index:2; }
-.mp-table tbody th, .mp-table tbody td{ padding:15px 16px; border-bottom:1px solid rgba(124,92,191,0.12); font-size:0.86rem; color:#3d2e47; vertical-align:middle; line-height:1.45; }
-.mp-table tbody th{ text-align:left; font-weight:600; color:#1a0a2e; padding-left:22px; background:#fff; position:sticky; left:0; z-index:1; min-width:210px; }
+.mp-table thead th{ background:linear-gradient(135deg,#6b2f7a 0%,#4B1E56 100%); color:#fff; font-family:'Astrid Regular',serif; font-size:22px; font-weight:600; letter-spacing:0.02em; text-align:center; padding:22px 18px; white-space:nowrap; }
+.mp-table thead th.mp-th-feature{ text-align:left; font-family:'Montserrat',sans-serif; font-size:14px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding-left:24px; position:sticky; left:0; z-index:2; }
+.mp-table tbody th, .mp-table tbody td{ padding:18px 18px; border-bottom:1px solid rgba(124,92,191,0.12); font-size:18px; color:#3d2e47; vertical-align:middle; line-height:1.45; }
+.mp-table tbody th{ text-align:left; font-weight:600; color:#1a0a2e; padding-left:24px; background:#fff; position:sticky; left:0; z-index:1; min-width:250px; }
 .mp-table tbody td{ text-align:center; font-weight:400; }
 .mp-table tbody tr:nth-child(even) th, .mp-table tbody tr:nth-child(even) td{ background:#faf7fd; }
 .mp-table tbody tr:last-child th, .mp-table tbody tr:last-child td{ border-bottom:none; }
 .mp-row-strong td{ font-weight:700; color:#4B1E56; }
-.mp-yes{ display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:rgba(75,30,86,0.10); color:#4B1E56; }
-.mp-no{ color:#b09fc0; font-weight:400; }
+.mp-yes{ display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:rgba(75,30,86,0.10); color:#4B1E56; }
+.mp-yes svg{ width:17px; height:17px; }
+.mp-hint{ display:none; font-size:14px; font-style:italic; color:#8a5a97; margin-top:14px; }.mp-no{ color:#b09fc0; font-weight:400; }
 .mp-text{ display:inline-block; }
-.mp-hint{ display:none; font-size:0.78rem; font-style:italic; color:#8a5a97; margin-top:14px; }
 
 /* Bridge */
 .mp-bridge{ margin-bottom:72px; text-align:center; }
@@ -1222,7 +1222,9 @@ const MEMBERSHIP_CSS = `
   .mp-tab{ min-width:225px; padding:14px; }
   .mp-tab-avatar{ width:42px; height:42px; }
   .mp-btn{ width:100%; }
-  .mp-table tbody th{ min-width:160px; }
+
+  .mp-table tbody th{ min-width:180px; font-size:16px; }
+.mp-table tbody td{ font-size:16px; }
 }
 @media (prefers-reduced-motion:reduce){
   .mp-tab, .mp-btn{ transition:none; }

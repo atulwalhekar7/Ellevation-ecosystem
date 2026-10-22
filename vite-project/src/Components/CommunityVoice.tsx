@@ -1,23 +1,22 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+
+type Testimonial = { id: number; quote: string; name: string; role?: string; image?: string };
+
+
 const testimonials = [
+   { id: 1, quote: "I walked away feeling empowered, more confident, and reminded of the importance of stepping into opportunities that stretch you, challenge you, and allow you to grow.", name: "Youngor Kpatar" },
+  { id: 2, quote: "An incredibly rewarding and empowering experience, built on genuine collaboration, shared values, and a passion for uplifting women.", name: "Lola Lumi" },
+  { id: 3, quote: "A sensational, liberating and powerful experience with a true sense of belonging.", name: "Louise Cully" },
+  { id: 4, quote: "An inspiring community that brings women together to celebrate each other’s successes and help each other grow.", name: "Loveness" },
+  { id: 5, quote: "Through Ms Ellevation, I feel motivated to work harder, grow my business and push myself beyond my comfort zone. I want to grow, succeed and reach places I once thought were impossible.", name: "Omodele" },
+  { id: 6, quote: "Ms Ellevation and Ellevation Hub are a place of potential, purpose and support for a better and positive future.", name: "Vonda P." },
+  // Kept from the existing set
+  { id: 7, quote: "Ellevation gave me the community I never knew I needed. I've grown not just professionally but as a whole woman.", name: "Amara J.", role: "Business Coach", image: "https://randomuser.me/api/portraits/women/44.jpg" },
+  { id: 8, quote: "The ecosystem here is unlike anything else — authentic, premium, and deeply empowering at every level.", name: "Priya S.", role: "Educator & Mentor", image: "https://randomuser.me/api/portraits/women/68.jpg" },
+
+ 
   {
-    id: 1,
-    quote:
-      "Ellevation gave me the community I never knew I needed. I've grown not just professionally but as a whole woman.",
-    name: "Amara J.",
-    role: "Business Coach",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-  },
-  {
-    id: 2,
-    quote:
-      "The ecosystem here is unlike anything else — authentic, premium, and deeply empowering at every level.",
-    name: "Priya S.",
-    role: "Educator & Mentor",
-    image: "https://randomuser.me/api/portraits/women/68.jpg",
-  },
-  {
-    id: 3,
+    id: 9,
     quote:
       "Ms. Ellevation changed the way I see my own potential. Every woman deserves this experience.",
     name: "Danielle M.",
@@ -25,7 +24,7 @@ const testimonials = [
     image: "https://randomuser.me/api/portraits/women/32.jpg",
   },
   {
-    id: 4,
+    id: 10,
     quote:
       "Aligned partnerships, actionable wisdom, and a true safe space to scale your leadership vision sustainably.",
     name: "Khadijah R.",
@@ -33,7 +32,7 @@ const testimonials = [
     image: "https://randomuser.me/api/portraits/women/50.jpg",
   },
   {
-    id: 5,
+    id: 11,
     quote:
       "Finding spaces that cater beautifully to both family integration and high-tier personal growth is ultra rare.",
     name: "Elena V.",
@@ -60,8 +59,8 @@ function useInView(threshold = 0.15) {
   return { ref, inView };
 }
 
-function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
-  const [hovered, setHovered] = useState(false);
+function TestimonialCard({ t }: { t: Testimonial }) {
+    const [hovered, setHovered] = useState(false);
 
   const cardStyle: CSSProperties = {
     background: hovered ? "#ffffff" : "rgba(255, 255, 255, 0.7)",
@@ -144,18 +143,28 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
           paddingTop: 20,
         }}
       >
-        <img
-          src={t.image}
-          alt={t.name}
-          style={{
-            width: 44,
-            height: 44,
-            borderRadius: "50%",
-            objectFit: "cover",
-            flexShrink: 0,
-            border: "2px solid rgba(209, 26, 142, 0.15)",
-          }}
-        />
+       {t.image ? (
+  <img
+    src={t.image}
+    alt={t.name}
+    style={{
+      width: 44, height: 44, borderRadius: "50%", objectFit: "cover",
+      flexShrink: 0, border: "2px solid rgba(209, 26, 142, 0.15)",
+    }}
+  />
+) : (
+  <div
+    aria-hidden="true"
+    style={{
+      width: 44, height: 44, borderRadius: "50%", flexShrink: 0,
+      background: "linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)",
+      color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+      fontFamily: "'Montserrat', sans-serif", fontSize: 15, fontWeight: 600,
+    }}
+  >
+    {t.name.charAt(0)}
+  </div>
+)}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <p

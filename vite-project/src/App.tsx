@@ -18,6 +18,7 @@ import Journey from './Pages/your-journey';
 import Event from './Pages/Event';
 import PrivacyPolicy from './Components/Privacy-Policy';
 import TermsCondition from './Components/TermsCondition';
+import FeedbackComplaintPage from "./Components/FeedbackComplaintPage";
 
 
 import ScrollToUp from "./Components/ScrollToTop";
@@ -45,6 +46,7 @@ const hideNavbar = [
         <Route path="/get-involved/directories" element={<Directories />} />
         
         <Route path="/Connect" element={<Connect />} />
+        <Route path="/feedback-complaints" element={<FeedbackComplaintPage />} />
       
         <Route path="/contact" element={<Contact />} />
         <Route path="/ms-ellevation" element={<MsEllevation />} />
