@@ -18,7 +18,8 @@ import Journey from './Pages/your-journey';
 import Event from './Pages/Event';
 import PrivacyPolicy from './Components/Privacy-Policy';
 import TermsCondition from './Components/TermsCondition';
-import FeedbackComplaintPage from "./Components/FeedbackComplaintPage";
+import OnboardingForm from "./Pages/onboarding-form";
+
 
 
 import ScrollToUp from "./Components/ScrollToTop";
@@ -55,6 +56,7 @@ const hideNavbar = [
         <Route path="/Event" element={<Event />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-condition" element={<TermsCondition />} />
+        <Route path="/onboarding-form" element={<OnboardingForm />} />
       </Routes>
       <Footer />
     </>

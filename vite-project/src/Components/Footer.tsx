@@ -2,7 +2,9 @@ import ellevationHubLogo from "../assets/Ellevation-darkmode-logo.png";
 import msEllevationLogo from "../assets/ms-ellevation-darkmode-logo.png";
 import { Link } from "react-router-dom";
 
+
 const JOIN_ROUTE = "/get-involved/join";
+const ONBOARDING_ROUTE = "/onboarding-form";
 
 // Order: Main Website – Ellevation Hub – Ms Ellevation
 const footerLinks = [
@@ -571,6 +573,9 @@ export default function EllevationFooter() {
             <Link to="/terms-condition" className="footer-utility-link">
               Terms &amp; Conditions
             </Link>
+            <Link to={ONBOARDING_ROUTE} className="footer-utility-link">
+  Onboarding Form
+</Link>
           </div>
 
           <div style={{ display: "flex", gap: "12px" }}>
