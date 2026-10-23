@@ -1,7 +1,6 @@
 import ellevationHubLogo from "../assets/Ellevation-darkmode-logo.png";
 import msEllevationLogo from "../assets/ms-ellevation-darkmode-logo.png";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
 
 const JOIN_ROUTE = "/get-involved/join";
 const ONBOARDING_ROUTE = "/onboarding-form";
@@ -93,9 +92,12 @@ const ArrowRight = () => (
 const MS_ELLEVATION_INSTAGRAM = "https://www.instagram.com/ms_ellevation/";
 const HUB_INSTAGRAM = "https://www.instagram.com/ellevation.hub";
 
-const getSocialIcons = () => [
-  { icon: <InstagramIcon />, label: "Ellevation Hub Instagram", href: HUB_INSTAGRAM },
-  { icon: <InstagramIcon />, label: "Ms Ellevation Instagram", href: MS_ELLEVATION_INSTAGRAM },
+const getSocialIcons = (isMsEllevation: boolean) => [
+  {
+    icon: <InstagramIcon />,
+    label: isMsEllevation ? "Ms Ellevation Instagram" : "Ellevation Hub Instagram",
+    href: isMsEllevation ? MS_ELLEVATION_INSTAGRAM : HUB_INSTAGRAM,
+  },
   { icon: <YoutubeIcon />, label: "YouTube", href: "https://www.youtube.com/@EllevationOfficial" },
   { icon: <TiktokIcon />, label: "TikTok", href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs" },
   { icon: <MailIcon />, label: "Email", href: "mailto:hello@ellevationhub.com.au" },
@@ -171,8 +173,12 @@ const AustralianFlag = () => (
 /* ------------------------------------------------------------------ */
 
 export default function EllevationFooter() {
-  const socialIcons = getSocialIcons();
+  const { pathname, search } = useLocation();
+   const isMsEllevation =
+    pathname.toLowerCase().startsWith("/ms-ellevation") ||
+    new URLSearchParams(search).get("path") === "ms-ellevation";
 
+  const socialIcons = getSocialIcons(isMsEllevation);
   return (
     <>
       <link
