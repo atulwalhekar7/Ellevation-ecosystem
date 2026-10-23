@@ -8,7 +8,7 @@ import emailjs from "@emailjs/browser";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join" | "register";
-type MembershipTier = "DISCOVER" | "RISE" | "ELEVATE";
+type MembershipTier = "DISCOVER" | "RISE" | "ELEVATE" | "LEGACY";
 
 // `nav` accepts an optional membership tier so the Membership page can send
 // people to the Join form with the right tab already selected.
@@ -70,9 +70,9 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
       "Explore Ms. Ellevation's programs and workshops designed to help women build confidence, strengthen identity, develop leadership and connect with community.",
   },
   membership: {
-    title: "Our Community | Discover, Rise, Elevate | Ms. Ellevation",
+    title: "Our Community | Discover, Rise, Elevate, Legacy | Ms. Ellevation",
     description:
-      "Explore the Ms. Ellevation community — Discover, Rise and Elevate — designed to help women move from self-discovery to leadership and lasting impact.",
+      "Explore the Ms. Ellevation community — Discover, Rise, Elevate and Legacy — designed to help women move from self-discovery to leadership and lasting impact.",
   },
   events: {
     title: "Events | Ms. Ellevation",
@@ -112,11 +112,12 @@ const BANNER_IMAGES = {
   join: "https://images.unsplash.com/photo-1637072103875-1b29a09d9c91?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
 };
 
-const TIERS: MembershipTier[] = ["DISCOVER", "RISE", "ELEVATE"];
+const TIERS: MembershipTier[] = ["DISCOVER", "RISE", "ELEVATE", "LEGACY"];
 const TIER_META: Record<MembershipTier, { label: string; tagline: string; color: string }> = {
   DISCOVER: { label: "Discover", tagline: "Confidence & Connection — build confidence, connection and clarity.", color: "#4B1E56" },
   RISE:     { label: "Rise",     tagline: "Leadership & Growth — develop leadership, visibility and influence.", color: "#662369" },
-  ELEVATE:  { label: "Elevate",  tagline: "Influence & Legacy — create lasting impact across both ecosystems.",  color: "#6b2f7a" },
+  ELEVATE:  { label: "Elevate",  tagline: "Influence & Legacy — create meaningful impact across the wider Ellevation ecosystem.",  color: "#6b2f7a" },
+  LEGACY:   { label: "Legacy",   tagline: "Leadership • Influence • Legacy — create opportunities, support others and build lasting community impact.", color: "#3a1a48" },
 };
 const REFERRAL_OPTIONS = ["Social Media","Friend or Colleague","Event","Search Engine","Press / Media","Other"];
 const INTEREST_OPTIONS = [
@@ -1192,7 +1193,7 @@ const MEMBERSHIP_PLANS: MembershipPlan[] = [
     annual: "$350",
     monthly: "$35",
     quote: "I want to invest in myself.",
-    popularWith: ["Young women", "CALD women", "Migrant women", "Women rebuilding confidence", "Women navigating life transitions"],
+    popularWith: ["Young women (17-25)", "CALD women", "Women entrepreneurship", "Women rebuilding confidence", "Women navigating life transitions"],
     included: [
       "Ms Ellevation community access",
       "Quarterly connection sessions",
@@ -1232,46 +1233,82 @@ const MEMBERSHIP_PLANS: MembershipPlan[] = [
     annual: "$1,000",
     monthly: "$89",
     quote: "I want to lead, influence and create lasting impact.",
-    popularWith: ["Established business owners", "Coaches and consultants", "Community leaders", "Industry professionals", "Women creating social impact"],
+    popularWith: ["Established business owners", "Coaches and consultants", "Community leaders", "Industry professionals", "Women creating social impact", "Women seeking greater visibility and influence"],
     included: [
       "Everything in Rise",
       "Referral opportunities through Ellevation Hub",
-      "Free business listing on Ellevation Hub (up to 3 annually)",
+      "Business listing opportunities on Ellevation Hub, up to 3 annually",
       "Speaker opportunities",
       "Business and community spotlight opportunities",
-      "Access to mentors and trainers",
+      "Access to experienced mentors and trainers",
       "Opportunity to become a mentor or facilitator",
-      "VIP access to Ms Ellevation events",
+      "VIP access to selected Ms Ellevation events",
       "20% discount on selected Ellevation Hub VIP events",
-      "Quarterly impact networking sessions",
+      "Quarterly Impact Networking Sessions",
       "Annual Ms Ellevation member gift",
       "Collaboration and sponsorship opportunities",
-      "Selected Ellevation Hub Growth Member benefits",
+      "Selected Ellevation Hub Influence Member benefits",
     ],
-    outcome: "Increase visibility, strengthen leadership and create lasting impact across both ecosystems.",
+    outcome: "Increase visibility, strengthen leadership and create meaningful impact across the wider Ellevation ecosystem.",
+  },
+  {
+    key: "LEGACY",
+    name: "Legacy Membership",
+    focus: "Leadership • Influence • Legacy",
+    annual: "$2,000",
+    monthly: "$185",
+    quote: "I want to create opportunities, influence change and leave a lasting legacy.",
+    popularWith: [
+      "Established business owners",
+      "Senior professionals",
+      "Industry and community leaders",
+      "Experienced mentors and trainers",
+      "Women leading organisations or initiatives",
+      "Women seeking premium visibility and referral opportunities",
+      "Women wanting to create opportunities for others",
+    ],
+    included: [
+      "Everything in Elevate",
+      "Priority Business Service List",
+      "Priority referral consideration",
+      "Premium business and member visibility",
+      "Featured recognition opportunities",
+      "Priority strategic introductions where relevant",
+      "Strategic collaboration opportunities",
+      "Exclusive leadership and legacy conversations",
+      "Leadership roundtable invitations",
+      "Legacy Member recognition",
+      "Priority consideration for suitable speaking, mentoring and partnership opportunities",
+    ],
+    outcome: "Use experience, influence and leadership to create opportunities, support others and build lasting community impact.",
   },
 ];
 
 // "—" means not included. Anything else is shown as-is (✓ renders as a check icon).
-const MEMBERSHIP_COMPARISON: { feature: string; discover: string; rise: string; elevate: string; emphasis?: boolean }[] = [
-  { feature: "Annual Fee",                         discover: "$350",                    rise: "$650",        elevate: "$1,000", emphasis: true },
-  { feature: "Monthly Option",                     discover: "$35",                     rise: "$60",         elevate: "$89",    emphasis: true },
-  { feature: "Focus",                              discover: "Confidence & Connection", rise: "Leadership & Growth", elevate: "Influence & Legacy", emphasis: true },
-  { feature: "Community Access",                   discover: "✓", rise: "✓", elevate: "✓" },
-  { feature: "Quarterly Connection Sessions",      discover: "✓", rise: "✓", elevate: "✓" },
-  { feature: "Workshop Access",                    discover: "✓", rise: "✓", elevate: "✓" },
-  { feature: "Leadership Development",             discover: "—", rise: "✓", elevate: "✓" },
-  { feature: "Member Spotlight",                   discover: "—", rise: "✓", elevate: "✓" },
-  { feature: "Networking Sessions",                discover: "—", rise: "Quarterly", elevate: "Quarterly Premium" },
-  { feature: "Complimentary Event Ticket",         discover: "—", rise: "1 per year", elevate: "2 VIP opportunities" },
-  { feature: "Mentor Access",                      discover: "—", rise: "—", elevate: "✓" },
-  { feature: "Become Mentor/Trainer",              discover: "—", rise: "—", elevate: "✓" },
-  { feature: "Speaker Opportunities",              discover: "—", rise: "—", elevate: "✓" },
-  { feature: "Business Listing on Ellevation Hub", discover: "—", rise: "—", elevate: "Up to 3 annually" },
-  { feature: "Referral Opportunities",             discover: "—", rise: "—", elevate: "✓" },
-  { feature: "VIP Ms Ellevation Event Access",     discover: "—", rise: "—", elevate: "✓" },
-  { feature: "Ellevation Hub Benefits",            discover: "—", rise: "—", elevate: "Selected Growth Member Benefits" },
-  { feature: "Annual Member Gift",                 discover: "—", rise: "—", elevate: "✓" },
+const MEMBERSHIP_COMPARISON: { feature: string; discover: string; rise: string; elevate: string; legacy: string; emphasis?: boolean }[] = [
+  { feature: "Annual Fee",                         discover: "$350", rise: "$650", elevate: "$1,000", legacy: "$2,000", emphasis: true },
+  { feature: "Monthly Option",                     discover: "$35",  rise: "$60",  elevate: "$89",    legacy: "$185",   emphasis: true },
+  { feature: "Focus",                              discover: "Confidence & Connection", rise: "Leadership & Growth", elevate: "Influence & Legacy", legacy: "Leadership, Influence & Legacy", emphasis: true },
+  { feature: "Community Access",                   discover: "✓", rise: "✓", elevate: "✓", legacy: "✓" },
+  { feature: "Quarterly Connection Sessions",      discover: "✓", rise: "✓", elevate: "✓", legacy: "✓" },
+  { feature: "Workshop Access",                    discover: "✓", rise: "✓", elevate: "✓", legacy: "✓" },
+  { feature: "Leadership Development",             discover: "—", rise: "✓", elevate: "✓", legacy: "Priority" },
+  { feature: "Member Spotlight",                   discover: "—", rise: "✓", elevate: "✓", legacy: "Premium" },
+  { feature: "Networking Sessions",                discover: "—", rise: "Quarterly", elevate: "Quarterly Premium", legacy: "Leadership Roundtables" },
+  { feature: "Complimentary Event Ticket",         discover: "—", rise: "1 per year", elevate: "VIP Opportunities", legacy: "Priority / VIP Opportunities" },
+  { feature: "Mentor Access",                      discover: "—", rise: "—", elevate: "✓", legacy: "✓" },
+  { feature: "Become Mentor / Trainer",            discover: "—", rise: "—", elevate: "✓", legacy: "Priority Consideration" },
+  { feature: "Speaker Opportunities",              discover: "—", rise: "—", elevate: "✓", legacy: "Priority Consideration" },
+  { feature: "Business Listing on Ellevation Hub", discover: "—", rise: "—", elevate: "Up to 3 annually", legacy: "Premium Visibility" },
+  { feature: "Referral Opportunities",             discover: "—", rise: "—", elevate: "✓", legacy: "Priority Consideration" },
+  { feature: "Priority Business Service List",     discover: "—", rise: "—", elevate: "—", legacy: "✓" },
+  { feature: "VIP Ms Ellevation Event Access",     discover: "—", rise: "—", elevate: "✓", legacy: "Priority" },
+  { feature: "Ellevation Hub Benefits",            discover: "—", rise: "—", elevate: "Selected Growth Benefits", legacy: "Enhanced Ecosystem Access" },
+  { feature: "Annual Member Gift",                 discover: "—", rise: "—", elevate: "✓", legacy: "✓" },
+  { feature: "Strategic Introductions",            discover: "—", rise: "—", elevate: "Selected", legacy: "Priority" },
+  { feature: "Leadership Roundtables",             discover: "—", rise: "—", elevate: "—", legacy: "✓" },
+  { feature: "Community Impact Contribution",      discover: "—", rise: "—", elevate: "7% of first referral invoice only", legacy: "5% of first referral invoice only" },
+  { feature: "Outcome",                            discover: "Discover", rise: "Rise", elevate: "Elevate", legacy: "Legacy", emphasis: true },
 ];
 
 function CheckIcon() {
@@ -1293,7 +1330,7 @@ function ComparisonCell({ value }: { value: string }) {
 }
 
 function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
-  // 0 = Discover (compass), 1 = Rise (arrow up), 2 = Elevate (star)
+  // 0 = Discover (compass), 1 = Rise (arrow up), 2 = Elevate (star), 3 = Legacy (diamond)
   if (index === 0) {
     return (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1309,10 +1346,145 @@ function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
       </svg>
     );
   }
+  if (index === 2) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7L12 2.8z" fill="currentColor" />
+      </svg>
+    );
+  }
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 2.8l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7L12 2.8z" fill="currentColor" />
+      <path d="M12 2.5l8 7.5-8 11.5L4 10l8-7.5z" fill="currentColor" />
     </svg>
+  );
+}
+
+// ─── Referral & Community Impact Framework (new, Elevate + Legacy) ──────────
+function CommunityImpactSection() {
+  return (
+    <section className="mb-impact">
+      <div className="mb-impact-inner">
+        <p className="bullet-eyebrow">Referral &amp; Community Impact</p>
+        <h2 className="bullet-title">Referral &amp; Community Impact Framework</h2>
+        <p className="mb-impact-text">
+          Elevate and Legacy members can access relevant opportunities linked to the Ellevation Hub referral pathway.
+          A Community Impact Contribution applies only when an ecosystem-generated referral results in paid business,
+          and is calculated on the first referral-generated invoice only. It does not apply to membership fees, future
+          invoices or unrelated business revenue.
+        </p>
+
+        <div className="mb-table-wrap">
+          <table className="mb-table mb-table-sm">
+            <thead>
+              <tr>
+                <th scope="col" className="mb-th-feature">Tier</th>
+                <th scope="col">Referral Pathway</th>
+                <th scope="col">Community Impact Contribution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Elevate</th>
+                <td>Linked to relevant Ellevation Hub referral opportunities</td>
+                <td>7% of first referral-generated invoice only</td>
+              </tr>
+              <tr>
+                <th scope="row">Legacy</th>
+                <td>Priority consideration for relevant referral opportunities</td>
+                <td>5% of first referral-generated invoice only</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="mb-impact-text" style={{ marginTop: 28 }}>
+          <strong>Priority Business Service List:</strong> Legacy members receive priority visibility and referral
+          consideration when community members seek trusted services, based on relevance, availability and community
+          needs. Being listed does not guarantee referrals or paid work.
+        </p>
+
+        <h3 className="mb-impact-sub">Why the Community Impact Contribution Matters</h3>
+        <p className="mb-impact-lead">A referral that creates opportunity can also create opportunity for someone else.</p>
+        <p className="mb-impact-text">
+          The Community Impact Contribution is designed to turn successful ecosystem referrals into shared community
+          impact. When Ms Ellevation or Ellevation Hub connects a member to a new client and that referral becomes paid
+          business, a small percentage of the first referral-generated invoice is reinvested into initiatives that help
+          other women, emerging businesses and community ideas move forward.
+        </p>
+
+        <div className="mb-table-wrap">
+          <table className="mb-table mb-table-sm">
+            <thead>
+              <tr>
+                <th scope="col" className="mb-th-feature">What it means for the member</th>
+                <th scope="col">Why it matters to the community</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>You only contribute when an ecosystem referral becomes paid business.</td>
+                <td>A successful referral helps create a funding pool for future community opportunities.</td>
+              </tr>
+              <tr>
+                <td>The percentage applies to the first referral-generated invoice only.</td>
+                <td>Contributions can support emerging businesses, women-led ventures and community initiatives.</td>
+              </tr>
+              <tr>
+                <td>It is not deducted from your membership fee or unrelated business income.</td>
+                <td>The model allows members to grow while also helping others access opportunities.</td>
+              </tr>
+              <tr>
+                <td>Future invoices from that referred client are not subject to the contribution.</td>
+                <td>The contribution reinforces Ms Ellevation’s purpose of leadership, impact and creating pathways for others.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mb-outcome" style={{ marginTop: 28, textAlign: "left" }}>
+          <span className="mb-outcome-label">The principle</span>
+          <p className="mb-outcome-text">
+            When the ecosystem helps create new business, part of that first successful transaction helps open a door for someone else.
+          </p>
+        </div>
+
+        <h3 className="mb-impact-sub">Community Impact Contribution Rates</h3>
+        <div className="mb-table-wrap">
+          <table className="mb-table mb-table-sm">
+            <thead>
+              <tr>
+                <th scope="col" className="mb-th-feature">Tier</th>
+                <th scope="col">Contribution</th>
+                <th scope="col">Applies To</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Elevate</th>
+                <td>7%</td>
+                <td>First paid invoice arising from the successful ecosystem referral only</td>
+              </tr>
+              <tr>
+                <th scope="row">Legacy</th>
+                <td>5%</td>
+                <td>First paid invoice arising from the successful ecosystem referral only</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p className="mb-impact-text" style={{ marginTop: 28 }}>
+          <strong>Where the contribution can help:</strong> future small-business support or grants, emerging
+          entrepreneurs, women-led ventures, community initiatives, and opportunity programs for people with strong
+          ideas who may need support, connections or investment pathways.
+        </p>
+        <p className="mb-impact-text">
+          <strong>Important:</strong> Membership does not guarantee referrals. Referrals and Priority Business Service
+          List consideration remain subject to relevance, availability and community needs.
+        </p>
+      </div>
+    </section>
   );
 }
 
@@ -1328,7 +1500,7 @@ function MembershipPage({ nav }: { nav: NavFn }) {
         <div className="mb-banner-bg" style={mb.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="mb-eye" style={mb.eye}>— MS ELLEVATION MEMBERSHIP PROGRAM —</p>
-          <h1 className="mb-banner-title" style={mb.title}>Discover → Rise → Elevate</h1>
+          <h1 className="mb-banner-title" style={mb.title}>Discover → Rise → Elevate → Legacy</h1>
           <p className="mb-pillars" style={mb.pillars}>Identity • Confidence • Leadership • Impact</p>
           <p className="mb-question" style={mb.question}>The question is: "Who am I becoming?"</p>
           <button style={mb.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
@@ -1341,13 +1513,13 @@ function MembershipPage({ nav }: { nav: NavFn }) {
           <p className="story-eyebrow">Membership Philosophy</p>
           <h2 className="story-title" style={{ fontSize: "clamp(36px,5vw,52px)" }}>From Self-Discovery to Lasting Impact</h2>
           <p className="story-p">
-            Ms Ellevation is a women-focused leadership and empowerment ecosystem. Unlike Ellevation Hub,
-            which focuses on opportunities, business visibility and partnerships, Ms Ellevation focuses on
-            identity, confidence, wellbeing, leadership and personal growth.
+            Ms Ellevation is a women-focused empowerment and leadership pathway supporting women and young women
+            to grow in identity, confidence, wellbeing and leadership.
           </p>
           <p className="story-p">
-            The memberships are designed to help young women and women move from self-discovery to
-            leadership and lasting impact.
+            Through Discover → Rise → Elevate → Legacy, members progress from connection and personal growth to
+            visibility, influence and lasting impact, with upper tiers connecting to wider opportunities across
+            the Ellevation ecosystem.
           </p>
         </div>
       </section>
@@ -1475,8 +1647,9 @@ function MembershipPage({ nav }: { nav: NavFn }) {
       {/* ── Comparison table ── */}
       <section className="mb-compare">
         <div className="mb-compare-inner">
-          <p className="bullet-eyebrow">Ms Ellevation Membership Program</p>
-          <h2 className="bullet-title">Membership Comparison Table</h2>
+          <p className="bullet-eyebrow">Discover • Rise • Elevate • Legacy</p>
+          <h2 className="bullet-title">Ms Ellevation Membership Comparison</h2>
+          <p className="story-framework-lead" style={{ marginBottom: 28 }}>Annual &amp; Monthly Membership Comparison</p>
 
           <div className="mb-table-wrap" role="region" aria-label="Membership comparison table" tabIndex={0}>
             <table className="mb-table">
@@ -1486,6 +1659,7 @@ function MembershipPage({ nav }: { nav: NavFn }) {
                   <th scope="col">Discover</th>
                   <th scope="col">Rise</th>
                   <th scope="col">Elevate</th>
+                  <th scope="col">Legacy</th>
                 </tr>
               </thead>
               <tbody>
@@ -1495,6 +1669,7 @@ function MembershipPage({ nav }: { nav: NavFn }) {
                     <td><ComparisonCell value={r.discover} /></td>
                     <td><ComparisonCell value={r.rise} /></td>
                     <td><ComparisonCell value={r.elevate} /></td>
+                    <td><ComparisonCell value={r.legacy} /></td>
                   </tr>
                 ))}
               </tbody>
@@ -1504,15 +1679,19 @@ function MembershipPage({ nav }: { nav: NavFn }) {
         </div>
       </section>
 
+      {/* ── Referral & Community Impact Framework ── */}
+      <CommunityImpactSection />
+
       <ClosingCtaSection
         nav={nav}
         eyebrow="Who am I becoming?"
         title="Your Membership Starts Here."
-        body="Discover your confidence. Rise into leadership. Elevate your influence. Choose the membership that fits where you are today."
+        body="Discover your confidence. Rise into leadership. Elevate your influence. Leave a lasting Legacy. Choose the membership that fits where you are today."
         buttons={[
           { label: "JOIN DISCOVER", page: "join", tier: "discover" },
           { label: "JOIN RISE", page: "join", tier: "rise", variant: "outline" },
           { label: "JOIN ELEVATE", page: "join", tier: "elevate", variant: "outline" },
+          { label: "JOIN LEGACY", page: "join", tier: "legacy", variant: "outline" },
         ]}
       />
     </div>
@@ -2744,7 +2923,7 @@ export default function EllevationPage() {
 
         /* ═══════════════════════════════════════
            Membership Page
-           Three plan cards (Discover / Rise / Elevate) with an accent
+           Four plan cards (Discover / Rise / Elevate / Legacy) with an accent
            colour each, then a comparison table that scrolls sideways on
            small screens with a sticky "Feature" column.
            ═══════════════════════════════════════ */
@@ -2758,6 +2937,7 @@ export default function EllevationPage() {
         .mb-tab-0 { --mb-a1: #4B1E56; --mb-a2: #8a5a97; }
         .mb-tab-1 { --mb-a1: #662369; --mb-a2: #D7B264; }
         .mb-tab-2 { --mb-a1: #6b2f7a; --mb-a2: #b98fd1; }
+        .mb-tab-3 { --mb-a1: #3a1a48; --mb-a2: #D7B264; }
         .mb-tab {
           display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
           padding: 16px 18px; border-radius: 18px; cursor: pointer;
@@ -2793,6 +2973,7 @@ export default function EllevationPage() {
         .mb-panel-0 { --mb-a1: #4B1E56; --mb-a2: #8a5a97; --mb-a3: #2d1740; }
         .mb-panel-1 { --mb-a1: #662369; --mb-a2: #D7B264; --mb-a3: #3a1a48; }
         .mb-panel-2 { --mb-a1: #6b2f7a; --mb-a2: #b98fd1; --mb-a3: #2d1740; }
+        .mb-panel-3 { --mb-a1: #3a1a48; --mb-a2: #D7B264; --mb-a3: #1a0a2e; }
         .mb-panel {
           position: relative; overflow: hidden; background: #ffffff;
           border: 1px solid rgba(124, 92, 191, 0.16); border-radius: 28px;
@@ -2860,26 +3041,25 @@ export default function EllevationPage() {
           box-shadow: 0 8px 40px rgba(75,30,86,0.10);
         }
         .mb-table-wrap:focus-visible { outline: 3px solid rgba(75,30,86,0.35); outline-offset: 2px; }
-.mb-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 820px; }
-.mb-table thead th {
-  background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%); color: #ffffff;
-  font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.02em;
-  text-align: center; padding: 22px 18px; white-space: nowrap;
-}
-.mb-table thead th.mb-th-feature { text-align: left; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding-left: 24px; }      
-.mb-table tbody th, .mb-table tbody td { padding: 18px 18px; border-bottom: 1px solid rgba(124, 92, 191, 0.12); font-family: 'Montserrat', sans-serif; font-size: 18px; line-height: 1.45; color: #3d2e47; vertical-align: middle; }
-.mb-table tbody th { text-align: left; font-weight: 600; color: #1a0a2e; padding-left: 24px; background: #ffffff; position: sticky; left: 0; z-index: 1; min-width: 270px; }
+        .mb-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 980px; }
+        .mb-table thead th {
+          background: linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%); color: #ffffff;
+          font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.02em;
+          text-align: center; padding: 22px 18px; white-space: nowrap;
+        }
+        .mb-table thead th.mb-th-feature { text-align: left; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding-left: 24px; }
+        .mb-table tbody th, .mb-table tbody td { padding: 18px 18px; border-bottom: 1px solid rgba(124, 92, 191, 0.12); font-family: 'Montserrat', sans-serif; font-size: 18px; line-height: 1.45; color: #3d2e47; vertical-align: middle; }
         .mb-table tbody th { text-align: left; font-weight: 600; color: #1a0a2e; padding-left: 22px; background: #ffffff; position: sticky; left: 0; z-index: 1; min-width: 210px; }
         .mb-table tbody td { text-align: center; font-weight: 400; }
         .mb-table tbody tr:nth-child(even) th, .mb-table tbody tr:nth-child(even) td { background: #faf7fd; }
         .mb-table tbody tr:last-child th, .mb-table tbody tr:last-child td { border-bottom: none; }
         .mb-table thead th.mb-th-feature { position: sticky; left: 0; z-index: 2; }
         .mb-row-strong td { font-weight: 700; color: #4B1E56; }
-.mb-yes { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(75, 30, 86, 0.10); color: #4B1E56; }
-.mb-yes svg { width: 17px; height: 17px; }
+        .mb-yes { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: rgba(75, 30, 86, 0.10); color: #4B1E56; }
+        .mb-yes svg { width: 17px; height: 17px; }
         .mb-no { color: #b09fc0; font-weight: 400; }
         .mb-text { display: inline-block; }
-.mb-table-hint { display: none; font-family: 'Montserrat', sans-serif; font-size: 14px; font-style: italic; color: #8a5a97; margin-top: 14px; }
+        .mb-table-hint { display: none; font-family: 'Montserrat', sans-serif; font-size: 14px; font-style: italic; color: #8a5a97; margin-top: 14px; }
         @media (max-width: 1000px) {
           .mb-split { grid-template-columns: 1fr !important; gap: 24px !important; }
           .mb-list-col { flex-direction: row !important; overflow-x: auto; scroll-snap-type: x mandatory; padding: 4px 2px 12px; -webkit-overflow-scrolling: touch; }
@@ -2903,7 +3083,24 @@ export default function EllevationPage() {
           .mb-tab-avatar { width: 42px; height: 42px; }
           .mb-btn { width: 100%; }
           .mb-table tbody th { min-width: 190px; font-size: 16px; }
-.mb-table tbody td { font-size: 16px; }
+          .mb-table tbody td { font-size: 16px; }
+        }
+
+        /* ═══════════════════════════════════════
+           Membership: Referral & Community Impact section (new)
+           ═══════════════════════════════════════ */
+        .mb-impact { background: #ffffff; padding: 96px 24px 104px; }
+        .mb-impact-inner { max-width: 1040px; margin: 0 auto; text-align: center; }
+        .mb-impact-text { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.8; max-width: 860px; margin: 0 auto 28px; text-align: left; }
+        .mb-impact-lead { font-family: 'Astrid Regular', serif; font-size: 1.4rem; font-style: italic; color: #4B1E56; margin-bottom: 18px; }
+        .mb-impact-sub { font-family: 'Astrid Regular', serif; font-size: clamp(26px,3.4vw,36px); font-weight: 700; color: #1a0a2e; margin: 64px 0 18px; }
+        .mb-impact .mb-table.mb-table-sm { min-width: 0; }
+        .mb-impact .mb-table-sm tbody td { text-align: left; }
+        .mb-impact .mb-table-sm tbody th { min-width: 0; position: static; }
+        .mb-impact .mb-table-sm thead th { text-align: left; font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Montserrat', sans-serif; padding-left: 24px; }
+        .mb-impact .mb-table-wrap { margin-bottom: 8px; }
+        @media (max-width: 768px) {
+          .mb-impact { padding: 72px 16px 80px !important; }
         }
 
         /* ── Dark Mode Overrides ── */
@@ -3016,6 +3213,11 @@ export default function EllevationPage() {
         [data-theme="dark"] .mb-yes { background: rgba(232,184,240,0.14) !important; color: #e8b8f0 !important; }
         [data-theme="dark"] .mb-no { color: rgba(217,168,205,0.45) !important; }
         [data-theme="dark"] .mb-table-hint { color: #c9a3d9 !important; }
+
+        /* ── Dark mode: Membership Referral & Community Impact (new) ── */
+        [data-theme="dark"] .mb-impact { background: #0d0614 !important; }
+        [data-theme="dark"] .mb-impact-text { color: #d9a8cd !important; }
+        [data-theme="dark"] .mb-impact-lead { color: #e8b8f0 !important; }
 
         /* ═══════════════════════════════════════
            FIX: force all headings white/light in dark mode
