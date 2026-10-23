@@ -37,7 +37,7 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 type Page = "home" | "about" | "membership" | "directory" | "programs" | "opportunities" | "events" | "impact" | "connect" | "register";
 // `nav` accepts an optional param (used to pre-select a program on the Register page)
 type NavFn = (p: Page, param?: string) => void;
-type HubTier = "BELONG" | "GROW" | "INFLUENCE" | "PARTNER";
+type HubTier = "BELONG" | "GROW" | "INFLUENCE" | "PARTNER" | "LEGACY";
 type Theme = "light" | "dark";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -170,8 +170,7 @@ const ABOUT_ECOSYSTEM_CONNECTION = [
 ];
 
 /* ── Membership program (Belong → Grow → Influence → Partner) ── */
-const HUB_TIERS: HubTier[] = ["BELONG", "GROW", "INFLUENCE", "PARTNER"];
-
+const HUB_TIERS: HubTier[] = ["BELONG", "GROW", "INFLUENCE", "PARTNER", "LEGACY"];
 type TierMeta = {
   label: string;      // short name (Belong)
   name: string;       // package name (Community Member)
@@ -227,13 +226,19 @@ const HUB_TIER_META: Record<HubTier, TierMeta> = {
     outcome: "Increase visibility and grow opportunities.",
     color: "#6b4fc0",
   },
-  INFLUENCE: {
+    INFLUENCE: {
     label: "Influence",
     name: "Impact Member",
     annual: 990,
     monthly: 89,
     purpose: "Visibility & Influence",
-    popular: ["Established businesses", "Community leaders", "NDIS providers", "Social enterprises", "Not-for-profits", "Coaches and consultants"],
+    popular: [
+      "Established businesses",
+      "Community leaders",
+      "NDIS and community-service providers",
+      "Social enterprises and not-for-profits",
+      "Coaches, consultants and established professionals",
+    ],
     quote: "I want visibility, credibility and influence.",
     included: [
       "Everything in Growth",
@@ -242,7 +247,7 @@ const HUB_TIER_META: Record<HubTier, TierMeta> = {
       "6 job listings annually",
       "6 internship listings annually",
       "Business or Community Spotlight feature",
-      "Referral opportunities",
+      "Referral opportunities (7% first referral invoice)",
       "Opportunity to host workshops and events",
       "Community Champion Recognition",
       "Two complimentary event tickets",
@@ -258,10 +263,18 @@ const HUB_TIER_META: Record<HubTier, TierMeta> = {
     annual: 1500,
     monthly: 135,
     purpose: "Partnership & Impact",
-    popular: ["Sponsors", "Strategic partners", "Local government", "Universities and training providers", "Community organisations", "Peak bodies", "Medium to large businesses"],
+    popular: [
+      "Sponsors and strategic collaborators",
+      "Community organisations and peak bodies",
+      "Local government",
+      "Universities and training providers",
+      "Medium to large businesses",
+      "Organisations seeking deeper ecosystem collaboration",
+    ],
     quote: "I want strategic partnerships and community impact.",
     included: [
       "Everything in Impact",
+      "Referral opportunities (5% first referral invoice)",
       "Featured Partner Recognition",
       "Unlimited priority listings",
       "Guest speaking opportunities",
@@ -277,27 +290,78 @@ const HUB_TIER_META: Record<HubTier, TierMeta> = {
     outcome: "Drive partnerships, leadership and community impact.",
     color: "#c0508a",
   },
+  LEGACY: {
+    label: "Legacy Partner",
+    name: "Ecosystem Leader",
+    annual: 2500,
+    monthly: 230,
+    purpose: "Ecosystem Leadership",
+    popular: [
+      "Established and high-impact businesses",
+      "Major strategic partners and sponsors",
+      "Industry and community leaders",
+      "Organisations wanting premium visibility and referral priority",
+      "Businesses seeking long-term ecosystem collaboration",
+    ],
+    quote: "I want to lead, influence and help shape lasting ecosystem impact.",
+    included: [
+      "Everything in Partner",
+      "Priority Business Service List",
+      "Premium priority directory visibility",
+      "Referral opportunities (3% first referral invoice)",
+      "Priority referral consideration",
+      "Premium featured partner recognition",
+      "Priority strategic collaboration opportunities",
+      "Priority introductions where relevant",
+      "Executive leadership and ecosystem conversations",
+      "Legacy Partner recognition",
+    ],
+    outcome: "Lead, influence and help shape long-term opportunities and community impact across the ecosystem.",
+    color: "#3b2a6b",
+  },
 };
 
 // "—" = not included, "✓" = included (rendered as a check icon). Anything else is shown as text.
-const MEMBERSHIP_COMPARISON: { label: string; values: [string, string, string, string] }[] = [
-  { label: "Annual Fee",             values: ["$250", "$550", "$990", "$1,500"] },
-  { label: "Monthly Fee",            values: ["$25", "$55", "$89", "$135"] },
-  { label: "Purpose",                values: ["Community", "Opportunity & Growth", "Visibility & Influence", "Partnership & Impact"] },
-  { label: "Popular With",           values: ["Individuals", "Professionals & Small Business", "Established Leaders & Organisations", "Sponsors & Strategic Partners"] },
-  { label: "Directory Listing",      values: ["—", "Standard", "Featured", "Priority"] },
-  { label: "Business Listings",      values: ["—", "2 per year", "Enhanced", "Unlimited"] },
-  { label: "Job Listings",           values: ["—", "2 per year", "6 per year", "Unlimited"] },
-  { label: "Internship Listings",    values: ["—", "2 per year", "6 per year", "Unlimited"] },
-  { label: "Event Listings",         values: ["—", "2 per year", "Unlimited", "Unlimited Priority"] },
-  { label: "Business Support",       values: ["—", "1 Session", "Included", "Priority"] },
-  { label: "Referral Opportunities", values: ["—", "—", "✓", "Priority"] },
-  { label: "Spotlight Features",     values: ["—", "—", "✓", "Priority"] },
-  { label: "Exclusive Networking",   values: ["Community Events", "Networking Ticket", "Quarterly Impact Network", "Leadership Roundtables"] },
-  { label: "Ms Ellevation Benefits", values: ["—", "—", "20% Discount on Membership", "Complimentary Membership"] },
-  { label: "Outcome",                values: ["Belong", "Grow", "Influence", "Partner"] },
+const MEMBERSHIP_COMPARISON: { label: string; values: [string, string, string, string, string] }[] = [
+  { label: "Annual Fee",             values: ["$250", "$550", "$990", "$1,500", "$2,500"] },
+  { label: "Monthly Fee",            values: ["$25", "$55", "$89", "$135", "$230"] },
+  { label: "Purpose",                values: ["Community", "Opportunity & Growth", "Visibility & Influence", "Partnership & Impact", "Ecosystem Leadership"] },
+  { label: "Popular With",           values: ["Individuals", "Professionals & Small Business", "Established Leaders & Organisations", "Sponsors & Strategic Partners", "Strategic Leaders & Major Partners"] },
+  { label: "Directory Listing",      values: ["—", "Standard", "Featured", "Priority", "Premium Priority"] },
+  { label: "Business Listings",      values: ["—", "2 per year", "Enhanced", "Unlimited", "Unlimited Priority"] },
+  { label: "Job Listings",           values: ["—", "2 per year", "6 per year", "Unlimited", "Unlimited Priority"] },
+  { label: "Internship Listings",    values: ["—", "2 per year", "6 per year", "Unlimited", "Unlimited Priority"] },
+  { label: "Event Listings",         values: ["—", "2 per year", "Unlimited", "Unlimited Priority", "Premium Priority"] },
+  { label: "Business Support",       values: ["—", "1 Session", "Included", "Priority", "Priority Plus"] },
+  { label: "Referral Opportunities", values: ["—", "—", "✓", "Priority", "Priority Plus"] },
+  { label: "Spotlight Features",     values: ["—", "—", "✓", "Priority", "Premium"] },
+  { label: "Exclusive Networking",   values: ["Community Events", "Networking Ticket", "Quarterly Impact Network", "Leadership Roundtables", "Executive Leadership Sessions"] },
+  { label: "Ms Ellevation Benefits", values: ["—", "—", "20% Membership Discount", "Complimentary Membership", "Complimentary Premium Access"] },
+  { label: "Priority Business Service List", values: ["—", "—", "—", "—", "✓"] },
+  { label: "Community Impact Contribution",  values: ["—", "—", "7% first referral invoice only", "5% first referral invoice only", "3% first referral invoice only"] },
+  { label: "Outcome",                values: ["Belong", "Grow", "Influence", "Partner", "Lead"] },
 ];
 
+
+const IMPACT_CONTRIBUTION_RATES = [
+  { tier: "Influence",      rate: "7%", applies: "First paid invoice arising from a successful Ellevation Hub referral only" },
+  { tier: "Partner",        rate: "5%", applies: "First paid invoice arising from a successful Ellevation Hub referral only" },
+  { tier: "Legacy Partner", rate: "3%", applies: "First paid invoice arising from a successful Ellevation Hub referral only" },
+];
+
+const IMPACT_CONTRIBUTION_MEMBER = [
+  "No contribution is payable unless an Ellevation Hub referral becomes paid business.",
+  "The percentage applies to the first referral-generated invoice only.",
+  "It is not taken from membership fees or unrelated business income.",
+  "Future invoices from the referred client are not subject to the contribution.",
+];
+
+const IMPACT_CONTRIBUTION_ECOSYSTEM = [
+  "A successful referral contributes to future community opportunities.",
+  "Funds can support emerging businesses, entrepreneurs and community initiatives.",
+  "Members can grow their businesses while contributing to a cycle of opportunity.",
+  "The model reflects Ellevation Hub's social-enterprise purpose: growth and community impact working together.",
+];
 // Rows shown in bold/accent in the comparison table
 const MEMBERSHIP_STRONG_ROWS = new Set(["Annual Fee", "Monthly Fee", "Purpose", "Outcome"]);
 
@@ -360,6 +424,7 @@ const OPPORTUNITY_TYPES = [
   { title: "Professional Development",  desc: "Workshops, certifications, and skill-building sessions to sharpen your edge.", icon: "◑" },
   { title: "Referrals & Connections",   desc: "Warm introductions across our verified professional network.",                 icon: "✦" },
   { title: "Speaking & Visibility",     desc: "Panels, features, and media opportunities to raise your profile.",             icon: "◎" },
+  { title: "Business Promotion",        desc: "Showcase your business through spotlights, cross-promotion and community exposure.", icon: "✺" },
   { title: "Grants & Funding",          desc: "Funding pathways for community initiatives and growing businesses.",           icon: "❖" },
   { title: "Member-Only Opportunities", desc: "Early access and exclusive openings shared first with Hub members.",           icon: "☖" },
 ];
@@ -372,6 +437,7 @@ const OPPORTUNITY_CATEGORIES = [
   "Professional Development",
   "Grants & Funding",
   "Speaking & Visibility",
+  "Business Promotion",
 ] as const;
 type OpportunityCategory = typeof OPPORTUNITY_CATEGORIES[number];
 
@@ -398,6 +464,8 @@ const OPPORTUNITY_LISTINGS: OpportunityListing[] = [
   { title: "Business Growth Grant", org: "Corporate Partner", category: "Grants & Funding", type: "Grant", location: "WA-wide", deadline: "20 Oct 2025", desc: "Funding support for directory-listed businesses ready to scale their operations.", applyUrl: "#" },
   { title: "Panel Speaker — Rise Summit 2025", org: "Ellevation Hub", category: "Speaking & Visibility", type: "Speaking", location: "Perth, WA", deadline: "10 Sep 2025", desc: "Share your story on a panel at our flagship leadership summit in June.", applyUrl: "#" },
   { title: "Member Spotlight Feature", org: "Ellevation Hub", category: "Speaking & Visibility", type: "Feature", location: "Digital", deadline: "Rolling", desc: "Get featured across our newsletter and social channels as a community spotlight.", applyUrl: "#" },
+  { title: "Business Spotlight Feature", org: "Ellevation Hub", category: "Business Promotion", type: "Feature", location: "Digital", deadline: "Rolling", desc: "Promote your business to the Hub community through our newsletter and social channels.", applyUrl: "#" },
+  { title: "Member Cross-Promotion Showcase", org: "Open Call", category: "Business Promotion", type: "Promotion", location: "Perth, WA", deadline: "Rolling", desc: "Join a joint showcase where member businesses promote each other's products and services.", applyUrl: "#" },
 ];
 
 const EVENT_CATEGORIES = [
@@ -1023,6 +1091,24 @@ const MEMBERSHIP_PURPOSES = [
 ] as const;
 
 const MEMBERSHIP_CSS = `
+.mp-t-4{ --a1:#3b2a6b; --a2:#9a86d6; --a3:#1a0a2e; }
+.mp-tagline{ font-size:0.82rem; font-weight:600; letter-spacing:0.08em; color:var(--mp-sub); margin-bottom:14px; }
+.mp-table{ min-width:900px; }  /* replace the old 760px value */
+
+.mp-impact{ text-align:center; margin-bottom:80px; }
+.mp-impact .mp-block-title{ margin-bottom:12px; }
+.mp-impact-lead{ font-family:'Astrid Regular',serif; font-style:italic; font-size:1.2rem; color:var(--mp-accent); margin-bottom:16px; }
+.mp-impact-body{ max-width:860px; margin:0 auto 32px; font-size:18px; line-height:1.8; color:var(--mp-text); }
+.mp-impact-cols{ display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:1000px; margin:0 auto 28px; text-align:left; }
+.mp-impact-card{ background:var(--mp-card); border:1.5px solid var(--mp-border); border-radius:20px; padding:28px; box-shadow:var(--mp-shadow); }
+.mp-impact-card h4{ font-family:'Astrid Regular',serif; font-size:22px; color:var(--mp-title); margin-bottom:14px; }
+.mp-impact-card ul{ list-style:none; display:flex; flex-direction:column; gap:12px; padding:0; }
+.mp-impact-card li{ display:flex; gap:10px; align-items:flex-start; font-size:16px; line-height:1.55; color:var(--mp-text); }
+.mp-impact-card .mp-list-check{ background:var(--mp-gold); }
+.mp-impact-principle{ max-width:860px; margin:0 auto 40px; padding:18px 22px; border-radius:14px; background:rgba(215,178,100,0.12); border-left:3px solid var(--mp-gold); font-size:18px; line-height:1.7; color:var(--mp-title); text-align:left; }
+.mp-impact-subhead{ font-family:'Astrid Regular',serif; font-size:1.5rem; color:var(--mp-title); margin-bottom:18px; }
+.mp-impact-note{ max-width:860px; margin:22px auto 0; font-size:16px; line-height:1.75; color:var(--mp-text); text-align:left; }
+@media (max-width:768px){ .mp-impact-cols{ grid-template-columns:1fr; } }
 .mp{
   --mp-card:#ffffff; --mp-soft:#f6f3fa; --mp-border:rgba(124,92,191,0.18);
   --mp-title:#1a0a2e; --mp-text:#554866; --mp-accent:#4B1E56; --mp-eye:#662369; --mp-sub:#8a5a97;
@@ -1245,7 +1331,8 @@ function ComparisonCell({ value }: { value: string }) {
 }
 
 function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
-  // 0 = Belong (heart), 1 = Grow (arrow up), 2 = Influence (star), 3 = Partner (linked circles)
+  // 0 = Belong (heart), 1 = Grow (arrow up), 2 = Influence (star),
+  // 3 = Partner (linked circles), 4 = Legacy Partner (diamond)
   if (index === 0) {
     return (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1267,10 +1354,18 @@ function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
       </svg>
     );
   }
+  if (index === 3) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="9" cy="12" r="5.5" stroke="currentColor" strokeWidth="2" />
+        <circle cx="15" cy="12" r="5.5" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    );
+  }
+  // 4 = Legacy Partner (diamond)
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <circle cx="9" cy="12" r="5.5" stroke="currentColor" strokeWidth="2" />
-      <circle cx="15" cy="12" r="5.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 2.5l8.5 9.5L12 21.5 3.5 12 12 2.5z" fill="currentColor" />
     </svg>
   );
 }
@@ -1384,9 +1479,10 @@ function MembershipSection() {
           <p className="mp-eye">Ellevation Hub · Membership Program</p>
           <h2 className="mp-title">Choose Your Pathway Into the Hub</h2>
           <div className="mp-journey" aria-label="Membership journey">
-            <span>Belong</span><i>→</i><span>Grow</span><i>→</i><span>Influence</span><i>→</i><span>Partner</span>
+  <span>Belong</span><i>→</i><span>Grow</span><i>→</i><span>Influence</span><i>→</i><span>Partner</span><i>→</i><span>Legacy Partner</span>
           </div>
-          <p className="mp-question">How do I create opportunities and impact?</p>
+<p className="mp-tagline">Visibility • Opportunities • Partnerships • Influence • Community Impact</p>
+<p className="mp-question">How do I create opportunities and impact?</p>
         </div>
 
         {/* ── 2. PHILOSOPHY ── */}
@@ -1395,11 +1491,11 @@ function MembershipSection() {
           <p>
             Ellevation Hub membership is more than a membership. It is a pathway to belonging, opportunities, visibility, partnerships, leadership and community impact. Members join a growing ecosystem designed to support CALD communities, professionals, entrepreneurs, businesses, organisations and emerging leaders.
           </p>
-          <p>
-            We believe everyone should have access to growth, connection and leadership opportunities regardless of where they are in their journey.
-          </p>
-          <span className="mp-philo-tag">Flexible Monthly Payment Plans Available on all packages</span>
-        </div>
+         <p>
+  All membership packages offer Flexible Monthly Payment Plans Available. Each tier retains the Ellevation Hub principle of business growth creating wider community impact.
+</p>
+<span className="mp-philo-tag">Flexible Monthly Payment Plans Available on all packages</span>
+ </div>
 
         {/* ── 3. PLANS (selector left, details right) ── */}
         <div className="mp-plans-head">
@@ -1469,12 +1565,12 @@ function MembershipSection() {
                   {meta.popular.map(p => <li key={p}>{p}</li>)}
                 </ul>
 
-                <button className="mp-btn" onClick={() => choosePlan(activeTier)}>
-                  JOIN {activeTier}
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
+               <button className="mp-btn" onClick={() => choosePlan(activeTier)}>
+  JOIN {meta.label.toUpperCase()}
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+</button>
               </div>
             </div>
 
@@ -1524,6 +1620,56 @@ function MembershipSection() {
           </div>
           <p className="mp-hint">Swipe sideways to see every plan on smaller screens.</p>
         </div>
+
+        {/* ── 4b. COMMUNITY IMPACT CONTRIBUTION ── */}
+<div className="mp-impact">
+  <p className="mp-eye">Give-Back Model</p>
+  <h3 className="mp-block-title">Why the Community Impact Contribution Matters</h3>
+  <p className="mp-impact-lead">Business growth that helps create the next opportunity.</p>
+  <p className="mp-impact-body">
+    The Community Impact Contribution is a give-back mechanism attached only to successful business referrals generated through the Ellevation Hub ecosystem. When the Hub introduces a member to a new client and that referral becomes paid business, a small percentage of the first referral-generated invoice is reinvested into initiatives that create opportunities for other people, businesses and community ideas.
+  </p>
+
+  <div className="mp-impact-cols">
+    <div className="mp-impact-card">
+      <h4>What it means for the member</h4>
+      <ul>{IMPACT_CONTRIBUTION_MEMBER.map(t => <li key={t}><span className="mp-list-check"><CheckIcon /></span>{t}</li>)}</ul>
+    </div>
+    <div className="mp-impact-card">
+      <h4>Why it matters to the ecosystem</h4>
+      <ul>{IMPACT_CONTRIBUTION_ECOSYSTEM.map(t => <li key={t}><span className="mp-list-check"><CheckIcon /></span>{t}</li>)}</ul>
+    </div>
+  </div>
+
+  <p className="mp-impact-principle">
+    <strong>The principle:</strong> When Ellevation Hub helps generate a new paying opportunity, a small part of that first successful transaction helps create opportunities for others.
+  </p>
+
+  <h4 className="mp-impact-subhead">Community Impact Contribution rates</h4>
+  <div className="mp-table-wrap" style={{ maxWidth: 820 }} role="region" aria-label="Contribution rates" tabIndex={0}>
+    <table className="mp-table" style={{ minWidth: 560 }}>
+      <thead>
+        <tr><th className="mp-th-feature">Tier</th><th>Contribution</th><th>Applies To</th></tr>
+      </thead>
+      <tbody>
+        {IMPACT_CONTRIBUTION_RATES.map(r => (
+          <tr key={r.tier}>
+            <th scope="row">{r.tier}</th>
+            <td><strong>{r.rate}</strong></td>
+            <td>{r.applies}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p className="mp-impact-note">
+    <strong>Where the contribution can help:</strong> future small-business grants or support programs, emerging entrepreneurs, community initiatives, women-led ventures, business ideas needing connections or investment pathways, and other opportunity programs aligned with the ecosystem's purpose.
+  </p>
+  <p className="mp-impact-note">
+    <strong>Priority Business Service List:</strong> Legacy Partners receive priority visibility and referral consideration when community members, businesses or organisations seek trusted services. Consideration is based on relevance, availability, location and community needs. Membership or listing does not guarantee referrals or paid work. It means the business is considered first where the service request is relevant and appropriate.
+  </p>
+</div>
 
         {/* ── 5. HUB + MS ELLEVATION (Hub left, Ms Ellevation right) ── */}
         <div className="mp-bridge">
@@ -3090,6 +3236,7 @@ export default function EllevationHub() {
   // Set page title & meta description — per page, whenever `page` changes
   useEffect(() => {
     const meta = PAGE_META[page] || PAGE_META.home;
+    
 
     document.title = meta.title;
 
@@ -3204,12 +3351,13 @@ export default function EllevationHub() {
           position:relative; z-index:5;
         }
 
-        .ns-links-desktop{
-          display:flex; align-items:center; gap:2px;
-          flex:1;
-          justify-content:center;
-          flex-wrap:wrap;
-        }
+.ns-links-desktop{
+  display:flex; align-items:center; gap:2px;
+  flex:1;
+  justify-content:center;
+  flex-wrap:nowrap;      /* was: wrap */
+  min-width:0;
+}
         .ns-link{
           font-family:'Montserrat', sans-serif;
           font-size:0.95rem; font-weight:500;
@@ -3263,14 +3411,22 @@ export default function EllevationHub() {
         }
 
         /* Smaller laptops: tighten so all 9 links fit */
-        @media (max-width:1560px){
-          .hub-root .ms-nav{ gap:16px; min-height:112px; }
-          .hub-root .ns-logo{ height:132px !important; margin:-10px 0 !important; }
-          .hub-root .ns-link{ padding:10px 11px; font-size:0.95rem; }
-          .hub-root .ns-links-desktop{ gap:2px; }
-          .hub-root .ns-back-home{ padding:10px 16px; font-size:0.88rem; }
-        }
+      /* Smaller laptops: tighten so all 9 links fit on ONE row */
+@media (max-width:1560px){
+  .hub-root .ms-nav{ gap:14px; min-height:104px; padding:0 16px 0 10px; }
+  .hub-root .ns-logo{ height:116px !important; margin:-6px 0 !important; }
+  .hub-root .ns-link{ padding:10px 12px; font-size:1rem; }      /* was 0.88rem */
+  .hub-root .ns-links-desktop{ gap:0; }
+  .hub-root .ns-back-home{ padding:9px 14px; font-size:0.82rem; }
+}
 
+@media (max-width:1420px){
+  .hub-root .ms-nav{ gap:12px; }
+  .hub-root .ns-logo{ height:100px !important; margin:-4px 0 !important; }
+  .hub-root .ns-link{ padding:10px 11px; font-size:0.98rem; }   /* was 0.82rem */
+  .hub-root .ns-back-home{ padding:8px 12px; font-size:0.78rem; }
+  .hub-root .ns-back-home span{ display:none; }
+}
         /* Tablet + mobile: hamburger */
         @media (max-width:1240px){
           .hub-root .ms-nav-row{ padding:16px 16px 0; }
