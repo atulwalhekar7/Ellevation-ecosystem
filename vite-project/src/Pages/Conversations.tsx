@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
-import heroBg from "../assets/banner6.avif"; // Single banner background image
+import heroBg from "../assets/Conversation.jpeg"; // Single banner background image
 
 /* ── helpers ── */
 function useInView(threshold = 0.15) {

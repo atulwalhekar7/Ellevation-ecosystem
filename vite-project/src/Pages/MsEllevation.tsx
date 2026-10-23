@@ -4,6 +4,8 @@ import banner2 from "../assets/banner2.avif";
 import LogoDark from "../assets/ms-ellevation-darkmode-logo.png";
 import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
 import emailjs from "@emailjs/browser";
+import homeImage from "../assets/homeimg1.jpeg";
+import aboutImage from "../assets/aboutimg1.jpeg";
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -102,8 +104,8 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
 // `bannerBg` style below) so headline/body text stays readable no matter how
 // bright or busy the underlying photo is.
 const BANNER_IMAGES = {
-  home: "https://images.unsplash.com/photo-1495837174058-628aafc7d610?auto=format&fit=crop&w=1920&q=80",       // women rising, hands up at sunset
-  about: "https://images.unsplash.com/photo-1636986905406-758b0e280f49?auto=format&fit=crop&w=1920&q=80",      // circle of hands — community & sisterhood
+  home: homeImage,
+  about: aboutImage,      // circle of hands — community & sisterhood
   journey: "https://images.unsplash.com/photo-1607748838605-ebcbe8f15772?auto=format&fit=crop&w=1920&q=80",    // group on steps — path & progression
   programs: "https://images.unsplash.com/photo-1707409066859-a90674383d19?auto=format&fit=crop&w=1920&q=80",   // women together — programs & growth
   membership: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1920&q=80", // women collaborating — membership community

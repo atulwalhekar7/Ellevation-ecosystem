@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 
-import img1 from "../assets/image1.jpg";
-import img2 from "../assets/image2.jpg";
-import img3 from "../assets/image3.jpg";
-import img4 from "../assets/image4.jpg";
-import img5 from "../assets/image5.jpg";
-import img6 from "../assets/image6.jpg";
+import img1 from "../assets/img1.jpeg";
+import img2 from "../assets/img2.jpeg";
+import img3 from "../assets/img3.jpeg";
+import img4 from "../assets/img4.jpeg";
+import img5 from "../assets/img5.jpeg";
+import img6 from "../assets/img6.jpeg";
 // TODO: apni asli image yahan daalo (jaisa AboutPage.tsx mein aboutBg use hua hai)
 
 // ── Path card logos — swap these four filenames/paths for your real assets ──

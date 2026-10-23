@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, type CSSProperties, type RefObject } from "react";
 import aboutBg from "../assets/about1-image.jpg";
 
-import img1 from "../assets/img1.jpg";
-import img2 from "../assets/img2.jpg";
-import img3 from "../assets/img3.jpg";
-import img4 from "../assets/img4.jpg";
+import img1 from "../assets/about1.jpeg";
+import img2 from "../assets/about2.jpg";
+import img3 from "../assets/about3.jpeg"
+import img4 from "../assets/about4.jpeg";
 import { Link } from "react-router-dom";
 
 /* ── helpers ── */
