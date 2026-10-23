@@ -23,6 +23,7 @@ import OnboardingForm from "./Pages/onboarding-form";
 
 
 import ScrollToUp from "./Components/ScrollToTop";
+import FeedbackComplaintPage from './Components/FeedbackComplaintPage';
 
 function App() {
   const { pathname } = useLocation();
