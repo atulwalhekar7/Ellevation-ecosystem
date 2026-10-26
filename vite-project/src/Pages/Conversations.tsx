@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
-import heroBg from "../assets/Conversation.jpeg"; // Single banner background image
+import heroBg from "../assets/Conversation.jpeg";
+import { submitEnquiry } from "../Emailjs/submitEnquiry";
 
 /* ── helpers ── */
 function useInView(threshold = 0.15) {
@@ -184,7 +185,8 @@ function Hero() {
           </h1>
 
           <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 18, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
-Share your personal or professional journey through video, audio, writing, or digital art to inspire women across Australia.          </p>
+            Share your personal or professional journey through video, audio, writing, or digital art to inspire women across Australia.
+          </p>
 
           <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <button
@@ -204,26 +206,26 @@ Share your personal or professional journey through video, audio, writing, or di
             >
               Submit Your Story →
             </button>
-          <Link
-  to="/get-involved/join"
-  onMouseEnter={() => setDarkHov(true)}
-  onMouseLeave={() => setDarkHov(false)}
-  style={{
-    display: "inline-flex", alignItems: "center", gap: 8,
-    padding: "14px 28px", borderRadius: 14,
-    background: "#D7B264",
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
-    border: "1.5px solid rgba(255,255,255,0.3)",
-    color: "#fff", fontFamily: "'Montserrat',sans-serif",
-    fontWeight: 600, fontSize: 14, cursor: "pointer",
-    textDecoration: "none",
-    transform: darkHov ? "translateY(-2px)" : "translateY(0)",
-    transition: "transform 0.2s",
-  }}
->
-  Explore Conversations →
-</Link>
+            <Link
+              to="/get-involved/join"
+              onMouseEnter={() => setDarkHov(true)}
+              onMouseLeave={() => setDarkHov(false)}
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                padding: "14px 28px", borderRadius: 14,
+                background: "#D7B264",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                border: "1.5px solid rgba(255,255,255,0.3)",
+                color: "#fff", fontFamily: "'Montserrat',sans-serif",
+                fontWeight: 600, fontSize: 14, cursor: "pointer",
+                textDecoration: "none",
+                transform: darkHov ? "translateY(-2px)" : "translateY(0)",
+                transition: "transform 0.2s",
+              }}
+            >
+              Explore Conversations →
+            </Link>
           </div>
         </div>
       </div>
@@ -238,7 +240,7 @@ function VisionSection() {
   const h = useInView(0.15);
 
   return (
-    <section className="about-vision" style={{ background: "#linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px", textAlign: "center" }}>
+    <section className="about-vision" style={{ background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", padding: "40px 24px 100px", textAlign: "center" }}>
       <div style={{ maxWidth: 740, margin: "0 auto" }}>
         <div ref={h.ref} style={fade(h.inView, 0)}>
           <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
@@ -344,8 +346,7 @@ function ConversationSection() {
         <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>Ellevation Conversations</p>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto", justifyContent: "center" }}>
-{conversationContent.map((item, i) => <ConversationCard key={i} item={item} />)}
-
+        {conversationContent.map((item, i) => <ConversationCard key={i} item={item} />)}
       </div>
       <SocialFollowRow />
     </section>
@@ -393,8 +394,7 @@ function FormatsSection() {
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>We Welcome Stories in Many Forms</h2>
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1140, margin: "0 auto", justifyContent: "center" }}>
-{submissionFormats.map((item) => <FormatCard key={item.title} item={item} />)}
-
+        {submissionFormats.map((item) => <FormatCard key={item.title} item={item} />)}
       </div>
     </section>
   );
@@ -460,6 +460,7 @@ function StorySubmissionSection() {
   const [form, setForm] = useState<StoryFormState>(initialStoryForm);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
   const [focusField, setFocusField] = useState<string | null>(null);
 
   const isLinkFormat = form.format === "Link to Hosted Media";
@@ -480,10 +481,38 @@ function StorySubmissionSection() {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    setSubmitted(true);
+
+    setSending(true);
+    try {
+      await submitEnquiry({
+        brand: "ms",
+        formTitle: "Story Submission",
+        itemLabel: "Story Title",
+        itemName: form.title,
+        formSource: "Ms. Ellevation — Ellevation Conversations",
+        fields: {
+          "Full Name": form.anonymous ? "Anonymous (requested)" : form.name,
+          "Email": form.email,
+          "Share Anonymously": form.anonymous ? "Yes" : "No",
+          "Format": form.format,
+          "Story": form.story,
+          "Media Link": form.link,
+          "Attached File": form.file
+            ? `${form.file.name} (file not uploaded, please ask the sender)`
+            : "",
+          "Consent to Share": form.consent ? "Yes" : "No",
+        },
+      });
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Story submission error:", err);
+      alert(`Your story could not be sent. Please try again.\n\nError: ${err?.text || err?.message || "Unknown error"}`);
+    } finally {
+      setSending(false);
+    }
   };
 
   const resetForm = () => {
@@ -538,13 +567,14 @@ function StorySubmissionSection() {
                 Your story has been received. Our team will be in touch before anything is shared publicly.
               </p>
               <button
+                type="button"
                 onClick={resetForm}
                 className="story-reset-btn"
                 style={{
                   padding: "14px 28px", borderRadius: 14, border: "1.5px solid rgba(124, 92, 191, 0.3)",
                   background: "transparent", color: "#4B1E56", fontFamily: "'Montserrat',sans-serif",
                   fontWeight: 600, fontSize: 14, letterSpacing: "0.05em", textTransform: "uppercase",
-                  cursor: "pointer", transition: "all 0.2s ease"
+                  cursor: "pointer", transition: "all 0.2s ease",
                 }}
               >
                 Submit Another Story
@@ -693,6 +723,9 @@ function StorySubmissionSection() {
                   onChange={(e) => update("file", e.target.files?.[0] ?? null)}
                   style={{ display: "none" }}
                 />
+                <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, color: "#8a5a97", marginTop: 8, lineHeight: 1.5 }}>
+                  For large audio, video or photo files, please paste a Google Drive, Dropbox or YouTube link below.
+                </p>
               </div>
 
               {!isLinkFormat && (
@@ -721,22 +754,24 @@ function StorySubmissionSection() {
                   style={{ width: 18, height: 18, marginTop: 2, accentColor: "#4B1E56", cursor: "pointer" }}
                 />
                 <label htmlFor="consent" className="story-check-label" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, color: "#554866", lineHeight: 1.6, cursor: "pointer" }}>
-I give Ms. Ellevation permission to share my story and any attached media or linked content across the full Ms. Ellevation and Ellevation Ecosystem— including this website, Ellevation Hub, our social media channels, newsletters, and community events.
+                  I give Ms. Ellevation permission to share my story and any attached media or linked content across the full Ms. Ellevation and Ellevation Ecosystem— including this website, Ellevation Hub, our social media channels, newsletters, and community events.
                 </label>
               </div>
               {errors.consent && <p style={{ color: "#e11d48", fontSize: 12, marginTop: -20, marginBottom: 20, fontFamily: "'Montserrat',sans-serif" }}>Please confirm your consent before submitting.</p>}
 
               <button
                 type="submit"
+                disabled={sending}
                 style={{
                   width: "100%", padding: "15px 26px", borderRadius: 14, border: "none",
-                  background: "#D7B264",
-                  color: "#fff", fontFamily: "'Montserrat',sans-serif",
-                  fontWeight: 700, fontSize: 14, letterSpacing: "0.04em", cursor: "pointer",
+                  background: "#D7B264", color: "#fff", fontFamily: "'Montserrat',sans-serif",
+                  fontWeight: 700, fontSize: 14, letterSpacing: "0.04em",
+                  cursor: sending ? "not-allowed" : "pointer",
+                  opacity: sending ? 0.7 : 1,
                   boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
                 }}
               >
-                Submit Your Story →
+                {sending ? "Sending..." : "Submit Your Story →"}
               </button>
             </form>
           )}
@@ -759,7 +794,7 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
         padding: "14px 28px",
         borderRadius: 14,
         border: primary ? "none" : "1.5px solid rgba(255, 255, 255, 0.3)",
-        background:"#D7B264",
+        background: "#D7B264",
         backdropFilter: "blur(10px)",
         WebkitBackdropFilter: "blur(10px)",
         color: "#ffffff",
@@ -781,28 +816,28 @@ function CTABtn({ label, primary }: { label: string; primary: boolean }) {
 function CTASection() {
   const { ref, inView } = useInView(0.2);
   return (
-    <section 
+    <section
       className="about-cta"
-      style={{ 
-        background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)", 
-        padding: "100px 24px", 
-        textAlign: "center", 
-        position: "relative", 
-        overflow: "hidden" 
+      style={{
+        background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)",
+        padding: "100px 24px",
+        textAlign: "center",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <div className="blob cta-blob-1" />
       <div className="blob cta-blob-2" />
       <div className="cta-shimmer" />
       <div ref={ref} style={{ position: "relative", zIndex: 1 }}>
-        <h2 
-          style={{ 
+        <h2
+          style={{
             ...fade(inView, 0),
-            fontFamily: "'Astrid Regular', serif", 
-            fontSize: "clamp(38px,6vw,60px)", 
-            fontWeight: 700, 
-            color: "#4B1E56", 
-            margin: "0 0 40px" 
+            fontFamily: "'Astrid Regular', serif",
+            fontSize: "clamp(38px,6vw,60px)",
+            fontWeight: 700,
+            color: "#4B1E56",
+            margin: "0 0 40px",
           }}
         >
           Join Our  <span style={{ color: "#EFBF68" }}>Ecosystem</span>
@@ -824,8 +859,7 @@ function CTASection() {
    MAIN INTERFACE COMPONENT EXPORT
 ══════════════════════════════════════ */
 export default function ConversationsPage() {
-
-useEffect(() => {
+  useEffect(() => {
     document.title = "Ellevation Conversations | Share Your Story";
 
     const description =
@@ -847,8 +881,6 @@ useEffect(() => {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
 
-        /* Astrid Regular is a licensed/custom display font (not on Google Fonts).
-           Replace the src url below with the path to your actual font file. */
         @font-face {
           font-family: 'Astrid Regular';
           src: url('/fonts/AstridRegular.woff2') format('woff2'),
@@ -900,43 +932,31 @@ useEffect(() => {
           .about-submit form > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
         }
 
-        /* ═══════════════════════════════════════════════════
-           DARK MODE — matched to Connect page's theme:
-           body #0f0a1a · panels #140a1a / #1a1226
-           borders rgba(155,109,190,0.2)
-           headings #f3ebff · body text #b8a8c8
-           labels #d8ccf4 · inputs #1f172e, focus #a78bfa
-           ═══════════════════════════════════════════════════ */
+        /* ═══════════ DARK MODE ═══════════ */
         [data-theme="dark"] body { background: #0f0a1a !important; }
 
-        /* Hero overlay deepens like Connect's hero */
         [data-theme="dark"] .about-hero .hero-overlay {
           background: linear-gradient(100deg, rgba(10,5,16,0.88) 0%, rgba(10,5,16,0.6) 100%) !important;
         }
 
-        /* Section backgrounds */
         [data-theme="dark"] .about-vision { background: #0f0a1a !important; }
         [data-theme="dark"] .about-vmv { background: linear-gradient(180deg, #0f0a1a 0%, #140a1a 100%) !important; }
         [data-theme="dark"] .about-who-we-serve { background: linear-gradient(180deg, #140a1a 0%, #0f0a1a 100%) !important; }
         [data-theme="dark"] .about-submit { background: #0f0a1a !important; }
         [data-theme="dark"] .about-cta { background: linear-gradient(180deg, #140a1a 0%, #0f0a1a 100%) !important; }
 
-        /* Headings */
         [data-theme="dark"] .about-vision h2,
         [data-theme="dark"] .about-submit h2,
         [data-theme="dark"] .about-who-we-serve h2,
         [data-theme="dark"] .about-vmv h2,
         [data-theme="dark"] .story-thankyou-title { color: #f3ebff !important; }
 
-        /* Eyebrow labels */
         [data-theme="dark"] .section-eyebrow { color: #d8ccf4 !important; }
 
-        /* Body copy */
         [data-theme="dark"] .about-vision p,
         [data-theme="dark"] .about-submit p,
         [data-theme="dark"] .story-thankyou-body { color: #b8a8c8 !important; }
 
-        /* Conversation cards */
         [data-theme="dark"] .conversation-card {
           background: #1a1226 !important;
           border-color: rgba(155, 109, 190, 0.2) !important;
@@ -944,7 +964,6 @@ useEffect(() => {
         [data-theme="dark"] .conversation-card-title { color: #f3ebff !important; }
         [data-theme="dark"] .conversation-card-body { color: #b8a8c8 !important; }
 
-        /* Format cards */
         [data-theme="dark"] .format-card {
           background: #1a1226 !important;
           border-color: rgba(155, 109, 190, 0.2) !important;
@@ -952,7 +971,6 @@ useEffect(() => {
         [data-theme="dark"] .format-card-title { color: #f3ebff !important; }
         [data-theme="dark"] .format-card-body { color: #b8a8c8 !important; }
 
-        /* Social row */
         [data-theme="dark"] .social-follow-label { color: #d8ccf4 !important; }
         [data-theme="dark"] .social-icon-link {
           background: #1a1226 !important;
@@ -960,7 +978,6 @@ useEffect(() => {
           color: #b8a8c8 !important;
         }
 
-        /* Story submission wrapper card */
         [data-theme="dark"] .story-form-wrapper {
           background: #1a1226 !important;
           border-color: rgba(155, 109, 190, 0.2) !important;
@@ -1003,13 +1020,11 @@ useEffect(() => {
           border-color: rgba(155,109,190,0.3) !important;
         }
 
-        /* CTA secondary button */
         [data-theme="dark"] button[style*="transparent"] { color: #ffffff !important; border-color: #ffffff !important; }
       `}</style>
 
       <Hero />
       <VisionSection />
-      {/* <RepublicanSection /> */}
       <ConversationSection />
       <FormatsSection />
       <StorySubmissionSection />

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import banner3 from "../assets/banner3.avif";
+import { submitEnquiry } from "../Emailjs/submitEnquiry";
 
 function useInView(threshold = 0.1) {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,6 +35,51 @@ export default function EllevationContact() {
 
   const scrollToForm = () =>
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const [sending, setSending] = useState(false);
+const [submitted, setSubmitted] = useState(false);
+
+const TOPIC_LABELS: Record<string, string> = {
+  join: "Join the community",
+  partner: "Partnership enquiry",
+  events: "Events & retreats",
+  general: "General question",
+};
+
+const handleSend = async () => {
+  if (!form.firstName.trim() || !form.email.trim() || !form.message.trim()) {
+    alert("Please fill in your first name, email and message.");
+    return;
+  }
+  if (!/^\S+@\S+\.\S+$/.test(form.email)) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
+  setSending(true);
+  try {
+await submitEnquiry({
+        brand: "ellevation",
+      formTitle: "Contact Enquiry",
+      itemLabel: "Topic",
+      itemName: TOPIC_LABELS[form.topic] || "Not selected",
+      formSource: "Ellevation — Contact Us",
+      fields: {
+        "First Name": form.firstName,
+        "Last Name": form.lastName,
+        "Email": form.email,
+        "Phone": form.phone,
+        "Message": form.message,
+      },
+    });
+    setSubmitted(true);
+    setForm({ firstName: "", lastName: "", email: "", phone: "", topic: "", message: "" });
+  } catch (err: any) {
+    console.error("Contact form error:", err);
+    alert(`Your message could not be sent. Please try again.\n\nError: ${err?.text || err?.message || "Unknown error"}`);
+  } finally {
+    setSending(false);
+  }
+};
 
   return (
     <>
@@ -457,29 +503,47 @@ export default function EllevationContact() {
                 </div>
 
                 {/* Submit */}
-                <button
-                  type="button"
-                  onMouseEnter={() => setSendHovered(true)}
-                  onMouseLeave={() => setSendHovered(false)}
-                  style={{
-                    width: "100%",
-                    padding: "15px 26px",
-                    borderRadius: 14,
-                    border: "none",
-                    background: "#D7B264",
-                    color: "#fff",
-                    fontFamily: "'Montserrat', sans-serif",
-                    fontWeight: 700,
-                    fontSize: 14,
-                    letterSpacing: "0.04em",
-                    cursor: "pointer",
-                    boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
-                    transform: sendHovered ? "translateY(-2px)" : "translateY(0)",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                  }}
-                >
-                  Send Message →
-                </button>
+              {/* Submit */}
+<button
+  type="button"
+  disabled={sending}
+  onClick={handleSend}
+  onMouseEnter={() => setSendHovered(true)}
+  onMouseLeave={() => setSendHovered(false)}
+  style={{
+    width: "100%",
+    padding: "15px 26px",
+    borderRadius: 14,
+    border: "none",
+    background: "#D7B264",
+    color: "#fff",
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 700,
+    fontSize: 14,
+    letterSpacing: "0.04em",
+    cursor: sending ? "not-allowed" : "pointer",
+    opacity: sending ? 0.7 : 1,
+    boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
+    transform: sendHovered ? "translateY(-2px)" : "translateY(0)",
+    transition: "transform 0.2s, box-shadow 0.2s",
+  }}
+>
+  {sending ? "Sending..." : "Send Message →"}
+</button>
+
+{submitted && (
+  <p
+    style={{
+      textAlign: "center",
+      color: "#4B1E56",
+      fontFamily: "'Montserrat', sans-serif",
+      fontSize: 15,
+      marginTop: 4,
+    }}
+  >
+    ✓ Thank you! Your message has been sent. We'll be in touch soon.
+  </p>
+)}
               </div>
             </div>
           </div>

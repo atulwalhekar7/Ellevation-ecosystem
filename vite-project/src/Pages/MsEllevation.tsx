@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import banner2 from "../assets/banner2.avif";
 import LogoDark from "../assets/ms-ellevation-darkmode-logo.png";
 import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
-import emailjs from "@emailjs/browser";
+import { submitEnquiry } from "../Emailjs/submitEnquiry"; 
 import homeImage from "../assets/homeimg1.jpeg";
 import aboutImage from "../assets/aboutimg1.jpeg";
 import { submitRegistration } from "../Emailjs/submitRegistration";
@@ -1863,57 +1863,43 @@ function JoinPage({ nav }: { nav: NavFn }) {
     if (errs[field as keyof FormErrors]) setErrs(prev => ({ ...prev, [field]: undefined }));
   };
 
-  const handleSubmit = async () => {
-    const e = validateForm(form);
-    if (Object.keys(e).length > 0) {
-      setErrs(e);
-      formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior: "smooth", block: "center" });
-      return;
-    }
+const handleSubmit = async () => {
+  const e = validateForm(form);
+  if (Object.keys(e).length > 0) {
+    setErrs(e);
+    formRef.current?.querySelector("[data-error]")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
 
-    // If they came via a membership plan, keep the tier in the details
-    const detail = tier ? `${form.interest} — ${TIER_META[tier].label} Membership` : form.interest;
-
-    const templateParams = {
-      form_title: "New Ellevation Join the Community Enquiry",
-      ms_display: "block",
-      hub_display: "none",
-      subject_detail: detail,
-      form_source: "Ellevation — Join the Community",
-      logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
-
-      membership_tier: detail,
-      first_name: form.firstName,
-      last_name: form.lastName,
-      email: form.email,
-      phone: form.phone || "",
-
-      location: form.location,
-      profession: form.profession,
-      referral: form.referral,
-      goals: form.goals,
-
-      purpose: form.interest,
-      industry: "",
-      notes: "",
-
-      enquiry_type: form.interest,
-      organization: "",
-      message: "",
-    };
-
-    setSending(true);
-    try {
-      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
-      setSubmitted(true);
-      setForm(emptyForm(defaultInterest));
-    } catch (error) {
-      console.error("EmailJS FAILED:", error);
-      alert("Your submission could not be sent. Please try again.");
-    } finally {
-      setSending(false);
-    }
-  };
+  setSending(true);
+  try {
+   await submitEnquiry({          // ← was submitRegistration
+  brand: "ms",
+  formTitle: "Start Your Journey - Join the Community",
+  itemLabel: "Interest",
+  itemName: form.interest,
+  formSource: "Ms. Ellevation — Start Your Journey",
+  fields: {
+    "First Name": form.firstName,
+    "Last Name": form.lastName,
+    "Email": form.email,
+    "Phone": form.phone,
+    "Membership Tier": tier ? `${TIER_META[tier].label} Membership` : "",
+    "Location": form.location,
+    "Profession / Organisation": form.profession,
+    "How They Heard About Us": form.referral,
+    "Message": form.goals,
+  },
+});
+    setSubmitted(true);
+    setForm(emptyForm(defaultInterest));
+  } catch (error: any) {
+    console.error("Join form error:", error);
+    alert(`Your submission could not be sent. Please try again.\n\nError: ${error?.text || error?.message || "Unknown error"}`);
+  } finally {
+    setSending(false);
+  }
+};
 
   const accent = tier ? TIER_META[tier].color : "#4B1E56";
 
