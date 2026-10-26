@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { submitRegistration } from "../Emailjs/submitRegistration";
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 
@@ -206,10 +207,39 @@ function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegist
    event's own registration page/form. */
 function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [attendees, setAttendees] = useState("1");
 
-  const handleSubmit = (ev: React.FormEvent) => {
+  const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    try {
+      await submitRegistration({
+        brand: "ellevation",
+        formTitle: "Event Registration",
+        itemLabel: "Event",
+        itemName: event.title,
+        formSource: "Ellevation — Event Registration",
+        fields: {
+          "Full Name": name,
+          "Email": email,
+          "Phone": phone,
+          "Attendees": attendees,
+          "Date": `${event.day} ${event.month}`,
+          "Location": event.location,
+          "Price": event.price,
+        },
+      });
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Event registration error:", err);
+      alert(`Your registration could not be sent. Please try again.\n\nError: ${err?.text || err?.message || "Unknown error"}`);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -227,12 +257,7 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
             <p className="hub-events-modal-sub" style={evs.modalSub}>
               Your quick registration for <strong>{event.title}</strong> has been received. Continue below to complete your official spot on the event's registration page.
             </p>
-            <a
-              href={event.registrationUrl}
-              target="_blank"
-              rel="noreferrer"
-              style={evs.modalCtaLink}
-            >
+            <a href={event.registrationUrl} target="_blank" rel="noreferrer" style={evs.modalCtaLink}>
               CONTINUE TO FULL REGISTRATION →
             </a>
           </div>
@@ -243,16 +268,21 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
             <p className="hub-events-modal-sub" style={evs.modalSub}>Quick registration — we'll confirm your spot and send you the full event details.</p>
 
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
-              <input className="form-input" required placeholder="Full Name" />
-              <input className="form-input" type="email" required placeholder="Email Address" />
-              <input className="form-input" type="tel" placeholder="Phone Number (optional)" />
-              <select className="form-input" defaultValue="1">
+              <input className="form-input" required placeholder="Full Name"
+                value={name} onChange={e => setName(e.target.value)} />
+              <input className="form-input" type="email" required placeholder="Email Address"
+                value={email} onChange={e => setEmail(e.target.value)} />
+              <input className="form-input" type="tel" placeholder="Phone Number (optional)"
+                value={phone} onChange={e => setPhone(e.target.value)} />
+              <select className="form-input" value={attendees} onChange={e => setAttendees(e.target.value)}>
                 <option value="1">1 attendee</option>
                 <option value="2">2 attendees</option>
                 <option value="3">3 attendees</option>
-                <option value="4">4+ attendees</option>
+                <option value="4+">4+ attendees</option>
               </select>
-              <button type="submit" style={evs.modalSubmitBtn}>SUBMIT QUICK REGISTRATION</button>
+              <button type="submit" disabled={sending} style={evs.modalSubmitBtn}>
+                {sending ? "SENDING..." : "SUBMIT QUICK REGISTRATION"}
+              </button>
             </form>
           </>
         )}

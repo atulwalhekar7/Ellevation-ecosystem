@@ -442,24 +442,36 @@ export default function EllevationFooter() {
               </Link>
             </div>
 
-            <h2 className="footer-tagline">One Ecosystem. Two Pathways. Shared Impact.</h2>
+           <h2 className="footer-tagline">One Ecosystem. Two Pathways. Shared Impact.</h2>
 
-            <p
-              className="footer-description"
-              style={{
-                fontSize: "18px",
-                lineHeight: 1.7,
-                color: "#cbd5e1",
-                fontWeight: 400,
-                margin: "0 0 36px 0",
-              }}
-            >
-              Ellevation Hub and Ms Ellevation are part of a community-led ecosystem creating
-              pathways into confidence, wellbeing, leadership, opportunity and community impact.
-              We empower culturally and linguistically diverse (CALD) communities, women, families
-              and future leaders to grow, lead and thrive while staying connected to their
-              identity, culture and lived experience.
-            </p>
+<p
+  className="footer-description"
+  style={{
+    fontSize: "18px",
+    lineHeight: 1.7,
+    color: "#cbd5e1",
+    fontWeight: 400,
+    margin: "0 0 16px 0",
+  }}
+>
+  Ellevation Hub and Ms Ellevation are part of a community-led ecosystem creating
+  pathways to confidence, wellbeing, leadership, opportunity, and community impact.
+</p>
+
+<p
+  className="footer-description"
+  style={{
+    fontSize: "18px",
+    lineHeight: 1.7,
+    color: "#cbd5e1",
+    fontWeight: 400,
+    margin: "0 0 36px 0",
+  }}
+>
+  We are especially passionate about supporting culturally and linguistically diverse
+  (CALD) communities while welcoming all who align with our values and desire to grow,
+  connect, lead, and make a positive impact.
+</p>
 
             <div className="footer-brand-actions" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <Link to={JOIN_ROUTE} className="btn-purple">

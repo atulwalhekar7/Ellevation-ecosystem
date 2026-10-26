@@ -5,6 +5,7 @@ import banner2 from "../assets/hubimg1.jpeg";
 import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
 import emailjs from "@emailjs/browser";
+import { submitRegistration } from "../Emailjs/submitRegistration";
 
 
 /* ── Animation Helpers (used by the Home page, Connect form + About page) ── */
@@ -1986,7 +1987,9 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
 }
 
 /* ── Opportunity listing card + quick-apply flow ── */
-function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply: (o: OpportunityListing) => void }) {
+function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply: (o: OpportunityListing) => void })
+ {
+  
   return (
     <div className="hub-opportunities-list-card" style={op.listCard}>
       <div style={op.listBadgeRow}>
@@ -2009,10 +2012,40 @@ function OpportunityListingCard({ o, onApply }: { o: OpportunityListing; onApply
    EmailJS; wire it like MembershipSection if you want these in your inbox. */
 function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListing; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    try {
+      await submitRegistration({
+        brand: "hub",
+        formTitle: "Opportunity Application",
+        itemLabel: "Opportunity",
+        itemName: listing.title,
+        formSource: "Ellevation Hub — Opportunity Application",
+        fields: {
+          "Full Name": name,
+          "Email": email,
+          "Phone": phone,
+          "Message": message,
+          "Organisation": listing.org,
+          "Type": listing.type,
+          "Location": listing.location,
+          "Deadline": listing.deadline,
+        },
+      });
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Hub opportunity error:", err);
+      alert(`Your application could not be sent. Please try again.\n\nError: ${err?.text || err?.message || "Unknown error"}`);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -2046,11 +2079,39 @@ function QuickApplicationModal({ listing, onClose }: { listing: OpportunityListi
             <p style={op.modalSub}>Quick expression of interest — we'll follow up with next steps for this opportunity.</p>
 
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
-              <input className="form-input" required placeholder="Full Name" />
-              <input className="form-input" type="email" required placeholder="Email Address" />
-              <input className="form-input" type="tel" placeholder="Phone Number (optional)" />
-              <textarea className="form-input" rows={3} style={{ resize: "vertical" }} placeholder="Anything you'd like to share? (optional)" />
-              <button type="submit" style={op.modalSubmitBtn}>SUBMIT EXPRESSION OF INTEREST</button>
+              <input
+                className="form-input"
+                required
+                placeholder="Full Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+              <input
+                className="form-input"
+                type="email"
+                required
+                placeholder="Email Address"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <input
+                className="form-input"
+                type="tel"
+                placeholder="Phone Number (optional)"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+              />
+              <textarea
+                className="form-input"
+                rows={3}
+                style={{ resize: "vertical" }}
+                placeholder="Anything you'd like to share? (optional)"
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+              />
+              <button type="submit" disabled={sending} style={op.modalSubmitBtn}>
+                {sending ? "SENDING..." : "SUBMIT EXPRESSION OF INTEREST"}
+              </button>
             </form>
           </>
         )}
@@ -2163,11 +2224,41 @@ function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegist
 /* Quick Registration modal — demo-only interest capture, not wired to EmailJS. */
 function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose: () => void }) {
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [attendees, setAttendees] = useState("1");
 
-  const handleSubmit = (ev: React.FormEvent) => {
+  const handleSubmit = async (ev: React.FormEvent) => {
     ev.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    try {
+      await submitRegistration({
+        brand: "hub",
+        formTitle: "Event Registration",
+        itemLabel: "Event",
+        itemName: event.title,
+        formSource: "Ellevation Hub — Event Registration",
+        fields: {
+          "Full Name": name,
+          "Email": email,
+          "Phone": phone,
+          "Attendees": attendees,
+          "Date": `${event.day} ${event.month}`,
+          "Location": event.location,
+          "Price": event.price,
+        },
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error(err);
+      alert("Your registration could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
+   
 
   return (
     <div
@@ -2199,18 +2290,23 @@ function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose:
             <h3 className="hub-events-card-title" style={evs.modalTitle}>{event.title}</h3>
             <p style={evs.modalSub}>Quick registration — we'll confirm your spot and send you the full event details.</p>
 
-            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
-              <input className="form-input" required placeholder="Full Name" />
-              <input className="form-input" type="email" required placeholder="Email Address" />
-              <input className="form-input" type="tel" placeholder="Phone Number (optional)" />
-              <select className="form-input" defaultValue="1">
-                <option value="1">1 attendee</option>
-                <option value="2">2 attendees</option>
-                <option value="3">3 attendees</option>
-                <option value="4">4+ attendees</option>
-              </select>
-              <button type="submit" style={evs.modalSubmitBtn}>SUBMIT QUICK REGISTRATION</button>
-            </form>
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
+  <input className="form-input" required placeholder="Full Name"
+    value={name} onChange={e => setName(e.target.value)} />
+  <input className="form-input" type="email" required placeholder="Email Address"
+    value={email} onChange={e => setEmail(e.target.value)} />
+  <input className="form-input" type="tel" placeholder="Phone Number (optional)"
+    value={phone} onChange={e => setPhone(e.target.value)} />
+  <select className="form-input" value={attendees} onChange={e => setAttendees(e.target.value)}>
+    <option value="1">1 attendee</option>
+    <option value="2">2 attendees</option>
+    <option value="3">3 attendees</option>
+    <option value="4+">4+ attendees</option>
+  </select>
+  <button type="submit" disabled={sending} style={evs.modalSubmitBtn}>
+    {sending ? "SENDING..." : "SUBMIT QUICK REGISTRATION"}
+  </button>
+</form>
           </>
         )}
       </div>
@@ -2788,43 +2884,23 @@ function RegisterSection() {
       alert("Please agree to the Privacy Policy and Terms & Conditions.");
       return;
     }
-
-    const nameParts = fullName.trim().split(/\s+/);
-    const firstName = nameParts[0] || "";
-    const lastName = nameParts.slice(1).join(" ") || "";
-    const label = REQUEST_LABELS[requestType];
-
-    const templateParams = {
-      form_title: `New Ellevation Hub - ${label}`,
-      ms_display: "none",
-      hub_display: "block",
-      subject_detail: `${label}: ${program}`,
-      form_source: `Ellevation Hub — ${label}`,
-      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
-
-      membership_tier: "",
-      first_name: firstName,
-      last_name: lastName,
-      email: emailAddress,
-      phone: phoneNumber || "",
-
-      location: "",
-      profession: "",
-      referral: "",
-      goals: "",
-
-      purpose: "",
-      industry: requestType === "support" ? supportArea : "",
-      notes: "",
-
-      enquiry_type: `${label} — ${program}`,
-      organization: organizationName || "",
-      message: messageBody || (requestType === "support" ? `Support needed: ${supportArea}` : "—"),
-    };
-
     setSending(true);
     try {
-      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
+      await submitRegistration({
+        brand: "hub",
+        formTitle: requestType === "register" ? "Program Registration" : "Support Request",
+        itemLabel: "Program",
+        itemName: program,
+        formSource: `Ellevation Hub — ${REQUEST_LABELS[requestType]}`,
+        fields: {
+          "Full Name": fullName,
+          "Email": emailAddress,
+          "Phone": phoneNumber,
+          "Organization": organizationName,
+          "Support Type": requestType === "support" ? supportArea : "",
+          "Message": messageBody,
+        },
+      });
       setSubmitted(true);
     } catch (error) {
       console.error("EmailJS FAILED:", error);
@@ -2833,6 +2909,7 @@ function RegisterSection() {
       setSending(false);
     }
   };
+  
 
   const tiles: { id: "register" | "support"; label: string; desc: string }[] = [
     { id: "register", label: "Register for a Program", desc: "Put my name down for the next upcoming program." },

@@ -6,6 +6,7 @@ import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
 import emailjs from "@emailjs/browser";
 import homeImage from "../assets/homeimg1.jpeg";
 import aboutImage from "../assets/aboutimg1.jpeg";
+import { submitRegistration } from "../Emailjs/submitRegistration";
 
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -2084,7 +2085,7 @@ function RegisterPage() {
     return e;
   };
 
-  const handleSubmit = async () => {
+    const handleSubmit = async () => {
     const e = validate(form);
     if (Object.keys(e).length > 0) {
       setErrs(e);
@@ -2092,41 +2093,28 @@ function RegisterPage() {
       return;
     }
 
-    const templateParams = {
-      form_title: "New Ms Ellevation Program Registration",
-      ms_display: "block",
-      hub_display: "none",
-      subject_detail: form.program,
-      form_source: "Ms. Ellevation — Program Registration",
-      logo_url: "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
-
-      membership_tier: `Program Registration: ${form.program}`,
-      first_name: form.firstName,
-      last_name: form.lastName,
-      email: form.email,
-      phone: form.phone || "",
-
-      location: form.location,
-      profession: "",
-      referral: "",
-      goals: form.notes || "—",
-
-      purpose: "",
-      industry: "",
-      notes: "",
-
-      enquiry_type: "",
-      organization: "",
-      message: "",
-    };
-
     setSending(true);
     try {
-      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, { publicKey: "Pu2wZN2ERnHjdboLI" });
+      await submitRegistration({
+        brand: "ms",
+        formTitle: "Program Registration",
+        itemLabel: "Program",
+        itemName: form.program,
+        formSource: "Ms. Ellevation — Program Registration",
+        fields: {
+          "First Name": form.firstName,
+          "Last Name": form.lastName,
+          "Email": form.email,
+          "Phone": form.phone,
+          "Location": form.location,
+          "Program": form.program,
+          "Notes": form.notes,
+        },
+      });
       setSubmitted(true);
-    } catch (error) {
-      console.error("EmailJS FAILED:", error);
-      alert("Your registration could not be sent. Please try again.");
+    } catch (error: any) {
+      console.error("Ms Ellevation registration error:", error);
+      alert(`Your registration could not be sent. Please try again.\n\nError: ${error?.text || error?.message || "Unknown error"}`);
     } finally {
       setSending(false);
     }
