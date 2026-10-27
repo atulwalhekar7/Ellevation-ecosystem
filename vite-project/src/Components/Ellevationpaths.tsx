@@ -34,10 +34,10 @@ const paths: Path[] = [
     eyebrow: "Community Ecosystem & Pathways",
     title: "Ellevation Hub",
     description:
-      "A dynamic membership network offering interconnected opportunity, professional alignment, and holistic wellbeing initiatives designed for the entire family unit.",
+      "A community-led ecosystem creating pathways to connection, opportunity, wellbeing, leadership, and growth for individuals, families, professionals, businesses, and community organisations.",
     features: [
-      "1:1 Consultation and Coaching",
-      "Children, Youth (5–16) & Men Programs",
+      "1:1 Consultation & Coaching",
+      "Children, Youth & Men's Programs",
       "Community Wellbeing & Shared Spaces",
       "Professional & Business Development",
     ],
@@ -48,13 +48,13 @@ const paths: Path[] = [
   },
   {
     eyebrow: "Women & Young Women Focus (17–25)",
-    title: "Ms Ellevation",
+    title: "Ms. Ellevation",
     description:
-      "Dedicated to building the modern woman. A focused space designed to cultivate authentic identity, deep character, unshakeable confidence, and strategic leadership.",
+      "A dedicated pathway for women and young women to discover who they are, find their voice, build confidence, and lead with purpose and impact.",
     features: [
       "Leadership Workshops",
-      "Mentorship (Identity, Confidence, Healing)",
-      "Women Speaking Events",
+      "Mentorship (Identity, Confidence & Healing)",
+      "Women's Speaking Events",
       "Curated Community Events",
     ],
     cta: "Explore Programs",
@@ -410,6 +410,14 @@ export default function EllevationPaths() {
           letter-spacing: -0.01em;
         }
 
+        .paths-header-subtext {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #554866;
+  margin: 16px 0 0;
+}
+
         /* ── Dynamic Layout Card ── */
         .path-card {
           background: rgba(255, 255, 255, 0.75);
@@ -628,6 +636,8 @@ export default function EllevationPaths() {
         [data-theme="dark"] .paths-section {
           background: linear-gradient(180deg, #0d0614 0%, #160d22 100%);
         }
+
+        
         [data-theme="dark"] .paths-header-title {
           color: #ffffff;
         }
@@ -687,6 +697,9 @@ export default function EllevationPaths() {
           }}
         >
           <h2 className="paths-header-title">Choose Your Ecosystem Path</h2>
+          <p className="paths-header-subtext">
+  Find the pathway that best supports your journey, goals, and stage of life.
+</p>
         </div>
 
         {/* Dynamic Cards Grid */}

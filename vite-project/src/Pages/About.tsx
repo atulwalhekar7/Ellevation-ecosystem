@@ -3,7 +3,7 @@ import aboutBg from "../assets/about1-image.jpg";
 
 import img1 from "../assets/about1.jpeg";
 import img2 from "../assets/about2.jpg";
-import img3 from "../assets/about3.jpeg"
+import img3 from "../assets/about3.jpeg";
 import img4 from "../assets/about4.jpeg";
 import { Link } from "react-router-dom";
 
@@ -24,8 +24,7 @@ function useInView(threshold = 0.15) {
   return { ref, inView };
 }
 
-// FIX: animation direction thi ulti (inView=true par translateY(30px) ho raha tha).
-// Ab normal fade-up hai: shuru mein neeche + invisible, phir upar aakar visible.
+// Normal fade-up: starts below + invisible, then moves up and becomes visible.
 function fade(inView: boolean, delay = 0): CSSProperties {
   return {
     opacity: inView ? 1 : 0,
@@ -36,46 +35,69 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 
 /* ── Who We Are data ── */
 const whoWeAreParagraphs = [
-  "Ellevation ecosystem was created to bridge the gap between potential and opportunity.",
-  "Across Australia, many individuals, families and communities possess the resilience, talent and ambition to succeed but often lack access to the networks, confidence, support systems and opportunities needed to move forward.",
-  "Ellevation brings these worlds together through one connected ecosystem that strengthens belonging, develops leadership, supports wellbeing and creates opportunities for long-term participation, contribution and growth.",
+  "Ellevation was created to bridge the gap between potential and opportunity.",
+  "Across Australia, many individuals, families, professionals, entrepreneurs, and communities possess the resilience, talent, and ambition to succeed but often lack access to the networks, confidence, support systems, and opportunities needed to move forward.",
+  "Through one connected ecosystem, Ellevation brings people, organisations, partnerships, and opportunities together to strengthen wellbeing, leadership, participation, and long-term growth.",
 ];
 const JOIN_ROUTE = "/get-involved/join";
 // Ecosystem Partner is a real Hub membership, so partners land on it preselected
 const PARTNER_ROUTE = `${JOIN_ROUTE}?path=hub&membership=partner`;
-const pipelineStages = ["Children", "Youth", "Women", "Men", "Families", "Community"];
 
+const pipelineStages = [
+  "Children",
+  "Youth",
+  "Women & Young Women",
+  "Men",
+  "Families",
+  "Professionals & Entrepreneurs",
+  "Community Organisations",
+];
+
+// text is an array so Mission can have two paragraphs
 const overviewCards = [
   {
-    label: "Mission",
-    text: "To create accessible, culturally grounded pathways that support culturally and linguistically diverse (CALD) communities to build confidence, develop leadership, strengthen wellbeing and access opportunities for long-term participation, contribution and impact.",
+    label: "Our Mission",
+    text: [
+      "To create accessible and culturally grounded pathways that build confidence, strengthen wellbeing, develop leadership, and expand opportunities for individuals, families, and communities.",
+      "We are especially passionate about supporting culturally and linguistically diverse (CALD) communities while fostering participation, contribution, and positive impact for all who engage with our ecosystem.",
+    ],
   },
   {
-    label: "Vision",
-    text: "A future where culturally and linguistically diverse communities thrive with confidence, leadership and opportunity while remaining connected to their identity, culture and lived experience.",
+    label: "Our Vision",
+    text: [
+      "A future where culturally and linguistically diverse (CALD) communities thrive with confidence, leadership, wellbeing, and opportunity while contributing to stronger, more connected communities for all.",
+    ],
   },
- {
-  label: "Core Model",
-  text: "Ellevation Hub builds the ecosystem — pathways, partnerships and opportunity for the wider community. Ms Ellevation builds the woman — her identity, confidence, leadership and wellbeing.",
-},
 ];
 
 /* ── Core Model data (detailed section) ── */
+// body is an array so each card can have multiple paragraphs
 const coreModel = [
- 
   {
     label: "Ellevation Hub",
     title: "Building the Ecosystem",
-    body: "Ellevation Hub focuses on pathways, partnerships and opportunity. The Hub connects businesses, professionals, entrepreneurs, community organisations and service providers to strengthen collaboration, visibility, employment pathways, entrepreneurship and community impact.",
-    tags: ["Partnerships", "Community Development", "Employment Pathways", "Entrepreneurship", "Visibility", "Strategic Collaboration"],
+    body: [
+      "Ellevation Hub creates pathways, partnerships, and opportunities that connect individuals, families, professionals, entrepreneurs, businesses, community organisations, and future leaders.",
+    ],
+    tags: [
+      "Partnerships",
+      "Community Development",
+      "Employment Pathways",
+      "Professional & Business Development",
+      "Entrepreneurship",
+      "Strategic Collaboration",
+    ],
     accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
-   {
-    label: "Ms Ellevation",
+  {
+    label: "Ms. Ellevation",
     title: "Building the Woman",
-    body: "Ms Ellevation focuses on women and young women, supporting identity, confidence, wellbeing, leadership and personal growth. Through mentoring, programs, events, community conversations and leadership opportunities, women are empowered to grow while remaining connected to their culture, values and lived experience.",
-    tags: ["Identity", "Confidence", "Leadership", "Wellbeing", "Community"],
+    body: [
+      "Ms. Ellevation is a dedicated pathway for women and young women (17–25) to discover who they are, find their voice, build confidence, and lead with purpose and impact.",
+      "Through mentoring, workshops, events, leadership opportunities, and meaningful connections, women are empowered to grow while remaining connected to their values, culture, and lived experiences.",
+    ],
+    tags: ["Identity", "Voice", "Confidence", "Leadership", "Wellbeing", "Community"],
     accent: "#4B1E56",
     bg: "rgba(255, 255, 255, 0.75)",
   },
@@ -85,34 +107,51 @@ const coreModel = [
 const whoWeServe = [
   {
     title: "Children",
-    body: "Building confidence, belonging and identity from an early age.",
+    body: "Building confidence, belonging, and identity from an early age.",
     icon: "❀",
   },
   {
     title: "Youth",
-    body: "Creating pathways into leadership, aspiration, education and opportunity.",
+    body: "Creating pathways into leadership, aspiration, education, and opportunity.",
     icon: "✦",
   },
   {
     title: "Women",
-    body: "Supporting confidence, wellbeing, leadership and personal growth.",
+    body: "Supporting identity, voice, confidence, wellbeing, leadership, and personal growth.",
     icon: "✿",
   },
   {
     title: "Men",
-    body: "Encouraging participation, allyship, wellbeing and positive community engagement.",
+    body: "Encouraging participation, wellbeing, allyship, and positive community engagement.",
     icon: "◎",
   },
   {
     title: "Families",
-    body: "Strengthening connection, resilience and community participation.",
+    body: "Strengthening connection, resilience, and community participation.",
     icon: "◈",
   },
   {
+    title: "Professionals & Entrepreneurs",
+    body: "Expanding visibility, leadership, networking, and opportunities for growth and impact.",
+    icon: "◆",
+  },
+  {
     title: "Community Organisations",
-    body: "Creating opportunities for collaboration, collective impact and shared growth.",
+    body: "Creating opportunities for collaboration, collective impact, and shared growth.",
     icon: "⬡",
   },
+];
+
+/* ── Founder story paragraphs ── */
+const founderParagraphs = [
+  "Ellevation is deeply connected to the story of its founder, Hannah Gongar.",
+  "Having experienced the impact of war as a child and later migrating from Africa to Australia, Hannah understands firsthand the challenges of starting over, navigating unfamiliar systems, and building a new life in a new country.",
+  "Her journey has been shaped by resilience, perseverance, and transformation. Through lived experience, community work, and supporting others to overcome barriers, she developed a deep passion for creating pathways that help people access confidence, connection, opportunity, and support.",
+  "In 2024, that vision gave birth to Ms. Ellevation, a platform dedicated to supporting women and young women in building identity, confidence, leadership, and voice.",
+  "As the community grew, so did the need. The conversations extended beyond women to children, youth, men, families, professionals, entrepreneurs, business owners, and community organisations seeking connection, opportunity, and collaboration.",
+  "In 2025, Ellevation Hub was established to create broader pathways, partnerships, and opportunities that support individuals, families, businesses, and communities.",
+  "By 2026, these initiatives evolved into the Ellevation Ecosystem, a connected community where people, organisations, and opportunities come together to strengthen confidence, wellbeing, leadership, opportunity, and community impact.",
+  "Today, Ellevation continues to create pathways that help people grow, connect, lead, and create lasting impact.",
 ];
 
 const slides = [
@@ -145,12 +184,12 @@ function Carousel() {
     return () => { if (timerRef.current !== null) clearInterval(timerRef.current); };
   }, []);
 
-useEffect(() => {
+  useEffect(() => {
     document.title = "Ellevation About Us | One Community. Endless Pathways";
 
     const metaDescription = document.querySelector('meta[name="description"]');
     const descriptionContent =
-      "Ellevation is a community-led ecosystem bridging the gap between potential and opportunity — supporting culturally and linguistically diverse communities to build confidence, leadership, wellbeing and lasting opportunity.";
+      "Ellevation is a community-led ecosystem where confidence, wellbeing, leadership, opportunity, and community impact come together, with a special passion for supporting CALD communities.";
 
     if (metaDescription) {
       metaDescription.setAttribute("content", descriptionContent);
@@ -234,23 +273,23 @@ useEffect(() => {
       </div>
 
       {/* Bottom float card */}
-     <div
-  className="elv-float-card-bottom"
-  style={{
-    position: "absolute", bottom: 0, left: -12,
-    width: 220, borderRadius: 18,
-    background: "#ffffff",
-    padding: "14px 18px",
-    boxShadow: "0 14px 34px rgba(124, 92, 191, 0.18)",
-    border: "1px solid rgba(124, 92, 191, 0.2)",
-    zIndex: 20,
-  }}
->
-       <div style={{ marginBottom: 8 }}><CrownIcon /></div>
-  <p style={{ fontSize: 14, lineHeight: 1.5, color: "#403452", fontWeight: 500, fontFamily: "'Montserrat',sans-serif", margin: 0 }}>
-    Mentoring, programs, events and community pathways.
-  </p>
-</div>
+      <div
+        className="elv-float-card-bottom"
+        style={{
+          position: "absolute", bottom: 0, left: -12,
+          width: 220, borderRadius: 18,
+          background: "#ffffff",
+          padding: "14px 18px",
+          boxShadow: "0 14px 34px rgba(124, 92, 191, 0.18)",
+          border: "1px solid rgba(124, 92, 191, 0.2)",
+          zIndex: 20,
+        }}
+      >
+        <div style={{ marginBottom: 8 }}><CrownIcon /></div>
+        <p style={{ fontSize: 14, lineHeight: 1.5, color: "#403452", fontWeight: 500, fontFamily: "'Montserrat',sans-serif", margin: 0 }}>
+          Mentoring, programs, events and community pathways.
+        </p>
+      </div>
     </div>
   );
 }
@@ -281,14 +320,14 @@ function Hero() {
       <div
         className="about-hero-grid"
         style={{
-        flex: 1,
-        maxWidth: 1200, margin: "0 auto", width: "100%",
-        padding: "80px 24px",
-        display: "grid",
-        gridTemplateColumns: "1fr 1.1fr",
-        gap: 48,
-        alignItems: "center",
-      }}>
+          flex: 1,
+          maxWidth: 1200, margin: "0 auto", width: "100%",
+          padding: "80px 24px",
+          display: "grid",
+          gridTemplateColumns: "1fr 1.1fr",
+          gap: 48,
+          alignItems: "center",
+        }}>
         <div style={{ opacity: visible ? 1 : 0, minWidth: 0 }}>
           <h1 className={visible ? "elv-animate-2" : ""} style={{
             fontFamily: "'Astrid Regular', serif",
@@ -299,61 +338,69 @@ function Hero() {
             One Community. <br />Endless <span style={{ color: "#EFBF68" }}>Pathways.</span>
           </h1>
 
-          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 18, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}>
-            Ellevation is a community-led ecosystem where identity, leadership and opportunity
-            come together. We support culturally and linguistically diverse (CALD) communities
-            to grow, connect and thrive while remaining grounded in their identity, culture and
-            lived experience. By connecting people, communities, organisations and opportunities, we create pathways into wellbeing, leadership, employment, entrepreneurship and community participation.
+          <p
+            className={visible ? "elv-animate-3" : ""}
+            style={{ fontSize: 18, fontFamily: "'Montserrat', sans-serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 16 }}
+          >
+            Ellevation is a community-led ecosystem where confidence, wellbeing, leadership,
+            opportunity, and community impact come together.
+          </p>
+          <p
+            className={visible ? "elv-animate-3" : ""}
+            style={{ fontSize: 18, fontFamily: "'Montserrat', sans-serif", lineHeight: 1.7, color: "#554866", maxWidth: 480, marginBottom: 36 }}
+          >
+            We are especially passionate about supporting culturally and linguistically diverse
+            (CALD) communities while creating opportunities for people to grow, connect, and thrive.
           </p>
 
           <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-           <Link
-  to="/get-involved/join"
-  onMouseEnter={() => setPinkHov(true)}
-  onMouseLeave={() => setPinkHov(false)}
-  style={{
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "14px 28px",
-    borderRadius: 14,
-    background: "#D7B264",
-    color: "#fff",
-    fontFamily: "'Montserrat'",
-    fontWeight: 600,
-    fontSize: 14,
-    textDecoration: "none",
-    boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
-    transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
-    transition: "transform 0.2s, box-shadow 0.2s",
-  }}
->
-  Join the Ecosystem →
-</Link>
+            <Link
+              to="/get-involved/join"
+              onMouseEnter={() => setPinkHov(true)}
+              onMouseLeave={() => setPinkHov(false)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "14px 28px",
+                borderRadius: 14,
+                background: "#D7B264",
+                color: "#fff",
+                fontFamily: "'Montserrat'",
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 4px 14px rgba(75, 30, 86, 0.25)",
+                transform: pinkHov ? "translateY(-2px)" : "translateY(0)",
+                transition: "transform 0.2s, box-shadow 0.2s",
+              }}
+            >
+              Join the Ecosystem →
+            </Link>
 
-<Link
-  to="/Connect"
-  onMouseEnter={() => setDarkHov(true)}
-  onMouseLeave={() => setDarkHov(false)}
-  style={{
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "14px 28px",
-    borderRadius: 14,
-    background: "#D7B264",
-    color: "#fff",
-    fontFamily: "'Montserrat', sans-serif",
-    fontWeight: 600,
-    fontSize: 14,
-    textDecoration: "none",
-    boxShadow: "0 4px 14px rgba(90, 63, 160, 0.2)",
-    transform: darkHov ? "translateY(-2px)" : "translateY(0)",
-    transition: "transform 0.2s, box-shadow 0.2s",
-  }}
->
-  Partner With Us →
-</Link>
+            <Link
+              to="/Connect"
+              onMouseEnter={() => setDarkHov(true)}
+              onMouseLeave={() => setDarkHov(false)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "14px 28px",
+                borderRadius: 14,
+                background: "#D7B264",
+                color: "#fff",
+                fontFamily: "'Montserrat', sans-serif",
+                fontWeight: 600,
+                fontSize: 14,
+                textDecoration: "none",
+                boxShadow: "0 4px 14px rgba(90, 63, 160, 0.2)",
+                transform: darkHov ? "translateY(-2px)" : "translateY(0)",
+                transition: "transform 0.2s, box-shadow 0.2s",
+              }}
+            >
+              Partner With Us →
+            </Link>
           </div>
         </div>
 
@@ -385,11 +432,10 @@ function OverviewCard({
       onMouseLeave={() => setHov(false)}
       style={{
         ...fade(inView, delay),
-        // FIX: yeh div ab seedha flex item hai (koi extra wrapper nahi),
-        // isliye parent ka default stretch teeno cards ko same height dega.
-        flex: "1 1 280px",
-        minWidth: 240,
-        maxWidth: 360,
+        // Direct flex item (no wrapper) so the parent's stretch keeps both cards the same height.
+        flex: "1 1 320px",
+        minWidth: 260,
+        maxWidth: 520,
         display: "flex",
         flexDirection: "column",
         background: "#ffffff",
@@ -410,12 +456,17 @@ function OverviewCard({
       }}>
         {item.label}
       </p>
-      <p style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65,
-        color: "#554866", margin: 0,
-      }}>
-        {item.text}
-      </p>
+      {item.text.map((t, i) => (
+        <p
+          key={i}
+          style={{
+            fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65,
+            color: "#554866", margin: i === item.text.length - 1 ? 0 : "0 0 14px",
+          }}
+        >
+          {t}
+        </p>
+      ))}
     </div>
   );
 }
@@ -426,8 +477,7 @@ function WhoWeAreSection() {
   const pipeline = useInView(0.15);
   const card0 = useInView(0.15);
   const card1 = useInView(0.15);
-  const card2 = useInView(0.15);
-  const cardRefs = [card0, card1, card2];
+  const cardRefs = [card0, card1];
 
   return (
     <section
@@ -474,7 +524,7 @@ function WhoWeAreSection() {
           ))}
         </div>
 
-        {/* Pipeline */}
+        {/* Audience pathway bar */}
         <div
           ref={pipeline.ref}
           style={{
@@ -489,7 +539,7 @@ function WhoWeAreSection() {
             padding: "18px 28px",
             borderRadius: 16,
             border: "1px solid rgba(124, 92, 191, 0.12)",
-            maxWidth: 760,
+            maxWidth: 900,
             margin: "0 auto 48px",
           }}
         >
@@ -530,14 +580,14 @@ function WhoWeAreSection() {
           ))}
         </div>
 
-        {/* Mission / Vision / Core Model — single row, equal height, no scroll */}
+        {/* Mission / Vision — equal height */}
         <div
           style={{
             display: "flex",
             flexWrap: "wrap",
             gap: 20,
             justifyContent: "center",
-            alignItems: "stretch", // FIX: teeno cards ki height barabar rakhega
+            alignItems: "stretch",
             maxWidth: 1080,
             margin: "0 auto",
           }}
@@ -581,37 +631,37 @@ function FounderSection() {
           display: "flex", flexDirection: "column", alignItems: "center", gap: 20, flexShrink: 0,
         }}>
           <div style={{ position: "relative", width: 300, height: 300 }}>
-  <div
-    style={{
-      width: "100%", height: "100%",
-      borderRadius: "50%", overflow: "hidden",
-      boxShadow: "0 18px 40px rgba(75, 30, 86, 0.18)",
-    }}
-  >
-    <img
-      src={aboutBg}
-      alt="Hannah Gongar"
-      style={{
-        width: "100%", height: "100%",
-        objectFit: "cover", objectPosition: "center",
-        transform: "scale(1.12)", // trims the black edge; lower it if the ring looks cut off
-        display: "block",
-      }}
-      onError={(e) => {
-        const target = e.currentTarget;
-        target.style.display = "none";
-        const parent = target.parentElement;
-        if (parent && !parent.querySelector(".initials-fallback")) {
-          const fallback = document.createElement("div");
-          fallback.className = "initials-fallback";
-          fallback.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6f3fa 0%,#ede7f5 100%);font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:600;color:#662369;";
-          fallback.textContent = "HG";
-          parent.appendChild(fallback);
-        }
-      }}
-    />
-  </div>
-</div>
+            <div
+              style={{
+                width: "100%", height: "100%",
+                borderRadius: "50%", overflow: "hidden",
+                boxShadow: "0 18px 40px rgba(75, 30, 86, 0.18)",
+              }}
+            >
+              <img
+                src={aboutBg}
+                alt="Hannah Gongar"
+                style={{
+                  width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: "center",
+                  transform: "scale(1.12)", // trims the black edge; lower it if the ring looks cut off
+                  display: "block",
+                }}
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.style.display = "none";
+                  const parent = target.parentElement;
+                  if (parent && !parent.querySelector(".initials-fallback")) {
+                    const fallback = document.createElement("div");
+                    fallback.className = "initials-fallback";
+                    fallback.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f6f3fa 0%,#ede7f5 100%);font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:600;color:#662369;";
+                    fallback.textContent = "HG";
+                    parent.appendChild(fallback);
+                  }
+                }}
+              />
+            </div>
+          </div>
           <div style={{ textAlign: "center" }}>
             <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 16.5, fontWeight: 700, color: "#1a0a2e", margin: "0 0 4px" }}>Hannah Gongar</p>
             <p style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 11, fontWeight: 600, color: "#662369", letterSpacing: "0.08em", textTransform: "uppercase", margin: 0 }}>Founder</p>
@@ -628,20 +678,23 @@ function FounderSection() {
             <span style={{ color: "#4B1E56" }}>Communities Rise With Them</span>
           </h2>
 
-          {[
-            { delay: 200, text: "Ellevation is deeply connected to the story of its founder, Hannah Gongar. Having experienced the impact of war as a child and later migrating from Africa to Australia, Hannah understands firsthand the challenges of starting over, navigating unfamiliar systems and building a new life in a new country." },
-            { delay: 280, text: "Her journey has been shaped by resilience, perseverance and transformation — including the realities of migration, domestic violence and mental health challenges, and the long journey of rebuilding self-worth into confidence and leadership. Her mother, a single parent and NGO worker who dedicated her life to educating and protecting women and young people, shaped Hannah's deep commitment to service, empowerment and advocacy." },
-            { delay: 360, text: "Before launching Ms Ellevation, Hannah spent several years providing grassroots support through micro-finance initiatives, helping migrant women start businesses, secure housing, build financial independence and access opportunities for a better future. In 2024, that vision evolved into Ms Ellevation and the broader Ellevation ecosystem." },
-          ].map((p, i) => (
-            <p key={i} style={{ ...fade(right.inView, p.delay), fontFamily: "'Montserrat', sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
-              {p.text}
+          {founderParagraphs.map((text, i) => (
+            <p key={i} style={{ ...fade(right.inView, 200 + i * 60), fontFamily: "'Montserrat', sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, margin: "0 0 18px" }}>
+              {text}
             </p>
           ))}
+
+          <p
+            className="founder-closing"
+            style={{ ...fade(right.inView, 200 + founderParagraphs.length * 60), fontFamily: "'Astrid Regular', serif", fontSize: 22, fontWeight: 700, color: "#4B1E56", lineHeight: 1.35, margin: "8px 0 0" }}
+          >
+            Because when individuals rise, communities rise with them.
+          </p>
 
           {/* Pipeline matrix tier */}
           <div
             style={{
-              ...fade(right.inView, 420),
+              ...fade(right.inView, 200 + (founderParagraphs.length + 1) * 60),
               display: "flex",
               alignItems: "center",
               gap: "8px",
@@ -654,24 +707,23 @@ function FounderSection() {
               color: "#4B1E56",
             }}
           >
-           {["Children", "Youth", "Women", "Men", "Families", "Community"].map((stage, idx, arr) => (
-  <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-    <span
-      className={`founder-pipeline-stage${idx === arr.length - 1 ? " is-last" : ""}`}
-      style={{
-        fontFamily: "'Montserrat', sans-serif",
-        fontSize: "13.5px",
-        fontWeight: 600,
-      }}
-    >
-      {stage}
-    </span>
-    {idx < arr.length - 1 && (
-      <span className="founder-pipeline-arrow" style={{ fontSize: "12px", fontWeight: 700 }}>→</span>
-    )}
-  </div>
-))}
-            
+            {pipelineStages.map((stage, idx, arr) => (
+              <div key={stage} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <span
+                  className={`founder-pipeline-stage${idx === arr.length - 1 ? " is-last" : ""}`}
+                  style={{
+                    fontFamily: "'Montserrat', sans-serif",
+                    fontSize: "13.5px",
+                    fontWeight: 600,
+                  }}
+                >
+                  {stage}
+                </span>
+                {idx < arr.length - 1 && (
+                  <span className="founder-pipeline-arrow" style={{ fontSize: "12px", fontWeight: 700 }}>→</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -728,7 +780,7 @@ function VisionSection() {
         {/* Narrative Grid */}
         <div style={{
           display: "grid",
-          // RESPONSIVE FIX: min(100%, 300px) stops the grid overflowing on very narrow screens
+          // min(100%, 300px) stops the grid overflowing on very narrow screens
           gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
           gap: "40px",
         }}>
@@ -737,19 +789,19 @@ function VisionSection() {
               r: p1,
               d: 0,
               num: "01",
-              t: "For many CALD communities, barriers are not always visible. They can include limited networks, lack of representation, challenges navigating systems, social isolation, reduced access to opportunities and barriers to leadership participation."
+              t: "For many people, particularly those from culturally and linguistically diverse (CALD) communities, barriers are not always visible. They can include limited networks, lack of representation, challenges navigating systems, social isolation, reduced access to opportunities, and barriers to leadership participation."
             },
             {
               r: p2,
               d: 110,
               num: "02",
-              t: "These challenges do not reflect a lack of potential. They often reflect a lack of access."
+              t: "These challenges do not reflect a lack of potential. More often, they reflect a lack of access to opportunities, networks, support, and meaningful connections."
             },
             {
               r: p3,
               d: 220,
               num: "03",
-              t: "Ellevation exists to help remove these barriers by creating environments where people feel seen, valued, connected and supported to participate fully in community life."
+              t: "Ellevation exists to help remove these barriers by creating pathways, partnerships, and opportunities that help people feel seen, valued, connected, and empowered to grow, lead, and create lasting impact."
             },
           ].map((item, i) => (
             <div
@@ -797,7 +849,6 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
   const [hov, setHov] = useState(false);
 
   return (
-    
     <div
       ref={ref}
       className="core-model-card"
@@ -832,12 +883,17 @@ function CoreModelCard({ item }: { item: typeof coreModel[0] }) {
       }}>
         {item.title}
       </h3>
-      <p style={{
-        fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65,
-        color: "#554866", margin: "0 0 24px",
-      }}>
-        {item.body}
-      </p>
+      {item.body.map((para, i) => (
+        <p
+          key={i}
+          style={{
+            fontFamily: "'Montserrat',sans-serif", fontSize: 18, lineHeight: 1.65,
+            color: "#554866", margin: i === item.body.length - 1 ? "0 0 24px" : "0 0 14px",
+          }}
+        >
+          {para}
+        </p>
+      ))}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
         {item.tags.map((tag) => (
           <span key={tag} style={{
@@ -858,7 +914,7 @@ function CoreModelSection() {
   const head = useInView(0.1);
   const arrow = useInView(0.1);
   const hubCard = coreModel.find((c) => c.label === "Ellevation Hub")!;
-const msCard = coreModel.find((c) => c.label === "Ms Ellevation")!;
+  const msCard = coreModel.find((c) => c.label === "Ms. Ellevation")!;
 
   return (
     <section
@@ -874,34 +930,34 @@ const msCard = coreModel.find((c) => c.label === "Ms Ellevation")!;
         }}
       >
         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#662369", margin: "0 0 12px" }}>
-          Core Ecosystem Structure
+          Core Model
         </p>
         <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>
-          One mission. Two pathways.
+          One Ecosystem. Two Pathways.
         </h2>
       </div>
 
       <div style={{
         display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto",
-        justifyContent: "center", alignItems: "stretch",fontFamily: "'Astrid Regular',serif",
+        justifyContent: "center", alignItems: "stretch", fontFamily: "'Astrid Regular',serif",
       }}>
-       <CoreModelCard item={hubCard} />
+        <CoreModelCard item={hubCard} />
 
-<div
-  ref={arrow.ref}
-  className="core-model-plus"
-  style={{
-    ...fade(arrow.inView, 260),
-    display: "flex", alignItems: "center", justifyContent: "center",
-    width: 44, height: 44, borderRadius: "50%",
-    background: "rgba(124, 92, 191, 0.1)", color: "#662369",
-    fontSize: 18, fontWeight: 700, flexShrink: 0, alignSelf: "center",
-  }}
->
-  +
-</div>
+        <div
+          ref={arrow.ref}
+          className="core-model-plus"
+          style={{
+            ...fade(arrow.inView, 260),
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 44, height: 44, borderRadius: "50%",
+            background: "rgba(124, 92, 191, 0.1)", color: "#662369",
+            fontSize: 18, fontWeight: 700, flexShrink: 0, alignSelf: "center",
+          }}
+        >
+          +
+        </div>
 
-<CoreModelCard item={msCard} />
+        <CoreModelCard item={msCard} />
       </div>
     </section>
   );
@@ -919,7 +975,8 @@ function WhoWeServeCard({ item }: { item: typeof whoWeServe[0] }) {
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
       style={{
-        flex: "1 1 0",
+        // 7 cards: 4 on the first row, 3 centered on the second
+        flex: "0 0 calc(25% - 12px)",
         minWidth: 0,
         background: hov ? "#fff" : "rgba(255, 255, 255, 0.75)",
         backdropFilter: "blur(10px)",
@@ -978,7 +1035,8 @@ function WhoWeServeSection() {
         className="who-we-serve-row"
         style={{
           display: "flex",
-          flexWrap: "nowrap",
+          flexWrap: "wrap",
+          justifyContent: "center",
           gap: 16,
           maxWidth: 1180,
           margin: "0 auto",
@@ -1075,10 +1133,8 @@ function CTASection() {
           ecosystem.
         </p>
         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-         <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-  <CTALink label="Join the Ecosystem" to={JOIN_ROUTE} />
-  <CTALink label="Partner With Us" to={PARTNER_ROUTE} />
-</div>
+          <CTALink label="Join the Ecosystem" to={JOIN_ROUTE} />
+          <CTALink label="Partner With Us" to={PARTNER_ROUTE} />
         </div>
       </div>
     </section>
@@ -1131,15 +1187,15 @@ export default function AboutPage() {
           animation: fadeSlideInTop 1.2s cubic-bezier(0.25,1,0.5,1) forwards;
           animation-delay: 0.9s;
         }
-          /* Pipeline text in dark mode */
-[data-theme="dark"] .about-who-we-are span {
-  color: #ffffff !important;
-}
+        /* Pipeline text in dark mode */
+        [data-theme="dark"] .about-who-we-are span {
+          color: #ffffff !important;
+        }
 
-/* Keep the arrows purple */
-[data-theme="dark"] .about-who-we-are span[style*="rgba(124, 92, 191"] {
-  color: rgba(180, 150, 255, 0.7) !important;
-}
+        /* Keep the arrows purple */
+        [data-theme="dark"] .about-who-we-are span[style*="rgba(124, 92, 191"] {
+          color: rgba(180, 150, 255, 0.7) !important;
+        }
         .elv-float-card-bottom {
           opacity: 0;
           animation: fadeSlideInBottom 1.2s cubic-bezier(0.25,1,0.5,1) forwards;
@@ -1171,9 +1227,7 @@ export default function AboutPage() {
            RESPONSIVE FIXES
            ─────────────────────────────────────────────── */
 
-        /* HERO: stack text above carousel on tablet/mobile
-           (the 2-column grid was squeezing the text and pushing
-           the floating cards over it / off-screen) */
+        /* HERO: stack text above carousel on tablet/mobile */
         @media (max-width: 900px) {
           .about-hero { min-height: auto !important; }
           .about-hero-grid {
@@ -1187,9 +1241,7 @@ export default function AboutPage() {
           .elv-float-card-bottom { width: 190px !important; left: -6px !important; padding: 12px 14px !important; }
         }
 
-        /* CORE MODEL: cards were clipped on mobile because the
-           "flex: 1 1 340px" basis became a fixed HEIGHT once the
-           container switched to column direction. Let them size to content. */
+        /* CORE MODEL: let cards size to content on mobile */
         @media (max-width: 640px) {
           .about-core-model > div:last-child { flex-direction: column; }
           .about-core-model > div:last-child > div:nth-child(2) { transform: rotate(90deg); }
@@ -1203,21 +1255,18 @@ export default function AboutPage() {
           }
         }
 
-        /* WHO WE SERVE: cards were forced into one row and cut off.
-           Now they wrap into a 3-column grid (tablet) / 2-column grid (mobile)
-           and keep their descriptions visible. */
+        /* WHO WE SERVE: 7 cards → 4 + 3 on desktop, 3 per row on tablet, 2 per row on mobile */
         @media (max-width: 900px) {
-          .who-we-serve-row { flex-wrap: wrap !important; gap: 14px !important; }
-          .who-we-serve-card { flex: 1 1 calc(33.333% - 14px) !important; min-width: 0 !important; }
+          .who-we-serve-row { gap: 14px !important; }
+          .who-we-serve-card { flex: 0 0 calc(33.333% - 14px) !important; min-width: 0 !important; }
         }
         @media (max-width: 640px) {
           .who-we-serve-row { gap: 12px !important; }
-          .who-we-serve-card { flex: 1 1 calc(50% - 12px) !important; padding: 18px 14px !important; }
+          .who-we-serve-card { flex: 0 0 calc(50% - 12px) !important; padding: 18px 14px !important; }
           .who-we-serve-card h3 { font-size: 18px !important; }
         }
 
-        /* Mobile: thoda aur compact padding taaki gap zyada na lage
-           (.about-hero removed from this list: its padding now lives on .about-hero-grid) */
+        /* Mobile: more compact section padding */
         @media (max-width: 640px) {
           .about-who-we-are, .about-founder,
           .about-vision, .about-core-model, .about-who-we-serve, .about-cta {
@@ -1248,22 +1297,24 @@ export default function AboutPage() {
           background: rgba(25, 16, 38, 0.6) !important;
           border-color: rgba(155, 109, 190, 0.15) !important;
         }
-/* Founder pipeline – light mode */
-.about-founder .founder-pipeline-stage { color: #1a0a2e !important; }
-.about-founder .founder-pipeline-stage.is-last { color: #4B1E56 !important; }
-.about-founder .founder-pipeline-arrow { color: rgba(124, 92, 191, 0.6) !important; }
 
-/* Founder pipeline – dark mode: white text */
-[data-theme="dark"] .about-founder .founder-pipeline-stage,
-[data-theme="dark"] .about-founder .founder-pipeline-stage.is-last { color: #ffffff !important; }
-[data-theme="dark"] .about-founder .founder-pipeline-arrow { color: rgba(201, 163, 217, 0.8) !important; }
-[data-theme="dark"] .about-founder .founder-pipeline-box {
-  background: rgba(75, 30, 86, 0.35) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
-}
-  /* Bottom CTA section – dark mode text */
-[data-theme="dark"] .about-cta p { color: #cbd5e1 !important; }
-[data-theme="dark"] .about-cta p:first-child { color: #c9a3d9 !important; }
+        /* Founder pipeline – light mode */
+        .about-founder .founder-pipeline-stage { color: #1a0a2e !important; }
+        .about-founder .founder-pipeline-stage.is-last { color: #4B1E56 !important; }
+        .about-founder .founder-pipeline-arrow { color: rgba(124, 92, 191, 0.6) !important; }
+
+        /* Founder pipeline – dark mode: white text */
+        [data-theme="dark"] .about-founder .founder-pipeline-stage,
+        [data-theme="dark"] .about-founder .founder-pipeline-stage.is-last { color: #ffffff !important; }
+        [data-theme="dark"] .about-founder .founder-pipeline-arrow { color: rgba(201, 163, 217, 0.8) !important; }
+        [data-theme="dark"] .about-founder .founder-pipeline-box {
+          background: rgba(75, 30, 86, 0.35) !important;
+          border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        /* Bottom CTA section – dark mode text */
+        [data-theme="dark"] .about-cta p { color: #cbd5e1 !important; }
+        [data-theme="dark"] .about-cta p:first-child { color: #c9a3d9 !important; }
         [data-theme="dark"] .about-founder { background: #160d22 !important; border-bottom-color: rgba(155, 109, 190, 0.15) !important; }
         [data-theme="dark"] .about-vision { background: #0d0614 !important; }
         [data-theme="dark"] .about-core-model { background: linear-gradient(180deg, #0d0614 0%, #160d22 100%) !important; }
@@ -1278,11 +1329,14 @@ export default function AboutPage() {
           background: rgba(25, 16, 38, 0.6) !important;
           border-color: rgba(155, 109, 190, 0.15) !important;
         }
-[data-theme="dark"] .elv-float-card-bottom { background: rgba(75, 30, 86, 0.95) !important; border-color: rgba(255,255,255,0.15) !important; }
-[data-theme="dark"] .elv-float-card-bottom p { color: #ffffff !important; }
-[data-theme="dark"] .elv-float-card-bottom svg path { stroke: #D7B264 !important; }
+        [data-theme="dark"] .elv-float-card-bottom { background: rgba(75, 30, 86, 0.95) !important; border-color: rgba(255,255,255,0.15) !important; }
+        [data-theme="dark"] .elv-float-card-bottom p { color: #ffffff !important; }
+        [data-theme="dark"] .elv-float-card-bottom svg path { stroke: #D7B264 !important; }
         [data-theme="dark"] .elv-float-card-top { background: rgba(25, 16, 38, 0.9) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
         [data-theme="dark"] .elv-float-card-top div > div { background: rgba(90, 63, 160, 0.2) !important; color: #cbd5e1 !important; }
+
+        /* Founder closing line – stands out in dark mode (placed last so it wins over the generic p rule) */
+        [data-theme="dark"] .about-founder p.founder-closing { color: #d9b8e8 !important; }
       `}</style>
 
       <Hero />

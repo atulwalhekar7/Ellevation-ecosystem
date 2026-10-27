@@ -56,16 +56,16 @@ const NAV_LINKS: { label: string; page: Page }[] = [
 
 // ─── SEO: per-page <title> and meta description ─────────────────────────────
 const PAGE_META: Record<Page, { title: string; description: string }> = {
-  home: {
-    title: "Ellevation Hub | Every Pathway Into Opportunity",
-    description:
-      "Connecting culturally and linguistically diverse (CALD) communities, businesses, organisations and collaborators through opportunity, connection and impact.",
-  },
+ home: {
+  title: "Ellevation Hub | Every Pathway Into Opportunity",
+  description:
+    "Connecting CALD communities, professionals, entrepreneurs, businesses, organisations, and collaborators through opportunity, connection, and impact.",
+},
   about: {
-    title: "About the Hub | Ellevation Hub",
-    description:
-      "Ellevation Hub is a purpose-led Australian social enterprise and leadership ecosystem creating pathways into wellbeing, leadership, visibility and economic participation for CALD communities.",
-  },
+  title: "About the Hub | Ellevation Hub",
+  description:
+    "Ellevation Hub is a purpose-led social enterprise and community-led ecosystem creating pathways to confidence, connection, leadership, visibility, opportunity, and community impact.",
+},
   membership: {
     title: "Membership Program | Ellevation Hub",
     description:
@@ -76,11 +76,11 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Discover verified businesses built by our community, browse listings by category, or add your own business to the Ellevation Hub directory.",
   },
-  programs: {
-    title: "Our Programs | Ellevation Hub",
-    description:
-      "Development pathways for every corner of the community — youth mentorship, men's pathway programs, and grassroots community development.",
-  },
+ programs: {
+  title: "Our Programs | Ellevation Hub",
+  description:
+    "Development pathways for growth, leadership, and opportunity — children and youth, wellbeing and leadership, and business and enterprise programs.",
+},
   opportunities: {
     title: "Opportunity Board | Ellevation Hub",
     description:
@@ -92,10 +92,10 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
       "Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one Perth events calendar.",
   },
   impact: {
-    title: "Our Impact | Ellevation Hub",
-    description:
-      "Real outcomes across every group we support — community reach, CALD community outcomes, business growth, and stories from our members.",
-  },
+  title: "Our Impact | Ellevation Hub",
+  description:
+    "Real outcomes across every group we support — children and youth, CALD community outcomes, business growth and visibility, and stories from our members.",
+},
   connect: {
     title: "Connect With Us | Ellevation Hub",
     description:
@@ -110,50 +110,61 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
 
 /* ── Home page content (client-final) ── */
 const HOME_OPPORTUNITIES: { title: string; desc: string; page: Page; link?: string }[] = [
-  { title: "Directory",     desc: "Find businesses, services, organisations and community leaders.", page: "directory",     link: "Read More.." },
-  { title: "Opportunities", desc: "Access jobs, grants, partnerships and collaborations.",           page: "opportunities", link: "Read More.." },
-  { title: "Events",        desc: "Connect through networking, learning and community experiences.", page: "events",        link: "Read More.." },
-  { title: "Programs",      desc: "Wellbeing, mentoring, leadership development, business support and community learning designed to help people, entrepreneurs and communities grow, connect and thrive.", page: "programs", link: "Read More.." },
+  { title: "Directory",     desc: "Find businesses, professionals, services, organisations, and community leaders.", page: "directory",     link: "Read More →" },
+  { title: "Opportunities", desc: "Access jobs, grants, partnerships, collaborations, and pathways for growth.",     page: "opportunities", link: "Read More →" },
+  { title: "Events",        desc: "Connect through networking, learning, and community experiences.",                page: "events",        link: "Read More →" },
+  { title: "Programs",      desc: "Wellbeing, mentoring, leadership development, business support, and community learning designed to help individuals, entrepreneurs, professionals, and communities grow, connect, and create impact.", page: "programs", link: "Read More →" },
 ];
 
 const HOME_FOR_EVERYONE = [
-  { title: "Individuals",             desc: "Find connection, opportunities and support." },
-  { title: "Businesses",              desc: "Increase visibility and build meaningful partnerships." },
-  { title: "Community Organisations", desc: "Collaborate and strengthen community impact." },
-  { title: "Supporters & Partners",   desc: "Help create opportunities that transform lives." },
+  { title: "Individuals & Families",        desc: "Find connection, opportunities, support, and pathways for growth." },
+  { title: "Professionals & Entrepreneurs", desc: "Expand your network, increase visibility, and access new opportunities." },
+  { title: "Businesses",                    desc: "Build meaningful partnerships and strengthen community impact." },
+  { title: "Community Organisations",       desc: "Collaborate, connect, and create greater collective impact." },
+  { title: "Supporters & Partners",         desc: "Help create opportunities that strengthen communities and transform lives." },
 ];
 
 // Hub on the LEFT, Ms Ellevation on the RIGHT — always
-const HOME_ECOSYSTEM: { eyebrow: string; title: string; route: string }[] = [
-  { eyebrow: "Building Opportunity", title: "Ellevation Hub", route: "/hub" },
-  { eyebrow: "Building the Woman",   title: "Ms Ellevation",  route: "/ms-ellevation" }, // <- your Ms Ellevation route
+const HOME_ECOSYSTEM: { eyebrow: string; title: string; desc: string; route: string }[] = [
+  {
+    eyebrow: "Building Opportunity",
+    title: "Ellevation Hub",
+    desc: "Creating pathways, partnerships, opportunities, and connections for individuals, families, professionals, businesses, and communities.",
+    route: "/hub",
+  },
+  {
+    eyebrow: "Building the Woman",
+    title: "Ms. Ellevation",
+    desc: "Supporting women and young women to discover their voice, strengthen identity, build confidence, and lead with purpose and impact.",
+    route: "/ms-ellevation",
+  },
 ];
 
 /* ── About page content (client-final) ── */
 const ABOUT_ECOSYSTEM_APPROACH = [
-  { title: "Community Development", desc: "Creating stronger communities through connection, collaboration and grassroots engagement.", icon: "✿" },
-  { title: "Leadership Development", desc: "Supporting emerging and established leaders to create positive impact.", icon: "◑" },
-  { title: "Youth Development", desc: "Empowering young people through mentoring, pathways and leadership opportunities.", icon: "✦" },
-  { title: "Business Support", desc: "Providing visibility, collaboration, mentoring, enterprise development and growth opportunities.", icon: "◈" },
-  { title: "Strategic Partnerships", desc: "Connecting organisations, businesses and community leaders to create shared impact.", icon: "❖" },
+  { title: "Community Development", desc: "Creating stronger communities through connection, collaboration, participation, and grassroots engagement.", icon: "✿" },
+  { title: "Leadership Development", desc: "Supporting emerging and established leaders to create positive impact in their communities, workplaces, and industries.", icon: "◑" },
+  { title: "Youth Development", desc: "Empowering young people through mentoring, pathways, leadership opportunities, and personal growth.", icon: "✦" },
+  { title: "Business Support", desc: "Providing visibility, collaboration, mentoring, enterprise development, and opportunities for sustainable growth.", icon: "◈" },
+  { title: "Strategic Partnerships", desc: "Connecting organisations, businesses, professionals, and community leaders to create shared impact and lasting opportunities.", icon: "❖" },
 ];
 
 const ABOUT_WHO_WE_SUPPORT = [
-  { title: "Community", desc: "Grassroots networks, community organisations and initiatives helping communities thrive.", icon: "✿" },
-  { title: "Business", desc: "Entrepreneurs, professionals, enterprises and business owners seeking visibility, growth and collaboration.", icon: "◈" },
-  { title: "Youth", desc: "Young people requiring leadership development, mentoring and opportunities for future success.", icon: "✦" },
-  { title: "Men", desc: "Allyship, personal development and leadership pathways that contribute to healthier communities and stronger outcomes.", icon: "◎" },
-  { title: "Women", desc: "Women seeking leadership opportunities, business support, mentoring, visibility, partnerships, community and pathways to economic participation.", icon: "❋" },
+  { title: "Community", desc: "Supporting grassroots networks, local initiatives, and community-driven projects that strengthen connection, participation, and collective impact.", icon: "✿" },
+  { title: "Business", desc: "Supporting entrepreneurs, professionals, business owners, and enterprises seeking visibility, growth, collaboration, and opportunity.", icon: "◈" },
+  { title: "Youth", desc: "Creating pathways for young people through mentoring, leadership development, education, and opportunity.", icon: "✦" },
+  { title: "Men", desc: "Supporting wellbeing, personal growth, leadership, and positive community participation.", icon: "◎" },
+  { title: "Women & Young Women", desc: "Creating opportunities for identity, voice, confidence, leadership, mentoring, visibility, and meaningful participation.", icon: "❋" },
+  { title: "Community Organisations", desc: "Supporting organisations and community groups through partnerships, collaboration, visibility, and shared impact.", icon: "⬡" },
 ];
 
 const ABOUT_ACCESS: { title: string; desc: string; page: Page }[] = [
-  { title: "Directory", desc: "Discover businesses, services, organisations and community leaders.", page: "directory" },
-  { title: "Programs", desc: "Access wellbeing initiatives, mentoring, leadership development, business support and community learning for women, young people, entrepreneurs and communities.", page: "programs" },
-  { title: "Opportunities", desc: "Explore jobs, grants, partnerships and collaboration opportunities.", page: "opportunities" },
-  { title: "Events", desc: "Connect through networking, learning and community experiences.", page: "events" },
-  { title: "Impact", desc: "Support and contribute to initiatives creating positive social and economic outcomes.", page: "impact" },
+  { title: "Directory", desc: "Discover businesses, professionals, services, organisations, and community leaders within the Ellevation ecosystem.", page: "directory" },
+  { title: "Programs", desc: "Access wellbeing initiatives, mentoring, leadership development, business support, and community learning designed to help people build confidence, strengthen leadership, and expand opportunities.", page: "programs" },
+  { title: "Opportunities", desc: "Explore jobs, grants, partnerships, collaborations, and pathways for personal, professional, and business growth.", page: "opportunities" },
+  { title: "Events", desc: "Connect through networking, learning, leadership, and community experiences designed to strengthen relationships and create opportunity.", page: "events" },
+  { title: "Impact", desc: "Support and contribute to initiatives that strengthen communities, expand opportunities, and create lasting social impact.", page: "impact" },
 ];
-
 const ABOUT_COMMITMENTS = [
   "We believe diversity is a strength.",
   "We believe lived experience matters.",
@@ -165,9 +176,9 @@ const ABOUT_COMMITMENTS = [
 
 // Hub first, then Ms Ellevation, then Together
 const ABOUT_ECOSYSTEM_CONNECTION = [
-  { title: "Ellevation Hub", desc: "Creating pathways into opportunity through business support, mentoring, partnerships, leadership development, visibility and economic participation." },
-  { title: "Ms Ellevation", desc: "Supporting women to honour their stories, strengthen their identity, build confidence and grow into leadership." },
-  { title: "Together", desc: "Women, young people, businesses, organisations and communities can access the support, networks and opportunities they need to grow, lead and thrive." },
+  { title: "Ellevation Hub", desc: "Creating pathways to confidence, connection, leadership, visibility, opportunity, and community impact through partnerships, programs, business support, and community initiatives." },
+  { title: "Ms. Ellevation", desc: "Supporting women and young women to discover their voice, strengthen their identity, build confidence, and lead with purpose and impact." },
+  { title: "Together", desc: "Through one connected ecosystem, individuals, families, businesses, organisations, and communities can access the support, networks, opportunities, and pathways they need to grow, connect, lead, and create lasting impact." },
 ];
 
 /* ── Membership program (Belong → Grow → Influence → Partner) ── */
@@ -378,44 +389,38 @@ const DIRECTORY_CATEGORIES = [
 const PROGRAM_PATHWAYS: { title: string; desc?: string; focus?: string[]; tag?: string; icon: string }[] = [
   {
     title: "Children & Youth",
-    desc: "Building confidence, skills, leadership and future opportunities for children and young people.",
+    desc: "Building confidence, skills, leadership, and future opportunities for children and young people.",
     focus: ["Mentoring & Development", "Leadership & Life Skills", "Confidence Building", "Future Pathways"],
     icon: "✦",
   },
   {
     title: "Wellbeing & Leadership",
-    desc: "Supporting individuals to strengthen wellbeing, develop leadership capabilities and create positive impact.",
+    desc: "Supporting individuals to strengthen wellbeing, build confidence, develop leadership capabilities, and create positive impact.",
     focus: ["Wellbeing & Personal Growth", "Confidence & Resilience", "Leadership Development", "Community Leadership", "Personal & Professional Growth"],
     icon: "◑",
   },
   {
     title: "Business & Enterprise",
-    desc: "Supporting entrepreneurs, professionals and businesses through visibility, mentoring, networking and growth opportunities.",
+    desc: "Supporting entrepreneurs, professionals, and businesses through visibility, mentoring, networking, and growth opportunities.",
     focus: ["Business Support", "Business Growth", "Networking Opportunities", "Mentoring & Guidance", "Visibility & Promotion"],
     icon: "◈",
-  },
-  {
-    title: "Community & Impact",
-    desc: "Creating stronger, more connected communities through collaboration, partnerships and community-led initiatives.",
-    focus: ["Community Development", "Partnership Initiatives", "Social Impact Projects", "Community Collaboration"],
-    icon: "✿",
   },
 ];
 
 const PROGRAMS_WHO_WE_SUPPORT = [
-  "Children & Families", "Young People", "Women", "Men",
-  "Entrepreneurs", "Businesses", "Community Organisations", "Partners & Collaborators",
+  "Children & Families", "Young People", "Women & Young Women", "Men",
+  "Entrepreneurs", "Professionals", "Businesses", "Community Organisations", "Partners & Collaborators",
 ];
 
 const PROGRAMS_PARTNERS = [
   "Community Organisations", "Businesses & Industry", "Educational Institutions",
-  "Government Agencies", "Sponsors & Supporters",
+  "Government Agencies", "Sponsors & Supporters", "Community Leaders",
 ];
 
 // Hub on the LEFT, Ms Ellevation on the RIGHT — always
 const PROGRAMS_ECOSYSTEM = [
-  { eyebrow: "Building Opportunity", title: "Ellevation Hub", line: "Wellbeing. Business. Community. Impact." },
-  { eyebrow: "Building the Woman",   title: "Ms Ellevation", line: "Identity. Confidence. Leadership." },
+  { eyebrow: "Building Opportunity", title: "Ellevation Hub",  line: "Confidence. Connection. Leadership. Visibility. Opportunity. Community Impact." },
+  { eyebrow: "Building the Woman",   title: "Ms. Ellevation",  line: "Identity. Voice. Confidence. Leadership. Wellbeing. Community." },
 ];
 
 /* ── Opportunity "type" overview cards (compact) ── */
@@ -580,31 +585,31 @@ const IMPACT_STATS = [
 
 // Children & Youth outcomes (section that was missing on the Impact page)
 const CHILDREN_YOUTH_OUTCOMES = [
-  { title: "Mentoring & Development",  desc: "Children and young people matched with mentors who help them grow in skills, direction and self-belief.", icon: "✦" },
-  { title: "Leadership & Life Skills", desc: "Leadership days, workshops and practical life-skills sessions that prepare young people for what's next.", icon: "◑" },
-  { title: "Confidence Building",      desc: "Safe, encouraging spaces where children and young people find their voice and try new things.",           icon: "❀" },
-  { title: "Future Pathways",          desc: "Connections to education, training, work experience and career pathways for young people.",               icon: "❖" },
+  { title: "Mentoring & Development",  desc: "Children and young people matched with mentors who help them build confidence, develop skills, and explore future possibilities.", icon: "✦" },
+  { title: "Leadership & Life Skills", desc: "Leadership experiences, workshops, and practical life skills that prepare young people for future opportunities.",               icon: "◑" },
+  { title: "Confidence Building",      desc: "Safe and supportive environments where children and young people can find their voice, grow their confidence, and try new things.", icon: "❀" },
+  { title: "Future Pathways",          desc: "Connections to education, training, work experience, career pathways, and future opportunities.",                                icon: "❖" },
 ];
 
 const CALD_OUTCOMES = [
-  { title: "Language-Inclusive Programming",  desc: "Sessions and resources delivered with interpreter and multilingual support across our core programs.", icon: "✦" },
-  { title: "Culturally Responsive Mentorship", desc: "Mentors matched with an understanding of cultural context, not just industry or skill.",                icon: "✿" },
-  { title: "Multilingual Directory Access",    desc: "Browse the whole site in major world languages using the language selector, so people who can't read English can still find businesses and support.", icon: "◈" },
-  { title: "Pathways for Newly Arrived Families", desc: "Orientation, referrals, and community connection for families settling into life in Perth.",         icon: "❖" },
+  { title: "Language-Inclusive Programming",      desc: "Programs and resources supported through multilingual and interpreter services where needed.",                                              icon: "✦" },
+  { title: "Culturally Responsive Mentorship",    desc: "Mentoring relationships that recognise cultural context, lived experience, and individual aspirations.",                                    icon: "✿" },
+  { title: "Multilingual Directory Access",       desc: "Improving access to businesses, services, and opportunities through multilingual pathways and language accessibility.",                      icon: "◈" },
+  { title: "Pathways for Newly Arrived Families", desc: "Connection, referrals, information, and support that help families navigate life, opportunities, and community in Perth.",                  icon: "❖" },
 ];
 
 const BUSINESS_GROWTH_STATS = [
-  { n: "68%",  l: "Directory members reporting increased enquiries" },
-  { n: "120+", l: "Businesses featured or spotlighted" },
-  { n: "45+",  l: "Referral partnerships formed" },
-  { n: "3x",   l: "Average visibility growth after listing" },
+  { n: "68%",  l: "of directory members reported increased enquiries" },
+  { n: "120+", l: "businesses featured or spotlighted" },
+  { n: "45+",  l: "referral partnerships formed" },
+  { n: "3x",   l: "average visibility growth after listing" },
 ];
 
 const PROGRAMS_IN_ACTION = [
-  { title: "Children & Youth",      desc: "Mentorship circles and leadership days helping children and young people build confidence and direction.", icon: "✦" },
-  { title: "Men's Pathway",         desc: "Allyship and growth programs supporting men to show up for their families and communities.",   icon: "◎" },
-  { title: "Community Development", desc: "Grassroots initiatives strengthening connection across Perth's diverse neighbourhoods.",       icon: "✿" },
-  { title: "Business Directory",    desc: "Visibility and referral pathways helping member businesses grow sustainably.",                 icon: "◈" },
+  { title: "Children & Youth",      desc: "Mentorship circles and leadership experiences helping children and young people build confidence, direction, and future pathways.", icon: "✦" },
+  { title: "Men's Pathway",         desc: "Programs supporting wellbeing, growth, leadership, and positive participation in families and communities.",                       icon: "◎" },
+  { title: "Community Development", desc: "Grassroots initiatives strengthening connection, participation, and collaboration across Perth's diverse communities.",            icon: "✿" },
+  { title: "Business Directory",    desc: "Visibility, networking, and referral opportunities helping businesses increase their reach and create sustainable growth.",       icon: "◈" },
 ];
 
 // ─── Navbar ──────────────────────────────────────────────────────────────────
@@ -748,13 +753,17 @@ function HomeSection({ nav }: { nav: NavFn }) {
         <div style={hp.blobBR} />
         <div className="hub-home-grid" style={hp.grid}>
           <div style={hp.left}>
-            <h1 className="hub-home-headline" style={hp.headline}>Every Pathway Into Opportunity, In One Ecosystem.</h1>
-            <p className="hub-home-sub" style={hp.sub}>
-              Connecting culturally and linguistically diverse (CALD) communities, businesses, organisations and collaborators through opportunity, connection and impact.
-            </p>
-            <p className="hub-home-sub" style={hp.sub}>
-              Whether you are looking to belong, grow, partner, support or create change, there is a place for you here.
-            </p>
+<h1 className="hub-home-headline" style={hp.headline}>
+  Every Pathway Into Opportunity.
+  <span style={{ display: "block", marginTop: 12, fontSize: "0.55em", fontWeight: 600 }}>
+    One Ecosystem. Endless Connections.
+  </span>
+</h1>           <p className="hub-home-sub" style={hp.sub}>
+  Connecting culturally and linguistically diverse (CALD) communities, professionals, entrepreneurs, businesses, organisations, and collaborators through opportunity, connection, and impact.
+</p>
+<p className="hub-home-sub" style={hp.sub}>
+  Whether you're looking to belong, grow, partner, support, or create change, there's a place for you here.
+</p>
             <div className="hub-home-btn-row" style={hp.btnRow}>
               <button style={hp.btnPrimary} onClick={() => nav("membership")}>JOIN THE HUB</button>
               <button style={hp.btnSecondary} onClick={() => nav("opportunities")}>EXPLORE OPPORTUNITIES</button>
@@ -763,8 +772,7 @@ function HomeSection({ nav }: { nav: NavFn }) {
           <div className="hub-card" style={hp.card}>
             <p className="hub-card-desc" style={hp.cardDesc}>One ecosystem connecting directory, programs, and opportunity — built for the whole community.</p>
             <div style={hp.cardFeatures}>
-              {["Business directory & categories", "Youth and men's development programs", "Jobs, grants & collaboration board", "Community events calendar"].map(feat => (
-                <div key={feat} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{feat}</div>
+{["Business Directory & Categories", "Youth & Men's Development Programs", "Jobs, Grants & Opportunities Board", "Community Events Calendar"].map(feat => (                <div key={feat} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{feat}</div>
               ))}
             </div>
           </div>
@@ -796,8 +804,7 @@ function HomeSection({ nav }: { nav: NavFn }) {
       {/* 3 ── FOR EVERYONE */}
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={every.ref} style={{ ...ab.container, ...fade(every.inView, 0) }}>
-          <h2 className="hub-about-title" style={ab.title}>For Everyone</h2>
-          <div style={ab.gridAuto}>
+<h2 className="hub-about-title" style={ab.title}>Opportunities for Every Stage of the Journey</h2>          <div style={ab.gridAuto}>
             {HOME_FOR_EVERYONE.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(every.inView, 100 + i * 80) }}>
                 <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
@@ -811,8 +818,7 @@ function HomeSection({ nav }: { nav: NavFn }) {
       {/* 4 ── THE ECOSYSTEM (Hub left, Ms Ellevation right) */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
-          <h2 className="hub-about-title" style={ab.title}>The Ecosystem</h2>
-          <div style={ab.gridAuto}>
+<h2 className="hub-about-title" style={ab.title}>Together Creating Pathways for Opportunity, Connection, and Impact.</h2>          <div style={ab.gridAuto}>
             {HOME_ECOSYSTEM.map((item, i) => (
               <button
                 key={item.title}
@@ -829,14 +835,13 @@ function HomeSection({ nav }: { nav: NavFn }) {
                 style={{ ...ab.card, ...ab.accessCard, ...fade(eco.inView, 100 + i * 100) }}
               >
                 <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
-                <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "22px" }}>{item.title}</h3>
-                <span className="hub-about-link" style={ab.cardLink}>Visit →</span>
+               <h3 className="hub-about-card-title" style={{ ...ab.cardTitle, fontSize: "22px" }}>{item.title}</h3>
+<p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+<span className="hub-about-link" style={ab.cardLink}>Visit →</span>
               </button>
             ))}
           </div>
-          <p className="hub-about-sub" style={{ ...ab.para, marginTop: 32, fontWeight: 600, color: "#4B1E56" }}>
-            Together creating pathways for thriving communities.
-          </p>
+       
         </div>
       </section>
 
@@ -844,9 +849,9 @@ function HomeSection({ nav }: { nav: NavFn }) {
       <section className="hub-about-section hub-about-cta" style={ab.ctaSection}>
         <div ref={cta.ref} style={{ ...ab.containerNarrow, ...fade(cta.inView, 0) }}>
           <h2 style={{ ...ab.title, color: "#fff", marginBottom: 20 }}>Opportunity Starts With Connection.</h2>
-          <p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
-            Join a growing ecosystem creating pathways for stronger communities.
-          </p>
+         <p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
+  Join a growing ecosystem connecting people, organisations, businesses, and opportunities to create stronger communities and lasting impact.
+</p>
           <div style={ab.ctaRow}>
             <button style={ab.ctaPrimary} onClick={() => nav("membership")}>JOIN MEMBERSHIP</button>
             <button style={ab.ctaSecondary} onClick={() => nav("connect")}>CONTACT US</button>
@@ -886,12 +891,12 @@ function AboutSection({ nav }: { nav: NavFn }) {
           <h1 className="hub-about-hero-title" style={{ ...ab.heroTitle, ...fade(mounted, 120) }}>
             One Ecosystem. Every Pathway to Opportunity.
           </h1>
-          <p style={{ ...ab.heroText, ...fade(mounted, 240) }}>
-            Ellevation Hub Pty Ltd is a purpose-led Australian social enterprise and leadership ecosystem creating pathways into wellbeing, leadership, visibility and economic participation.
-          </p>
-          <p style={{ ...ab.heroText, ...fade(mounted, 340), marginTop: 16 }}>
-            Built with and for culturally and linguistically diverse (CALD) communities, Ellevation Hub connects people, businesses, organisations and opportunities into one integrated ecosystem where growth, belonging and impact can thrive.
-          </p>
+<p style={{ ...ab.heroText, ...fade(mounted, 240) }}>
+  Ellevation Hub is a purpose-led social enterprise and community-led ecosystem creating pathways to confidence, connection, leadership, visibility, opportunity, and community impact.
+</p>
+<p style={{ ...ab.heroText, ...fade(mounted, 340), marginTop: 16 }}>
+  Built with a strong commitment to culturally and linguistically diverse (CALD) communities, Ellevation Hub connects people, professionals, entrepreneurs, businesses, organisations, and opportunities through one integrated ecosystem.
+</p>
         </div>
       </section>
 
@@ -903,15 +908,13 @@ function AboutSection({ nav }: { nav: NavFn }) {
               <p className="hub-about-eye" style={ab.eyeLeft}>OUR VISION</p>
               <h2 className="hub-about-card-title" style={ab.cardHeading}>Our Vision</h2>
               <p className="hub-about-card-text" style={ab.bodyText}>
-                An Australia where culturally and linguistically diverse communities have equitable access to leadership, opportunity, visibility and economic participation.
-              </p>
+An Australia where culturally and linguistically diverse (CALD) communities have equitable access to confidence, leadership, opportunity, visibility, and meaningful participation while contributing to stronger, more connected communities.     </p>
             </div>
             <div className="hub-about-card" style={ab.visionCard}>
               <p className="hub-about-eye" style={ab.eyeLeft}>OUR MISSION</p>
               <h2 className="hub-about-card-title" style={ab.cardHeading}>Our Mission</h2>
               <p className="hub-about-card-text" style={ab.bodyText}>
-                To create connected pathways that empower individuals, businesses and communities through leadership, collaboration, business support, mentoring and opportunity.
-              </p>
+To create connected pathways that build confidence, strengthen leadership, increase visibility, and expand opportunities for individuals, businesses, organisations, and communities              </p>
             </div>
           </div>
         </div>
@@ -922,15 +925,18 @@ function AboutSection({ nav }: { nav: NavFn }) {
         <div ref={w.ref} style={{ ...ab.containerNarrow, ...fade(w.inView, 0) }}>
           <p className="hub-about-eye" style={ab.eye}>WHO WE ARE</p>
           <h2 className="hub-about-title" style={ab.title}>Building Opportunity Through Community</h2>
-          <p className="hub-about-sub" style={ab.para}>
-            Ellevation Hub functions as a lifecycle ecosystem supporting individuals from early childhood through to leadership, entrepreneurship and economic participation.
-          </p>
-          <p className="hub-about-sub" style={ab.para}>
-            We bring together community development, youth pathways, leadership programs, business networks and strategic partnerships into one connected impact model.
-          </p>
-          <p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
-            Our goal is simple: to ensure people and communities have access to the networks, resources, visibility and opportunities needed to thrive.
-          </p>
+      <p className="hub-about-sub" style={ab.para}>
+  Ellevation Hub functions as a connected ecosystem supporting people at every stage of their journey, from early childhood through to leadership, entrepreneurship, employment, and economic participation.
+</p>
+<p className="hub-about-sub" style={ab.para}>
+  We bring together community development, youth pathways, leadership programmes, business networks, strategic partnerships, and opportunities through one connected impact model.
+</p>
+<p className="hub-about-sub" style={{ ...ab.para, marginBottom: 6 }}>
+  Our goal is simple:
+</p>
+<p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
+  To ensure people, businesses, and communities have access to the networks, support, visibility, and opportunities needed to grow, connect, and create lasting impact.
+</p>
         </div>
       </section>
 
@@ -941,12 +947,23 @@ function AboutSection({ nav }: { nav: NavFn }) {
           <h2 style={{ ...ab.title, color: "#fff", fontSize: "clamp(32px,4.5vw,52px)", fontStyle: "italic" }}>
             For many people and communities, opportunity is not always the challenge. Access is.
           </h2>
-          <p style={{ ...ab.para, color: "rgba(255,255,255,0.82)" }}>
-            Access to networks, mentors, visibility, industry connections, leadership pathways, business support and opportunities.
-          </p>
-          <p style={{ ...ab.para, color: "rgba(255,255,255,0.82)" }}>
-            Ellevation Hub exists to bridge these gaps by connecting people, organisations and opportunities through one integrated ecosystem.
-          </p>
+          <div style={{ margin: "0 auto 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+  {[
+    "Access to networks.",
+    "Access to mentors.",
+    "Access to visibility.",
+    "Access to leadership pathways.",
+    "Access to business support.",
+    "Access to opportunities.",
+  ].map(line => (
+    <p key={line} style={{ ...ab.para, color: "#e8e0f8", fontWeight: 600, marginBottom: 0 }}>
+      {line}
+    </p>
+  ))}
+</div>
+<p style={{ ...ab.para, color: "rgba(255,255,255,0.82)" }}>
+  Ellevation Hub exists to bridge these gaps by connecting people, organisations, partnerships, and opportunities through one integrated ecosystem.
+</p>
         </div>
       </section>
 
@@ -954,8 +971,10 @@ function AboutSection({ nav }: { nav: NavFn }) {
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={a.ref} style={{ ...ab.container, ...fade(a.inView, 0) }}>
           <p className="hub-about-eye" style={ab.eye}>OUR ECOSYSTEM APPROACH</p>
-          <h2 className="hub-about-title" style={ab.title}>More Than a Network. More Than a Directory.</h2>
-          <div style={ab.gridAuto}>
+<h2 className="hub-about-title" style={{ ...ab.title, marginBottom: 16 }}>More Than a Network. More Than a Directory.</h2>
+<p className="hub-about-sub" style={{ ...ab.para, maxWidth: 760, margin: "0 auto 40px" }}>
+  Everything within Ellevation Hub is designed to strengthen confidence, connection, leadership, visibility, opportunity, and community impact.
+</p>          <div style={ab.gridAuto}>
             {ABOUT_ECOSYSTEM_APPROACH.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(a.inView, 100 + i * 80) }}>
                 <div style={ab.icon}>{item.icon}</div>
@@ -967,22 +986,7 @@ function AboutSection({ nav }: { nav: NavFn }) {
         </div>
       </section>
 
-      {/* 6 ── WHO WE SUPPORT */}
-      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
-        <div ref={s.ref} style={{ ...ab.container, ...fade(s.inView, 0) }}>
-          <p className="hub-about-eye" style={ab.eye}>WHO WE SUPPORT</p>
-          <h2 className="hub-about-title" style={ab.title}>Every Community. Every Pathway.</h2>
-          <div style={ab.gridAuto}>
-            {ABOUT_WHO_WE_SUPPORT.map((item, i) => (
-              <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(s.inView, 100 + i * 80) }}>
-                <div style={ab.icon}>{item.icon}</div>
-                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
-                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
 
       {/* 7 ── WHAT YOU CAN ACCESS */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
@@ -1006,9 +1010,29 @@ function AboutSection({ nav }: { nav: NavFn }) {
         </div>
       </section>
 
-      {/* 8 ── OUR COMMITMENT */}
-      <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
-        <div ref={m.ref} style={{ ...ab.container, ...fade(m.inView, 0) }}>
+        {/* 6 ── WHO WE SUPPORT */}
+     <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+  <div ref={s.ref} style={{ ...ab.container, maxWidth: 1360, ...fade(s.inView, 0) }}>
+    <p className="hub-about-eye" style={ab.eye}>WHO WE SUPPORT</p>
+    <h2 className="hub-about-title" style={ab.title}>Every Community. Every Pathway.</h2>
+    <div
+      className="hub-about-support-grid"
+      style={{ ...ab.gridAuto, gridTemplateColumns: "repeat(6, 1fr)", gap: 16 }}
+    >
+      {ABOUT_WHO_WE_SUPPORT.map((item, i) => (
+        <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(s.inView, 100 + i * 80) }}>
+            <div style={ab.icon}>{item.icon}</div>
+                <h3 className="hub-about-card-title" style={ab.cardTitle}>{item.title}</h3>
+                <p className="hub-about-card-text" style={ab.cardText}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+{/* WHAT YOU CAN ACCESS */}
+<section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
+          <div ref={m.ref} style={{ ...ab.container, ...fade(m.inView, 0) }}>
           <p className="hub-about-eye" style={ab.eye}>OUR COMMITMENT</p>
           <h2 className="hub-about-title" style={ab.title}>Community First. Collaboration Always.</h2>
           <div style={ab.commitGrid}>
@@ -1026,8 +1050,7 @@ function AboutSection({ nav }: { nav: NavFn }) {
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={e.ref} style={{ ...ab.container, ...fade(e.inView, 0) }}>
           <p className="hub-about-eye" style={ab.eye}>THE ELLEVATION ECOSYSTEM</p>
-          <h2 className="hub-about-title" style={ab.title}>Two Brands. One Connected Journey.</h2>
-          <div style={ab.gridThree}>
+<h2 className="hub-about-title" style={ab.title}>Two Pathways. One Connected Journey.</h2>          <div style={ab.gridThree}>
             {ABOUT_ECOSYSTEM_CONNECTION.map((item, i) => (
               <div
                 key={item.title}
@@ -1246,7 +1269,7 @@ const MEMBERSHIP_CSS = `
 .mp-bridge-note{ max-width:820px; margin:0 auto; font-size:18px; line-height:1.8; color:var(--mp-text); }
 
 /* Form area */
-.mp-form-wrap{ width:100%; max-width:720px; margin:0 auto; scroll-margin-top:calc(var(--nav-height, 96px) + 16px); }
+.mp-form-wrap{ width:100%; max-width:960px; margin:0 auto; scroll-margin-top:calc(var(--nav-height, 96px) + 16px); }
 .mp-summary{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; border-radius:16px; background:var(--mp-soft); border:1px solid var(--mp-border); margin-bottom:22px; }
 .mp-summary b{ font-family:'Astrid Regular',serif; font-size:1.1rem; color:var(--mp-title); }
 .mp-summary span{ font-size:0.82rem; color:var(--mp-text); }
@@ -1316,6 +1339,53 @@ const MEMBERSHIP_CSS = `
 @media (prefers-reduced-motion:reduce){
   .mp-tab, .mp-btn{ transition:none; }
   .mp-panel{ animation:none; }
+
+}
+  /* ── Unified type scale: body 18px · secondary 16px · labels never below 14px ── */
+.mp-journey span, .mp-philo-tag, .mp-tab-sub, .mp-tab-price small, .mp-list-note,
+.mp-arch-unit, .mp-arch-alt, .mp-pill, .mp-card-label, .mp-outcome-label,
+.mp-bridge-card .tag{ font-size:14px; }
+
+.mp-tagline, .mp-summary span, .mp-chips li, .mp-select-billing button{ font-size:16px; }
+
+.mp-tab-name, .mp-impact-card li, .mp-impact-note{ font-size:18px; }
+.mp-summary b{ font-size:20px; }
+
+/* ── FAQ-style accordion ── */
+.mp-acc{ max-width:1000px; margin:0 auto 80px; }
+.mp-acc-head{ text-align:center; margin-bottom:24px; }
+.mp-acc-item{ background:var(--mp-card); border:1.5px solid var(--mp-border); border-radius:18px; margin-bottom:14px; box-shadow:var(--mp-shadow); overflow:hidden; transition:border-color .25s ease; }
+.mp-acc-item.open{ border-color:var(--mp-eye); }
+.mp-acc-h{ margin:0; font-size:inherit; }
+.mp-acc-btn{ display:flex; align-items:center; justify-content:space-between; gap:20px; width:100%; text-align:left; padding:24px 28px; background:transparent; border:none; cursor:pointer; font-family:'Astrid Regular',serif; font-size:22px; font-weight:700; line-height:1.3; color:var(--mp-title); }
+.mp-acc-btn:hover{ opacity:1; transform:none; background:rgba(124,92,191,0.06); }
+.mp-acc-btn:focus-visible{ outline:3px solid rgba(215,178,100,0.7); outline-offset:-3px; }
+.mp-acc-icon{ position:relative; flex-shrink:0; width:32px; height:32px; border-radius:50%; background:var(--mp-gold); }
+.mp-acc-icon::before, .mp-acc-icon::after{ content:""; position:absolute; top:50%; left:50%; width:14px; height:2px; border-radius:2px; background:#fff; transform:translate(-50%,-50%); transition:transform .3s ease; }
+.mp-acc-icon::after{ transform:translate(-50%,-50%) rotate(90deg); }
+.mp-acc-item.open .mp-acc-icon::after{ transform:translate(-50%,-50%) rotate(0deg); }
+
+.mp-acc-panel{ display:grid; grid-template-rows:0fr; visibility:hidden; transition:grid-template-rows .4s cubic-bezier(.25,1,.5,1), visibility 0s linear .4s; }
+.mp-acc-item.open .mp-acc-panel{ grid-template-rows:1fr; visibility:visible; transition:grid-template-rows .4s cubic-bezier(.25,1,.5,1), visibility 0s; }
+.mp-acc-inner{ overflow:hidden; min-height:0; }
+.mp-acc-body{ padding:4px 28px 32px; text-align:left; }
+
+/* content inside the accordion: left aligned, full width */
+.mp-acc-body .mp-impact-lead{ margin-bottom:12px; }
+.mp-acc-body .mp-impact-body{ max-width:none; margin:0 0 28px; }
+.mp-acc-body .mp-impact-cols{ max-width:none; margin:0 0 24px; }
+.mp-acc-body .mp-impact-principle{ max-width:none; margin:0 0 32px; }
+.mp-acc-body .mp-impact-note{ max-width:none; margin:20px 0 0; }
+.mp-acc-body .mp-bridge-grid{ max-width:none; margin:0 0 24px; }
+.mp-acc-body .mp-bridge-note{ max-width:none; margin:0; }
+.mp-acc-body .mp-table-wrap{ max-width:none; margin:0; }
+
+@media (max-width:560px){
+  .mp-acc-btn{ padding:20px 18px; }
+  .mp-acc-body{ padding:4px 18px 26px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .mp-acc-panel, .mp-acc-icon::before, .mp-acc-icon::after{ transition:none; }
 }
 `;
 
@@ -1378,7 +1448,8 @@ function MembershipSection() {
   const [billing, setBilling] = useState<"annual" | "monthly">("annual");
   const [purpose, setPurpose] = useState<typeof MEMBERSHIP_PURPOSES[number]["id"]>("enquiry");
   const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
+const [sending, setSending] = useState(false);
+const [openAcc, setOpenAcc] = useState<string | null>(null); // only one panel open at a time
   const meta = HUB_TIER_META[activeTier];
   const activeIdx = HUB_TIERS.indexOf(activeTier);
 
@@ -1624,79 +1695,90 @@ function MembershipSection() {
           <p className="mp-hint">Swipe sideways to see every plan on smaller screens.</p>
         </div>
 
-        {/* ── 4b. COMMUNITY IMPACT CONTRIBUTION ── */}
-<div className="mp-impact">
-  <p className="mp-eye">Give-Back Model</p>
-  <h3 className="mp-block-title">Why the Community Impact Contribution Matters</h3>
-  <p className="mp-impact-lead">Business growth that helps create the next opportunity.</p>
-  <p className="mp-impact-body">
-    The Community Impact Contribution is a give-back mechanism attached only to successful business referrals generated through the Ellevation Hub ecosystem. When the Hub introduces a member to a new client and that referral becomes paid business, a small percentage of the first referral-generated invoice is reinvested into initiatives that create opportunities for other people, businesses and community ideas.
-  </p>
-
-  <div className="mp-impact-cols">
-    <div className="mp-impact-card">
-      <h4>What it means for the member</h4>
-      <ul>{IMPACT_CONTRIBUTION_MEMBER.map(t => <li key={t}><span className="mp-list-check"><CheckIcon /></span>{t}</li>)}</ul>
-    </div>
-    <div className="mp-impact-card">
-      <h4>Why it matters to the ecosystem</h4>
-      <ul>{IMPACT_CONTRIBUTION_ECOSYSTEM.map(t => <li key={t}><span className="mp-list-check"><CheckIcon /></span>{t}</li>)}</ul>
-    </div>
+   {/* ── 4b + 5. MORE INFORMATION (FAQ-style accordion) ── */}
+<div className="mp-acc">
+  <div className="mp-acc-head">
+    <p className="mp-eye">More Information</p>
   </div>
 
-  <p className="mp-impact-principle">
-    <strong>The principle:</strong> When Ellevation Hub helps generate a new paying opportunity, a small part of that first successful transaction helps create opportunities for others.
-  </p>
+  {/* Community Impact Contribution */}
+  <MpAccordionItem
+    id="impact"
+    title="Why the Community Impact Contribution Matters"
+    open={openAcc === "impact"}
+    onToggle={() => setOpenAcc(openAcc === "impact" ? null : "impact")}
+  >
+    <p className="mp-impact-lead">Business growth that helps create the next opportunity.</p>
+    <p className="mp-impact-body">
+      The Community Impact Contribution is a give-back mechanism attached only to successful business referrals generated through the Ellevation Hub ecosystem. When the Hub introduces a member to a new client and that referral becomes paid business, a small percentage of the first referral-generated invoice is reinvested into initiatives that create opportunities for other people, businesses and community ideas.
+    </p>
 
-  <h4 className="mp-impact-subhead">Community Impact Contribution rates</h4>
-  <div className="mp-table-wrap" style={{ maxWidth: 820 }} role="region" aria-label="Contribution rates" tabIndex={0}>
-    <table className="mp-table" style={{ minWidth: 560 }}>
-      <thead>
-        <tr><th className="mp-th-feature">Tier</th><th>Contribution</th><th>Applies To</th></tr>
-      </thead>
-      <tbody>
-        {IMPACT_CONTRIBUTION_RATES.map(r => (
-          <tr key={r.tier}>
-            <th scope="row">{r.tier}</th>
-            <td><strong>{r.rate}</strong></td>
-            <td>{r.applies}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+    <div className="mp-impact-cols">
+      <div className="mp-impact-card">
+        <h4>What it means for the member</h4>
+        <ul>{IMPACT_CONTRIBUTION_MEMBER.map(t => <li key={t}><span className="mp-list-check"><CheckIcon /></span>{t}</li>)}</ul>
+      </div>
+      <div className="mp-impact-card">
+        <h4>Why it matters to the ecosystem</h4>
+        <ul>{IMPACT_CONTRIBUTION_ECOSYSTEM.map(t => <li key={t}><span className="mp-list-check"><CheckIcon /></span>{t}</li>)}</ul>
+      </div>
+    </div>
 
-  <p className="mp-impact-note">
-    <strong>Where the contribution can help:</strong> future small-business grants or support programs, emerging entrepreneurs, community initiatives, women-led ventures, business ideas needing connections or investment pathways, and other opportunity programs aligned with the ecosystem's purpose.
-  </p>
-  <p className="mp-impact-note">
-    <strong>Priority Business Service List:</strong> Legacy Partners receive priority visibility and referral consideration when community members, businesses or organisations seek trusted services. Consideration is based on relevance, availability, location and community needs. Membership or listing does not guarantee referrals or paid work. It means the business is considered first where the service request is relevant and appropriate.
-  </p>
+    <p className="mp-impact-principle">
+      <strong>The principle:</strong> When Ellevation Hub helps generate a new paying opportunity, a small part of that first successful transaction helps create opportunities for others.
+    </p>
+
+    <h4 className="mp-impact-subhead">Community Impact Contribution rates</h4>
+    <div className="mp-table-wrap" role="region" aria-label="Contribution rates" tabIndex={0}>
+      <table className="mp-table" style={{ minWidth: 560 }}>
+        <thead>
+          <tr><th className="mp-th-feature">Tier</th><th>Contribution</th><th>Applies To</th></tr>
+        </thead>
+        <tbody>
+          {IMPACT_CONTRIBUTION_RATES.map(r => (
+            <tr key={r.tier}>
+              <th scope="row">{r.tier}</th>
+              <td><strong>{r.rate}</strong></td>
+              <td>{r.applies}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p className="mp-impact-note">
+      <strong>Where the contribution can help:</strong> future small-business grants or support programs, emerging entrepreneurs, community initiatives, women-led ventures, business ideas needing connections or investment pathways, and other opportunity programs aligned with the ecosystem's purpose.
+    </p>
+    <p className="mp-impact-note">
+      <strong>Priority Business Service List:</strong> Legacy Partners receive priority visibility and referral consideration when community members, businesses or organisations seek trusted services. Consideration is based on relevance, availability, location and community needs. Membership or listing does not guarantee referrals or paid work. It means the business is considered first where the service request is relevant and appropriate.
+    </p>
+  </MpAccordionItem>
+
+  {/* Hub + Ms Ellevation (Hub left, Ms Ellevation right) */}
+  <MpAccordionItem
+    id="together"
+    title="How Ellevation Hub and Ms Ellevation Work Together"
+    open={openAcc === "together"}
+    onToggle={() => setOpenAcc(openAcc === "together" ? null : "together")}
+  >
+    <div className="mp-bridge-grid">
+      <div className="mp-bridge-card">
+        <span className="tag">BUILDING OPPORTUNITY</span>
+        <h4>Ellevation Hub</h4>
+        <p>Opportunities, business visibility, employment, partnerships and community impact.</p>
+      </div>
+      <div className="mp-bridge-plus" aria-hidden="true">+</div>
+      <div className="mp-bridge-card">
+        <span className="tag">BUILDING THE WOMAN</span>
+        <h4>Ms Ellevation</h4>
+        <p>Identity, confidence, wellbeing and leadership.</p>
+      </div>
+    </div>
+    <p className="mp-bridge-note">
+      The Ellevation Membership creates a bridge between both ecosystems, allowing women to grow personally and then access wider opportunities through Ellevation Hub.
+    </p>
+  </MpAccordionItem>
 </div>
-
-        {/* ── 5. HUB + MS ELLEVATION (Hub left, Ms Ellevation right) ── */}
-        <div className="mp-bridge">
-          <div className="mp-block-head">
-            <p className="mp-eye">One Connected Journey</p>
-            <h3 className="mp-block-title">How Ellevation Hub and Ms Ellevation Work Together</h3>
-          </div>
-          <div className="mp-bridge-grid">
-            <div className="mp-bridge-card">
-              <span className="tag">BUILDING OPPORTUNITY</span>
-              <h4>Ellevation Hub</h4>
-              <p>Opportunities, business visibility, employment, partnerships and community impact.</p>
-            </div>
-            <div className="mp-bridge-plus" aria-hidden="true">+</div>
-            <div className="mp-bridge-card">
-              <span className="tag">BUILDING THE WOMAN</span>
-              <h4>Ms Ellevation</h4>
-              <p>Identity, confidence, wellbeing and leadership.</p>
-            </div>
-          </div>
-          <p className="mp-bridge-note">
-            The Ellevation Membership creates a bridge between both ecosystems, allowing women to grow personally and then access wider opportunities through Ellevation Hub.
-          </p>
-        </div>
 
         {/* ── 6. FORM ── */}
         <div id="membership-form" className="mp-form-wrap">
@@ -1768,7 +1850,7 @@ function MembershipSection() {
                         value={p.id}
                         checked={purpose === p.id}
                         onChange={() => setPurpose(p.id)}
-                        style={{ accentColor: meta.color, cursor: "pointer" }}
+style={{ accentColor: meta.color, cursor: "pointer", width: 20, height: 20, marginTop: 2, flexShrink: 0 }}
                       />
                       <span>
                         <span className="hub-purpose-label" style={mb.purposeLabel}>{p.label}</span>
@@ -1799,8 +1881,8 @@ function MembershipSection() {
                 <textarea
                   className="hub-input"
                   style={{ ...jp.input, marginTop: 16, resize: "vertical" as const }}
-                  rows={3}
-                  placeholder="Anything you'd like us to know? (optional)"
+             rows={5}
+placeholder="Anything you'd like us to know? (optional)"
                   value={notes}
                   onChange={e => setNotes(e.target.value)}
                 />
@@ -1808,15 +1890,15 @@ function MembershipSection() {
                 {/* Privacy Policy & Terms agreement */}
                 <label
                   className="hub-form-sub"
-                  style={{ display: "flex", alignItems: "flex-start", gap: 10, marginTop: 20, fontSize: "14px", cursor: "pointer" }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={agreed}
-                    onChange={e => setAgreed(e.target.checked)}
-                    required
-                    style={{ accentColor: "#4B1E56", marginTop: 3, cursor: "pointer", flexShrink: 0 }}
-                  />
+                 style={{ display: "flex", alignItems: "flex-start", gap: 12, marginTop: 24, fontSize: "16px", cursor: "pointer" }}
+>
+  <input
+    type="checkbox"
+    checked={agreed}
+    onChange={e => setAgreed(e.target.checked)}
+    required
+    style={{ accentColor: "#4B1E56", marginTop: 3, width: 20, height: 20, cursor: "pointer", flexShrink: 0 }}
+  />
                   <span>
                     I agree to the{" "}
                     <a href="/privacy-policy" target="_blank" rel="noreferrer" style={{ color: "#4B1E56", fontWeight: 600 }}>Privacy Policy</a>
@@ -1834,6 +1916,33 @@ function MembershipSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+function MpAccordionItem({
+  id, title, open, onToggle, children,
+}: { id: string; title: string; open: boolean; onToggle: () => void; children: React.ReactNode }) {
+  return (
+    <div className={`mp-acc-item${open ? " open" : ""}`}>
+      <h3 className="mp-acc-h">
+        <button
+          type="button"
+          id={`mp-acc-btn-${id}`}
+          className="mp-acc-btn"
+          aria-expanded={open}
+          aria-controls={`mp-acc-panel-${id}`}
+          onClick={onToggle}
+        >
+          <span>{title}</span>
+          <span className="mp-acc-icon" aria-hidden="true" />
+        </button>
+      </h3>
+      <div id={`mp-acc-panel-${id}`} role="region" aria-labelledby={`mp-acc-btn-${id}`} className="mp-acc-panel">
+        <div className="mp-acc-inner">
+          <div className="mp-acc-body">{children}</div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1875,9 +1984,9 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
           <h2 className="hub-programs-title" style={{ ...pg.title, marginBottom: 20 }}>
             Development Pathways for Growth, Leadership and Opportunity
           </h2>
-          <p className="hub-programs-card-text" style={pg.lead}>
-            Creating opportunities for individuals, businesses and communities to grow, connect and thrive.
-          </p>
+        <p className="hub-programs-card-text" style={pg.lead}>
+  Creating pathways for individuals, businesses, and communities to build confidence, strengthen leadership, and access new opportunities.
+</p>
           <p className="hub-programs-card-title" style={pg.tagline}>
             From childhood to leadership. From ideas to opportunity.
           </p>
@@ -1908,7 +2017,7 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
                   </>
                 )}
                 {p.tag && <span className="hub-programs-chip" style={pg.chip}>{p.tag}</span>}
-                <button style={pg.registerBtn} onClick={() => nav("register", p.title)}>REGISTER NOW!</button>
+<button style={pg.registerBtn} onClick={() => nav("register", p.title)}>REGISTER NOW</button>
               </div>
             ))}
           </div>
@@ -1918,8 +2027,8 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
       {/* 3 ── WHO WE SUPPORT */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={who.ref} style={{ ...ab.container, ...fade(who.inView, 0) }}>
-          <h2 className="hub-about-title" style={ab.title}>Who We Support</h2>
-          <div style={pg.chipRow}>
+<p className="hub-about-eye" style={ab.eye}>WHO WE SUPPORT</p>
+<h2 className="hub-about-title" style={ab.title}>Every Community. Every Pathway.</h2>          <div style={pg.chipRow}>
             {PROGRAMS_WHO_WE_SUPPORT.map(w => (
               <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
             ))}
@@ -1931,18 +2040,17 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
       <section className="hub-about-section hub-about-plain" style={ab.sectionWhite}>
         <div ref={part.ref} style={{ ...ab.containerNarrow, ...fade(part.inView, 0) }}>
           <h2 className="hub-about-title" style={{ ...ab.title, marginBottom: 24 }}>Partners &amp; Collaborators</h2>
-          <p className="hub-about-sub" style={ab.para}>
-            We work alongside community organisations, businesses, educators, government and supporters to create opportunities that strengthen communities and create lasting impact.
-          </p>
+<p className="hub-about-sub" style={ab.para}>
+  We work alongside community organisations, businesses, educators, government, and supporters to create opportunities that strengthen communities and create lasting impact.
+</p>
           <p className="hub-about-sub" style={{ ...ab.para, fontWeight: 600, color: "#4B1E56" }}>
             We welcome partnerships with:
           </p>
           <div style={pg.chipRow}>
-            {PROGRAMS_PARTNERS.map(w => (
-              <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
-            ))}
-            <span className="hub-programs-chip" style={pg.chip}>Community Leaders</span>
-          </div>
+           {PROGRAMS_PARTNERS.map(w => (
+  <span key={w} className="hub-programs-chip" style={pg.chip}>{w}</span>
+))}
+</div>
           <div style={{ marginTop: 36 }}>
             <button style={pg.ctaBtn} onClick={() => nav("connect")}>PARTNER WITH US</button>
           </div>
@@ -1952,8 +2060,8 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
       {/* 5 ── THE ELLEVATION ECOSYSTEM (Hub left, Ms Ellevation right) */}
       <section className="hub-about-section hub-about-alt" style={ab.sectionLight}>
         <div ref={eco.ref} style={{ ...ab.container, ...fade(eco.inView, 0) }}>
-          <h2 className="hub-about-title" style={ab.title}>The Ellevation Ecosystem</h2>
-          <div style={ab.gridAuto}>
+<p className="hub-about-eye" style={ab.eye}>THE ELLEVATION ECOSYSTEM</p>
+<h2 className="hub-about-title" style={ab.title}>Two Pathways. One Connected Journey.</h2>          <div style={ab.gridAuto}>
             {PROGRAMS_ECOSYSTEM.map((item, i) => (
               <div key={item.title} className="hub-about-card" style={{ ...ab.card, ...fade(eco.inView, 100 + i * 100) }}>
                 <p className="hub-about-eye" style={ab.eyeLeft}>{item.eyebrow}</p>
@@ -1962,8 +2070,10 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
               </div>
             ))}
             <div className="hub-about-card" style={{ ...ab.card, ...ab.cardHighlight, ...fade(eco.inView, 300) }}>
-              <p style={{ ...ab.eyeLeft, color: "#D7B264" }}>TOGETHER</p>
-              <h3 style={{ ...ab.cardTitle, fontSize: "22px", color: "#fff" }}>Creating pathways for thriving communities.</h3>
+<p style={{ ...ab.eyeLeft, color: "#D7B264" }}>TOGETHER</p>
+<p style={{ ...ab.cardText, color: "rgba(255,255,255,0.9)" }}>
+  Creating pathways that help people, businesses, and communities grow, connect, lead, and create lasting impact.
+</p>        
             </div>
           </div>
         </div>
@@ -1972,10 +2082,10 @@ function ProgramsSection({ nav }: { nav: NavFn }) {
       {/* 6 ── FINAL CTA */}
       <section className="hub-about-section hub-about-cta" style={ab.ctaSection}>
         <div ref={cta.ref} style={{ ...ab.containerNarrow, ...fade(cta.inView, 0) }}>
-          <h2 style={{ ...ab.title, color: "#fff", marginBottom: 20 }}>Opportunity Starts With Access.</h2>
-          <p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
-            Whether you're looking to learn, lead, grow a business, support your community or collaborate with others, there's a place for you at Ellevation Hub.
-          </p>
+          <h2 style={{ ...ab.title, color: "#fff", marginBottom: 20 }}>Opportunity Starts with Access.</h2>
+<p style={{ ...ab.para, color: "rgba(255,255,255,0.85)" }}>
+  Whether you're looking to learn, lead, grow a business, support your community, or collaborate with others, there's a place for you within the Ellevation ecosystem.
+</p>
           <div style={ab.ctaRow}>
             <button style={ab.ctaPrimary} onClick={() => nav("membership")}>JOIN MEMBERSHIP</button>
             <button style={ab.ctaSecondary} onClick={() => nav("connect")}>PARTNER WITH US</button>
@@ -2375,9 +2485,9 @@ function ImpactSection() {
       {/* Community impact — who is being supported */}
       <p className="hub-impact-eye" style={st.sectionEye}>COMMUNITY IMPACT</p>
       <h2 className="hub-impact-title" style={st.bannerTitle}>Real Outcomes, Across Every Group We Support</h2>
-      <p className="hub-impact-lead" style={st.lead}>
-        From grassroots community networks to growing businesses, rising youth, and men committed to allyship — here's where the Hub is making a measurable difference.
-      </p>
+     <p className="hub-impact-lead" style={st.lead}>
+  From grassroots community initiatives to growing businesses, emerging leaders, young people, and families, here's how Ellevation Hub is creating pathways for confidence, connection, leadership, opportunity, and community impact.
+</p>
 
       <div className="hub-impact-stats" style={st.statsGrid}>
         {IMPACT_STATS.map(s => (
@@ -2421,8 +2531,7 @@ function ImpactSection() {
       {/* Business growth and visibility results */}
       <div className="hub-impact-subsection" style={st.subSection}>
         <p className="hub-impact-eye" style={st.sectionEye}>BUSINESS GROWTH &amp; VISIBILITY</p>
-        <h3 className="hub-impact-subtitle" style={st.subtitle}>Results for Our Directory Members</h3>
-        <div className="hub-impact-stats" style={st.statsGrid}>
+<h3 className="hub-impact-subtitle" style={st.subtitle}>Real Outcomes for Directory Members</h3>        <div className="hub-impact-stats" style={st.statsGrid}>
           {BUSINESS_GROWTH_STATS.map(s => (
             <div key={s.l} className="hub-impact-stat" style={st.statCard}>
               <p className="hub-impact-stat-num" style={st.statNum}>{s.n}</p>
@@ -2453,8 +2562,7 @@ function ImpactSection() {
       {/* Programs in action */}
       <div className="hub-impact-subsection" style={st.subSection}>
         <p className="hub-impact-eye" style={st.sectionEye}>PROGRAMS IN ACTION</p>
-        <h3 className="hub-impact-subtitle" style={st.subtitle}>Where the Work Happens Day to Day</h3>
-        <div className="hub-impact-programs-grid" style={st.programsGrid}>
+<h3 className="hub-impact-subtitle" style={st.subtitle}>Where Opportunity Turns Into Action</h3>        <div className="hub-impact-programs-grid" style={st.programsGrid}>
           {PROGRAMS_IN_ACTION.map(p => (
             <div key={p.title} className="hub-impact-program-card" style={st.programCard}>
               <div style={st.programIcon}>{p.icon}</div>
@@ -2468,8 +2576,7 @@ function ImpactSection() {
       {/* Future impact vision */}
       <div className="hub-impact-vision" style={st.visionBox}>
         <p className="hub-impact-vision-eye" style={st.visionEye}>FUTURE VISION</p>
-        <p className="hub-impact-vision-text" style={st.visionText}>We're building toward a future where every member of our community — regardless of background — has direct access to opportunity, capital, and belonging.</p>
-      </div>
+<p className="hub-impact-vision-text" style={st.visionText}>We're building toward a future where every member of our community, regardless of background, has access to connection, opportunity, visibility, leadership pathways, and the support needed to create lasting impact.</p>      </div>
     </section>
   );
 }
@@ -3131,18 +3238,18 @@ const ab: Record<string, React.CSSProperties> = {
 
 const mb: Record<string, React.CSSProperties> = {
   tabsRow: { display: "flex", justifyContent: "center", gap: 10, marginBottom: 28, flexWrap: "wrap" as const },
-  tabBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "10px 22px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "transparent", color: "#662369", cursor: "pointer", transition: "all 0.25s ease" },
+tabBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "16px", fontWeight: 700, letterSpacing: "0.1em", padding: "12px 26px", borderRadius: 100, border: "1.5px solid #ded4ee", background: "transparent", color: "#662369", cursor: "pointer", transition: "all 0.25s ease" },
   tabActive: { color: "#fff", border: "1.5px solid transparent", boxShadow: "0 4px 20px rgba(102,35,105,0.30)" },
   benefitsList: { display: "flex", flexDirection: "column", gap: 10, margin: "0 0 8px" },
   benefitItem: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.88rem", color: "#554866", display: "flex", alignItems: "center", gap: 10 },
   benefitDot: { width: 6, height: 6, borderRadius: "50%", flexShrink: 0 },
   pageEye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 12 },
   divider: { height: 1, background: "#ede7f5", margin: "24px 0" },
-  formLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#4B1E56", marginBottom: 12 },
-  purposeRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12 },
-  purposeTile: { display: "flex", alignItems: "flex-start", gap: 10, padding: "14px 16px", borderRadius: 14, border: "1.5px solid #ded4ee", cursor: "pointer", transition: "all 0.2s ease" },
-  purposeLabel: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.85rem", fontWeight: 600, color: "#1a0a2e" },
-  purposeDesc: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.75rem", color: "#554866", marginTop: 2 },
+ formLabel: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#4B1E56", marginBottom: 16 },
+purposeRow: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16 },
+purposeTile: { display: "flex", alignItems: "flex-start", gap: 12, padding: "20px 22px", borderRadius: 16, border: "1.5px solid #ded4ee", cursor: "pointer", transition: "all 0.2s ease" },
+purposeLabel: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "18px", fontWeight: 600, color: "#1a0a2e" },
+purposeDesc: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "16px", color: "#554866", marginTop: 4, lineHeight: 1.5 },
 };
 
 const dr: Record<string, React.CSSProperties> = {
@@ -3172,9 +3279,7 @@ const pg: Record<string, React.CSSProperties> = {
   registerBtn: { marginTop: "auto", alignSelf: "stretch", fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.12em", padding: "13px 18px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 16px rgba(215,35,143,0.25)" },
   lead: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 12px", position: "relative", zIndex: 1 },
   tagline: { fontFamily: "'Astrid Regular',serif", fontSize: "1.3rem", fontStyle: "italic", color: "#4B1E56", margin: "0 auto 32px", position: "relative", zIndex: 1 },
-  pathGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "left", alignItems: "stretch" },
-  focusList: { listStyle: "none", display: "flex", flexDirection: "column", gap: 8, marginTop: 10, marginBottom: 24 },
-  focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866" },
+pathGrid: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, textAlign: "left", alignItems: "stretch" },  focusItem: { display: "flex", alignItems: "center", gap: 10, fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866" },
   focusDot: { flexShrink: 0, width: 20, height: 20, borderRadius: "50%", background: "#D7B264", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.65rem", fontWeight: 700 },
   chipRow: { display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" as const },
   chip: { display: "inline-block", fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.03em", color: "#662369", background: "rgba(75,30,86,0.08)", border: "1px solid rgba(75,30,86,0.18)", padding: "10px 20px", borderRadius: 100, marginTop: 16, width: "fit-content" },
@@ -3258,14 +3363,13 @@ const evs: Record<string, React.CSSProperties> = {
 
 const jp: Record<string, React.CSSProperties> = {
   formSection: { padding: "100px 24px", background: "#fff", display: "flex", justifyContent: "center" },
-  card: { background: "#fff", padding: "48px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", border: "1px solid rgba(124, 92, 191, 0.12)", width: "100%" },
-  formHeader: { textAlign: "center", marginBottom: 32 },
+card: { background: "#fff", padding: "56px", borderRadius: 24, boxShadow: "0 10px 40px rgba(102,35,105,0.08)", border: "1px solid rgba(124, 92, 191, 0.12)", width: "100%" },
+  row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 },
+input: { width: "100%", padding: "18px 22px", borderRadius: 14, border: "1.5px solid #ded4ee", background: "#fdf9fc", fontFamily: "'Montserrat', sans-serif", fontSize: "18px", outline: "none" },
   formTitle: { fontFamily: "'Astrid Regular', serif", fontSize: "2rem", color: "#1a0a2e", marginBottom: 8 },
   formSub: { fontFamily: "'Montserrat', sans-serif", fontSize: "18px", color: "#554866" },
-  row: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
-  input: { width: "100%", padding: "14px 18px", borderRadius: 12, border: "1px solid #ede7f5", background: "#fdf9fc", fontFamily: "'Montserrat', sans-serif", fontSize: "0.9rem", outline: "none" },
-  select: { appearance: "none" as const, cursor: "pointer" },
-  submitBtn: { width: "100%", marginTop: 24, padding: "16px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", fontWeight: 700, fontSize: "14px", cursor: "pointer", letterSpacing: "0.1em" },
+   select: { appearance: "none" as const, cursor: "pointer" },
+submitBtn: { width: "100%", marginTop: 28, padding: "20px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", fontWeight: 700, fontSize: "16px", cursor: "pointer", letterSpacing: "0.1em" },
 };
 
 const st: Record<string, React.CSSProperties> = {
@@ -3554,13 +3658,9 @@ export default function EllevationHub() {
         .hub-programs-grid .hub-about-card .hub-programs-chip{
           margin-top:auto !important;
         }
-        @media (max-width: 1100px){
-          .hub-programs-grid{ grid-template-columns:repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 640px){
-          .hub-programs-grid{ grid-template-columns:1fr !important; }
-        }
-
+       @media (max-width: 1240px){
+  .hub-programs-grid{ grid-template-columns:minmax(0, 420px) !important; }
+}
         @media (max-width: 600px){
           .hub-directory-grid{ grid-template-columns:1fr !important; }
           .hub-opportunities-grid{ grid-template-columns:1fr !important; }
@@ -3592,6 +3692,21 @@ export default function EllevationHub() {
         @media (max-width: 400px){
           .hub-about-page [style*="minmax(320px"]{ grid-template-columns:1fr !important; }
         }
+
+        /* Who We Support: 6 cards in one row on desktop */
+.hub-about-support-grid .hub-about-card{ padding:22px 18px !important; }
+.hub-about-support-grid .hub-about-card-title{ font-size:20px !important; }
+.hub-about-support-grid .hub-about-card-text{ font-size:15px !important; line-height:1.55 !important; }
+
+@media (max-width:1180px){
+  .hub-about-support-grid{ grid-template-columns:repeat(3, 1fr) !important; }
+}
+@media (max-width:640px){
+  .hub-about-support-grid{ grid-template-columns:repeat(2, 1fr) !important; }
+}
+@media (max-width:420px){
+  .hub-about-support-grid{ grid-template-columns:1fr !important; }
+}
 
         /* ── Dark Mode Overrides ── */
 

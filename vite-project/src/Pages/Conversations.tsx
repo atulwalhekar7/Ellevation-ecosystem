@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { Link } from "react-router-dom";
 import heroBg from "../assets/Conversation.jpeg";
 import { submitEnquiry } from "../Emailjs/submitEnquiry";
 
@@ -32,35 +31,52 @@ function scrollToStoryForm() {
   document.getElementById("submit-story")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function scrollToConversations() {
+  document.getElementById("explore-conversations")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 /* ── Ellevation Conversations data ── */
 const conversationContent = [
   {
     title: "Media",
-    body: "Share your journey through video, audio recordings, digital art, or photography — accompanied by a short written explanation of your experience.",
+    body: "Share your journey through video, audio recordings, digital art, photography, or creative content, accompanied by a short explanation of your experience.",
   },
   {
     title: "Stories",
-    body: "Every woman's journey is unique, important, and worth sharing. Submit your written reflections or letters to inspire other women on a similar path.",
+    body: "Every journey is unique, important, and worth sharing. Submit written reflections, personal stories, lessons learned, life transitions, or moments of growth that may encourage others.",
   },
   {
-    title: "Community Voice",
-    body: "Choose to be named or remain anonymous. Your voice contributes to a growing circle of support and connection for CALD women across Australia.",
+    title: "Community Voices",
+    body: "Choose to be named or remain anonymous. Your story becomes part of a growing collection of voices that strengthen connection, understanding, and positive impact across our communities.",
   },
 ];
 
 /* ── Social channels ── */
 const SOCIAL_LINKS = [
-  {
-    label: "Instagram",
-    href: "https://instagram.com/msellevation",
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="2" y="2" width="20" height="20" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
+ {
+  label: "Instagram (Ms Ellevation)",
+  caption: "Ms Ellevation",
+  href: "https://www.instagram.com/ms_ellevation",
+  icon: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+},
+{
+  label: "Instagram (Ellevation Hub)",
+  caption: "Ellevation Hub",
+  href: "https://www.instagram.com/ellevation.hub",
+  icon: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="2" y="2" width="20" height="20" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  ),
+},
   {
     label: "Facebook",
     href: "https://facebook.com/msellevation",
@@ -106,17 +122,17 @@ const SOCIAL_LINKS = [
 const submissionFormats = [
   {
     title: "Written Reflections & Letters",
-    body: "Share diary-style reflections or direct letters mapping your transition, your challenges, and your personal growth.",
+    body: "Share reflections, journal entries, personal experiences, challenges, or moments of growth.",
     icon: "",
   },
   {
     title: "Audio & Video Recordings",
-    body: "Spoken or filmed accounts capturing your journey, struggles, or insights in your own voice.",
+    body: "Tell your story in your own words through spoken or recorded experiences, lessons, and insights.",
     icon: "",
   },
   {
     title: "Digital Art & Photography",
-    body: "Creative visuals, artwork, or photography paired with a short written explanation of your story.",
+    body: "Use creative expression, artwork, design, or photography to share your story and perspective.",
     icon: "",
   },
 ];
@@ -175,18 +191,25 @@ function Hero() {
         padding: "80px 24px",
       }}>
         <div style={{ opacity: visible ? 1 : 0, maxWidth: 650 }}>
-          <h1 className={visible ? "elv-animate-2" : ""} style={{
-            fontFamily: "'Astrid Regular', serif",
-            fontSize: "clamp(36px,5vw,56px)",
-            fontWeight: 700, lineHeight: 1.15,
-            color: "#fff", marginBottom: 24, letterSpacing: "-0.01em",
-          }}>
-            When women connect, <br />share, and support, <br /> <span style={{ color: "#EFBF68" }}>communities transform.</span>
-          </h1>
+         <p className={visible ? "elv-animate-2" : ""} style={{
+  fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 700,
+  letterSpacing: "0.22em", color: "#EFBF68", marginBottom: 16,
+}}>
+  ELLEVATION CONVERSATIONS
+</p>
 
-          <p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 18, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
-            Share your personal or professional journey through video, audio, writing, or digital art to inspire women across Australia.
-          </p>
+<h1 className={visible ? "elv-animate-2" : ""} style={{
+  fontFamily: "'Astrid Regular', serif",
+  fontSize: "clamp(36px,5vw,56px)",
+  fontWeight: 700, lineHeight: 1.15,
+  color: "#fff", marginBottom: 24, letterSpacing: "-0.01em",
+}}>
+  When Stories Are Shared, <br /><span style={{ color: "#EFBF68" }}>Communities Grow.</span>
+</h1>
+
+<p className={visible ? "elv-animate-3" : ""} style={{ fontSize: 18, fontFamily: "'Montserrat', serif", lineHeight: 1.7, color: "rgba(255,255,255,0.9)", maxWidth: 520, marginBottom: 36 }}>
+  Share your personal or professional journey through video, audio, writing, photography, or creative expression and help inspire others through the power of lived experience.
+</p>
 
           <div className={visible ? "elv-animate-4" : ""} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <button
@@ -206,26 +229,25 @@ function Hero() {
             >
               Submit Your Story →
             </button>
-            <Link
-              to="/get-involved/join"
-              onMouseEnter={() => setDarkHov(true)}
-              onMouseLeave={() => setDarkHov(false)}
-              style={{
-                display: "inline-flex", alignItems: "center", gap: 8,
-                padding: "14px 28px", borderRadius: 14,
-                background: "#D7B264",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-                border: "1.5px solid rgba(255,255,255,0.3)",
-                color: "#fff", fontFamily: "'Montserrat',sans-serif",
-                fontWeight: 600, fontSize: 14, cursor: "pointer",
-                textDecoration: "none",
-                transform: darkHov ? "translateY(-2px)" : "translateY(0)",
-                transition: "transform 0.2s",
-              }}
-            >
-              Explore Conversations →
-            </Link>
+            <button
+  onClick={scrollToConversations}
+  onMouseEnter={() => setDarkHov(true)}
+  onMouseLeave={() => setDarkHov(false)}
+  style={{
+    display: "inline-flex", alignItems: "center", gap: 8,
+    padding: "14px 28px", borderRadius: 14,
+    background: "#D7B264",
+    backdropFilter: "blur(10px)",
+    WebkitBackdropFilter: "blur(10px)",
+    border: "1.5px solid rgba(255,255,255,0.3)",
+    color: "#fff", fontFamily: "'Montserrat',sans-serif",
+    fontWeight: 600, fontSize: 14, cursor: "pointer",
+    transform: darkHov ? "translateY(-2px)" : "translateY(0)",
+    transition: "transform 0.2s",
+  }}
+>
+  Explore Conversations →
+</button>
           </div>
         </div>
       </div>
@@ -246,16 +268,22 @@ function VisionSection() {
           <span style={{ fontFamily: "'Montserrat', sans-serif", fontSize: "14px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#662369", display: "block", marginBottom: "12px" }}>
             Our Purpose
           </span>
-          <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,52px)", fontWeight: 700, lineHeight: 1.2, marginBottom: "32px", color: "#1a0a2e" }}>
-            A Blueprint of Inspiration For  CALD Backgrounds
-          </h2>
-        </div>
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
-          By sharing your story, you're giving Ms. Ellevation permission to share your experiences on our platform — not only contributing to a growing community of strength, but also helping create a circle of support where women can feel seen, heard, and connected.
-        </p>
-        <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, margin: 0 }}>
-          Your journey could be the spark of encouragement someone else needs. Together, these stories weave a powerful tapestry of resilience, courage, and possibility — showing every CALD woman in Australia that she is not alone, and that success, belonging, and confidence are within reach.
-        </p>
+<h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(32px,4.5vw,52px)", fontWeight: 700, lineHeight: 1.2, marginBottom: "32px", color: "#1a0a2e" }}>
+  A Platform for Voices That Matter
+</h2>
+</div>
+<p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
+  Stories have the power to connect, encourage, and create change.
+</p>
+<p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
+  Ellevation Conversations exists to provide a platform where people can share their journeys, celebrate growth, overcome challenges, and inspire others through lived experience.
+</p>
+<p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, marginBottom: "24px" }}>
+  We are especially passionate about amplifying stories from culturally and linguistically diverse (CALD) communities while welcoming voices from across the Ellevation ecosystem.
+</p>
+<p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.65, margin: 0 }}>
+  Every story contributes to a growing collection of experiences that promote connection, understanding, confidence, leadership, and community impact.
+</p>
       </div>
     </section>
   );
@@ -312,27 +340,36 @@ function SocialFollowRow() {
       <p className="social-follow-label" style={{
         fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600,
         letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: 0
-      }}>
+          }}>
         Follow the Conversation
       </p>
-      <div style={{ display: "flex", gap: 12 }}>
+      <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, margin: 0, textAlign: "center" }}>
+        Follow and explore conversations across the Ellevation ecosystem.
+      </p>
+      <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center", alignItems: "flex-start" }}>
         {SOCIAL_LINKS.map((s) => (
-          <a
-            key={s.label}
-            href={s.href}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={s.label}
-            className="social-icon-link"
-            style={{
-              width: 42, height: 42, borderRadius: "50%",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              background: "#fff", border: "1.5px solid rgba(124, 92, 191, 0.15)",
-              color: "#4B1E56", transition: "all 0.2s ease",
-            }}
-          >
-            {s.icon}
-          </a>
+          <div key={s.label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, maxWidth: 96 }}>
+            <a
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              className="social-icon-link"
+              style={{
+                width: 42, height: 42, borderRadius: "50%",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                background: "#fff", border: "1.5px solid rgba(124, 92, 191, 0.15)",
+                color: "#4B1E56", transition: "all 0.2s ease",
+              }}
+            >
+              {s.icon}
+            </a>
+            {"caption" in s && s.caption && (
+              <span className="social-caption" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 12, fontWeight: 600, color: "#554866", textAlign: "center", lineHeight: 1.3 }}>
+                {s.caption}
+              </span>
+            )}
+          </div>
         ))}
       </div>
     </div>
@@ -341,10 +378,9 @@ function SocialFollowRow() {
 
 function ConversationSection() {
   return (
-    <section className="about-vmv" style={{ background: "#ffffff", padding: "40px 24px 100px" }}>
-      <div style={{ textAlign: "center", marginBottom: 44 }}>
-        <p className="section-eyebrow" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#4B1E56", margin: "0 0 12px" }}>Ellevation Conversations</p>
-      </div>
+   <section id="explore-conversations" className="about-vmv" style={{ background: "#ffffff", padding: "40px 24px 100px", scrollMarginTop: 24 }}>
+  <div style={{ textAlign: "center", marginBottom: 44 }}>
+<h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: 0 }}>We Welcome Stories in Many Forms</h2>  </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, maxWidth: 1040, margin: "0 auto", justifyContent: "center" }}>
         {conversationContent.map((item, i) => <ConversationCard key={i} item={item} />)}
       </div>
@@ -539,9 +575,12 @@ function StorySubmissionSection() {
           <h2 style={{ fontFamily: "'Astrid Regular', serif", fontSize: "clamp(36px,5vw,52px)", fontWeight: 700, color: "#4B1E56", margin: "0 0 16px" }}>
             Submit Your Story
           </h2>
-          <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto" }}>
-            Fill in the details below and attach your written reflection, audio, video, or artwork — or paste a link if it's already hosted somewhere. By submitting, you're giving Ms. Ellevation permission to share your experience across our platform.
-          </p>
+         <p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto 16px" }}>
+  Fill in the details below and attach your written reflection, audio, video, artwork, photography, or media — or share a link if your content is already hosted elsewhere.
+</p>
+<p style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, maxWidth: 580, margin: "0 auto" }}>
+  By submitting your story, you are giving permission for Ellevation to share your experience across relevant ecosystem platforms and channels.
+</p>
         </div>
 
         <div
@@ -754,8 +793,7 @@ function StorySubmissionSection() {
                   style={{ width: 18, height: 18, marginTop: 2, accentColor: "#4B1E56", cursor: "pointer" }}
                 />
                 <label htmlFor="consent" className="story-check-label" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 14, color: "#554866", lineHeight: 1.6, cursor: "pointer" }}>
-                  I give Ms. Ellevation permission to share my story and any attached media or linked content across the full Ms. Ellevation and Ellevation Ecosystem— including this website, Ellevation Hub, our social media channels, newsletters, and community events.
-                </label>
+I give Ellevation permission to share my story and any attached media or linked content across the Ellevation ecosystem, including this website, Ms. Ellevation, Ellevation Hub, social media channels, newsletters, and community events.                </label>
               </div>
               {errors.consent && <p style={{ color: "#e11d48", fontSize: 12, marginTop: -20, marginBottom: 20, fontFamily: "'Montserrat',sans-serif" }}>Please confirm your consent before submitting.</p>}
 
@@ -842,14 +880,24 @@ function CTASection() {
         >
           Join Our  <span style={{ color: "#EFBF68" }}>Ecosystem</span>
         </h2>
-        <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
-          <a href="/ms-ellevation" style={{ textDecoration: "none" }}>
-            <CTABtn label="Enter Ms. Ellevation" primary />
-          </a>
-          <a href="/hub" style={{ textDecoration: "none" }}>
-            <CTABtn label="Join Ellevation Hub" primary={false} />
-          </a>
-        </div>
+      <div style={{ ...fade(inView, 160), display: "flex", flexWrap: "wrap", gap: 24, justifyContent: "center", maxWidth: 820, margin: "0 auto" }}>
+  <div style={{ flex: "1 1 300px", maxWidth: 380, display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+    <p className="cta-desc" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, margin: 0 }}>
+      For women and young women seeking identity, voice, confidence, leadership, wellbeing, and community.
+    </p>
+    <a href="/ms-ellevation" style={{ textDecoration: "none", marginTop: "auto" }}>
+      <CTABtn label="Enter Ms. Ellevation" primary />
+    </a>
+  </div>
+  <div style={{ flex: "1 1 300px", maxWidth: 380, display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+    <p className="cta-desc" style={{ fontFamily: "'Montserrat',sans-serif", fontSize: 18, color: "#554866", lineHeight: 1.65, margin: 0 }}>
+      For individuals, professionals, entrepreneurs, businesses, organisations, and communities seeking connection, opportunity, visibility, and impact.
+    </p>
+    <a href="/hub" style={{ textDecoration: "none", marginTop: "auto" }}>
+      <CTABtn label="Join Ellevation Hub" primary={false} />
+    </a>
+  </div>
+</div>
       </div>
     </section>
   );
@@ -863,8 +911,7 @@ export default function ConversationsPage() {
     document.title = "Ellevation Conversations | Share Your Story";
 
     const description =
-      "Share your journey through video, audio, writing, or digital art. Join Ms. Ellevation's growing community of CALD women supporting and inspiring each other across Australia.";
-
+"Share your personal or professional journey through video, audio, writing, photography, or creative expression and help inspire others through the power of lived experience."
     let metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute("content", description);
@@ -972,6 +1019,10 @@ export default function ConversationsPage() {
         [data-theme="dark"] .format-card-body { color: #b8a8c8 !important; }
 
         [data-theme="dark"] .social-follow-label { color: #d8ccf4 !important; }
+        [data-theme="dark"] .social-caption { color: #b8a8c8 !important; }
+        [data-theme="dark"] .cta-desc { color: #b8a8c8 !important; }
+        [data-theme="dark"] .social-icon-link {
+                [data-theme="dark"] .social-caption { color: #b8a8c8 !important; }
         [data-theme="dark"] .social-icon-link {
           background: #1a1226 !important;
           border-color: rgba(155,109,190,0.2) !important;

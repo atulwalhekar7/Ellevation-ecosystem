@@ -52,11 +52,11 @@ const SHOW_STORIES_TEASER = false;
 // ─── SEO: per-page <title> and meta description ─────────────────────────────
 // Applied via useEffect in the root component whenever `page` changes.
 const PAGE_META: Record<Page, { title: string; description: string }> = {
-  home: {
-    title: "Ms. Ellevation| A Space for Women, By Women | A Space for Women, By Women",
-    description:
-      "Ms. Ellevation supports women and young women from culturally and linguistically diverse (CALD) communities to grow in confidence, strengthen their identity and develop leadership.",
-  },
+ home: {
+  title: "Ms. Ellevation | A Space for Women, By Women",
+  description:
+    "Ms. Ellevation supports women and young women to discover their voice, strengthen their identity, build confidence, and lead with purpose and impact, with a special passion for CALD women and young women.",
+},
   about: {
     title: "About Us | Ms. Ellevation",
     description:
@@ -290,14 +290,21 @@ const JOURNEY_FRAMEWORK = [
   { title: "Leadership", desc: "Lead yourself and inspire others." },
   { title: "Impact",     desc: "Create positive change in your life and community." },
 ];
-
-function JourneyFrameworkStrip() {
+const ABOUT_FRAMEWORK = [
+  { title: "Identity",   desc: "Identity helps women understand who they are." },
+  { title: "Voice",      desc: "Voice helps women share their story and lived experience." },
+  { title: "Confidence", desc: "Confidence helps women believe in their strengths and potential." },
+  { title: "Leadership", desc: "Leadership empowers women to influence, contribute, and create change." },
+  { title: "Impact",     desc: "Impact is the positive difference women make in their lives, families, workplaces, and communities." },
+];
+function JourneyFrameworkStrip({ steps = JOURNEY_FRAMEWORK, note }: { steps?: { title: string; desc: string }[]; note?: string }) {
   return (
     <section className="jf-strip">
       <div className="jf-inner">
-        <p className="jf-path">{JOURNEY_FRAMEWORK.map(s => s.title).join(" → ")}</p>
+        <p className="jf-path">{steps.map(s => s.title).join(" → ")}</p>
+        {note && <p className="focus-note" style={{ textAlign: "center", marginBottom: 28 }}>{note}</p>}
         <div className="jf-grid">
-          {JOURNEY_FRAMEWORK.map(s => (
+          {steps.map(s => (
             <div key={s.title} className="jf-card">
               <h4 className="jf-card-title">{s.title}</h4>
               <p className="jf-card-desc">{s.desc}</p>
@@ -377,30 +384,38 @@ function HomePage({ nav }: { nav: NavFn }) {
           <h1 className="hp-headline" style={hp.headline}>
             When Women Rise, Communities Rise.
           </h1>
-          <p className="hp-sub" style={hp.sub}>
-            Supporting women and young women from culturally and linguistically diverse (CALD)
-            communities to grow in confidence, strengthen their identity and develop leadership.
-          </p>
-          <p className="hp-sub" style={hp.sub}>
-            Welcome to Ms. Ellevation. A place for new beginnings, bold journeys and dreams taking flight.
-          </p>
+        <p className="hp-sub" style={hp.sub}>
+  Supporting women and young women to discover their voice, strengthen their identity, build confidence, and lead with purpose and impact.
+</p>
+<p className="hp-sub" style={hp.sub}>
+  We are especially passionate about supporting culturally and linguistically diverse (CALD) women and young women while welcoming all women who desire growth, connection, leadership, and meaningful community.
+</p>
           <div className="hp-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={hp.btnSecondary} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>
           </div>
         </div>
         <div className="hp-card" style={hp.card}>
-          <p className="hp-card-desc" style={hp.cardDesc}>Find your place. Lift your voice. Flourish.</p>
-          <div style={hp.cardFeatures}>
-            {FOCUS_ITEMS.map(item => (
-              <div key={item.label} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{item.label}</div>
-            ))}
-          </div>
+         <p className="hp-card-desc" style={hp.cardDesc}>Find Your Place. Find Your Voice. Lead With Purpose.</p>
+<div style={hp.cardFeatures}>
+  {HOME_CARD_FEATURES.map(label => (
+    <div key={label} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{label}</div>
+  ))}
+</div>
         </div>
       </div>
     </div>
   );
 }
+
+const HOME_CARD_FEATURES = [
+  "Find your voice",
+  "Strengthen your identity",
+  "Build your confidence",
+  "Lead with purpose",
+  "Prioritise your wellbeing",
+  "Connect with community",
+];
 const hp: Record<string, React.CSSProperties> = {
   page: { position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center", padding: "60px 48px" },
   bgGrad: {
@@ -473,26 +488,30 @@ function ImpactStatementSection() {
             transition: "opacity 0.7s ease 0.25s, transform 0.7s ease 0.25s",
           }}
         >
-          <h3 className="impact-card-title">
-            Building Holistic Success for Women in Australia.
-          </h3>
-          <p className="impact-card-desc">
-            Beyond every obstacle and uncertainty, Ms. Ellevation empowers women to claim their space,
-            amplify their voice and flourish.
-          </p>
+        <h3 className="impact-card-title">
+  Every woman carries a story, a voice, and untapped potential.
+</h3>
+<p className="impact-card-desc">
+  Ms. Ellevation exists to create spaces where women and young women strengthen their identity, discover their voice, build confidence, and step into leadership with purpose.
+</p>
 
-          <div className="impact-tags">
-            {[
-              { n: "Voice", i: "◈" },
-              { n: "Identity", i: "✦" },
-              { n: "Confidence", i: "❀" },
-            ].map((tag) => (
-              <div key={tag.n} className="impact-tag">
-                <span className="impact-tag-icon">{tag.i}</span>
-                <span className="impact-tag-name">{tag.n}</span>
-              </div>
-            ))}
-          </div>
+<div className="impact-tags">
+  {[
+    { n: "Identity: ",   d: "Know who you are.",         i: "✦" },
+    { n: "Voice: ",      d: "Own your story.",           i: "◈" },
+    { n: "Confidence: ", d: "Believe in your potential.", i: "❀" },
+    { n: "Leadership: ", d: "Create positive impact.",   i: "✧" },
+  ].map((tag) => (
+    <div key={tag.n} className="impact-tag">
+      <span className="impact-tag-icon">{tag.i}</span>
+      <span>
+        <span className="impact-tag-name">{tag.n}</span>
+        <span className="impact-tag-desc">{tag.d}</span>
+      </span>
+    </div>
+  ))}
+</div>
+<p className="impact-path">Identity • Voice • Confidence • Leadership</p>
         </div>
       </div>
     </section>
@@ -533,11 +552,12 @@ function CommunitySection({ nav }: { nav: NavFn }) {
           <h2 className="welcome-title">
             You Don't Have to Walk the Journey Alone
           </h2>
-          <p className="welcome-desc">
-            Become part of a supportive community of women committed to growth, leadership and
-            connection. Whether you are finding your voice, rebuilding confidence or pursuing new
-            opportunities, there is a place for you here.
-          </p>
+        <p className="welcome-desc" style={{ marginBottom: 16 }}>
+  Become part of a supportive community of women committed to growth, leadership, wellbeing, and meaningful connection.
+</p>
+<p className="welcome-desc">
+  Whether you are finding your voice, rebuilding confidence, navigating change, or pursuing new opportunities, there is a place for you here.
+</p>
 
           <button onClick={() => nav("programs")} className="welcome-cta">
             Explore Our Programs
@@ -599,10 +619,10 @@ function CommunitySection({ nav }: { nav: NavFn }) {
    the Journey" (pathways)
    ══════════════════════════════════════════════ */
 const PATHWAYS = [
-  { title: "Leadership Development", desc: "Building confidence, leadership skills and personal growth." },
-  { title: "Community & Connection", desc: "Meaningful relationships and a sense of belonging." },
-  { title: "Personal Growth",        desc: "Strengthen identity, wellbeing and self-belief." },
-  { title: "Events & Experiences",   desc: "Learn, connect and grow alongside other women." },
+  { title: "Leadership Development", desc: "Building confidence, leadership capability, influence, and personal growth." },
+  { title: "Community & Connection", desc: "Creating meaningful relationships, belonging, encouragement, and support." },
+  { title: "Personal Growth",        desc: "Strengthening identity, wellbeing, self-belief, and resilience." },
+  { title: "Events & Experiences",   desc: "Learn, connect, grow, and be inspired alongside a community of women." },
 ];
 
 function PathwaysSection() {
@@ -626,12 +646,12 @@ function PathwaysSection() {
 
 // ─── ABOUT PAGE ───────────────────────────────────────────────────────────────
 const OUR_VALUES = [
-  { title: "Empowerment", desc: "We equip women with the tools, knowledge, and confidence to take control of their lives and achieve their full potential." },
-  { title: "Inclusivity", desc: "We celebrate and embrace the diverse backgrounds, experiences, and voices of all women, ensuring everyone feels valued, seen, and a true sense of belonging." },
-  { title: "Resilience", desc: "We foster the strength to navigate challenges, learn from setbacks, and bounce back stronger, transforming adversity into growth and courage." },
-  { title: "Integrity", desc: "We act with honesty, transparency, and ethical conduct, building trust and maintaining credibility in all our relationships." },
-  { title: "Growth", desc: "We champion continuous personal and professional development, encouraging a lifelong journey of learning, adaptation, and expansion." },
-  { title: "Community", desc: "We cultivate a supportive and collaborative sisterhood where women can connect, share, and uplift one another, finding strength, safety, and momentum in collective support." },
+  { title: "Empowerment", desc: "We equip women with the tools, knowledge, and confidence to achieve their potential." },
+  { title: "Inclusivity", desc: "We celebrate diverse backgrounds, experiences, and voices while creating spaces of belonging." },
+  { title: "Resilience",  desc: "We foster the courage and strength to navigate challenges and continue moving forward." },
+  { title: "Integrity",   desc: "We lead with honesty, transparency, and authenticity." },
+  { title: "Growth",      desc: "We champion lifelong personal and professional development." },
+  { title: "Community",   desc: "We cultivate meaningful connection, support, and collective encouragement." },
 ];
 
 const FOCUS_ITEMS = [
@@ -640,16 +660,16 @@ const FOCUS_ITEMS = [
   { icon: "❀", label: "Build your confidence" },
   { icon: "✧", label: "Lead with purpose" },
   { icon: "♥", label: "Prioritise your wellbeing" },
-  { icon: "✧", label: "Connect with your community" },
-];
+{ icon: "✧", label: "Connect with community" },];
 
 const WHO_WE_SUPPORT = [
-  "Young women (17–25)",
-  "Women from culturally and linguistically diverse communities",
-  "Migrant and refugee women",
-  "Emerging leaders",
-  "Women navigating life transitions",
-  "Women seeking confidence, connection and growth",
+  "Young Women (17–25)",
+  "CALD Women",
+  "Migrant & Refugee Women",
+  "Emerging Leaders",
+  "Women Navigating Life Transitions",
+  "Women Seeking Confidence, Connection & Growth",
+  "Women Looking for Community and Purpose",
 ];
 
 function AboutPage({ nav }: { nav: NavFn }) {
@@ -660,12 +680,16 @@ function AboutPage({ nav }: { nav: NavFn }) {
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="ab-eye" style={ab.bannerEye}>ABOUT MS. ELLEVATION</p>
           <h1 className="ab-banner-title" style={ab.bannerTitle}>More Than a Program.<br />A Community.</h1>
-          <p className="ab-banner-sub" style={ab.bannerSub}>
-            Ms. Ellevation is the women's pathway within the Ellevation ecosystem — a space for
-            women, by women. We exist to help women and young women strengthen their identity,
-            build confidence, develop leadership and create lives filled with purpose, opportunity
-            and connection. Because when women rise, communities rise.
-          </p>
+         <p className="ab-banner-sub" style={ab.bannerSub}>
+  Ms. Ellevation is the women's pathway within the Ellevation ecosystem — a space for women, by women.
+</p>
+<p className="ab-banner-sub" style={{ ...ab.bannerSub, marginTop: 12 }}>
+  We exist to help women and young women strengthen their identity, discover their voice,
+  build confidence, and lead with purpose and impact.
+</p>
+<p className="ab-banner-sub" style={{ ...ab.bannerSub, marginTop: 12 }}>
+  Because when women rise, communities rise.
+</p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", marginTop:32, flexWrap:"wrap" as const }}>
             <button style={ab.btnD} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button className="ab-btn-outline" style={ab.btnL} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>
@@ -678,62 +702,70 @@ function AboutPage({ nav }: { nav: NavFn }) {
         <div className="story-inner">
           <p className="story-eyebrow">Our Story &amp; Heart</p>
           <h2 className="story-title">Igniting Her Journey.</h2>
-          <p className="story-subtitle">The Ms. Ellevation Difference: A Foundation of Growth and Care.</p>
+        <p className="story-subtitle">The Ms. Ellevation Difference</p>
 
-          <p className="story-p">
-            Ms. Ellevation was born out of a profound understanding of the unique journeys women navigate.
-          </p>
-          <p className="story-p">
-            Our story is rooted in four lived experiences: the journey of migration as a child from
-            Africa to Australia, experiencing domestic violence and mental health challenges in early
-            adulthood, the battle from self-doubt to confidence, and the realities of building a
-            business in Australia as a migrant woman.
-          </p>
-          <p className="story-p">
-            These experiences shaped the heart of Ms. Ellevation and continue to fuel our passion and purpose.
-          </p>
-          <p className="story-p">
-            We understand that many women carry invisible challenges while pursuing their dreams,
-            rebuilding their confidence, raising families, navigating new cultures, advancing careers
-            and creating opportunities for themselves and future generations.
-          </p>
-          <p className="story-p story-p-strong">This is why Ms. Ellevation exists.</p>
-          <p className="story-p">
-            We are here to champion women, particularly women from culturally and linguistically
-            diverse (CALD) communities and young women shaping their futures, empowering them to
-            flourish, lead and elevate their impact.
-          </p>
-          <p className="story-p">
-            We believe in a holistic approach to success that supports not only careers and
-            businesses, but also confidence, communication, wellbeing, leadership and financial
-            independence.
-          </p>
+<p className="story-p">
+  Ms. Ellevation was born from lived experience and a deep understanding of the journeys many women navigate.
+</p>
+<p className="story-p">
+  Our story is shaped by migration, overcoming adversity, rebuilding confidence, navigating life
+  transitions, and creating opportunities where none previously existed.
+</p>
+<p className="story-p">
+  These experiences continue to shape the heart of Ms. Ellevation and fuel our passion for creating
+  spaces where women feel seen, supported, and empowered.
+</p>
+<p className="story-p">
+  We understand that many women carry invisible challenges while building careers, raising families,
+  starting businesses, navigating new cultures, pursuing education, and creating opportunities for
+  future generations.
+</p>
+<p className="story-p story-p-strong">This is why Ms. Ellevation exists.</p>
+<p className="story-p">
+  We are especially passionate about supporting culturally and linguistically diverse (CALD) women and
+  young women while welcoming all women who align with our values and desire growth, connection,
+  leadership, and meaningful community.
+</p>
         </div>
       </section>
 
       {/* ── The Ms. Ellevation Journey ── */}
 
-      <JourneyFrameworkStrip />
+{/* ── Built Around Four Foundations ── */}
+<BulletListSection
+  eyebrow="Ms. Ellevation"
+  title="Built Around Four Foundations"
+  items={[
+    "Identity: Know who you are.",
+    "Voice: Own your story.",
+    "Confidence: Believe in your potential.",
+    "Leadership: Create positive impact.",
+  ]}
+/>
 
+{/* ── Framework strip ── */}
+<JourneyFrameworkStrip steps={ABOUT_FRAMEWORK} note="Every woman's journey matters." />
       {/* ── Vision & Mission ── */}
       <section className="vm-section">
         <div className="vm-grid">
           <div className="vm-card">
             <p className="vm-eyebrow">Our Vision</p>
-            <p className="vm-text">
-              An Australia where the collective power of women — across all diversities and stages
-              of life — flourishing with confidence, leads boldly, and shapes the narratives that
-              transform industries and communities.
-            </p>
+           <p className="vm-text">
+  An Australia where women from all backgrounds and stages of life flourish with confidence,
+  lead boldly, and create lasting impact in their families, workplaces, businesses, and communities.
+</p>
           </div>
           <div className="vm-card">
             <p className="vm-eyebrow">Our Mission</p>
-            <p className="vm-text">
-              We empower women from diverse backgrounds, especially women from culturally and
-              linguistically diverse (CALD) communities and emerging young achievers, to confidently
-              flourish, lead and amplify their impact in their careers, businesses, and lives by
-              building inner strength and powerful networks.
-            </p>
+           <p className="vm-text" style={{ marginBottom: 14 }}>
+  We empower women and young women to grow in confidence, identity, leadership, and influence,
+  equipping them to flourish in their careers, businesses, communities, and lives.
+</p>
+<p className="vm-text">
+  We are especially passionate about creating opportunities that support culturally and
+  linguistically diverse (CALD) women and young women while welcoming all women who align with
+  our values and desire meaningful growth, connection, and impact.
+</p>
           </div>
         </div>
       </section>
@@ -771,22 +803,29 @@ function AboutPage({ nav }: { nav: NavFn }) {
           <p className="pathway2-eyebrow">One Mission. Two Pathways.</p>
           <div className="pathway2-grid">
             <div className="pathway2-card">
-              <h3 className="pathway2-card-title">Building the Woman</h3>
-              <p className="pathway2-card-desc">
-                Ms. Ellevation supports women through Identity, Confidence, Leadership and Wellbeing.
-              </p>
-            </div>
-            <div className="pathway2-card pathway2-card-dark">
-              <h3 className="pathway2-card-title">Building the Ecosystem</h3>
-              <p className="pathway2-card-desc">
-                Through Ellevation Hub, women are connected to opportunities, partnerships, networks
-                and pathways.
-              </p>
-            </div>
-          </div>
-          <p className="pathway2-note">
-            Together they form one connected ecosystem where personal growth meets opportunity.
-          </p>
+<h3 className="pathway2-card-title">Building the Woman</h3>
+<p className="pathway2-card-desc" style={{ marginBottom: 14 }}>
+  Ms. Ellevation supports women and young women to discover their voice, strengthen identity,
+  build confidence, and lead with purpose and impact.
+</p>
+<p className="pathway2-card-desc" style={{ fontWeight: 600 }}>
+  Identity • Voice • Confidence • Leadership • Wellbeing • Community
+</p>
+</div>
+<div className="pathway2-card pathway2-card-dark">
+  <h3 className="pathway2-card-title">Building the Ecosystem</h3>
+  <p className="pathway2-card-desc" style={{ marginBottom: 14 }}>
+    Through Ellevation Hub, women are connected to opportunities, partnerships, networks,
+    visibility, and pathways for growth.
+  </p>
+  <p className="pathway2-card-desc" style={{ fontWeight: 600 }}>
+    Confidence • Connection • Leadership • Visibility • Opportunity • Community Impact
+  </p>
+</div>
+</div>
+<p className="pathway2-note">
+  Together they form one connected ecosystem where personal growth meets opportunity and impact.
+</p>
         </div>
       </section>
 
@@ -812,8 +851,7 @@ function AboutPage({ nav }: { nav: NavFn }) {
       <ClosingCtaSection
         nav={nav}
         title="When Women Rise, Communities Rise."
-        body="Whether you are seeking confidence, connection, leadership development or a community that understands your journey, there is a place for you here. Find your place. Lift your voice. Flourish."
-        buttons={[
+body="Whether you are strengthening your confidence, discovering your voice, stepping into leadership, or looking for a community that understands your journey, there is a place for you here. Find Your Place. Find Your Voice. Lead With Purpose."        buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
           { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
         ]}
@@ -846,36 +884,43 @@ const ab: Record<string, React.CSSProperties> = {
 const STAGES = [
   {
     num: "01", title: "Identity", heading: "Discover Who You Are",
-    desc: "Every journey begins with identity. Before confidence can grow, women need the space to reconnect with who they are, what they value and what they want for their future.",
-    outcomes: ["Clarity", "Self-awareness", "Purpose"],
+    desc: "Before confidence can grow, women need space to reconnect with who they are, what they value, and what they want for their future.",
+    outcomes: ["Clarity", "Self-Awareness", "Purpose"],
   },
   {
-    num: "02", title: "Confidence", heading: "Believe in Your Potential",
-    desc: "Confidence is not about being fearless. It is about trusting yourself enough to take the next step. As confidence grows, women begin speaking up, embracing opportunities and recognising their worth.",
-    outcomes: ["Self-belief", "Resilience", "Courage"],
+    num: "02", title: "Voice", heading: "Own Your Story",
+    desc: "When women find their voice, they begin expressing themselves with confidence, communicating their needs, sharing their experiences, and stepping into opportunities with greater conviction.",
+    outcomes: ["Expression", "Authenticity", "Courage"],
   },
   {
-    num: "03", title: "Leadership", heading: "Create Impact",
-    desc: "Leadership starts with leading yourself. From there, women create positive change within their families, workplaces, businesses and communities.",
-    outcomes: ["Growth", "Contribution", "Impact"],
+    num: "03", title: "Confidence", heading: "Believe In Your Potential",
+    desc: "Confidence is not about being fearless. It is about trusting yourself enough to take the next step. As confidence grows, women begin embracing opportunities, recognising their strengths, and believing in what is possible.",
+    outcomes: ["Self-Belief", "Resilience", "Growth"],
+  },
+  {
+    num: "04", title: "Leadership", heading: "Create Impact",
+    desc: "Leadership begins with leading yourself. From there, women influence positive change within their families, workplaces, businesses, and communities.",
+    outcomes: ["Contribution", "Influence", "Impact"],
   },
 ];
 
 const JOURNEY_FOCUS_ITEMS = [
-  { icon: "◈", label: "Identity" },
-  { icon: "✦", label: "Confidence" },
-  { icon: "❀", label: "Leadership" },
+  { icon: "◈", label: "Personal Growth" },
   { icon: "♥", label: "Wellbeing" },
-  { icon: "✦", label: "Community" },
+  { icon: "✧", label: "Leadership" },
+  { icon: "❀", label: "Community" },
+  { icon: "✦", label: "Connection" },
+  { icon: "◈", label: "Opportunity" },
 ];
 
 const JOURNEY_WHO_FOR = [
-  "Young women (Age 17 – 25)",
-  "Women from CALD communities",
-  "Migrant and refugee women",
-  "Emerging leaders",
-  "Women navigating life transitions",
-  "Women seeking confidence, clarity and connection",
+  "Young Women (17–25)",
+  "CALD Women",
+  "Migrant & Refugee Women",
+  "Emerging Leaders",
+  "Women Navigating Life Transitions",
+  "Women Seeking Confidence, Connection & Growth",
+  "Women Looking for Community and Purpose",
 ];
 
 function JourneyPage({ nav }: { nav: NavFn }) {
@@ -886,28 +931,34 @@ function JourneyPage({ nav }: { nav: NavFn }) {
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="jn-eye" style={jn.eye}>— YOUR JOURNEY —</p>
           <h1 className="jn-banner-title" style={jn.bannerTitle}>Every Rise Has a Path.</h1>
-          <p className="jn-banner-sub" style={jn.bannerSub}>
-            At Ms. Ellevation, we believe every woman has the potential to thrive. Some women are
-            discovering who they are. Some are rebuilding confidence. Some are stepping into
-            leadership for the first time. Wherever you are in your journey, you do not have to
-            walk it alone.
-          </p>
-          <p className="jn-banner-sub" style={jn.bannerSub}>
-            Through identity, confidence and leadership, we create a pathway that helps women grow
-            with purpose while remaining connected to their culture, values and lived experience.
-          </p>
+        <p className="jn-banner-sub" style={jn.bannerSub}>
+  Every woman carries a story, a voice, and the potential for growth.
+</p>
+<p className="jn-banner-sub" style={jn.bannerSub}>
+  Some women are discovering who they are. Some are rebuilding confidence. Some are stepping
+  into leadership. Wherever you are in your journey, you do not have to walk it alone.
+</p>
+<p className="jn-banner-sub" style={jn.bannerSub}>
+  At Ms. Ellevation, we create pathways that help women grow in identity, voice, confidence,
+  and leadership while remaining connected to their values, culture, and lived experiences.
+</p>
           <button style={jn.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
         </div>
       </section>
 
-      <div className="story-inner story-inner-narrow" style={{ paddingTop: 64 }}>
-        <p className="story-framework-lead">
-          Transformation does not happen overnight. It happens through reflection, courage,
-          community and action. At Ms. Ellevation, we support women through three interconnected
-          stages of growth, guided by our five-stage framework.
-        </p>
-      </div>
-      <JourneyFrameworkStrip />
+     <section className="story-section" style={{ paddingBottom: 24 }}>
+  <div className="story-inner story-inner-narrow">
+    <p className="story-eyebrow">The Journey</p>
+    <h2 className="story-title" style={{ fontSize: "clamp(28px,4vw,40px)" }}>
+      Identity → Voice → Confidence → Leadership → Impact
+    </h2>
+    <p className="story-p story-p-strong">Every journey begins with identity.</p>
+    <p className="story-p">
+      As women discover who they are, they find their voice, build confidence, step into
+      leadership, and create lasting impact in their lives and communities.
+    </p>
+  </div>
+</section>
 
       <section className="jn-stages" style={jn.stagesSection}>
         <div className="jn-stages-grid" style={jn.stagesGrid}>
@@ -931,11 +982,23 @@ function JourneyPage({ nav }: { nav: NavFn }) {
       <section className="focus-section">
         <div className="focus-inner">
           <p className="focus-eyebrow">What Makes This Journey Different?</p>
-          <h2 className="focus-title">We Focus on the Whole Woman</h2>
-          <IconTagsRow items={JOURNEY_FOCUS_ITEMS} />
-          <p className="focus-note">
-            Because lasting change happens when women feel supported, connected and empowered.
-          </p>
+         <h2 className="focus-title">We Focus on the Whole Woman</h2>
+<p className="focus-note" style={{ marginBottom: 20 }}>
+  Because lasting transformation happens when women feel supported, connected, and empowered.
+</p>
+<p className="focus-note" style={{ marginBottom: 20 }}>
+  At Ms. Ellevation, growth is not viewed as a single moment, achievement, or milestone. We
+  recognise that confidence, leadership, and success are strengthened when women are supported
+  in every area of life.
+</p>
+<p className="focus-note" style={{ marginBottom: 36 }}>
+  That's why our approach goes beyond personal development to include wellbeing, connection,
+  community, and meaningful opportunities for growth.
+</p>
+<h3 className="focus-title" style={{ fontSize: "clamp(22px,3vw,30px)", marginBottom: 24 }}>
+  Supporting the Whole Woman
+</h3>
+<IconTagsRow items={JOURNEY_FOCUS_ITEMS} />
         </div>
       </section>
 
@@ -950,9 +1013,8 @@ function JourneyPage({ nav }: { nav: NavFn }) {
 
       <ClosingCtaSection
         nav={nav}
-        title="Your Next Chapter Starts Here."
-        body="You already have the potential. This journey helps you discover it, strengthen it and use it to create meaningful impact. Identity → Confidence → Leadership. Find your place. Lift your voice. Flourish."
-        buttons={[
+      title="When Women Rise, Communities Rise."
+body="Whether you are strengthening your confidence, discovering your voice, stepping into leadership, or looking for a community that understands your journey, there is a place for you here. Find Your Place. Find Your Voice. Lead With Purpose."  buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
           { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
         ]}
@@ -969,8 +1031,7 @@ const jn: Record<string, React.CSSProperties> = {
   bannerSub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.75, maxWidth:620, margin:"0 auto 12px", position:"relative", zIndex:1 },
   heroBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.1em", padding:"13px 28px", borderRadius:100, border:"none", background:"#D7B264", color:"#fff", cursor:"pointer", marginTop:24, position:"relative", zIndex:1, boxShadow:"0 4px 20px rgba(0,0,0,0.3)" },
   stagesSection: { padding:"32px 48px 80px", background:"#ffffff" },
-  stagesGrid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },
-  stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
+stagesGrid: { display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:28, maxWidth:1080, margin:"0 auto" },  stageCard: { position:"relative", background:"rgba(255, 255, 255, 0.8)", backdropFilter:"blur(10px)", borderRadius:20, padding:"36px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)" },
   stageNum: { fontFamily:"'Astrid Regular', serif", fontSize:"2.4rem", fontWeight:600, color:"#8a5a97", display:"block", marginBottom:12 },
   stageTitle: { fontFamily:"'Astrid Regular', serif", fontSize:"22px", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
   stageDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#554866", lineHeight:1.7 },
@@ -978,18 +1039,19 @@ const jn: Record<string, React.CSSProperties> = {
 
 // ─── PROGRAMS PAGE ───────────────────────────────────────────────────────────
 const PROGRAM_DIFFERENCE_POINTS = [
-  "Honour their story",
   "Strengthen their identity",
+  "Discover their voice",
   "Build confidence",
   "Develop leadership",
-  "Create impact",
+  "Create lasting impact",
 ];
 
 const PROGRAMS = [
   {
     tag: "Our Signature Program",
     title: "My Journey, My Future",
-    desc: "A guided pathway helping women strengthen identity, build confidence and create a vision for their future. This program supports women to navigate life in Australia, build meaningful connections, embrace their lived experiences and move forward with purpose.",
+    desc: "A guided pathway helping women strengthen identity, build confidence, and create a vision for their future.",
+    desc2: "Designed for women navigating change, new opportunities, personal growth, or life transitions, this program provides support, encouragement, and practical tools for moving forward with purpose.",
     label: "Focus Areas",
     items: ["Identity & Belonging","Confidence Building","Personal Growth","Goal Setting","Community Connection","Future Pathways"],
     icon: "path",
@@ -997,31 +1059,38 @@ const PROGRAMS = [
   {
     tag: "Community Learning Series",
     title: "Empower Growth Workshops",
-    desc: "A practical workshop series designed to support women through different stages of their journey.",
+    desc: "A practical workshop series designed to support women at different stages of their personal and leadership journey.",
+    desc2: "",
     label: "Topics May Include",
     items: ["Confident Communication","Building Confidence","Leadership Foundations","Financial Confidence","Career Confidence","Navigating Life in Australia","Wellbeing & Personal Growth"],
     icon: "spark",
   },
   {
-    tag: "The Sisterhood Layer",
+    tag: "",
     title: "Community & Connection",
-    desc: "A welcoming community where women connect, share experiences, build relationships and grow together.",
+    desc: "A welcoming community where women connect, share experiences, build meaningful relationships, and grow together.",
+    desc2: "Because transformation is strengthened through encouragement, connection, and belonging.",
     label: "Includes",
-    items: ["Community Events","Conversations","Sisterhood Circles","Guest Speakers","Networking Opportunities","Peer Support"],
+    items: ["Community Events","Sisterhood Circles","Guest Speakers","Networking Opportunities","Peer Support"],
     icon: "circle",
   },
 ];
-
 const ECOSYSTEM_WOMAN = [
-  "Own your story and embrace who you are.",
-  "Build a strong identity that reflects your values.",
-  "Grow your confidence and believe in your abilities.",
-  "Step forward with purpose and lead with impact.",
-  "Prioritise your wellbeing and create a balanced life.",
-  "Connect, support and grow together as a community."
+  "Discovering your voice",
+  "Strengthening identity",
+  "Building confidence",
+  "Developing leadership",
+  "Prioritising wellbeing",
+  "Growing through community",
 ];
-const ECOSYSTEM_OPPORTUNITY = ["Employment Pathways","Entrepreneurship","Partnerships","Business Development","Industry Connections","Visibility Opportunities"];
-
+const ECOSYSTEM_OPPORTUNITY = [
+  "Confidence",
+  "Connection",
+  "Leadership",
+  "Visibility",
+  "Opportunity",
+  "Community Impact",
+];
 function ProgramIcon({ type }: { type: string }) {
   if (type === "path") {
     return (
@@ -1055,9 +1124,10 @@ function ProgramCards({ nav }: { nav: NavFn }) {
           <div key={p.title} className={`pr-card pr-card-${idx}`}>
             <div className="pr-card-glow" />
             <div className="pr-card-icon"><ProgramIcon type={p.icon} /></div>
-            <span className="pr-card-tag">{p.tag}</span>
-            <h3 className="pr-card-title">{p.title}</h3>
-            <p className="pr-card-body">{p.desc}</p>
+        {p.tag && <span className="pr-card-tag">{p.tag}</span>}
+<h3 className="pr-card-title">{p.title}</h3>
+<p className="pr-card-body" style={p.desc2 ? { marginBottom: 12 } : undefined}>{p.desc}</p>
+{p.desc2 && <p className="pr-card-body">{p.desc2}</p>}
             <p className="pr-card-label">{p.label}</p>
             <ul className="pr-list">
               {p.items.map(f => (
@@ -1088,16 +1158,18 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
         <div className="pr-banner-bg" style={pr.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
           <p className="pr-eye" style={pr.eye}>— OUR PROGRAMS —</p>
-          <h1 className="pr-title" style={pr.title}>Programs Designed for Growth, Connection and Impact.</h1>
-          <p className="pr-sub" style={pr.sub}>
-            At Ms. Ellevation, we believe every woman has a story worth honouring. Our programs
-            create safe and empowering spaces where women can draw strength from their lived
-            experiences, strengthen their identity, build confidence and step into leadership.
-          </p>
-          <p className="pr-sub" style={pr.sub}>
-            Through community, learning and meaningful connections, we support women to grow
-            personally, professionally and within their communities.
-          </p>
+         <h1 className="pr-title" style={pr.title}>Programs Designed for Growth, Connection and Impact</h1>
+<p className="pr-sub" style={pr.sub}>
+  At Ms. Ellevation, we believe every woman has a story worth honouring.
+</p>
+<p className="pr-sub" style={pr.sub}>
+  Our programs create safe and empowering spaces where women can strengthen their identity,
+  discover their voice, build confidence, and step into leadership with purpose and impact.
+</p>
+<p className="pr-sub" style={pr.sub}>
+  Through community, learning, and meaningful connections, we support women to grow
+  personally, professionally, and within their communities.
+</p>
           <button style={pr.heroBtn} onClick={() => nav("join")}>START YOUR JOURNEY</button>
         </div>
       </section>
@@ -1107,24 +1179,25 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
         <div className="story-inner">
           <p className="story-eyebrow">The Ms. Ellevation Difference</p>
           <h2 className="story-title" style={{ fontSize: "clamp(36px,5vw,52px)" }}>We Don't Believe Women Need Fixing.</h2>
-          <p className="story-p">
-            We believe women already carry strength, resilience and potential within them. Our role
-            is to create the environment, community and opportunities that help women recognise
-            that strength and use it to create meaningful impact.
-          </p>
-          <p className="story-p story-p-strong">Every program, workshop and experience is designed to help women:</p>
-          <ul className="story-inline-list">
+        <p className="story-p">
+  We believe women already carry strength, resilience, and potential within them.
+</p>
+<p className="story-p">
+  Our role is to create the environment, community, and opportunities that help women
+  recognise that strength, discover their voice, and create meaningful impact.
+</p>
+<p className="story-p story-p-strong">Every program, workshop, and experience is designed to help women:</p>
+<ul className="story-inline-list">
             {PROGRAM_DIFFERENCE_POINTS.map(p => <li key={p}>{p}</li>)}
           </ul>
         </div>
       </section>
 
       {/* Our Framework */}
-      <div className="story-inner story-inner-narrow">
-        <p className="story-framework-lead">Story → Identity → Confidence → Leadership → Impact</p>
-      </div>
-      <JourneyFrameworkStrip />
-
+     {/* Our Framework */}
+<div className="story-inner story-inner-narrow">
+  <p className="story-framework-lead">Identity → Voice → Confidence → Leadership → Impact</p>
+</div>
       {/* Programs */}
       <ProgramCards nav={nav} />
 
@@ -1136,26 +1209,34 @@ function ProgramsPage({ nav }: { nav: NavFn }) {
             <div className="pathway2-card">
               <h3 className="pathway2-card-title">Building the Woman</h3>
               <p className="pathway2-card-desc" style={{ marginBottom: 14 }}>Ms. Ellevation focuses on:</p>
-              <ul className="pathway2-list">
-                {ECOSYSTEM_WOMAN.map(i => <li key={i}>{i}</li>)}
-              </ul>
-            </div>
-            <div className="pathway2-card pathway2-card-dark">
-              <h3 className="pathway2-card-title">Building Opportunity</h3>
-              <p className="pathway2-card-desc" style={{ marginBottom: 14 }}>Ellevation Hub focuses on:</p>
-              <ul className="pathway2-list">
-                {ECOSYSTEM_OPPORTUNITY.map(i => <li key={i}>{i}</li>)}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+             <ul className="pathway2-list">
+  {ECOSYSTEM_WOMAN.map(i => <li key={i}>{i}</li>)}
+</ul>
+<p className="pathway2-card-desc" style={{ fontWeight: 600, marginTop: 18 }}>
+  Identity • Voice • Confidence • Leadership • Wellbeing • Community
+</p>
+</div>
+<div className="pathway2-card pathway2-card-dark">
+  <h3 className="pathway2-card-title">Building Opportunity</h3>
+  <p className="pathway2-card-desc" style={{ marginBottom: 14 }}>Ellevation Hub focuses on:</p>
+  <ul className="pathway2-list">
+    {ECOSYSTEM_OPPORTUNITY.map(i => <li key={i}>{i}</li>)}
+  </ul>
+  <p className="pathway2-card-desc" style={{ fontWeight: 600, marginTop: 18 }}>
+    Confidence • Connection • Leadership • Visibility • Opportunity • Community Impact
+  </p>
+</div>
+</div>
+<p className="pathway2-note">
+  Together: one connected ecosystem where personal growth meets opportunity and impact.
+</p>
+</div>
+</section>
 
       <ClosingCtaSection
         nav={nav}
         title="When Women Rise, Communities Rise."
-        body="Every program, workshop and community experience is designed to help women honour their stories, strengthen their identity, build confidence and step into leadership. Find your place. Lift your voice. Shine."
-        buttons={[
+body="Every program, workshop, and community experience is designed to help women discover their voice, strengthen their identity, build confidence, and step into leadership with purpose. Find Your Place. Find Your Voice. Lead With Purpose."        buttons={[
           { label: "START YOUR JOURNEY", page: "join" },
           { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
         ]}
@@ -1406,51 +1487,26 @@ function CommunityImpactSection() {
           consideration when community members seek trusted services, based on relevance, availability and community
           needs. Being listed does not guarantee referrals or paid work.
         </p>
+<div style={{ marginTop: 56 }}>
+  <Accordion title="Why the Community Impact Contribution Matters">
+    <p className="mb-impact-lead">A referral that creates opportunity can also create opportunity for someone else.</p>
+    <p className="mb-impact-text">
+      The Community Impact Contribution is designed to turn successful ecosystem referrals into shared community
+      impact. When Ms Ellevation or Ellevation Hub connects a member to a new client and that referral becomes paid
+      business, a small percentage of the first referral-generated invoice is reinvested into initiatives that help
+      other women, emerging businesses and community ideas move forward.
+    </p>
 
-        <h3 className="mb-impact-sub">Why the Community Impact Contribution Matters</h3>
-        <p className="mb-impact-lead">A referral that creates opportunity can also create opportunity for someone else.</p>
-        <p className="mb-impact-text">
-          The Community Impact Contribution is designed to turn successful ecosystem referrals into shared community
-          impact. When Ms Ellevation or Ellevation Hub connects a member to a new client and that referral becomes paid
-          business, a small percentage of the first referral-generated invoice is reinvested into initiatives that help
-          other women, emerging businesses and community ideas move forward.
-        </p>
-
-        <div className="mb-table-wrap">
-          <table className="mb-table mb-table-sm">
-            <thead>
-              <tr>
-                <th scope="col" className="mb-th-feature">What it means for the member</th>
-                <th scope="col">Why it matters to the community</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>You only contribute when an ecosystem referral becomes paid business.</td>
-                <td>A successful referral helps create a funding pool for future community opportunities.</td>
-              </tr>
-              <tr>
-                <td>The percentage applies to the first referral-generated invoice only.</td>
-                <td>Contributions can support emerging businesses, women-led ventures and community initiatives.</td>
-              </tr>
-              <tr>
-                <td>It is not deducted from your membership fee or unrelated business income.</td>
-                <td>The model allows members to grow while also helping others access opportunities.</td>
-              </tr>
-              <tr>
-                <td>Future invoices from that referred client are not subject to the contribution.</td>
-                <td>The contribution reinforces Ms Ellevation’s purpose of leadership, impact and creating pathways for others.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mb-outcome" style={{ marginTop: 28, textAlign: "left" }}>
-          <span className="mb-outcome-label">The principle</span>
-          <p className="mb-outcome-text">
-            When the ecosystem helps create new business, part of that first successful transaction helps open a door for someone else.
-          </p>
-        </div>
+{/* paste your existing <div className="mb-table-wrap"> ...table... </div> here, unchanged */}
+    <div className="mb-outcome" style={{ marginTop: 28, textAlign: "left" }}>
+      <span className="mb-outcome-label">The principle</span>
+      <p className="mb-outcome-text">
+        When the ecosystem helps create new business, part of that first successful transaction helps open a door for someone else.
+      </p>
+    </div>
+  </Accordion>
+</div>
+        
 
         <h3 className="mb-impact-sub">Community Impact Contribution Rates</h3>
         <div className="mb-table-wrap">
@@ -1488,6 +1544,35 @@ function CommunityImpactSection() {
         </p>
       </div>
     </section>
+  );
+}
+
+function Accordion({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  return (
+    <div className={`acc-item ${open ? "open" : ""}`}>
+      <button
+        type="button"
+        className="acc-head"
+        id={`acc-btn-${slug}`}
+        aria-expanded={open}
+        aria-controls={`acc-panel-${slug}`}
+        onClick={() => setOpen(o => !o)}
+      >
+        <span>{title}</span>
+        <span className="acc-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        </span>
+      </button>
+      <div className="acc-panel" id={`acc-panel-${slug}`} role="region" aria-labelledby={`acc-btn-${slug}`}>
+        <div className="acc-panel-inner">
+          <div className="acc-body">{children}</div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1623,29 +1708,30 @@ function MembershipPage({ nav }: { nav: NavFn }) {
       </section>
 
       {/* ── How Hub + Ms Ellevation work together ── */}
-      <section className="pathway2-section">
-        <div className="pathway2-inner">
-          <p className="pathway2-eyebrow">How Ellevation Hub and Ms Ellevation Work Together</p>
-          <div className="pathway2-grid">
-            <div className="pathway2-card">
-              <h3 className="pathway2-card-title">Ms Ellevation</h3>
-              <p className="pathway2-card-desc">
-                Focuses on identity, confidence, wellbeing and leadership.
-              </p>
-            </div>
-            <div className="pathway2-card pathway2-card-dark">
-              <h3 className="pathway2-card-title">Ellevation Hub</h3>
-              <p className="pathway2-card-desc">
-                Focuses on opportunities, business visibility, employment, partnerships and community impact.
-              </p>
-            </div>
-          </div>
-          <p className="pathway2-note">
-            The Ellevation Membership creates a bridge between both ecosystems, allowing women to grow
-            personally and then access wider opportunities through Ellevation Hub.
-          </p>
-        </div>
-      </section>
+     <section className="pathway2-section">
+  <div className="pathway2-inner">
+    <Accordion title="How Ellevation Hub and Ms Ellevation Work Together">
+     <div className="pathway2-grid">
+  <div className="pathway2-card">
+    <h3 className="pathway2-card-title">Ms Ellevation</h3>
+    <p className="pathway2-card-desc">
+      Focuses on identity, confidence, wellbeing and leadership.
+    </p>
+  </div>
+  <div className="pathway2-card pathway2-card-dark">
+    <h3 className="pathway2-card-title">Ellevation Hub</h3>
+    <p className="pathway2-card-desc">
+      Focuses on opportunities, business visibility, employment, partnerships and community impact.
+    </p>
+  </div>
+</div>
+      <p className="pathway2-note">
+        The Ellevation Membership creates a bridge between both ecosystems, allowing women to grow
+        personally and then access wider opportunities through Ellevation Hub.
+      </p>
+    </Accordion>
+  </div>
+</section>
 
       {/* ── Comparison table ── */}
       <section className="mb-compare">
@@ -2291,8 +2377,7 @@ export default function EllevationPage() {
         html{-webkit-text-size-adjust:100%;}
         *{box-sizing:border-box;margin:0;padding:0;}
         img{max-width:100%;}
-        input::placeholder,textarea::placeholder{color:#b09fc0;}
-        select option{color:#1a0a2e;}
+input::placeholder,textarea::placeholder{color:#7a6a8c;}        select option{color:#1a0a2e;}
         input:focus,textarea:focus,select:focus{outline:none;border-color:#4B1E56!important;box-shadow:0 0 0 3px rgba(75,30,86,0.12);}
         @keyframes fadeSlideUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
         @keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(20px,-15px) scale(1.04);}66%{transform:translate(-10px,10px) scale(0.97);}}
@@ -2497,8 +2582,8 @@ export default function EllevationPage() {
         .impact-eyebrow { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-bottom: 18px; }
         .impact-title { font-family: 'Astrid Regular', serif; font-size: clamp(36px,5vw,52px); font-weight: 700; line-height: 1.1; color: #4B1E56; margin: 0 0 40px; }
         .impact-glass-card {
-          display: inline-block; max-width: 640px; margin: 0 auto;
-          background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  display: inline-block; max-width: 760px; margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
           border: 1px solid rgba(124, 92, 191, 0.15); border-radius: 28px; padding: 40px 44px;
           box-shadow: 0 20px 50px rgba(124, 92, 191, 0.1);
           transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease, border-color 0.3s ease;
@@ -2506,8 +2591,12 @@ export default function EllevationPage() {
         .impact-glass-card:hover { transform: translateY(-4px); box-shadow: 0 28px 60px rgba(124, 92, 191, 0.16); }
         .impact-card-title { font-family: 'Montserrat', sans-serif; color: #662369; font-size: 22px; font-weight: 700; margin: 0 0 16px; line-height: 1.3; }
         .impact-card-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; line-height: 1.7; color: #554866; margin: 0; }
-        .impact-tags { display: flex; justify-content: center; gap: 28px; margin-top: 28px; flex-wrap: wrap; }
-        .impact-tag { display: flex; align-items: center; gap: 8px; }
+       .impact-tags { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 32px; margin-top: 28px; text-align: left; }
+.impact-tag { display: flex; align-items: flex-start; gap: 10px; }
+.impact-tag-name { display: block; }
+.impact-tag-desc { display: block; font-family: 'Montserrat', sans-serif; font-size: 18px; color: #554866; line-height: 1.5; margin-top: 2px; }
+.impact-path { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #662369; margin-top: 28px; }
+@media (max-width: 640px) { .impact-tags { grid-template-columns: 1fr !important; } }
         .impact-tag-icon { color: #662369; font-size: 18px; }
         .impact-tag-name { font-family: 'Astrid Regular', serif; font-size: 18px; font-weight: 700; color: #1a0a2e; }
 
@@ -3080,6 +3169,25 @@ export default function EllevationPage() {
         }
 
         /* ── Dark Mode Overrides ── */
+        .acc-item { max-width: 1000px; margin: 0 auto; border-bottom: 1px solid rgba(124,92,191,0.25); border-top: 1px solid rgba(124,92,191,0.25); text-align: left; }
+.acc-head {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 26px 8px; background: transparent; border: none; cursor: pointer; text-align: left;
+  font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 600; color: #1a0a2e;
+}
+.acc-head:hover { opacity: 1; transform: none; filter: none; color: #662369; }
+.acc-head:focus-visible { outline: 3px solid rgba(215,178,100,0.7); outline-offset: 2px; }
+.acc-icon {
+  flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(75,30,86,0.08); color: #4B1E56; transition: transform 0.3s ease, background 0.3s ease;
+}
+.acc-item.open .acc-icon { transform: rotate(45deg); background: #D7B264; color: #fff; }
+.acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+.acc-item.open .acc-panel { grid-template-rows: 1fr; }
+.acc-panel-inner { overflow: hidden; visibility: hidden; transition: visibility 0.35s; }
+.acc-item.open .acc-panel-inner { visibility: visible; }
+.acc-body { padding: 4px 8px 36px; }
         [data-theme="dark"] .ms-ellevation-root { background: #0d0614 !important; color: #e8e0f8 !important; }
 
         /* Navbar (pill background; sizes are set in the scoped block above) */
@@ -3096,7 +3204,11 @@ export default function EllevationPage() {
         [data-theme="dark"] .ns-mobile-link { color: #d9a8cd !important; }
         [data-theme="dark"] .ns-mobile-link:hover { background: rgba(217, 168, 205, 0.1) !important; }
         [data-theme="dark"] .ns-mobile-link.active { color: #ffffff !important; }
-
+[data-theme="dark"] .acc-item { border-color: rgba(155,109,190,0.3) !important; }
+[data-theme="dark"] .acc-head { color: #f3ecff !important; }
+[data-theme="dark"] .acc-head:hover { color: #e8b8f0 !important; }
+[data-theme="dark"] .acc-icon { background: rgba(217,168,205,0.12) !important; color: #e8b8f0 !important; }
+[data-theme="dark"] .acc-item.open .acc-icon { background: #D7B264 !important; color: #fff !important; }
         [data-theme="dark"] .hp-headline, [data-theme="dark"] .ab-banner-title, [data-theme="dark"] .jn-banner-title,
         [data-theme="dark"] .pr-title, [data-theme="dark"] .ev-title, [data-theme="dark"] .st-banner-title, [data-theme="dark"] .jp-banner-title,
         [data-theme="dark"] .mb-banner-title { color: #ffffff !important; }
@@ -3142,6 +3254,8 @@ export default function EllevationPage() {
         [data-theme="dark"] .impact-card-desc { color: #cbd5e1 !important; }
         [data-theme="dark"] .impact-tag-icon { color: #c9a3d9 !important; }
         [data-theme="dark"] .impact-tag-name { color: #ffffff !important; }
+        [data-theme="dark"] .impact-tag-desc { color: #cbd5e1 !important; }
+[data-theme="dark"] .impact-path { color: #c9a3d9 !important; }
         [data-theme="dark"] .jp-intro-text { color: #d9a8cd !important; }
         [data-theme="dark"] .jp-banner-sub { color: rgba(255,255,255,0.9) !important; }
         [data-theme="dark"] .welcome-section, [data-theme="dark"] .jf-strip, [data-theme="dark"] .focus-section,
@@ -3268,11 +3382,10 @@ export default function EllevationPage() {
           <ImpactStatementSection />
           <CommunitySection nav={nav} />
           <PathwaysSection />
-          <ClosingCtaSection
-            nav={nav}
-            eyebrow="Your Next Chapter"
-            title="Your Next Chapter Starts Here"
-            body="Join a community where women are empowered to grow, lead and thrive."
+         <ClosingCtaSection
+  nav={nav}
+  title="Your Next Chapter"
+  body="Join a community where women are supported to discover their voice, build confidence, strengthen leadership, and create meaningful impact."
             buttons={[
               { label: "JOIN OUR COMMUNITY", page: "membership", variant: "outline" },
               { label: "EXPLORE OUR PROGRAMS", page: "programs", variant: "outline" },
