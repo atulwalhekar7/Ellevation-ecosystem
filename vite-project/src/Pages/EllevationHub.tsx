@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, type CSSProperties } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import banner6 from "../assets/hub-home.jpeg";
-import banner2 from "../assets/hubimg1.jpeg";
+import banner6 from "../assets/Ellevation Hub/Home - Banner.jpeg";
+import banner2 from "../assets/Ellevation Hub/Home-Banner.jpeg";
 import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
 import emailjs from "@emailjs/browser";

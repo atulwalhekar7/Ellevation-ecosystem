@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 
 import img1 from "../assets/_74A8820.jpg";
-import img2 from "../assets/banner1.avif";
-import img3 from "../assets/banner3.avif";
+import img2 from "../assets/Home-Banner 1.jpeg";
+import img3 from "../assets/Home Banner3.jpeg";
 // import img4 from "../assets/banner4.avif";
 
 const slides = [

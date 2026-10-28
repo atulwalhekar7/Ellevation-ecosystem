@@ -1021,13 +1021,12 @@ export default function ConversationsPage() {
         [data-theme="dark"] .social-follow-label { color: #d8ccf4 !important; }
         [data-theme="dark"] .social-caption { color: #b8a8c8 !important; }
         [data-theme="dark"] .cta-desc { color: #b8a8c8 !important; }
-        [data-theme="dark"] .social-icon-link {
-                [data-theme="dark"] .social-caption { color: #b8a8c8 !important; }
-        [data-theme="dark"] .social-icon-link {
-          background: #1a1226 !important;
-          border-color: rgba(155,109,190,0.2) !important;
-          color: #b8a8c8 !important;
-        }
+       [data-theme="dark"] .social-caption { color: #b8a8c8 !important; }
+[data-theme="dark"] .social-icon-link {
+  background: #1a1226 !important;
+  border-color: rgba(155,109,190,0.2) !important;
+  color: #b8a8c8 !important;
+}
 
         [data-theme="dark"] .story-form-wrapper {
           background: #1a1226 !important;

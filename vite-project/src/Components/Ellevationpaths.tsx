@@ -2,12 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 
-import img1 from "../assets/img1.jpeg";
-import img2 from "../assets/img2.jpeg";
-import img3 from "../assets/img3.jpeg";
-import img4 from "../assets/img4.jpeg";
-import img5 from "../assets/img5.jpeg";
-import img6 from "../assets/img6.jpeg";
+import img1 from "../assets/banner2.avif";
+import img2 from "../assets/img1.jpeg";
+import img3 from "../assets/Replace image.jpeg";
+import img4 from "../assets/Replacement image2.jpeg";
 // TODO: apni asli image yahan daalo (jaisa AboutPage.tsx mein aboutBg use hua hai)
 
 // ── Path card logos — swap these four filenames/paths for your real assets ──
@@ -90,8 +88,6 @@ const heroGalleryImages = [
   img2,
   img3,
   img4,
-  img5,
-  img6,
 ];
 
 /** Two columns of images auto-scrolling in opposite directions — replaces

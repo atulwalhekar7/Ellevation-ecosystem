@@ -4,10 +4,15 @@ import banner2 from "../assets/banner2.avif";
 import LogoDark from "../assets/ms-ellevation-darkmode-logo.png";
 import LogoLight from "../assets/Ms-Ellevation-whitemode-logo.png";
 import { submitEnquiry } from "../Emailjs/submitEnquiry"; 
-import homeImage from "../assets/homeimg1.jpeg";
 import aboutImage from "../assets/aboutimg1.jpeg";
 import { submitRegistration } from "../Emailjs/submitRegistration";
-
+import EventBanner from "../assets/Ms Ellevation/_74A8938.jpg"
+import CommunityBanner from "../assets/Ms Ellevation/AdobeStock_815713436.jpeg"
+import ProgramBanner from "../assets/Ms Ellevation/Programs.jpeg"
+import homeImage from "../assets/Ms Ellevation/AdobeStock_497266942.jpeg";
+import homeImage2 from "../assets/Ms Ellevation/AdobeStock_589576704.jpeg";
+import homeImage3 from "../assets/Ms Ellevation/AdobeStock_1271539281.jpeg";
+import homeImage4 from "../assets/Ms Ellevation/Home Banner.jpeg";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join" | "register";
@@ -99,18 +104,15 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
   },
 };
 
-// ─── Banner background images ────────────────────────────────────────────────
-// Free-to-use Unsplash photos, one per page, chosen to match that page's theme.
-// A dark gradient overlay is layered on top of every banner (see each page's
-// `bannerBg` style below) so headline/body text stays readable no matter how
-// bright or busy the underlying photo is.
+const HOME_SLIDES = [homeImage, homeImage2, homeImage3, homeImage4];
+
 const BANNER_IMAGES = {
   home: homeImage,
   about: aboutImage,      // circle of hands — community & sisterhood
   journey: "https://images.unsplash.com/photo-1607748838605-ebcbe8f15772?auto=format&fit=crop&w=1920&q=80",    // group on steps — path & progression
-  programs: "https://images.unsplash.com/photo-1707409066859-a90674383d19?auto=format&fit=crop&w=1920&q=80",   // women together — programs & growth
-  membership: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1920&q=80", // women collaborating — membership community
-  events: "https://images.unsplash.com/photo-1636987050384-9b079c700f63?auto=format&fit=crop&w=1920&q=80",     // hands joined — gathering & connection
+  programs: ProgramBanner,   // women together — programs & growth
+  membership: CommunityBanner, // women collaborating — membership community
+  events: EventBanner,     // hands joined — gathering & connection
   stories: "https://images.unsplash.com/photo-1621973856220-29115d9b5d29?auto=format&fit=crop&w=1920&q=80",    // women sitting together — intimate storytelling
   join: "https://images.unsplash.com/photo-1637072103875-1b29a09d9c91?auto=format&fit=crop&w=1920&q=80",       // group of women — joining the community
 };
@@ -373,35 +375,90 @@ function ClosingCtaSection({
 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 function HomePage({ nav }: { nav: NavFn }) {
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => {
+      setSlide(s => (s + 1) % HOME_SLIDES.length);
+    }, 2000);
+    return () => clearInterval(id);
+  }, [paused]);
+
   return (
-    <div className="hp-page" style={hp.page}>
-      <div style={hp.bgGrad} />
+    <div
+      className="hp-page"
+      style={hp.page}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Slider backgrounds (crossfade) */}
+      {HOME_SLIDES.map((src, i) => (
+        <div
+          key={i}
+          style={{
+            ...hp.bgGrad,
+            background: `linear-gradient(135deg, rgba(75,30,86,0.82) 0%, rgba(122,40,120,0.72) 55%, rgba(200,70,140,0.60) 100%), url('${src}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: i === slide ? 1 : 0,
+            transition: "opacity 1.2s ease-in-out",
+             position: "absolute", inset: 0,
+  zIndex: 0,
+          }}
+        />
+      ))}
+
       <div style={hp.blobTL} />
       <div style={hp.blobBR} />
+
       <div className="hp-grid" style={hp.grid}>
         <div style={hp.left}>
           <p className="hp-eyebrow" style={hp.eyebrow}>A Space for Women, By Women</p>
           <h1 className="hp-headline" style={hp.headline}>
             When Women Rise, Communities Rise.
           </h1>
-        <p className="hp-sub" style={hp.sub}>
-  Supporting women and young women to discover their voice, strengthen their identity, build confidence, and lead with purpose and impact.
-</p>
-<p className="hp-sub" style={hp.sub}>
-  We are especially passionate about supporting culturally and linguistically diverse (CALD) women and young women while welcoming all women who desire growth, connection, leadership, and meaningful community.
-</p>
+          <p className="hp-sub" style={hp.sub}>
+            Supporting women and young women to discover their voice, strengthen their identity, build confidence, and lead with purpose and impact.
+          </p>
+          <p className="hp-sub" style={hp.sub}>
+            We are especially passionate about supporting culturally and linguistically diverse (CALD) women and young women while welcoming all women who desire growth, connection, leadership, and meaningful community.
+          </p>
           <div className="hp-btn-row" style={hp.btnRow}>
             <button style={hp.btnPrimary} onClick={() => nav("join")}>START YOUR JOURNEY</button>
             <button style={hp.btnSecondary} onClick={() => nav("membership")}>JOIN OUR COMMUNITY</button>
           </div>
+
+          {/* Dots */}
+          <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+            {HOME_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                className="hp-carousel-dot"
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => setSlide(i)}
+                style={{
+                  width: i === slide ? 28 : 10,
+                  height: 10,
+                  borderRadius: 100,
+                  border: "none",
+                  padding: 0,
+                  background: i === slide ? "#D7B264" : "rgba(255,255,255,0.4)",
+                  transition: "all 0.3s ease",
+                }}
+              />
+            ))}
+          </div>
         </div>
+
         <div className="hp-card" style={hp.card}>
-         <p className="hp-card-desc" style={hp.cardDesc}>Find Your Place. Find Your Voice. Lead With Purpose.</p>
-<div style={hp.cardFeatures}>
-  {HOME_CARD_FEATURES.map(label => (
-    <div key={label} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{label}</div>
-  ))}
-</div>
+          <p className="hp-card-desc" style={hp.cardDesc}>Find Your Place. Find Your Voice. Lead With Purpose.</p>
+          <div style={hp.cardFeatures}>
+            {HOME_CARD_FEATURES.map(label => (
+              <div key={label} className="hub-feat" style={hp.feat}><span style={hp.check}>✓</span>{label}</div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
