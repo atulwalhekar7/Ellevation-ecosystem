@@ -9,10 +9,10 @@ import { submitRegistration } from "../Emailjs/submitRegistration";
 import EventBanner from "../assets/Ms Ellevation/_74A8938.jpg"
 import CommunityBanner from "../assets/Ms Ellevation/AdobeStock_815713436.jpeg"
 import ProgramBanner from "../assets/Ms Ellevation/Programs.jpeg"
-import homeImage from "../assets/Ms Ellevation/AdobeStock_497266942.jpeg";
-import homeImage2 from "../assets/Ms Ellevation/AdobeStock_589576704.jpeg";
-import homeImage3 from "../assets/Ms Ellevation/AdobeStock_1271539281.jpeg";
-import homeImage4 from "../assets/Ms Ellevation/Home Banner.jpeg";
+import homeImage from "../assets/Ms Ellevation/Home Banner.jpeg";
+import homeImage2 from "../assets/Ms Ellevation/AdobeStock_497266942.jpeg";
+import homeImage3 from "../assets/Ms Ellevation/AdobeStock_589576704.jpeg";
+import homeImage4 from "../assets/Ms Ellevation/AdobeStock_1271539281.jpeg";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join" | "register";

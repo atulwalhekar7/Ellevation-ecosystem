@@ -5,16 +5,19 @@ import img2 from "../assets/Home-Banner 1.jpeg";
 import img3 from "../assets/Home Banner3.jpeg";
 // import img4 from "../assets/banner4.avif";
 
+// pos = objectPosition for each slide
+// 0% / top = shows the top of the image (bottom gets cropped)
+// 100% / bottom = shows the bottom of the image (top gets cropped)
 const slides = [
-  { src: img1 },
-  { src: img2 },
-  { src: img3 },
-  // { src: img4 },
+  { src: img1, pos: "center top" },
+  { src: img2, pos: "center 15%" }, // banner 2: small shift so faces aren't cut
+  { src: img3, pos: "center top" },
+  // { src: img4, pos: "center top" },
 ];
 
 export default function EllevationHero() {
   const [cur, setCur] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true); // Moved up to fix initialization order
+  const [isPlaying, setIsPlaying] = useState(true);
   const timerRef = useRef<number | null>(null);
 
   const goTo = (n: number) => {
@@ -49,27 +52,34 @@ export default function EllevationHero() {
   }, [isPlaying]);
 
   return (
-    <section style={{
-      position: "relative",
-      width: "100%",
-      height: "82vh",
-      overflow: "hidden",
-    }}>
+    <section
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "82vh",
+        overflow: "hidden",
+      }}
+    >
       {/* Sliding images */}
-      <div style={{
-        display: "flex",
-        height: "100%",
-        width: `${slides.length * 100}%`,
-        transform: `translateX(-${cur * (100 / slides.length)}%)`,
-        transition: "transform 0.9s cubic-bezier(.45,.05,.35,.95)",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          height: "100%",
+          width: `${slides.length * 100}%`,
+          transform: `translateX(-${cur * (100 / slides.length)}%)`,
+          transition: "transform 0.9s cubic-bezier(.45,.05,.35,.95)",
+        }}
+      >
         {slides.map((slide, i) => (
-          <div key={i} style={{
-            width: `${100 / slides.length}%`,
-            height: "100%",
-            flexShrink: 0,
-            overflow: "hidden",
-          }}>
+          <div
+            key={i}
+            style={{
+              width: `${100 / slides.length}%`,
+              height: "100%",
+              flexShrink: 0,
+              overflow: "hidden",
+            }}
+          >
             <img
               src={slide.src}
               alt={`Banner ${i + 1}`}
@@ -80,7 +90,7 @@ export default function EllevationHero() {
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
-                objectPosition: "center top",
+                objectPosition: slide.pos,
                 display: "block",
               }}
             />
@@ -89,68 +99,120 @@ export default function EllevationHero() {
       </div>
 
       {/* Subtle dark overlay for depth */}
-      <div style={{
-        position: "absolute", inset: 0,
-        background: "linear-gradient(to bottom, rgba(26,10,46,0.08) 0%, rgba(26,10,46,0.28) 100%)",
-        pointerEvents: "none",
-      }} />
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(26,10,46,0.08) 0%, rgba(26,10,46,0.28) 100%)",
+          pointerEvents: "none",
+        }}
+      />
 
       {/* Prev button */}
-      <button onClick={() => goTo(cur - 1)} style={{
-        position: "absolute", top: "50%", left: 20, transform: "translateY(-50%)",
-        width: 42, height: 42, borderRadius: "50%",
-        background: "rgba(255,255,255,0.72)", border: "none", cursor: "pointer",
-        fontSize: 22, color: "#1a0a2e",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        zIndex: 10, backdropFilter: "blur(8px)",
-        boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
-        transition: "background 0.2s, transform 0.2s",
-      }}
-        onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.95)")}
-        onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.72)")}
-      >‹</button>
+      <button
+        onClick={() => goTo(cur - 1)}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: 20,
+          transform: "translateY(-50%)",
+          width: 42,
+          height: 42,
+          borderRadius: "50%",
+          background: "rgba(255,255,255,0.72)",
+          border: "none",
+          cursor: "pointer",
+          fontSize: 22,
+          color: "#1a0a2e",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+          backdropFilter: "blur(8px)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+          transition: "background 0.2s, transform 0.2s",
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.background = "rgba(255,255,255,0.95)")
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.background = "rgba(255,255,255,0.72)")
+        }
+      >
+        ‹
+      </button>
 
       {/* Next button */}
-      <button onClick={() => goTo(cur + 1)} style={{
-        position: "absolute", top: "50%", right: 20, transform: "translateY(-50%)",
-        width: 42, height: 42, borderRadius: "50%",
-        background: "rgba(255,255,255,0.72)", border: "none", cursor: "pointer",
-        fontSize: 22, color: "#1a0a2e",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        zIndex: 10, backdropFilter: "blur(8px)",
-        boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
-        transition: "background 0.2s",
-      }}
-        onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.95)")}
-        onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.72)")}
-      >›</button>
+      <button
+        onClick={() => goTo(cur + 1)}
+        style={{
+          position: "absolute",
+          top: "50%",
+          right: 20,
+          transform: "translateY(-50%)",
+          width: 42,
+          height: 42,
+          borderRadius: "50%",
+          background: "rgba(255,255,255,0.72)",
+          border: "none",
+          cursor: "pointer",
+          fontSize: 22,
+          color: "#1a0a2e",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 10,
+          backdropFilter: "blur(8px)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
+          transition: "background 0.2s",
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.background = "rgba(255,255,255,0.95)")
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.background = "rgba(255,255,255,0.72)")
+        }
+      >
+        ›
+      </button>
 
       {/* Controls Container (Dots + Play/Pause Below) */}
-      <div style={{
-        position: "absolute",
-        bottom: 20,
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 12,
-        zIndex: 10,
-      }}>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 20,
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 12,
+          zIndex: 10,
+        }}
+      >
         {/* Dot indicators row */}
         <div style={{ display: "flex", gap: 8 }}>
           {slides.map((_, i) => (
-            <button key={i} onClick={() => goTo(i)} style={{
-              width: i === cur ? 22 : 8,
-              height: 8, borderRadius: 999,
-              border: "none", cursor: "pointer", padding: 0,
-              background: i === cur ? "#fff" : "rgba(255,255,255,0.45)",
-              transition: "width 0.35s cubic-bezier(.45,.05,.35,.95), background 0.3s",
-            }} />
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              style={{
+                width: i === cur ? 22 : 8,
+                height: 8,
+                borderRadius: 999,
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                background: i === cur ? "#fff" : "rgba(255,255,255,0.45)",
+                transition:
+                  "width 0.35s cubic-bezier(.45,.05,.35,.95), background 0.3s",
+              }}
+            />
           ))}
         </div>
 
-        {/* Play/Pause Button cleanly centered below the dots */}
+        {/* Play/Pause Button */}
         <button
           onClick={toggleCarousel}
           aria-label={isPlaying ? "Pause Carousel" : "Play Carousel"}
@@ -170,8 +232,12 @@ export default function EllevationHero() {
             backdropFilter: "blur(8px)",
             transition: "all .2s ease",
           }}
-          onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,1)")}
-          onMouseLeave={e => (e.currentTarget.style.background = "rgba(255,255,255,0.85)")}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.background = "rgba(255,255,255,1)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.background = "rgba(255,255,255,0.85)")
+          }
         >
           {isPlaying ? "❚❚" : "▶"}
         </button>
