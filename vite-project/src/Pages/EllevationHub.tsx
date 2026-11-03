@@ -4,9 +4,8 @@ import banner6 from "../assets/Ellevation Hub/Home - Banner.jpeg";
 import banner2 from "../assets/Ellevation Hub/Home-Banner.jpeg";
 import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
-import emailjs from "@emailjs/browser";
 import { submitRegistration } from "../Emailjs/submitRegistration";
-import { submitMembership, submitConnect } from "../Emailjs/submitHubForm";
+import { submitMembership, submitConnect } from "../Emailjs/Submithubform";
 
 /* ── Animation Helpers (used by the Home page, Connect form + About page) ── */
 function useInView(threshold = 0.12) {

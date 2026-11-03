@@ -1,9 +1,9 @@
 import emailjs from "@emailjs/browser";
 
 /* ── Config ───────────────────────────────────────────────────────────────── */
-const EMAILJS_SERVICE_ID = "service_ux9vfej";
-const EMAILJS_PUBLIC_KEY = "Pu2wZN2ERnHjdboLI";
-const EMAILJS_TEMPLATE_5 = "template_xxxxx"; // replace once Template 5 exists
+const EMAILJS_SERVICE_ID = "service_ncrzorh";
+const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";
+const EMAILJS_TEMPLATE_5 = "template_nh7a50l"; // replace once Template 5 exists
 
 /* ── Helpers ──────────────────────────────────────────────────────────────── */
 
