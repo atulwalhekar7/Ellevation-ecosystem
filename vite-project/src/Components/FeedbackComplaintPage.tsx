@@ -8,7 +8,7 @@ import emailjs from "@emailjs/browser";
 
 /* ───────────── EmailJS setup (all from the SAME EmailJS account) ───────────── */
 const EMAILJS_SERVICE_ID = "service_ncrzorh";     // Dashboard > Email Services
-const EMAILJS_TEMPLATE_ID = "template_XXXXXXX";   // Dashboard > Email Templates (the NEW feedback template)
+const EMAILJS_TEMPLATE_ID = "template_vg99w8j";   // Dashboard > Email Templates (the NEW feedback template)
 const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";   // Dashboard > Account > General
 const FEEDBACK_TO_EMAIL = "your-inbox@example.com"; // where feedback should arrive
 const EMAIL_LOGO_URL =
