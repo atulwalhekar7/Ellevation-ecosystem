@@ -6,7 +6,7 @@ import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
 import emailjs from "@emailjs/browser";
 import { submitRegistration } from "../Emailjs/submitRegistration";
-
+import { submitMembership, submitConnect } from "../Emailjs/submitHubForm";
 
 /* ── Animation Helpers (used by the Home page, Connect form + About page) ── */
 function useInView(threshold = 0.12) {
@@ -1491,46 +1491,21 @@ const [openAcc, setOpenAcc] = useState<string | null>(null); // only one panel o
       return;
     }
 
-    // ALL variables referenced anywhere in the shared EmailJS template are
-    // always sent — "" for unused ones — so nothing renders as "undefined".
-    const templateParams = {
-      form_source: "Ellevation Hub — Membership Expression of Interest",
-      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
-
-      // e.g. "Grow — Growth Member (Annual $550)"
-      membership_tier: `${meta.label} — ${meta.name} (${billingLabel} ${money(billing === "annual" ? meta.annual : meta.monthly)})`,
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone: phone || "",
-
-      // Ms. Ellevation-only fields — blank, since this is the Hub form
-      location: "",
-      profession: "",
-      referral: "",
-      goals: "",
-
-      // Hub Membership fields
-      purpose: MEMBERSHIP_PURPOSES.find(p => p.id === purpose)?.label || "",
-      industry: industry,
-      notes: notes,
-
-      // Hub Connect / enquiry-only fields — blank, since this is Membership
-      enquiry_type: "",
-      organization: "",
-      message: "",
-    };
-
-    console.log("Sending to EmailJS:", templateParams);
     setSending(true);
     try {
-      const response = await emailjs.send(
-        "service_ux9vfej",
-        "template_i4p3erl",
-        templateParams,
-        { publicKey: "Pu2wZN2ERnHjdboLI" }
-      );
-      console.log("EmailJS SUCCESS:", response);
+      await submitMembership({
+        firstName,
+        lastName,
+        email,
+        phone,
+        industry,
+        notes,
+        expressionOfInterest: MEMBERSHIP_PURPOSES.find(p => p.id === purpose)?.label || "",
+        packageName: `${meta.label} - ${meta.name}`,
+        billingLabel,
+        price: money(billing === "annual" ? meta.annual : meta.monthly),
+        agreed,
+      });
       setSubmitted(true);
     } catch (error) {
       console.error("EmailJS FAILED:", error);
@@ -1918,7 +1893,6 @@ placeholder="Anything you'd like us to know? (optional)"
     </section>
   );
 }
-
 function MpAccordionItem({
   id, title, open, onToggle, children,
 }: { id: string; title: string; open: boolean; onToggle: () => void; children: React.ReactNode }) {
@@ -2685,54 +2659,18 @@ function CommonEnquiryForm() {
       return;
     }
 
-    // Split "Full Name" into first/last so it maps onto the shared template's
-    // {{first_name}} / {{last_name}} variables.
-    const nameParts = fullName.trim().split(/\s+/);
-    const firstName = nameParts[0] || "";
-    const lastName = nameParts.slice(1).join(" ") || "";
-
-    const templateParams = {
-      form_title: "New Ellevation Hub - Enquiry",
-      ms_display: "none",
-      hub_display: "block",
-      subject_detail: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,
-      form_source: "Ellevation Hub — Enquiry",
-      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
-
-      membership_tier: "",
-      first_name: firstName,
-      last_name: lastName,
-      email: emailAddress,
-      phone: phoneNumber || "",
-
-      // Ms. Ellevation-only fields — blank
-      location: "",
-      profession: "",
-      referral: "",
-      goals: "",
-
-      // Hub Membership-only fields — blank
-      purpose: "",
-      industry: "",
-      notes: "",
-
-      // Hub Connect / enquiry fields
-      enquiry_type: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,
-      organization: organizationName || "",
-      message: messageBody,
-    };
-
-    console.log("Sending to EmailJS:", templateParams);
     setSending(true);
 
     try {
-      const response = await emailjs.send(
-        "service_ux9vfej",
-        "template_i4p3erl",
-        templateParams,
-        { publicKey: "Pu2wZN2ERnHjdboLI" }
-      );
-      console.log("EmailJS SUCCESS:", response);
+      await submitConnect({
+        fullName,
+        email: emailAddress,
+        phone: phoneNumber,
+        organisation: organizationName,
+        enquiryStream: ENQUIRY_STREAM_LABELS[enquiryType] || enquiryType,
+        message: messageBody,
+        agreed,
+      });
       setFormSubmitted(true);
     } catch (error) {
       console.error("EmailJS FAILED:", error);

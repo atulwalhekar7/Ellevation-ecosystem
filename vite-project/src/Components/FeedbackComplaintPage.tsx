@@ -3,8 +3,24 @@ import emailjs from "@emailjs/browser";
 
 /* ------------------------------------------------------------------ */
 /* Ellevation Feedback & Complaint Form (site-wide)                    */
-/* Sends through the same EmailJS service / template as the Join forms */
+/* Sends through EmailJS using its own feedback template               */
 /* ------------------------------------------------------------------ */
+
+/* ───────────── EmailJS setup (all from the SAME EmailJS account) ───────────── */
+const EMAILJS_SERVICE_ID = "service_ncrzorh";     // Dashboard > Email Services
+const EMAILJS_TEMPLATE_ID = "template_XXXXXXX";   // Dashboard > Email Templates (the NEW feedback template)
+const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";   // Dashboard > Account > General
+const FEEDBACK_TO_EMAIL = "your-inbox@example.com"; // where feedback should arrive
+const EMAIL_LOGO_URL =
+  "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png";
+
+const escapeHtml = (v: string): string =>
+  v
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 
 const DISPLAY_FONT = "'Astrid Regular', serif";
 const BODY_FONT = "'Montserrat', sans-serif";
@@ -70,6 +86,72 @@ function validate(d: FeedbackData): FeedbackErrors {
   return e;
 }
 
+/* Builds the email payload and sends it through EmailJS */
+async function sendFeedback(form: FeedbackData) {
+  const related = form.relatedTo.join(", ");
+
+  const rows: [string, string][] = [
+    ["Type", form.type],
+    ["Related To", related],
+    ["Name", form.name],
+    ["Email", form.email],
+    ["Phone", form.phone],
+    ["Organisation", form.organisation],
+    ["Preferred Contact", form.contactMethod],
+    ["Details", form.details],
+    ["Desired Outcome", form.outcome],
+  ];
+
+  const detailsHtml = rows
+    .filter(([, v]) => v && v.trim() !== "")
+    .map(
+      ([label, value]) => `
+        <tr>
+          <td style="padding:10px 12px;border-bottom:1px solid #ede7f5;width:35%;color:#8a5a97;font-weight:600;vertical-align:top;">${escapeHtml(label)}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #ede7f5;white-space:pre-wrap;">${escapeHtml(value)}</td>
+        </tr>`
+    )
+    .join("");
+
+  const templateParams = {
+    to_email: FEEDBACK_TO_EMAIL,
+    reply_to: form.email,
+    logo_url: EMAIL_LOGO_URL,
+    form_title: `New Ellevation ${form.type}`,
+    form_source: "Ellevation — Feedback & Complaint Form",
+    feedback_type: form.type,
+    related_to: related,
+    name: form.name,
+    email: form.email,
+    phone: form.phone,
+    organisation: form.organisation,
+    contact_method: form.contactMethod,
+    details: form.details,
+    outcome: form.outcome,
+    details_html: `<table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;">${detailsHtml}</table>`,
+  };
+
+  try {
+    const result = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, {
+      publicKey: EMAILJS_PUBLIC_KEY,
+    });
+    console.log("EmailJS (feedback) success:", result.status, result.text);
+    return result;
+  } catch (error: unknown) {
+    console.error("EmailJS (feedback) error:", error);
+    const err = error as { status?: number; text?: string };
+    if (err?.status === 412) {
+      throw new Error("EmailJS error 412: reconnect your Gmail service in EmailJS (Email Services).");
+    }
+    if (err?.status === 400) {
+      throw new Error(
+        `EmailJS error 400: ${err.text || "check the service ID, template ID and public key belong to the same account."}`
+      );
+    }
+    throw error;
+  }
+}
+
 export default function FeedbackComplaintPage() {
   const [form, setForm] = useState<FeedbackData>(emptyFeedback());
   const [errs, setErrs] = useState<FeedbackErrors>({});
@@ -103,54 +185,18 @@ export default function FeedbackComplaintPage() {
       return;
     }
 
-    const related = form.relatedTo.join(", ");
-    const message =
-      `Type: ${form.type}\n` +
-      `Related to: ${related}\n` +
-      `Preferred contact: ${form.contactMethod}\n\n` +
-      `Details:\n${form.details}\n\n` +
-      `Desired outcome:\n${form.outcome || "—"}`;
-
-    // The existing email template has first/last name fields; send the full name as first_name.
-    const templateParams = {
-      form_title: `New Ellevation ${form.type}`,
-      ms_display: "block",
-      hub_display: "none",
-      subject_detail: `${form.type} — ${related}`,
-      form_source: "Ellevation — Feedback & Complaint Form",
-      logo_url:
-        "https://ellvation-ecosystem.web.app/assets/ms-ellevation-darkmode-logo-DqRDfzgt.png",
-
-      membership_tier: `${form.type} — ${related}`,
-      first_name: form.name,
-      last_name: "",
-      email: form.email || "",
-      phone: form.phone || "",
-
-      location: "",
-      profession: form.organisation || "",
-      referral: `Preferred contact: ${form.contactMethod}`,
-      goals: message,
-
-      purpose: form.type,
-      industry: "",
-      notes: form.outcome || "",
-
-      enquiry_type: `${form.type} — ${related}`,
-      organization: form.organisation || "",
-      message,
-    };
-
     setSending(true);
     try {
-      await emailjs.send("service_ux9vfej", "template_i4p3erl", templateParams, {
-        publicKey: "Pu2wZN2ERnHjdboLI",
-      });
+      await sendFeedback(form);
       setSubmitted(true);
       setForm(emptyFeedback());
-    } catch (error) {
-      console.error("EmailJS FAILED:", error);
-      alert("Your submission could not be sent. Please try again.");
+    } catch (error: any) {
+      console.error("Feedback form error:", error);
+      alert(
+        `Your submission could not be sent. Please try again.\n\nError: ${
+          error?.text || error?.message || "Unknown error"
+        }`
+      );
     } finally {
       setSending(false);
     }

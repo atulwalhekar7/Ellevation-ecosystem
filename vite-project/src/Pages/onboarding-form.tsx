@@ -4,7 +4,7 @@ import emailjs from "@emailjs/browser";
 
 /* ── Config ───────────────────────────────────────────────────────────────── */
 const EMAILJS_SERVICE = "service_ux9vfej";
-const EMAILJS_TEMPLATE = "template_i4p3erl";
+const EMAILJS_TEMPLATE_4 = "template_xxxxx"; // replace once Template 4 exists
 const EMAILJS_PUBLIC_KEY = "Pu2wZN2ERnHjdboLI";
 
 const BUSINESS_CATEGORIES = [
@@ -21,6 +21,9 @@ const BUSINESS_CATEGORIES = [
 ];
 
 const CONTACT_METHODS = ["Email", "Phone", "Email or phone"];
+
+const FOUNDER_DECLARATION_TEXT =
+  "I confirm that the information provided is accurate and I understand that the Founding Business Program is complimentary from 1 January 2027 to 31 March 2027.";
 
 type YesNo = "" | "Yes" | "No";
 
@@ -232,95 +235,76 @@ export default function OnboardingForm() {
       return;
     }
 
-    // Everything goes into one readable message so it works with the shared EmailJS template.
-    const line = (label: string, value: string) => `${label}: ${value || "—"}`;
-    const message = [
-      "FOUNDING BUSINESS ONBOARDING",
-      "",
-      "BUSINESS INFORMATION",
-      line("Business name", f.businessName),
-      line("ABN", f.abn),
-      line("Category", f.category),
-      line("Website", f.website),
-      line("Instagram", f.instagram),
-      line("LinkedIn", f.linkedin),
-      line("Facebook", f.facebook),
-      "",
-      "PRIMARY CONTACT",
-      line("Contact person", f.contactPerson),
-      line("Position / role", f.position),
-      line("Mobile", f.mobile),
-      line("Email", f.email),
-      "",
-      "BUSINESS PROFILE",
-      line("Overview", f.overview),
-      line("Products or services", f.offering),
-      line("Who they serve", f.audience),
-      line("Service area", f.serviceArea),
-      line("Years in operation", f.yearsInOperation),
-      "",
-      "COMMUNITY IMPACT",
-      line("Supports CALD communities", f.caldSupport),
-      line("Offers employment", f.employment),
-      line("Offers internships / mentoring / work experience", f.internships),
-      line("Interested in community partnerships", f.partnerships),
-      "",
-      "LISTING CONTENT",
-      line("Logo file", logo ? logo.name : ""),
-      line("Image files", images.map(i => i.name).join(", ")),
-      line("Listing URL", f.listingUrl || f.website),
-      line("Preferred contact method", f.contactMethod),
-      "",
-      "FOUNDING BUSINESS OPPORTUNITIES",
-      line("Business spotlight", f.spotlight),
-      line("Promote an event", f.promoteEvent),
-      line("Advertise a job vacancy", f.jobVacancy),
-      line("Advertise an internship", f.internshipAd),
-      "",
-      "PERMISSIONS",
-      line("Publish business information", f.permPublish ? "Yes" : "No"),
-      line("Use logo and images for promotion", f.permImages ? "Yes" : "No"),
-      line("Receive Hub updates and opportunities", f.permUpdates ? "Yes" : "No"),
-      "",
-      "FOUNDER DECLARATION",
-      line("Name", f.declarationName),
-      line("Signature", f.signature),
-      line("Date", f.declarationDate),
-    ].join("\n");
-
-    const nameParts = f.contactPerson.trim().split(/\s+/);
+    // Empty optional values are sent as readable text so the email never shows a blank cell.
+    const text = (s: string) => s.trim() || "Not provided";
+    const yn = (v: YesNo) => v || "Not answered";
+    const yesNo = (b: boolean) => (b ? "Yes" : "No");
 
     const templateParams = {
-      form_title: "New Ellevation Hub - Founding Business Onboarding",
-      ms_display: "none",
-      hub_display: "block",
-      subject_detail: `Founding Business Onboarding: ${f.businessName}`,
-      form_source: "Ellevation Hub — Founding Business Onboarding",
-      logo_url: "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png",
+      // common variables
+      form_name: "Onboarding Form",
+      site_name: "Ellevation",
+      page_name: "Onboarding Page",
+      submitted_at: new Date().toLocaleString("en-AU", { timeZone: "Australia/Sydney" }),
+      from_name: f.contactPerson.trim(),
 
-      membership_tier: "",
-      first_name: nameParts[0] || "",
-      last_name: nameParts.slice(1).join(" "),
-      email: f.email,
-      phone: f.mobile,
+      // Business details
+      business_name: f.businessName.trim(),
+      abn: text(f.abn),
+      business_category: f.category,
+      business_website: text(f.website),
+      instagram_handle: text(f.instagram),
+      linkedin_page: text(f.linkedin),
+      facebook_page: text(f.facebook),
 
-      location: f.serviceArea,
-      profession: f.position,
-      referral: "",
-      goals: "",
+      // Contact
+      contact_person: f.contactPerson.trim(),
+      position_role: text(f.position),
+      mobile_number: f.mobile.trim(),
+      user_email: f.email.trim(),
+      preferred_contact_method: f.contactMethod,
 
-      purpose: "",
-      industry: f.category,
-      notes: "",
+      // About the business
+      business_overview: f.overview.trim(),
+      products_services: f.offering.trim(),
+      who_you_serve: f.audience.trim(),
+      service_area: f.serviceArea.trim(),
+      years_in_operation: text(f.yearsInOperation),
 
-      enquiry_type: "Founding Business Onboarding",
-      organization: f.businessName,
-      message,
+      // Community support
+      cald_support: text(f.caldSupport),
+      employment_opportunities: yn(f.employment),
+      internships_mentoring: yn(f.internships),
+      community_partnerships: yn(f.partnerships),
+
+      // Branding (files cannot be attached on the free plan, so file names are sent)
+      business_logo_link: logo ? `${logo.name} (file not attached, please request from applicant)` : "Not provided",
+      hires_images_link: images.length
+        ? `${images.map(i => i.name).join(", ")} (files not attached, please request from applicant)`
+        : "Not provided",
+      listing_website_url: f.listingUrl.trim() || f.website.trim() || "Not provided",
+
+      // Promotion options
+      business_spotlight: yn(f.spotlight),
+      event_promotion: yn(f.promoteEvent),
+      job_vacancy_ad: yn(f.jobVacancy),
+      internship_opportunity: yn(f.internshipAd),
+
+      // Permissions
+      permission_publish_info: yesNo(f.permPublish),
+      permission_logo_images: yesNo(f.permImages),
+      hub_updates_opt_in: yesNo(f.permUpdates),
+
+      // Founder declaration
+      founder_declaration: FOUNDER_DECLARATION_TEXT,
+      full_name: f.declarationName.trim(),
+      declaration_date: f.declarationDate,
+      signature: f.signature.trim(),
     };
 
     setSending(true);
     try {
-      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams, { publicKey: EMAILJS_PUBLIC_KEY });
+      await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE_4, templateParams, { publicKey: EMAILJS_PUBLIC_KEY });
       setDone(true);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {

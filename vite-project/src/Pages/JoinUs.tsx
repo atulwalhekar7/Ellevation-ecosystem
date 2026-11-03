@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-/* ------------------------------------------------------------------ */
-/* Data — the real memberships for both parts of Ellevation            */
-/* ------------------------------------------------------------------ */
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID = "service_xxxxx";   
+const EMAILJS_PUBLIC_KEY = "xxxxxxxxxxxx";    
+const EMAILJS_TEMPLATE_3 = "template_xxxxx";  
 
 type PathKey = "ms-ellevation" | "hub";
 type Billing = "annual" | "monthly";
@@ -342,6 +344,8 @@ export default function JoinPage() {
   const [form, setForm] = useState<FormData>(emptyForm());
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
   const membershipsRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -388,7 +392,7 @@ export default function JoinPage() {
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const errs = validateForm(form, !!membership);
     if (Object.keys(errs).length > 0) {
       setErrors(errs);
@@ -398,13 +402,58 @@ export default function JoinPage() {
       }, 30);
       return;
     }
-    // TODO: send to your backend / Firebase. Payload shape:
-    // { path: pathKey, membership: membershipKey, billing: form.billing, ...form }
-    setSubmitted(true);
+
+    if (!path || !membership) return;
+
+    setSending(true);
+    setSendError("");
+
+    const templateParams = {
+      // common variables
+      form_name: "Get Involved Form",
+      site_name: "Ellevation",
+      page_name: "Get Involved Page",
+      submitted_at: new Date().toLocaleString("en-AU", { timeZone: "Australia/Sydney" }),
+      from_name: `${form.firstName.trim()} ${form.lastName.trim()}`,
+
+      // Template 3 variables
+      membership_selection: `${path.title} – ${membership.name} (${membership.subtitle})`,
+      first_name: form.firstName.trim(),
+      last_name: form.lastName.trim(),
+      user_email: form.email.trim(),
+      phone_number: form.phone.trim() || "Not provided",
+      location: form.location.trim(),
+      profession: form.profession.trim(),
+      organisation_name: form.organisation.trim() || "Not provided",
+      billing_frequency:
+        form.billing === "annual"
+          ? `Annual (${money(membership.annual)} per year)`
+          : `Monthly (${money(membership.monthly)} per month)`,
+      heard_about_us: form.referral,
+      membership_goals: form.goals.trim(),
+      privacy_agreed: form.agree ? "Yes" : "No",
+      terms_agreed: form.agree ? "Yes" : "No",
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_3,
+        templateParams,
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+      setSubmitted(true);
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      setSendError("Something went wrong sending your application. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   const resetAll = () => {
     setSubmitted(false);
+    setSendError("");
     setForm(emptyForm());
     setErrors({});
     setPathKey(null);
@@ -691,8 +740,15 @@ export default function JoinPage() {
                     {errors.agree && <span className="join-error">{errors.agree}</span>}
                   </div>
 
-                  <button className="join-cta join-cta-full" onClick={handleSubmit}>
-                    Submit application
+                  {sendError && <p className="join-error" style={{ marginBottom: 12 }}>{sendError}</p>}
+
+                  <button
+                    className="join-cta join-cta-full"
+                    onClick={handleSubmit}
+                    disabled={sending}
+                    style={sending ? { opacity: 0.7, cursor: "not-allowed" } : undefined}
+                  >
+                    {sending ? "Sending..." : "Submit application"}
                   </button>
                 </>
               )}
