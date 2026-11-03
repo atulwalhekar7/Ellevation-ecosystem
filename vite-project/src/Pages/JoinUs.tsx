@@ -3,9 +3,9 @@ import { useSearchParams } from "react-router-dom";
 
 import emailjs from "@emailjs/browser";
 
-const EMAILJS_SERVICE_ID = "service_xxxxx";   
-const EMAILJS_PUBLIC_KEY = "xxxxxxxxxxxx";    
-const EMAILJS_TEMPLATE_3 = "template_xxxxx";  
+const EMAILJS_SERVICE_ID = "service_ncrzorh";   
+const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";    
+const EMAILJS_TEMPLATE_3 = "template_oxzm6qp";  
 
 type PathKey = "ms-ellevation" | "hub";
 type Billing = "annual" | "monthly";
@@ -443,12 +443,12 @@ export default function JoinPage() {
         { publicKey: EMAILJS_PUBLIC_KEY }
       );
       setSubmitted(true);
-    } catch (err) {
-      console.error("EmailJS error:", err);
-      setSendError("Something went wrong sending your application. Please try again.");
-    } finally {
-      setSending(false);
-    }
+ } catch (err: any) {
+  console.error("EmailJS error:", err);
+  const status = err?.status;
+  const text = err?.text || err?.message || "Unknown error";
+  setSendError(`Send failed (${status ?? "no status"}): ${text}`);
+}
   };
 
   const resetAll = () => {
