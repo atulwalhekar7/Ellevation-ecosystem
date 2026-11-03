@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
 /* ── Config ───────────────────────────────────────────────────────────────── */
-const EMAILJS_SERVICE = "service_ux9vfej";
-const EMAILJS_TEMPLATE_4 = "template_xxxxx"; // replace once Template 4 exists
-const EMAILJS_PUBLIC_KEY = "Pu2wZN2ERnHjdboLI";
+const EMAILJS_SERVICE = "service_ncrzorh";
+const EMAILJS_TEMPLATE_4 = "template_3fl02yn"; // replace once Template 4 exists
+const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";
 
 const BUSINESS_CATEGORIES = [
   "Retail & E-commerce",
