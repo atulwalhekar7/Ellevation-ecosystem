@@ -1,10 +1,11 @@
 import { useState } from "react";
+import type { ChangeEvent, FormEvent, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 
 /* ── Config ───────────────────────────────────────────────────────────────── */
 const EMAILJS_SERVICE = "service_ncrzorh";
-const EMAILJS_TEMPLATE_4 = "template_3fl02yn"; // replace once Template 4 exists
+const EMAILJS_TEMPLATE_4 = "template_3fl02yn"; 
 const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";
 
 const BUSINESS_CATEGORIES = [
@@ -21,6 +22,46 @@ const BUSINESS_CATEGORIES = [
 ];
 
 const CONTACT_METHODS = ["Email", "Phone", "Email or phone"];
+
+const SUPPORT_GROUPS = [
+  {
+    title: "Business Growth & Visibility",
+    options: [
+      "Business promotion and visibility",
+      "Referrals and strategic introductions",
+      "Networking opportunities",
+      "Events and exhibitions",
+      "Speaking opportunities",
+      "Sponsorship opportunities",
+      "Digital and marketing support",
+      "Business strategy and growth",
+    ],
+  },
+  {
+    title: "Leadership & Personal Development",
+    options: [
+      "Leadership development",
+      "Confidence building",
+      "Personal branding and visibility",
+      "Public speaking opportunities",
+      "Mentoring and coaching",
+      "Professional development",
+      "Healing and personal growth support",
+    ],
+  },
+  {
+    title: "Community & Workforce",
+    options: [
+      "Recruitment and workforce support",
+      "Collaborations and partnerships",
+      "Community engagement opportunities",
+      "Youth development initiatives",
+      "Women's empowerment initiatives",
+      "Employee wellbeing and development",
+      "Other",
+    ],
+  },
+];
 
 const FOUNDER_DECLARATION_TEXT =
   "I confirm that the information provided is accurate and I understand that the Founding Business Program is complimentary from 1 January 2027 to 31 March 2027.";
@@ -60,6 +101,10 @@ type FormState = {
   promoteEvent: YesNo;
   jobVacancy: YesNo;
   internshipAd: YesNo;
+  // Growth & support
+  biggestObstacle: string;
+  supportAreas: string[];
+  supportOther: string;
   // Permissions
   permPublish: boolean;
   permImages: boolean;
@@ -79,6 +124,7 @@ const INITIAL: FormState = {
   caldSupport: "", employment: "", internships: "", partnerships: "",
   listingUrl: "", contactMethod: "",
   spotlight: "", promoteEvent: "", jobVacancy: "", internshipAd: "",
+  biggestObstacle: "", supportAreas: [], supportOther: "",
   permPublish: false, permImages: false, permUpdates: false,
   declarationName: "", signature: "", declarationDate: today(),
 };
@@ -147,6 +193,10 @@ textarea.ob-input{ resize:vertical; min-height:110px; line-height:1.6; }
 .ob-check input{ accent-color:#4B1E56; width:18px; height:18px; margin-top:3px; flex-shrink:0; cursor:pointer; }
 .ob-check:has(input:checked){ background:rgba(75,30,86,0.06); border-color:var(--ob-accent); }
 
+.ob-group{ margin-top:22px; }
+.ob-group-title{ font-family:'Astrid Regular',serif; font-size:1.15rem; font-weight:400; color:var(--ob-sub); margin:0 0 10px; }
+.ob-other{ margin-top:4px; }
+
 .ob-declare{ font-size:16px; line-height:1.75; color:var(--ob-text); padding:18px 20px; border-radius:14px; background:rgba(215,178,100,0.12); border-left:3px solid var(--ob-gold); margin:0 0 24px; }
 .ob-sign{ font-family:'Astrid Regular',serif; font-style:italic; font-size:1.4rem; }
 
@@ -173,7 +223,7 @@ textarea.ob-input{ resize:vertical; min-height:110px; line-height:1.6; }
 /* ── Small building blocks ────────────────────────────────────────────────── */
 function Field({
   label, required, note, full, children,
-}: { label: string; required?: boolean; note?: string; full?: boolean; children: React.ReactNode }) {
+}: { label: string; required?: boolean; note?: string; full?: boolean; children: ReactNode }) {
   return (
     <div className={`ob-field${full ? " ob-full" : ""}`}>
       <span className="ob-label">
@@ -213,21 +263,38 @@ export default function OnboardingForm() {
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setF(prev => ({ ...prev, [key]: value }));
 
+  const toggleSupport = (option: string) =>
+    setF(prev => ({
+      ...prev,
+      supportAreas: prev.supportAreas.includes(option)
+        ? prev.supportAreas.filter(o => o !== option)
+        : [...prev.supportAreas, option],
+    }));
+
   const words = wordCount(f.overview);
   const wordsOk = words >= 50 && words <= 150;
 
   const bind = (key: keyof FormState) => ({
     value: f[key] as string,
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
       set(key, e.target.value as never),
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (sending) return; // guard against double submits
     setError("");
 
     if (!wordsOk) {
       setError("Your business overview needs to be between 50 and 150 words. It is currently " + words + ".");
+      return;
+    }
+    if (f.supportAreas.length === 0) {
+      setError("Please select at least one area of support that would create value for you.");
+      return;
+    }
+    if (f.supportAreas.includes("Other") && !f.supportOther.trim()) {
+      setError("Please tell us what the 'Other' area of support is.");
       return;
     }
     if (!f.permPublish) {
@@ -240,6 +307,16 @@ export default function OnboardingForm() {
     const yn = (v: YesNo) => v || "Not answered";
     const yesNo = (b: boolean) => (b ? "Yes" : "No");
 
+    // One line per group, e.g. "Business Growth & Visibility: Networking opportunities, Events and exhibitions"
+    const supportSummary = SUPPORT_GROUPS.map(g => {
+      const picked = g.options
+        .filter(o => f.supportAreas.includes(o))
+        .map(o => (o === "Other" ? `Other: ${f.supportOther.trim()}` : o));
+      return picked.length ? `${g.title}: ${picked.join(", ")}` : "";
+    })
+      .filter(Boolean)
+      .join("\n");
+
     const templateParams = {
       // common variables
       form_name: "Onboarding Form",
@@ -247,6 +324,7 @@ export default function OnboardingForm() {
       page_name: "Onboarding Page",
       submitted_at: new Date().toLocaleString("en-AU", { timeZone: "Australia/Sydney" }),
       from_name: f.contactPerson.trim(),
+      reply_to: f.email.trim(), // set "Reply To" to {{reply_to}} in the EmailJS template settings
 
       // Business details
       business_name: f.businessName.trim(),
@@ -289,6 +367,11 @@ export default function OnboardingForm() {
       event_promotion: yn(f.promoteEvent),
       job_vacancy_ad: yn(f.jobVacancy),
       internship_opportunity: yn(f.internshipAd),
+
+      // Growth & support
+      biggest_obstacle: f.biggestObstacle.trim(),
+      support_areas: supportSummary,
+      support_areas_count: String(f.supportAreas.length),
 
       // Permissions
       permission_publish_info: yesNo(f.permPublish),
@@ -339,7 +422,7 @@ export default function OnboardingForm() {
             <Link to="/hub">Back to Ellevation Hub</Link>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} noValidate={false}>
+          <form onSubmit={handleSubmit}>
             {/* Business Information */}
             <section className="ob-section">
               <h2>Business information</h2>
@@ -499,6 +582,56 @@ export default function OnboardingForm() {
               </div>
             </section>
 
+            {/* Growth & Support */}
+            <section className="ob-section">
+              <h2>Growth and support</h2>
+              <p className="ob-hint">Help us understand where we can add the most value for you.</p>
+              <div className="ob-grid">
+                <Field
+                  label="What is currently the biggest obstacle limiting the growth, success or impact of your business or organisation?"
+                  required
+                  full
+                >
+                  <textarea className="ob-input" required rows={4} {...bind("biggestObstacle")} />
+                </Field>
+
+                <div className="ob-full" role="group" aria-labelledby="support-q">
+                  <span className="ob-label" id="support-q">
+                    Which opportunities or areas of support would create the greatest value for you through the
+                    Ellevation ecosystem? <i>(Select all that apply)</i>
+                    <span className="ob-req" aria-hidden="true">*</span>
+                  </span>
+
+                  {SUPPORT_GROUPS.map(group => (
+                    <div key={group.title} className="ob-group">
+                      <h3 className="ob-group-title">{group.title}</h3>
+                      {group.options.map(option => (
+                        <label key={option} className="ob-check">
+                          <input
+                            type="checkbox"
+                            checked={f.supportAreas.includes(option)}
+                            onChange={() => toggleSupport(option)}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      ))}
+                    </div>
+                  ))}
+
+                  {f.supportAreas.includes("Other") && (
+                    <input
+                      className="ob-input ob-other"
+                      placeholder="Other: please specify"
+                      aria-label="Other area of support"
+                      required
+                      value={f.supportOther}
+                      onChange={e => set("supportOther", e.target.value)}
+                    />
+                  )}
+                </div>
+              </div>
+            </section>
+
             {/* Permissions */}
             <section className="ob-section">
               <h2>Permissions</h2>
@@ -520,10 +653,7 @@ export default function OnboardingForm() {
             {/* Founder Declaration */}
             <section className="ob-section">
               <h2>Founder declaration</h2>
-              <p className="ob-declare">
-                I confirm that the information provided is accurate and I understand that the Founding Business
-                Program is complimentary from 1 January 2027 to 31 March 2027.
-              </p>
+              <p className="ob-declare">{FOUNDER_DECLARATION_TEXT}</p>
               <div className="ob-grid">
                 <Field label="Full name" required>
                   <input className="ob-input" required {...bind("declarationName")} />
