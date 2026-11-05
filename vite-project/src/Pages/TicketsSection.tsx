@@ -1,6 +1,30 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { OFFERS, type Offer, type OfferKind } from "./offers.config";
+
+/* ───────────────────────── Types (inline, offers.config not available) ───────────────────────── */
+export type OfferKind = "event" | "offer" | "program";
+
+export type Offer = {
+  id: string;
+  kind: OfferKind;
+  title: string;
+  description: string;
+  priceLabel: string;
+  paymentLink: string;
+  status?: "available" | "sold-out" | "coming-soon";
+  badge?: string;
+  tagline?: string;
+  dateLabel?: string;
+  location?: string;
+  includes?: string[];
+  compareAtLabel?: string;
+  validUntil?: string;
+  buttonLabel?: string;
+  startISO?: string;
+  endISO?: string;
+};
+
+const OFFERS: Offer[] = [];
 
 /* ───────────────────────── Data loading ─────────────────────────
    1. Starts with the bundled OFFERS from offers.config.ts

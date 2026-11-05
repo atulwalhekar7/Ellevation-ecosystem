@@ -1,5 +1,6 @@
 import ellevationHubLogo from "../assets/Ellevation-darkmode-logo.png";
 import msEllevationLogo from "../assets/ms-ellevation-darkmode-logo.png";
+import type { ReactElement } from "react";
 import { Link } from "react-router-dom";
 
 const JOIN_ROUTE = "/get-involved/join";
@@ -94,7 +95,7 @@ const HUB_INSTAGRAM = "https://www.instagram.com/ellevation.hub";
 
 // Both Instagram accounts are always shown, each with a caption underneath.
 const socialIcons: {
-  icon: JSX.Element;
+  icon: ReactElement;
   label: string;
   href: string;
   caption?: string;
