@@ -377,12 +377,12 @@ const IMPACT_CONTRIBUTION_ECOSYSTEM = [
 const MEMBERSHIP_STRONG_ROWS = new Set(["Annual Fee", "Monthly Fee", "Purpose", "Outcome"]);
 
 const DIRECTORY_CATEGORIES = [
-  { title: "Retail & E-commerce",     count: "120+ listings", icon: "◈" },
-  { title: "Consulting & Coaching",   count: "95+ listings",  icon: "✦" },
-  { title: "Creative & Design",       count: "80+ listings",  icon: "✿" },
-  { title: "Health & Wellness",       count: "65+ listings",  icon: "❖" },
-  { title: "Technology",              count: "50+ listings",  icon: "◎" },
-  { title: "Education & Training",    count: "40+ listings",  icon: "☖" },
+  { title: "Retail & E-commerce",     count: "Verified business listings",     icon: "◈" },
+  { title: "Consulting & Coaching",   count: "Professional service listings",  icon: "✦" },
+  { title: "Creative & Design",       count: "Curated creative listings",      icon: "✿" },
+  { title: "Health & Wellness",       count: "Trusted provider listings",      icon: "❖" },
+  { title: "Technology",              count: "Innovative business listings",   icon: "◎" },
+  { title: "Education & Training",    count: "Accredited provider listings",   icon: "☖" },
 ];
 
 const PROGRAM_PATHWAYS: { title: string; desc?: string; focus?: string[]; tag?: string; icon: string }[] = [
@@ -576,10 +576,10 @@ const EVENTS: EventItem[] = [
 ];
 
 const IMPACT_STATS = [
-  { n: "1,200+", l: "Community members" },
-  { n: "350+",   l: "Businesses in the directory" },
-  { n: "40+",    l: "Programs delivered" },
-  { n: "$2.1M+", l: "In referred opportunities" },
+  { n: "Growing",     l: "Community of members" },
+  { n: "Thriving",    l: "Businesses in the directory" },
+  { n: "Ongoing",     l: "Programs delivered" },
+  { n: "Meaningful",  l: "Referred opportunities" },
 ];
 
 // Children & Youth outcomes (section that was missing on the Impact page)

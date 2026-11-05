@@ -1,6 +1,6 @@
 import ellevationHubLogo from "../assets/Ellevation-darkmode-logo.png";
 import msEllevationLogo from "../assets/ms-ellevation-darkmode-logo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const JOIN_ROUTE = "/get-involved/join";
 const ONBOARDING_ROUTE = "/onboarding-form";
@@ -89,14 +89,27 @@ const ArrowRight = () => (
   </svg>
 );
 
-const MS_ELLEVATION_INSTAGRAM = "https://www.instagram.com/ms_ellevation/";
+const MS_ELLEVATION_INSTAGRAM = "https://www.instagram.com/ms_ellevation";
 const HUB_INSTAGRAM = "https://www.instagram.com/ellevation.hub";
 
-const getSocialIcons = (isMsEllevation: boolean) => [
+// Both Instagram accounts are always shown, each with a caption underneath.
+const socialIcons: {
+  icon: JSX.Element;
+  label: string;
+  href: string;
+  caption?: string;
+}[] = [
   {
     icon: <InstagramIcon />,
-    label: isMsEllevation ? "Ms Ellevation Instagram" : "Ellevation Hub Instagram",
-    href: isMsEllevation ? MS_ELLEVATION_INSTAGRAM : HUB_INSTAGRAM,
+    label: "Ms Ellevation Instagram",
+    caption: "Ms Ellevation",
+    href: MS_ELLEVATION_INSTAGRAM,
+  },
+  {
+    icon: <InstagramIcon />,
+    label: "Ellevation Hub Instagram",
+    caption: "Ellevation Hub",
+    href: HUB_INSTAGRAM,
   },
   { icon: <YoutubeIcon />, label: "YouTube", href: "https://www.youtube.com/@EllevationOfficial" },
   { icon: <TiktokIcon />, label: "TikTok", href: "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs" },
@@ -173,12 +186,6 @@ const AustralianFlag = () => (
 /* ------------------------------------------------------------------ */
 
 export default function EllevationFooter() {
-  const { pathname, search } = useLocation();
-   const isMsEllevation =
-    pathname.toLowerCase().startsWith("/ms-ellevation") ||
-    new URLSearchParams(search).get("path") === "ms-ellevation";
-
-  const socialIcons = getSocialIcons(isMsEllevation);
   return (
     <>
       <link
@@ -229,6 +236,14 @@ export default function EllevationFooter() {
         }
         .footer-utility-link:hover { color: #c9a3d9; }
 
+        /* ---------- Social icons (with optional captions) ---------- */
+        .social-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+          text-decoration: none;
+        }
         .social-btn {
           width: 40px;
           height: 40px;
@@ -242,13 +257,22 @@ export default function EllevationFooter() {
           cursor: pointer;
           transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
-        .social-btn:hover {
+        .social-item:hover .social-btn {
           background: #D7B264;
           border-color: #6B3179;
           color: #ffffff;
           transform: translateY(-3px);
           box-shadow: 0 8px 18px rgba(75, 30, 86, 0.45);
         }
+        .social-caption {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 11px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.6);
+          white-space: nowrap;
+          transition: color 0.18s;
+        }
+        .social-item:hover .social-caption { color: #c9a3d9; }
 
         /* Buttons are real links (no <button> nested inside <a>),
            so clicking them always navigates. */
@@ -442,36 +466,36 @@ export default function EllevationFooter() {
               </Link>
             </div>
 
-           <h2 className="footer-tagline">One Ecosystem. Two Pathways. Shared Impact.</h2>
+            <h2 className="footer-tagline">One Ecosystem. Two Pathways. Shared Impact.</h2>
 
-<p
-  className="footer-description"
-  style={{
-    fontSize: "18px",
-    lineHeight: 1.7,
-    color: "#cbd5e1",
-    fontWeight: 400,
-    margin: "0 0 16px 0",
-  }}
->
-  Ellevation Hub and Ms Ellevation are part of a community-led ecosystem creating
-  pathways to confidence, wellbeing, leadership, opportunity, and community impact.
-</p>
+            <p
+              className="footer-description"
+              style={{
+                fontSize: "18px",
+                lineHeight: 1.7,
+                color: "#cbd5e1",
+                fontWeight: 400,
+                margin: "0 0 16px 0",
+              }}
+            >
+              Ellevation Hub and Ms Ellevation are part of a community-led ecosystem creating
+              pathways to confidence, wellbeing, leadership, opportunity, and community impact.
+            </p>
 
-<p
-  className="footer-description"
-  style={{
-    fontSize: "18px",
-    lineHeight: 1.7,
-    color: "#cbd5e1",
-    fontWeight: 400,
-    margin: "0 0 36px 0",
-  }}
->
-  We are especially passionate about supporting culturally and linguistically diverse
-  (CALD) communities while welcoming all who align with our values and desire to grow,
-  connect, lead, and make a positive impact.
-</p>
+            <p
+              className="footer-description"
+              style={{
+                fontSize: "18px",
+                lineHeight: 1.7,
+                color: "#cbd5e1",
+                fontWeight: 400,
+                margin: "0 0 36px 0",
+              }}
+            >
+              We are especially passionate about supporting culturally and linguistically diverse
+              (CALD) communities while welcoming all who align with our values and desire to grow,
+              connect, lead, and make a positive impact.
+            </p>
 
             <div className="footer-brand-actions" style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
               <Link to={JOIN_ROUTE} className="btn-purple">
@@ -592,23 +616,23 @@ export default function EllevationFooter() {
               Terms &amp; Conditions
             </Link>
             <Link to={ONBOARDING_ROUTE} className="footer-utility-link">
-  Onboarding Form
-</Link>
+              Onboarding Form
+            </Link>
           </div>
 
-          <div style={{ display: "flex", gap: "12px" }}>
-            {socialIcons.map(({ icon, label, href }) => (
+          <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+            {socialIcons.map(({ icon, label, caption, href }) => (
               <a
                 key={label}
                 href={href}
                 target={href.startsWith("http") ? "_blank" : undefined}
                 rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="social-btn"
+                className="social-item"
                 aria-label={label}
                 title={label}
-                style={{ textDecoration: "none" }}
               >
-                {icon}
+                <span className="social-btn">{icon}</span>
+                {caption && <span className="social-caption">{caption}</span>}
               </a>
             ))}
           </div>
