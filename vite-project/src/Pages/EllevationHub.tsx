@@ -151,7 +151,7 @@ const ABOUT_ECOSYSTEM_APPROACH = [
 const ABOUT_WHO_WE_SUPPORT = [
   { title: "Community", desc: "Supporting grassroots networks, local initiatives, and community-driven projects that strengthen connection, participation, and collective impact.", icon: "✿" },
   { title: "Business", desc: "Supporting entrepreneurs, professionals, business owners, and enterprises seeking visibility, growth, collaboration, and opportunity.", icon: "◈" },
-  { title: "Youth", desc: "Creating pathways for young people through mentoring, leadership development, education, and opportunity.", icon: "✦" },
+  { title: "Children and Youth", desc: "Creating pathways for young people through mentoring, leadership development, education, and opportunity.", icon: "✦" },
   { title: "Men", desc: "Supporting wellbeing, personal growth, leadership, and positive community participation.", icon: "◎" },
   { title: "Women & Young Women", desc: "Creating opportunities for identity, voice, confidence, leadership, mentoring, visibility, and meaningful participation.", icon: "❋" },
   { title: "Community Organisations", desc: "Supporting organisations and community groups through partnerships, collaboration, visibility, and shared impact.", icon: "⬡" },
