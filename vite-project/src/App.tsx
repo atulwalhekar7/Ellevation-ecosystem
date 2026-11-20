@@ -2,6 +2,8 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 
 import EllevationNavbar from './Components/Navbar';
 import Footer from './Components/Footer';
+import EllevationHubBusinessProfile from "./Components/Business Profile/EllevationHubBusinessProfile";
+
 
 import Home from './Pages/Home';
 import About from './Pages/About';
@@ -31,7 +33,11 @@ const hideNavbar = [
   "/",
   "/hub",
   "/ms-ellevation",
-].includes(pathname);  return (
+  "/ellevationhub-business-profile",
+].includes(pathname);
+
+const hideFooter = pathname === "/ellevationhub-business-profile";
+  return (
     <>
     <ScrollToUp />
 {!hideNavbar && <EllevationNavbar />}
@@ -58,8 +64,9 @@ const hideNavbar = [
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-condition" element={<TermsCondition />} />
         <Route path="/onboarding-form" element={<OnboardingForm />} />
-      </Routes>
-      <Footer />
+<Route path="/ellevationhub-business-profile" element={<EllevationHubBusinessProfile />} />
+        </Routes>
+      {!hideFooter && <Footer />}
     </>
   );
 }

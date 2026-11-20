@@ -13,7 +13,12 @@ import homeImage from "../assets/Ms Ellevation/Home Banner.jpeg";
 import homeImage2 from "../assets/Ms Ellevation/AdobeStock_497266942.jpeg";
 import homeImage3 from "../assets/Ms Ellevation/AdobeStock_589576704.jpeg";
 import homeImage4 from "../assets/Ms Ellevation/AdobeStock_1271539281.jpeg";
+import { EVENTS, EVENT_CATEGORIES, EVENT_CTA } from "./eventsData";
+import type { EventItem, EventCategory } from "./eventsData";
+import EventInterestModal from "./EventInterestModal";
 
+// Ms page: Ms events + joint events (Hub-only events hide)
+const MS_EVENTS = EVENTS.filter(e => e.brand.includes("Ms. Ellevation"));
 // ─── Types ───────────────────────────────────────────────────────────────────
 type Page = "home" | "about" | "journey" | "programs" | "membership" | "events" | "stories" | "join" | "register";
 type MembershipTier = "DISCOVER" | "RISE" | "ELEVATE" | "LEGACY";
@@ -1334,8 +1339,7 @@ const MEMBERSHIP_PLANS: MembershipPlan[] = [
     annual: "$350",
     monthly: "$35",
     quote: "I want to invest in myself.",
-    popularWith: ["Young women (17-25)", "CALD women", "Women entrepreneurship", "Women rebuilding confidence", "Women navigating life transitions"],
-    included: [
+popularWith: ["Young women (17-25)", "CALD women", "Women entrepreneurs", "Women rebuilding confidence", "Women navigating life transitions"],    included: [
       "Ms Ellevation community access",
       "Quarterly connection sessions",
       "Member newsletter",
@@ -1502,6 +1506,7 @@ function PlanGlyph({ index, size = 22 }: { index: number; size?: number }) {
 }
 
 // ─── Referral & Community Impact Framework (new, Elevate + Legacy) ──────────
+// ─── Referral & Community Impact Framework (new, Elevate + Legacy) ──────────
 function CommunityImpactSection() {
   return (
     <section className="mb-impact">
@@ -1544,26 +1549,53 @@ function CommunityImpactSection() {
           consideration when community members seek trusted services, based on relevance, availability and community
           needs. Being listed does not guarantee referrals or paid work.
         </p>
-<div style={{ marginTop: 56 }}>
-  <Accordion title="Why the Community Impact Contribution Matters">
-    <p className="mb-impact-lead">A referral that creates opportunity can also create opportunity for someone else.</p>
-    <p className="mb-impact-text">
-      The Community Impact Contribution is designed to turn successful ecosystem referrals into shared community
-      impact. When Ms Ellevation or Ellevation Hub connects a member to a new client and that referral becomes paid
-      business, a small percentage of the first referral-generated invoice is reinvested into initiatives that help
-      other women, emerging businesses and community ideas move forward.
-    </p>
 
-{/* paste your existing <div className="mb-table-wrap"> ...table... </div> here, unchanged */}
-    <div className="mb-outcome" style={{ marginTop: 28, textAlign: "left" }}>
-      <span className="mb-outcome-label">The principle</span>
-      <p className="mb-outcome-text">
-        When the ecosystem helps create new business, part of that first successful transaction helps open a door for someone else.
-      </p>
-    </div>
-  </Accordion>
+        <div style={{ marginTop: 56 }}>
+          <Accordion title="Why the Community Impact Contribution Matters">
+            <p className="mb-impact-lead">A referral that creates opportunity can also create opportunity for someone else.</p>
+            <p className="mb-impact-text">
+              The Community Impact Contribution is designed to turn successful ecosystem referrals into shared community
+              impact. When Ms Ellevation or Ellevation Hub connects a member to a new client and that referral becomes paid
+              business, a small percentage of the first referral-generated invoice is reinvested into initiatives that help
+              other women, emerging businesses and community ideas move forward.
+            </p>
+
+          <div className="mb-table-wrap">
+  <table className="mb-table mb-table-sm">
+    <thead>
+      <tr>
+        <th scope="col">What it means for the member</th>
+        <th scope="col">Why it matters to the community</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>You only contribute when an ecosystem referral becomes paid business.</td>
+        <td>A successful referral helps create a funding pool for future community opportunities.</td>
+      </tr>
+      <tr>
+        <td>The percentage applies to the first referral-generated invoice only.</td>
+        <td>Contributions can support emerging businesses, women-led ventures and community initiatives.</td>
+      </tr>
+      <tr>
+        <td>It is not deducted from your membership fee or unrelated business income.</td>
+        <td>The model allows members to grow while also helping others access opportunities.</td>
+      </tr>
+      <tr>
+        <td>Future invoices from that referred client are not subject to the contribution.</td>
+        <td>The contribution reinforces Ms Ellevation’s purpose of leadership, impact and creating pathways for others.</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-        
+            <div className="mb-outcome" style={{ marginTop: 28, textAlign: "left" }}>
+              <span className="mb-outcome-label">The principle</span>
+              <p className="mb-outcome-text">
+                When the ecosystem helps create new business, part of that first successful transaction helps open a door for someone else.
+              </p>
+            </div>
+          </Accordion>
+        </div>
 
         <h3 className="mb-impact-sub">Community Impact Contribution Rates</h3>
         <div className="mb-table-wrap">
@@ -1855,37 +1887,70 @@ const mb: Record<string, React.CSSProperties> = {
 };
 
 // ─── EVENTS PAGE ────────────────────────────────────────────────────────────
-const EVENTS = [
-  { date: "AUG 14", title: "Rise & Lead: Leadership Circle", location: "Sydney, NSW", desc: "An evening of connection and leadership coaching for young women." },
-  { date: "SEP 02", title: "Confidence Workshop",             location: "Online",     desc: "Interactive session on building unshakeable self-belief." },
-  { date: "OCT 18", title: "Ellevation Summit",                location: "Melbourne, VIC", desc: "Our flagship annual gathering for the Ellevation community." },
-];
+// ─── EVENTS PAGE ────────────────────────────────────────────────────────────
 
-function EventsPage({ nav }: { nav: NavFn }) {
+function EventsPage() {
+  const [activeCategory, setActiveCategory] = useState<EventCategory>("All Events");
+  const [registering, setRegistering] = useState<EventItem | null>(null);
+
+  const visibleFilters = EVENT_CATEGORIES.filter(
+    c => c === "All Events" || MS_EVENTS.some(e => e.category === c)
+  );
+  const filtered = activeCategory === "All Events"
+    ? MS_EVENTS
+    : MS_EVENTS.filter(e => e.category === activeCategory);
   return (
     <div className="ev-page-root">
       <section className="ev-banner" style={ev.banner}>
         <div className="ev-banner-bg" style={ev.bannerBg} />
         <div style={{ position:"relative", zIndex:2, textAlign:"center", animation:"fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) both" }}>
-          <p className="ev-eye" style={ev.eye}>— EVENTS —</p>
+          <p className="ev-eye" style={ev.eye}>— EVENTS 2027 —</p>
           <h1 className="ev-title" style={ev.title}>Gather. Grow. Rise Together.</h1>
-          <p className="ev-sub" style={ev.sub}>Join us at upcoming events and sessions designed for connection and growth.</p>
+          <p className="ev-sub" style={ev.sub}>Join us at upcoming events and sessions designed for connection and growth. Dates shown are proposed and subject to confirmation.</p>
         </div>
       </section>
 
       <section className="ev-section" style={ev.section}>
-        <div className="ev-grid" style={ev.grid}>
-          {EVENTS.map(e => (
-            <div key={e.title} className="ev-card" style={ev.card}>
-              <div style={ev.dateBadge}>{e.date}</div>
-              <h3 className="ev-card-title" style={ev.cardTitle}>{e.title}</h3>
-              <p className="ev-card-loc" style={ev.cardLoc}>{e.location}</p>
-              <p className="ev-card-desc" style={ev.cardDesc}>{e.desc}</p>
-              <button style={ev.rsvpBtn} onClick={() => nav("join")}>RESERVE YOUR SPOT</button>
-            </div>
+        <div className="ev-filter-row" style={ev.filterRow}>
+          {visibleFilters.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`ev-filter${activeCategory === cat ? " active" : ""}`}
+              style={{ ...ev.filterBtn, ...(activeCategory === cat ? ev.filterBtnActive : {}) }}
+            >
+              {cat}
+            </button>
           ))}
         </div>
-      </section>
+
+        {filtered.length === 0 ? (
+          <p className="ev-card-desc" style={{ ...ev.cardDesc, textAlign:"center" }}>
+            No events in this category yet — check back soon.
+          </p>
+        ) : (
+          <div className="ev-grid" style={ev.grid}>
+            {filtered.map(e => (
+<div key={e.id} className="ev-card" style={ev.card}>
+                <div style={ev.dateBadge}>{e.date}</div>
+                <span className="ev-pill" style={ev.categoryPill}>{e.category}</span>
+                <p className="ev-brand" style={ev.brand}>{e.brand}</p>
+                <h3 className="ev-card-title" style={ev.cardTitle}>{e.title}</h3>
+                <p className="ev-card-desc" style={ev.cardDesc}>{e.desc}</p>
+                <button style={ev.rsvpBtn} onClick={() => setRegistering(e)}>{EVENT_CTA.toUpperCase()}</button>
+</div>
+            ))}
+          </div>
+        )}
+           </section>
+
+      {registering && (
+        <EventInterestModal
+          event={registering}
+          events={MS_EVENTS}
+          onClose={() => setRegistering(null)}
+        />
+      )}
     </div>
   );
 }
@@ -1895,14 +1960,18 @@ const ev: Record<string, React.CSSProperties> = {
   bannerBg: { position:"absolute", inset:0, background:`linear-gradient(180deg, rgba(26,10,46,0.68) 0%, rgba(75,30,86,0.75) 100%), url('${BANNER_IMAGES.events}') center/cover no-repeat`, zIndex:0 },
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.2em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
-  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:500, margin:"0 auto" },
-  section: { padding:"60px 48px 96px", background:"#ffffff" },
+  sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" }, 
+  section: { padding:"60px 48px 96px", background:"#ffffff" ,},
+    filterRow: { display:"flex", justifyContent:"center", gap:10, flexWrap:"wrap" as const, maxWidth:1100, margin:"0 auto 40px" },
+  filterBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:600, letterSpacing:"0.04em", padding:"10px 18px", borderRadius:100, border:"1.5px solid rgba(124, 92, 191, 0.2)", background:"#fff", color:"#554866", cursor:"pointer", transition:"all 0.2s ease" },
+  filterBtnActive: { background:"#D7B264", borderColor:"#4B1E56", color:"#fff", boxShadow:"0 4px 16px rgba(75,30,86,0.3)" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
   card: { background:"rgba(255, 255, 255, 0.85)", backdropFilter:"blur(10px)", borderRadius:20, padding:"32px 28px 28px", boxShadow:"0 4px 32px rgba(75,30,86,0.08)", border:"1px solid rgba(124, 92, 191, 0.15)", display:"flex", flexDirection:"column", gap:0 },
-  dateBadge: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", padding:"6px 14px", borderRadius:100, marginBottom:16, width:"fit-content" },
-  cardTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"22px", fontWeight:600, color:"#1a0a2e", marginBottom:6 },
-  cardLoc: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:14 },
-  cardDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
+  dateBadge: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.7rem", fontWeight:700, letterSpacing:"0.14em", color:"#fff", background:"linear-gradient(135deg, #6b2f7a 0%, #4B1E56 100%)", padding:"6px 14px", borderRadius:100, marginBottom:14, width:"fit-content" },
+    categoryPill: { display:"inline-block", fontFamily:"'Montserrat', sans-serif", fontSize:"0.66rem", fontWeight:700, letterSpacing:"0.06em", color:"#662369", background:"rgba(75,30,86,0.08)", border:"1px solid rgba(75,30,86,0.18)", padding:"4px 11px", borderRadius:100, marginBottom:12, width:"fit-content" },
+  brand: { fontFamily:"'Montserrat', sans-serif", fontSize:"0.78rem", fontWeight:500, letterSpacing:"0.08em", color:"#8a5a97", marginBottom:10 },
+  cardTitle: { fontFamily:"'Astrid Regular',serif", fontSize:"22px", fontWeight:600, color:"#1a0a2e", marginBottom:12 },   // 6 → 12
+    cardDesc: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"#554866", lineHeight:1.65, marginBottom:22, flexGrow:1 },
   rsvpBtn: {
     fontFamily: "'Montserrat',sans-serif",
     fontSize: "14px",
@@ -3425,6 +3494,12 @@ input::placeholder,textarea::placeholder{color:#7a6a8c;}        select option{co
         }
 
         /* Respect reduced-motion preferences */
+
+        .ev-filter:hover { border-color: rgba(124, 92, 191, 0.45) !important; }
+[data-theme="dark"] .ev-filter { background: #160d22 !important; border-color: rgba(155,109,190,0.3) !important; color: #d9a8cd !important; }
+[data-theme="dark"] .ev-filter.active { background: #D7B264 !important; border-color: #D7B264 !important; color: #fff !important; }
+[data-theme="dark"] .ev-pill { color: #e8d5f0 !important; background: rgba(75,30,86,0.25) !important; border-color: rgba(155,109,190,0.35) !important; }
+[data-theme="dark"] .ev-brand { color: #c9a3d9 !important; }
         @media (prefers-reduced-motion: reduce){
           .mb-tab, .mb-btn{ transition:none !important; }
           .mb-panel{ animation:none !important; }
@@ -3454,7 +3529,7 @@ input::placeholder,textarea::placeholder{color:#7a6a8c;}        select option{co
       {page === "journey"    && <JourneyPage    nav={nav} />}
       {page === "programs"   && <ProgramsPage   nav={nav} />}
       {page === "membership" && <MembershipPage nav={nav} />}
-      {page === "events"     && <EventsPage     nav={nav} />}
+{page === "events"     && <EventsPage />}
       {page === "stories"    && <StoriesPage />}
       {page === "join"       && <JoinPage nav={nav} />}
       {page === "register"   && <RegisterPage />}

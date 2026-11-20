@@ -1,26 +1,11 @@
 import { useState, useRef } from "react";
-import emailjs from "@emailjs/browser";
-
+import { submitFeedbackForm } from "../Emailjs/SubmitCollectiveForms";
 /* ------------------------------------------------------------------ */
 /* Ellevation Feedback & Complaint Form (site-wide)                    */
 /* Sends through EmailJS using its own feedback template               */
 /* ------------------------------------------------------------------ */
 
 /* ───────────── EmailJS setup (all from the SAME EmailJS account) ───────────── */
-const EMAILJS_SERVICE_ID = "service_ncrzorh";     // Dashboard > Email Services
-const EMAILJS_TEMPLATE_ID = "template_vg99w8j";   // Dashboard > Email Templates (the NEW feedback template)
-const EMAILJS_PUBLIC_KEY = "RtPgLiN1d2G9V2EYH";   // Dashboard > Account > General
-const FEEDBACK_TO_EMAIL = "your-inbox@example.com"; // where feedback should arrive
-const EMAIL_LOGO_URL =
-  "https://ellvation-ecosystem.web.app/assets/Ellevation-darkmode-logo.png";
-
-const escapeHtml = (v: string): string =>
-  v
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 
 const DISPLAY_FONT = "'Astrid Regular', serif";
 const BODY_FONT = "'Montserrat', sans-serif";
@@ -90,66 +75,30 @@ function validate(d: FeedbackData): FeedbackErrors {
 async function sendFeedback(form: FeedbackData) {
   const related = form.relatedTo.join(", ");
 
-  const rows: [string, string][] = [
-    ["Type", form.type],
-    ["Related To", related],
-    ["Name", form.name],
-    ["Email", form.email],
-    ["Phone", form.phone],
-    ["Organisation", form.organisation],
-    ["Preferred Contact", form.contactMethod],
-    ["Details", form.details],
-    ["Desired Outcome", form.outcome],
-  ];
-
-  const detailsHtml = rows
-    .filter(([, v]) => v && v.trim() !== "")
-    .map(
-      ([label, value]) => `
-        <tr>
-          <td style="padding:10px 12px;border-bottom:1px solid #ede7f5;width:35%;color:#8a5a97;font-weight:600;vertical-align:top;">${escapeHtml(label)}</td>
-          <td style="padding:10px 12px;border-bottom:1px solid #ede7f5;white-space:pre-wrap;">${escapeHtml(value)}</td>
-        </tr>`
-    )
-    .join("");
-
-  const templateParams = {
-    to_email: FEEDBACK_TO_EMAIL,
-    reply_to: form.email,
-    logo_url: EMAIL_LOGO_URL,
-    form_title: `New Ellevation ${form.type}`,
-    form_source: "Ellevation — Feedback & Complaint Form",
-    feedback_type: form.type,
-    related_to: related,
-    name: form.name,
-    email: form.email,
-    phone: form.phone,
-    organisation: form.organisation,
-    contact_method: form.contactMethod,
-    details: form.details,
-    outcome: form.outcome,
-    details_html: `<table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px;">${detailsHtml}</table>`,
-  };
-
-  try {
-    const result = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, {
-      publicKey: EMAILJS_PUBLIC_KEY,
-    });
-    console.log("EmailJS (feedback) success:", result.status, result.text);
-    return result;
-  } catch (error: unknown) {
-    console.error("EmailJS (feedback) error:", error);
-    const err = error as { status?: number; text?: string };
-    if (err?.status === 412) {
-      throw new Error("EmailJS error 412: reconnect your Gmail service in EmailJS (Email Services).");
-    }
-    if (err?.status === 400) {
-      throw new Error(
-        `EmailJS error 400: ${err.text || "check the service ID, template ID and public key belong to the same account."}`
-      );
-    }
-    throw error;
-  }
+   return submitFeedbackForm({
+    brand: "ellevation",
+    formTitle: `New Ellevation ${form.type}`,
+    itemLabel: "Related to",
+    itemName: related,
+    formSource: "Ellevation — Feedback & Complaint Form",
+    fields: {
+      "Type": form.type,
+      "Related To": related,
+      "Full Name": form.name,          // "Full Name" key zaroori hai, helper isse {{name}} banata hai
+      "Email": form.email,             // "Email" key zaroori hai, helper isse {{email}} banata hai
+      "Phone": form.phone,
+      "Organisation": form.organisation,
+      "Preferred Contact": form.contactMethod,
+      "Details": form.details,
+      "Desired Outcome": form.outcome,
+      "Submitted At": new Date().toISOString(),
+    },
+    sections: [
+      { title: "Contact", keys: ["Full Name", "Email", "Phone", "Organisation", "Preferred Contact"] },
+      { title: "Feedback", keys: ["Type", "Related To", "Details"] },
+      { title: "Resolution", keys: ["Desired Outcome", "Submitted At"] },
+    ],
+  });
 }
 
 export default function FeedbackComplaintPage() {

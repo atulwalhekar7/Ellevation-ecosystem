@@ -6,6 +6,13 @@ import hubLogoLight from "../assets/hub-logo.png";
 import hubLogoDark from "../assets/Ellevation-darkmode-logo.png";
 import { submitRegistration } from "../Emailjs/submitRegistration";
 import { submitMembership, submitConnect } from "../Emailjs/Submithubform";
+import { DirectoryCategoriesSection, JoinDirectorySection } from "./DirectoryPages";
+import { EVENTS, EVENT_CATEGORIES, EVENT_CTA } from "./eventsData";
+import type { EventItem, EventCategory } from "./eventsData";
+import EventInterestModal from "./EventInterestModal";
+
+// Hub page: Hub events + joint events (Ms-only events hide)
+const HUB_EVENTS = EVENTS.filter(e => e.brand !== "Ms. Ellevation");
 
 /* ── Animation Helpers (used by the Home page, Connect form + About page) ── */
 function useInView(threshold = 0.12) {
@@ -34,7 +41,7 @@ function fade(inView: boolean, delay = 0): CSSProperties {
 }
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-type Page = "home" | "about" | "membership" | "directory" | "programs" | "opportunities" | "events" | "impact" | "connect" | "register";
+type Page = "home" | "about" | "membership" | "directory" | "join-directory" | "programs" | "opportunities" | "events" | "impact" | "connect" | "register";
 // `nav` accepts an optional param (used to pre-select a program on the Register page)
 type NavFn = (p: Page, param?: string) => void;
 type HubTier = "BELONG" | "GROW" | "INFLUENCE" | "PARTNER" | "LEGACY";
@@ -70,11 +77,15 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Belong, Grow, Influence, Partner — explore Ellevation Hub's four membership packages, compare benefits and submit an expression of interest to join.",
   },
-  directory: {
-    title: "Business Directory | Ellevation Hub",
-    description:
-      "Discover verified businesses built by our community, browse listings by category, or add your own business to the Ellevation Hub directory.",
-  },
+ directory: {
+  title: "The Ellevation Collective | Directory | Ellevation Hub",
+  description: "Discover businesses, professionals, services and community organisations in the Ellevation Collective. Search the directory and send an enquiry.",
+},
+  "join-directory": {
+  title: "Join the Directory | Ellevation Hub",
+  description:
+    "Choose a listing option and showcase what you do in the Ellevation Collective. Free and paid packages available.",
+},
  programs: {
   title: "Our Programs | Ellevation Hub",
   description:
@@ -85,10 +96,10 @@ const PAGE_META: Record<Page, { title: string; description: string }> = {
     description:
       "Browse jobs, collaborations, grants, professional development, and member-only openings connecting Hub members to real opportunity.",
   },
-  events: {
-    title: "Upcoming Events | Ellevation Hub",
+    events: {
+    title: "Upcoming Events 2027 | Ellevation Hub",
     description:
-      "Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one Perth events calendar.",
+      "Community celebrations, children and youth programs, business networking, workshops, and corporate events — all in one events calendar.",
   },
   impact: {
   title: "Our Impact | Ellevation Hub",
@@ -376,14 +387,14 @@ const IMPACT_CONTRIBUTION_ECOSYSTEM = [
 // Rows shown in bold/accent in the comparison table
 const MEMBERSHIP_STRONG_ROWS = new Set(["Annual Fee", "Monthly Fee", "Purpose", "Outcome"]);
 
-const DIRECTORY_CATEGORIES = [
-  { title: "Retail & E-commerce",     count: "Verified business listings",     icon: "◈" },
-  { title: "Consulting & Coaching",   count: "Professional service listings",  icon: "✦" },
-  { title: "Creative & Design",       count: "Curated creative listings",      icon: "✿" },
-  { title: "Health & Wellness",       count: "Trusted provider listings",      icon: "❖" },
-  { title: "Technology",              count: "Innovative business listings",   icon: "◎" },
-  { title: "Education & Training",    count: "Accredited provider listings",   icon: "☖" },
-];
+// const DIRECTORY_CATEGORIES = [
+//   { title: "Retail & E-commerce",     count: "Verified business listings",     icon: "◈" },
+//   { title: "Consulting & Coaching",   count: "Professional service listings",  icon: "✦" },
+//   { title: "Creative & Design",       count: "Curated creative listings",      icon: "✿" },
+//   { title: "Health & Wellness",       count: "Trusted provider listings",      icon: "❖" },
+//   { title: "Technology",              count: "Innovative business listings",   icon: "◎" },
+//   { title: "Education & Training",    count: "Accredited provider listings",   icon: "☖" },
+// ];
 
 const PROGRAM_PATHWAYS: { title: string; desc?: string; focus?: string[]; tag?: string; icon: string }[] = [
   {
@@ -473,107 +484,6 @@ const OPPORTUNITY_LISTINGS: OpportunityListing[] = [
   { title: "Member Cross-Promotion Showcase", org: "Open Call", category: "Business Promotion", type: "Promotion", location: "Perth, WA", deadline: "Rolling", desc: "Join a joint showcase where member businesses promote each other's products and services.", applyUrl: "#" },
 ];
 
-const EVENT_CATEGORIES = [
-  "All Events",
-  "Community",
-  "Sports & Youth",
-  "Business & Networking",
-  "Workshops & Leadership",
-  "Corporate & Professional",
-] as const;
-type EventCategory = typeof EVENT_CATEGORIES[number];
-
-// Demo events only — final Perth event listings to be confirmed by Hannah.
-const EVENTS: EventItem[] = [
-  {
-    day: "14",
-    month: "JUN 2025",
-    tag: "Conference",
-    category: "Business & Networking",
-    title: "Rise Summit: Women in Leadership",
-    desc: "A full-day summit for leaders, innovators, and changemakers across Perth's business community.",
-    location: "Perth, WA",
-    price: "$149",
-    registrationUrl: "#",
-  },
-  {
-    day: "22",
-    month: "JUL 2025",
-    tag: "Cultural Celebration",
-    category: "Community",
-    title: "Harmony Perth: Cultural Festival",
-    desc: "A celebration of Perth's CALD communities with food, performance, and shared stories.",
-    location: "Fremantle, WA",
-    price: "Free",
-    registrationUrl: "#",
-  },
-  {
-    day: "08",
-    month: "AUG 2025",
-    tag: "Gala",
-    category: "Corporate & Professional",
-    title: "Ellevation Hub Annual Gala",
-    desc: "An elegant evening celebrating community achievements and forging new connections.",
-    location: "Perth CBD, WA",
-    price: "$199",
-    registrationUrl: "#",
-  },
-  {
-    day: "15",
-    month: "SEP 2025",
-    tag: "Youth Program",
-    category: "Sports & Youth",
-    title: "Young Futures Sports & Leadership Day",
-    desc: "A day of sport, mentorship, and leadership activities for youth aged 13–18.",
-    location: "Joondalup, WA",
-    price: "Free",
-    registrationUrl: "#",
-  },
-  {
-    day: "20",
-    month: "OCT 2025",
-    tag: "Workshop",
-    category: "Workshops & Leadership",
-    title: "Professional Pathways Leadership Workshop",
-    desc: "Hands-on sessions with employers, mentors, and professional development resources.",
-    location: "Perth, WA",
-    price: "$49",
-    registrationUrl: "#",
-  },
-  {
-    day: "08",
-    month: "NOV 2025",
-    tag: "Networking",
-    category: "Business & Networking",
-    title: "Small Business Growth Mixer",
-    desc: "An evening of networking, business tips, and connection for Hub directory members.",
-    location: "Perth, WA",
-    price: "$29",
-    registrationUrl: "#",
-  },
-  {
-    day: "22",
-    month: "NOV 2025",
-    tag: "Independence Celebration",
-    category: "Community",
-    title: "Community Independence Day Celebration",
-    desc: "Marking independence and heritage with music, food, and community storytelling.",
-    location: "Perth, WA",
-    price: "Free",
-    registrationUrl: "#",
-  },
-  {
-    day: "08",
-    month: "DEC 2025",
-    tag: "Corporate Breakfast",
-    category: "Corporate & Professional",
-    title: "Year-End Corporate Partners Breakfast",
-    desc: "Reflecting on the year's impact with corporate partners and setting intentions ahead.",
-    location: "Perth, WA",
-    price: "$39",
-    registrationUrl: "#",
-  },
-];
 
 const IMPACT_STATS = [
   { n: "Growing",     l: "Community of members" },
@@ -598,10 +508,10 @@ const CALD_OUTCOMES = [
 ];
 
 const BUSINESS_GROWTH_STATS = [
-  { n: "68%",  l: "of directory members reported increased enquiries" },
-  { n: "120+", l: "businesses featured or spotlighted" },
-  { n: "45+",  l: "referral partnerships formed" },
-  { n: "3x",   l: "average visibility growth after listing" },
+  { n: "Increased Enquiries", l: "of directory members reported increased enquiries" },
+  { n: "Featured Businesses", l: "businesses featured or spotlighted" },
+  { n: "Referral Partnerships", l: "referral partnerships formed" },
+  { n: "Visibility Growth", l: "average visibility growth after listing" },
 ];
 
 const PROGRAMS_IN_ACTION = [
@@ -1919,27 +1829,27 @@ function MpAccordionItem({
   );
 }
 
-function DirectorySection({ nav }: { nav: NavFn }) {
-  return (
-    <section className="hub-directory-section" style={dr.section}>
-      <div style={dr.container}>
-        <p className="hub-directory-eye" style={dr.eye}>THE DIRECTORY</p>
-        <h2 className="hub-directory-title" style={dr.title}>Discover Businesses Built by Our Community</h2>
-        <p className="hub-directory-sub" style={dr.sub}>Browse verified listings across categories, or add your own business to the directory.</p>
-        <div className="hub-directory-grid" style={dr.grid}>
-          {DIRECTORY_CATEGORIES.map(c => (
-            <div key={c.title} className="hub-directory-card" style={dr.card}>
-              <div style={dr.icon}>{c.icon}</div>
-              <h3 className="hub-directory-card-title" style={dr.cardTitle}>{c.title}</h3>
-              <p className="hub-directory-card-count" style={dr.cardCount}>{c.count}</p>
-            </div>
-          ))}
-        </div>
-        <button style={dr.ctaBtn} onClick={() => nav("connect")}>LIST YOUR BUSINESS</button>
-      </div>
-    </section>
-  );
-}
+// function DirectorySection({ nav }: { nav: NavFn }) {
+//   return (
+//     <section className="hub-directory-section" style={dr.section}>
+//       <div style={dr.container}>
+//         <p className="hub-directory-eye" style={dr.eye}>THE DIRECTORY</p>
+//         <h2 className="hub-directory-title" style={dr.title}>Discover Businesses Built by Our Community</h2>
+//         <p className="hub-directory-sub" style={dr.sub}>Browse verified listings across categories, or add your own business to the directory.</p>
+//         <div className="hub-directory-grid" style={dr.grid}>
+//           {DIRECTORY_CATEGORIES.map(c => (
+//             <div key={c.title} className="hub-directory-card" style={dr.card}>
+//               <div style={dr.icon}>{c.icon}</div>
+//               <h3 className="hub-directory-card-title" style={dr.cardTitle}>{c.title}</h3>
+//               <p className="hub-directory-card-count" style={dr.cardCount}>{c.count}</p>
+//             </div>
+//           ))}
+//         </div>
+//         <button style={dr.ctaBtn} onClick={() => nav("connect")}>LIST YOUR BUSINESS</button>
+//       </div>
+//     </section>
+//   );
+// }
 
 function ProgramsSection({ nav }: { nav: NavFn }) {
   const path = useInView(0.08);
@@ -2279,123 +2189,22 @@ function OpportunitiesSection({ nav }: { nav: NavFn }) {
 }
 
 // ── Event card + quick registration flow ──
-type EventItem = {
-  day: string;
-  month: string;
-  tag: string;
-  category: Exclude<EventCategory, "All Events">;
-  title: string;
-  desc: string;
-  location: string;
-  price: string;
-  registrationUrl: string;
-};
 
 function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegister: (e: EventItem) => void }) {
   return (
-    <div className="hub-events-card" style={evs.card}>
-      <span style={evs.dateBadge}>{e.day} {e.month}</span>
+       <div className="hub-events-card" style={evs.card}>
+      <span style={evs.dateBadge}>{e.date}</span>
       <span style={evs.categoryPill}>{e.category}</span>
-      <span style={evs.category}>{e.tag} · {e.location} · {e.price}</span>
+      <span style={evs.category}>{e.brand}</span>
       <h3 className="hub-events-card-title" style={evs.cardTitle}>{e.title}</h3>
       <p className="hub-events-card-text" style={evs.cardText}>{e.desc}</p>
-      <button style={evs.rsvpBtn} onClick={() => onRegister(e)}>REGISTER NOW</button>
+      <button style={evs.rsvpBtn} onClick={() => onRegister(e)}>{EVENT_CTA.toUpperCase()}</button>
     </div>
   );
 }
 
 /* Quick Registration modal — demo-only interest capture, not wired to EmailJS. */
-function QuickRegistrationModal({ event, onClose }: { event: EventItem; onClose: () => void }) {
-  const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [attendees, setAttendees] = useState("1");
 
-  const handleSubmit = async (ev: React.FormEvent) => {
-    ev.preventDefault();
-    setSending(true);
-    try {
-      await submitRegistration({
-        brand: "hub",
-        formTitle: "Event Registration",
-        itemLabel: "Event",
-        itemName: event.title,
-        formSource: "Ellevation Hub — Event Registration",
-        fields: {
-          "Full Name": name,
-          "Email": email,
-          "Phone": phone,
-          "Attendees": attendees,
-          "Date": `${event.day} ${event.month}`,
-          "Location": event.location,
-          "Price": event.price,
-        },
-      });
-      setSubmitted(true);
-    } catch (err) {
-      console.error(err);
-      alert("Your registration could not be sent. Please try again.");
-    } finally {
-      setSending(false);
-    }
-  };
-   
-
-  return (
-    <div
-      style={evs.modalOverlay}
-      onClick={(ev) => { if (ev.target === ev.currentTarget) onClose(); }}
-    >
-      <div className="hub-events-modal" style={evs.modalCard}>
-        <button aria-label="Close" onClick={onClose} style={evs.modalClose}>✕</button>
-
-        {submitted ? (
-          <div style={{ textAlign: "center", padding: "20px 8px 8px" }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
-            <h3 style={evs.modalTitle}>You're on the list</h3>
-            <p style={evs.modalSub}>
-              Your quick registration for <strong>{event.title}</strong> has been received. Continue below to complete your official spot on the event's registration page.
-            </p>
-            <a
-              href={event.registrationUrl}
-              target="_blank"
-              rel="noreferrer"
-              style={evs.modalCtaLink}
-            >
-              CONTINUE TO FULL REGISTRATION →
-            </a>
-          </div>
-        ) : (
-          <>
-            <span style={evs.modalDateBadge}>{event.day} {event.month} · {event.location}</span>
-            <h3 className="hub-events-card-title" style={evs.modalTitle}>{event.title}</h3>
-            <p style={evs.modalSub}>Quick registration — we'll confirm your spot and send you the full event details.</p>
-
-          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 20 }}>
-  <input className="form-input" required placeholder="Full Name"
-    value={name} onChange={e => setName(e.target.value)} />
-  <input className="form-input" type="email" required placeholder="Email Address"
-    value={email} onChange={e => setEmail(e.target.value)} />
-  <input className="form-input" type="tel" placeholder="Phone Number (optional)"
-    value={phone} onChange={e => setPhone(e.target.value)} />
-  <select className="form-input" value={attendees} onChange={e => setAttendees(e.target.value)}>
-    <option value="1">1 attendee</option>
-    <option value="2">2 attendees</option>
-    <option value="3">3 attendees</option>
-    <option value="4+">4+ attendees</option>
-  </select>
-  <button type="submit" disabled={sending} style={evs.modalSubmitBtn}>
-    {sending ? "SENDING..." : "SUBMIT QUICK REGISTRATION"}
-  </button>
-</form>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
 
 function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
   const [activeCategory, setActiveCategory] = useState<EventCategory>("All Events");
@@ -2412,10 +2221,10 @@ function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
       <div style={{ position: "absolute", bottom: "-10%", right: "-5%", width: "500px", height: "500px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,92,191,0.10) 0%, transparent 70%)", pointerEvents: "none" }} />
 
       <div style={{ ...evs.container, position: "relative", zIndex: 1 }}>
-        <p className="hub-events-eye" style={evs.eye}>UPCOMING EVENTS · PERTH</p>
+        <p className="hub-events-eye" style={evs.eye}>UPCOMING EVENTS · 2027</p>
         <h2 className="hub-events-title" style={evs.title}>Gather Across the Ecosystem</h2>
         <p className="hub-events-sub" style={evs.sub}>
-          Community celebrations, sport and youth activities, business networking, workshops, and corporate events — all in one calendar. Listings below are demo events pending final confirmation.
+          Community celebrations, children and youth programs, business networking, workshops, and corporate events — all in one calendar. Dates shown are proposed and subject to confirmation.
         </p>
 
         <div className="hub-events-filter-row" style={evs.filterRow}>
@@ -2437,16 +2246,20 @@ function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
           </p>
         ) : (
           <div className="hub-events-grid" style={evs.grid}>
-            {filteredEvents.map((e, i) => (
-              <HubEventCard key={e.title || i} e={e} index={i} onRegister={setRegistering} />
-            ))}
+          {filteredEvents.map((e, i) => (
+  <HubEventCard key={e.id} e={e} index={i} onRegister={setRegistering} />
+))}
           </div>
         )}
       </div>
 
-      {registering && (
-        <QuickRegistrationModal event={registering} onClose={() => setRegistering(null)} />
-      )}
+{registering && (
+  <EventInterestModal
+    event={registering}
+    events={HUB_EVENTS}
+    onClose={() => setRegistering(null)}
+  />
+)}
     </section>
   );
 }
@@ -3189,19 +3002,19 @@ purposeLabel: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSiz
 purposeDesc: { display: "block", fontFamily: "'Montserrat',sans-serif", fontSize: "16px", color: "#554866", marginTop: 4, lineHeight: 1.5 },
 };
 
-const dr: Record<string, React.CSSProperties> = {
-  section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
-  container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
-  eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
-  title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
-  sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginBottom: 48 },
-  card: { padding: 28, background: "#fff", borderRadius: 18, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
-  icon: { fontSize: "1.5rem", color: "#4B1E56", marginBottom: 12 },
-  cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 6 },
-  cardCount: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.06em", color: "#8a5a97" },
-  ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
-};
+// const dr: Record<string, React.CSSProperties> = {
+//   section: { padding: "100px 48px", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
+//   container: { maxWidth: 1100, margin: "0 auto", textAlign: "center" },
+//   eye: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, color: "#662369", letterSpacing: "0.2em", marginBottom: 16 },
+//   title: { fontFamily: "'Astrid Regular', serif", fontWeight: 700, fontSize: "clamp(36px,5vw,52px)", color: "#4B1E56", marginBottom: 16, lineHeight: 1.1 },
+//   sub: { fontFamily: "'Montserrat',sans-serif", fontSize: "18px", color: "#554866", lineHeight: 1.8, maxWidth: 640, margin: "0 auto 56px" },
+//   grid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20, marginBottom: 48 },
+//   card: { padding: 28, background: "#fff", borderRadius: 18, textAlign: "left", border: "1px solid rgba(124, 92, 191, 0.15)" },
+//   icon: { fontSize: "1.5rem", color: "#4B1E56", marginBottom: 12 },
+//   cardTitle: { fontFamily: "'Astrid Regular',serif", fontSize: "22px", color: "#1a0a2e", marginBottom: 6 },
+//   cardCount: { fontFamily: "'Montserrat',sans-serif", fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.06em", color: "#8a5a97" },
+//   ctaBtn: { fontFamily: "'Montserrat',sans-serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.1em", padding: "14px 32px", borderRadius: 100, border: "none", background: "#D7B264", color: "#fff", cursor: "pointer", boxShadow: "0 4px 20px rgba(215,35,143,0.30)" },
+// };
 
 const pg: Record<string, React.CSSProperties> = {
   section: { position: "relative", padding: "100px 48px", overflow: "hidden", textAlign: "center", background: "linear-gradient(180deg, #f6f3fa 0%, #ede7f5 100%)" },
@@ -3380,8 +3193,10 @@ export default function EllevationHub() {
   const nav: NavFn = (p, param) => {
     if (p === "home") {
       setSearchParams({});
-    } else if (p === "register" && param) {
+       } else if (p === "register" && param) {
       setSearchParams({ page: p, program: param });
+    } else if (p === "join-directory" && param) {
+      setSearchParams({ page: p, category: param });
     } else {
       setSearchParams({ page: p });
     }
@@ -4065,18 +3880,18 @@ export default function EllevationHub() {
         [data-theme="dark"] .bounce-arrow { color: #6b2f7a !important; }
       `}</style>
 
-      <Navbar current={page} nav={nav} />
-
+<Navbar current={page === "join-directory" ? "directory" : page} nav={nav} />
       {/* Navbar is `position: fixed`, so push content down by its measured
           height (--nav-height). 96px is the fallback for first paint. */}
       <div style={{ paddingTop: "var(--nav-height, 96px)" }}>
         {page === "home"          && <HomeSection nav={nav} />}
         {page === "about"         && <AboutSection nav={nav} />}
         {page === "membership"    && <MembershipSection />}
-        {page === "directory"     && <DirectorySection nav={nav} />}
+{page === "directory"      && <DirectoryCategoriesSection nav={nav} />}
+{page === "join-directory" && <JoinDirectorySection nav={nav} />}
         {page === "programs"      && <ProgramsSection nav={nav} />}
         {page === "opportunities" && <OpportunitiesSection nav={nav} />}
-        {page === "events"        && <EventsSection nav={nav} events={EVENTS} />}
+{page === "events"        && <EventsSection nav={nav} events={HUB_EVENTS} />}
         {page === "impact"        && <ImpactSection />}
         {page === "connect"       && <ConnectSection />}
         {page === "register"      && <RegisterSection />}
