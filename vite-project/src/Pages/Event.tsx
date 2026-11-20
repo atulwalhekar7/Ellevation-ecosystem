@@ -6,7 +6,7 @@ import {
   EVENT_CTA,
   type EventCategory,
   type EventItem,
-} from "./EventsData";
+} from "./eventsData";
 
 /* ── Event card ── */
 function HubEventCard({ e, onRegister }: { e: EventItem; onRegister: (e: EventItem) => void }) {
