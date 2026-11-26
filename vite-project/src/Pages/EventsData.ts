@@ -19,6 +19,16 @@ export type EventItem = {
   category: Exclude<EventCategory, "All Events">; // one category per event
   title: string;
   desc: string;
+
+  // ── Optional detail-page fields (fill only when client approves) ──
+  time?: string;          // e.g. "8:30 AM – 6:30 PM"
+  venue?: string;         // e.g. "Crown Perth"
+  address?: string;       // e.g. "Burswood, WA"
+  priceFrom?: string;     // e.g. "From $53.56"
+  image?: string;         // per-event image (import path)
+  overview?: string[];    // paragraphs
+  highlights?: string[];  // bullet points ("What to expect")
+  whoFor?: string[];      // bullet points ("Who it's for")
 };
 
 export const EVENT_CTA = "Register your interest now";
@@ -49,14 +59,32 @@ export const EVENTS: EventItem[] = [
     title: "I Am WOW",
     desc: "A Ms. Ellevation experience empowering women to step forward with confidence, grow their leadership, increase their visibility and make a meaningful impact.",
   },
-  {
-    id: "men-who-build-2027-04-17",
-    date: "Sat 17 Apr 2027",
-    brand: "Ellevation Hub",
-    category: "Workshops & Leadership",
-    title: "Men Who Build: Building Wealth & Securing the Future",
-    desc: "Building strong men. Creating wealth. Securing futures. An empowering experience for men to explore financial growth, wealth creation, family responsibility and lasting legacy. For men at every stage of life, including fathers, professionals, entrepreneurs and aspiring wealth builders.",
-  },
+{
+  id: "men-who-build-2027-04-17",
+  date: "Sat 17 Apr 2027",
+  brand: "Ellevation Hub",
+  category: "Workshops & Leadership",
+  title: "Men Who Build: Building Wealth & Securing the Future",
+  desc: "Building strong men. Creating wealth. Securing futures. An empowering experience for men to explore financial growth, wealth creation, family responsibility and lasting legacy. For men at every stage of life, including fathers, professionals, entrepreneurs and aspiring wealth builders.",
+
+  // ── Detail page fields ──
+  time: "9:00 AM – 3:00 PM",
+  venue: "Venue to be announced",
+  overview: [
+    "Paragraph 1...",
+    "Paragraph 2...",
+  ],
+  highlights: [
+    "Wealth creation basics",
+    "Family responsibility",
+    "Legacy planning",
+  ],
+  whoFor: [
+    "Fathers",
+    "Professionals",
+    "Entrepreneurs",
+  ],
+},
   {
     // TODO: confirm date. Calendar says Fri 14 May; "Clashes to fix" mentions Sat 15 May / Sat 22 May.
     id: "her-presence-2027-05-14",

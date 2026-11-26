@@ -16,6 +16,7 @@ import homeImage4 from "../assets/Ms Ellevation/AdobeStock_1271539281.jpeg";
 import { EVENTS, EVENT_CATEGORIES, EVENT_CTA } from "./eventsData";
 import type { EventItem, EventCategory } from "./eventsData";
 import EventInterestModal from "./EventInterestModal";
+import EVENT_IMAGE from "../../src/assets/Ms Ellevation/_74A8938.jpg";
 
 // Ms page: Ms events + joint events (Hub-only events hide)
 const MS_EVENTS = EVENTS.filter(e => e.brand.includes("Ms. Ellevation"));
@@ -1889,9 +1890,67 @@ const mb: Record<string, React.CSSProperties> = {
 // ─── EVENTS PAGE ────────────────────────────────────────────────────────────
 // ─── EVENTS PAGE ────────────────────────────────────────────────────────────
 
+type EventsView = "grid" | "list";
+
+/* Individual event page link (page to be built). Change here in one place. */
+const eventHref = (e: EventItem) => `/events/${e.id}`;
+
+const EvGridIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <rect x="3" y="3" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+    <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+    <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
+const EvListIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M8 6h13M8 12h13M8 18h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="3.8" cy="6" r="1.3" fill="currentColor" />
+    <circle cx="3.8" cy="12" r="1.3" fill="currentColor" />
+    <circle cx="3.8" cy="18" r="1.3" fill="currentColor" />
+  </svg>
+);
+
+/* Event card: image → date → category → host → title → description → button → Explore Event */
+function MsEventCard({ e, onRegister }: { e: EventItem; onRegister: (e: EventItem) => void }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  return (
+    <article className="msev-card">
+      <a href={eventHref(e)} className="msev-img-wrap" tabIndex={-1} aria-hidden="true">
+        {imgFailed ? (
+          <span className="msev-img-fallback" />
+        ) : (
+          <img
+            src={EVENT_IMAGE}
+            alt={`${e.title} — Ms. Ellevation event`}
+            loading="lazy"
+            className="msev-img"
+            onError={() => setImgFailed(true)}
+          />
+        )}
+      </a>
+      <div className="msev-body">
+        <span className="msev-date">{e.date}</span>
+        <span className="msev-cat">{e.category}</span>
+        <span className="msev-brand">{e.brand}</span>
+        <h3 className="msev-title"><a href={eventHref(e)}>{e.title}</a></h3>
+        <p className="msev-desc">{e.desc}</p>
+        <div className="msev-actions">
+          <button type="button" className="msev-btn" onClick={() => onRegister(e)}>
+            {EVENT_CTA.toUpperCase()}
+          </button>
+          <a href={eventHref(e)} className="msev-explore">Explore Event &gt;</a>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function EventsPage() {
   const [activeCategory, setActiveCategory] = useState<EventCategory>("All Events");
   const [registering, setRegistering] = useState<EventItem | null>(null);
+  const [view, setView] = useState<EventsView>("grid");
 
   const visibleFilters = EVENT_CATEGORIES.filter(
     c => c === "All Events" || MS_EVENTS.some(e => e.category === c)
@@ -1924,25 +1983,37 @@ function EventsPage() {
           ))}
         </div>
 
-        {filtered.length === 0 ? (
-          <p className="ev-card-desc" style={{ ...ev.cardDesc, textAlign:"center" }}>
-            No events in this category yet — check back soon.
-          </p>
-        ) : (
-          <div className="ev-grid" style={ev.grid}>
-            {filtered.map(e => (
-<div key={e.id} className="ev-card" style={ev.card}>
-                <div style={ev.dateBadge}>{e.date}</div>
-                <span className="ev-pill" style={ev.categoryPill}>{e.category}</span>
-                <p className="ev-brand" style={ev.brand}>{e.brand}</p>
-                <h3 className="ev-card-title" style={ev.cardTitle}>{e.title}</h3>
-                <p className="ev-card-desc" style={ev.cardDesc}>{e.desc}</p>
-                <button style={ev.rsvpBtn} onClick={() => setRegistering(e)}>{EVENT_CTA.toUpperCase()}</button>
-</div>
-            ))}
+        <div className="msev-wrap">
+          {/* Count + Grid/List toggle */}
+          <div className="msev-toolbar">
+            <p className="msev-count" aria-live="polite">
+              {filtered.length} {filtered.length === 1 ? "event" : "events"}
+            </p>
+            <div className="msev-toggle" role="group" aria-label="Change layout">
+              <button type="button" className={`msev-toggle-btn${view === "grid" ? " active" : ""}`}
+                aria-pressed={view === "grid"} onClick={() => setView("grid")}>
+                <EvGridIcon /><span>Grid</span>
+              </button>
+              <button type="button" className={`msev-toggle-btn${view === "list" ? " active" : ""}`}
+                aria-pressed={view === "list"} onClick={() => setView("list")}>
+                <EvListIcon /><span>List</span>
+              </button>
+            </div>
           </div>
-        )}
-           </section>
+
+          {filtered.length === 0 ? (
+            <p className="ev-card-desc" style={{ ...ev.cardDesc, textAlign:"center" }}>
+              No events in this category yet — check back soon.
+            </p>
+          ) : (
+            <div className={`msev-grid${view === "list" ? " is-list" : ""}`}>
+              {filtered.map(e => (
+                <MsEventCard key={e.id} e={e} onRegister={setRegistering} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {registering && (
         <EventInterestModal
@@ -1961,8 +2032,8 @@ const ev: Record<string, React.CSSProperties> = {
   eye: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:700, letterSpacing:"0.2em", color:"#EFBF68", marginBottom:16, position:"relative", zIndex:1 },
   title: { fontFamily:"'Astrid Regular', serif", fontSize:"clamp(36px,5vw,56px)", fontWeight:700, color:"#ffffff", marginBottom:16, position:"relative", zIndex:1, textShadow:"0 2px 24px rgba(0,0,0,0.35)" },
   sub: { fontFamily:"'Montserrat', sans-serif", fontSize:"18px", fontWeight:300, color:"rgba(255,255,255,0.9)", lineHeight:1.7, position:"relative", zIndex:1, maxWidth:560, margin:"0 auto" }, 
-  section: { padding:"60px 48px 96px", background:"#ffffff" ,},
-    filterRow: { display:"flex", justifyContent:"center", gap:10, flexWrap:"wrap" as const, maxWidth:1100, margin:"0 auto 40px" },
+  section: { padding:"60px 48px 96px", background:"#F7F4FA" },
+      filterRow: { display:"flex", justifyContent:"center", gap:10, flexWrap:"wrap" as const, maxWidth:1100, margin:"0 auto 40px" },
   filterBtn: { fontFamily:"'Montserrat', sans-serif", fontSize:"14px", fontWeight:600, letterSpacing:"0.04em", padding:"10px 18px", borderRadius:100, border:"1.5px solid rgba(124, 92, 191, 0.2)", background:"#fff", color:"#554866", cursor:"pointer", transition:"all 0.2s ease" },
   filterBtnActive: { background:"#D7B264", borderColor:"#4B1E56", color:"#fff", boxShadow:"0 4px 16px rgba(75,30,86,0.3)" },
   grid: { display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24, maxWidth:1100, margin:"0 auto" },
@@ -3492,6 +3563,100 @@ input::placeholder,textarea::placeholder{color:#7a6a8c;}        select option{co
           box-shadow: 0 16px 48px rgba(0,0,0,0.55) !important;
           border-color: rgba(155, 109, 190, 0.35) !important;
         }
+
+/* ═══════════════════════════════════════
+   Events page: image-led cards + Grid/List view
+   (palette per brief: #F7F4FA / #FFFFFF / #451D53 / #D4AD60 / #E8DFF0 / #51465C)
+   ═══════════════════════════════════════ */
+.msev-wrap { max-width: 1100px; margin: 0 auto; }
+
+.msev-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.msev-count { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; color: #51465C; }
+.msev-toggle { display: inline-flex; padding: 4px; gap: 4px; background: #fff; border: 1.5px solid #E8DFF0; border-radius: 100px; }
+.msev-toggle-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 8px 16px; border: none; border-radius: 100px; background: transparent; color: #51465C; cursor: pointer;
+}
+.msev-toggle-btn:hover { opacity: 1; transform: none; filter: none; color: #451D53; }
+.msev-toggle-btn.active { background: #D4AD60; color: #451D53; box-shadow: 0 3px 10px rgba(212,173,96,0.4); }
+.msev-toggle-btn:focus-visible, .msev-btn:focus-visible, .msev-explore:focus-visible, .msev-title a:focus-visible { outline: 3px solid rgba(212,173,96,0.9); outline-offset: 2px; }
+
+/* Grid view: 2 per row on desktop, 1 on tablet/mobile. Equal heights. */
+.msev-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+
+.msev-card {
+  display: flex; flex-direction: column; min-width: 0; overflow: hidden;
+  background: #FFFFFF; border: 1px solid #E8DFF0; border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(69,29,83,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.msev-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(69,29,83,0.14); }
+
+.msev-img-wrap { position: relative; display: block; aspect-ratio: 16/9; overflow: hidden; background: #E8DFF0; }
+.msev-img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s ease; }
+.msev-card:hover .msev-img { transform: scale(1.05); }
+.msev-img-fallback { position: absolute; inset: 0; display: block; background: linear-gradient(135deg,#6b2f7a 0%,#451D53 60%,#2d1740 100%); }
+
+.msev-body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 22px 24px 24px; text-align: left; }
+.msev-date { font-family: 'Montserrat', sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em; color: #451D53; text-transform: uppercase; margin-bottom: 8px; }
+.msev-cat { font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; color: #51465C; text-transform: uppercase; margin-bottom: 6px; }
+.msev-brand { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 500; color: #51465C; margin-bottom: 16px; }
+.msev-title { font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 400; line-height: 1.25; margin-bottom: 10px; }
+.msev-title a { color: #451D53; text-decoration: none; }
+.msev-title a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #D4AD60; }
+.msev-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #51465C; line-height: 1.65; margin-bottom: 20px; flex-grow: 1; }
+
+.msev-actions { display: flex; flex-direction: column; gap: 14px; }
+.msev-btn {
+  display: block; width: 100%; text-align: center;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; line-height: 1.3;
+  padding: 14px 12px; border-radius: 8px; border: 2px solid #D4AD60; background: #D4AD60; color: #451D53; cursor: pointer;
+}
+.msev-btn:hover { opacity: 1; filter: brightness(1.05); box-shadow: 0 8px 20px rgba(212,173,96,0.45); transform: translateY(-1px); }
+.msev-explore { align-self: flex-start; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 500; color: #51465C; text-decoration: none; }
+.msev-explore:hover { color: #451D53; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #D4AD60; }
+
+/* List view: one wide row per event (image left, details right) */
+.msev-grid.is-list { grid-template-columns: 1fr; gap: 20px; }
+.is-list .msev-card { flex-direction: row; }
+.is-list .msev-img-wrap { flex: 0 0 36%; aspect-ratio: auto; min-height: 240px; }
+.is-list .msev-body { justify-content: center; padding: 26px 30px; }
+.is-list .msev-desc { flex-grow: 0; }
+.is-list .msev-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.is-list .msev-btn { width: auto; padding: 14px 28px; }
+.is-list .msev-explore { align-self: center; }
+
+@media (max-width: 900px) {
+  .msev-grid:not(.is-list) { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
+}
+@media (max-width: 768px) {
+  .is-list .msev-card { flex-direction: column; }
+  .is-list .msev-img-wrap { flex: none; width: 100%; min-height: 0; aspect-ratio: 21/9; }
+  .is-list .msev-body { padding: 20px 22px 22px; }
+  .is-list .msev-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px; }
+}
+@media (max-width: 480px) {
+  .msev-grid { gap: 18px; }
+  .msev-body, .is-list .msev-body { padding: 18px 18px 20px; }
+  .msev-toggle-btn { padding: 8px 13px; }
+  .is-list .msev-btn { width: 100%; }
+  .is-list .msev-actions { flex-direction: column; align-items: stretch; gap: 14px; }
+  .is-list .msev-explore { align-self: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .msev-card, .msev-img, .msev-btn { transition: none !important; }
+  .msev-card:hover, .msev-card:hover .msev-img, .msev-btn:hover { transform: none !important; }
+}
+
+/* Dark mode */
+[data-theme="dark"] .msev-count, [data-theme="dark"] .msev-desc { color: #cbd5e1 !important; }
+[data-theme="dark"] .msev-toggle { background: #160d22 !important; border-color: rgba(155,109,190,0.3) !important; }
+[data-theme="dark"] .msev-toggle-btn { color: #d9a8cd !important; }
+[data-theme="dark"] .msev-toggle-btn.active { background: #D4AD60 !important; color: #451D53 !important; }
+[data-theme="dark"] .msev-card { background: rgba(22,13,34,0.92) !important; border-color: rgba(155,109,190,0.25) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important; }
+[data-theme="dark"] .msev-date, [data-theme="dark"] .msev-title a { color: #ffffff !important; }
+[data-theme="dark"] .msev-cat, [data-theme="dark"] .msev-brand, [data-theme="dark"] .msev-explore { color: #d9a8cd !important; }
 
         /* Respect reduced-motion preferences */
 

@@ -10,6 +10,7 @@ import { DirectoryCategoriesSection, JoinDirectorySection } from "./DirectoryPag
 import { EVENTS, EVENT_CATEGORIES, EVENT_CTA } from "./eventsData";
 import type { EventItem, EventCategory } from "./eventsData";
 import EventInterestModal from "./EventInterestModal";
+import EventImg from "../../src/assets/Ms Ellevation/_74A8938.jpg";  
 
 // Hub page: Hub events + joint events (Ms-only events hide)
 const HUB_EVENTS = EVENTS.filter(e => e.brand !== "Ms. Ellevation");
@@ -2190,26 +2191,72 @@ function OpportunitiesSection({ nav }: { nav: NavFn }) {
 
 // ── Event card + quick registration flow ──
 
-function HubEventCard({ e, onRegister }: { e: EventItem; index: number; onRegister: (e: EventItem) => void }) {
+// ── Event card + Grid/List view (same UI as Ms. Ellevation) ──
+type HubEventsView = "grid" | "list";
+
+/* Individual event page link. Change here in one place. */
+const hubEventHref = (e: EventItem) => `/events/${e.id}`;
+
+const HubGridIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <rect x="3" y="3" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+    <rect x="13.5" y="3" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+    <rect x="3" y="13.5" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.8" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
+const HubListIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M8 6h13M8 12h13M8 18h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <circle cx="3.8" cy="6" r="1.3" fill="currentColor" />
+    <circle cx="3.8" cy="12" r="1.3" fill="currentColor" />
+    <circle cx="3.8" cy="18" r="1.3" fill="currentColor" />
+  </svg>
+);
+
+/* image → date → category → brand → title → description → button → Explore Event */
+function HubEventCard({ e, onRegister }: { e: EventItem; index?: number; onRegister: (e: EventItem) => void }) {
+  const [imgFailed, setImgFailed] = useState(false);
   return (
-       <div className="hub-events-card" style={evs.card}>
-      <span style={evs.dateBadge}>{e.date}</span>
-      <span style={evs.categoryPill}>{e.category}</span>
-      <span style={evs.category}>{e.brand}</span>
-      <h3 className="hub-events-card-title" style={evs.cardTitle}>{e.title}</h3>
-      <p className="hub-events-card-text" style={evs.cardText}>{e.desc}</p>
-      <button style={evs.rsvpBtn} onClick={() => onRegister(e)}>{EVENT_CTA.toUpperCase()}</button>
-    </div>
+    <article className="hubev-card">
+      <a href={hubEventHref(e)} className="hubev-img-wrap" tabIndex={-1} aria-hidden="true">
+        {imgFailed ? (
+          <span className="hubev-img-fallback" />
+        ) : (
+          <img
+            src={EventImg}  
+            alt={`${e.title} — Ellevation Hub event`}
+            loading="lazy"
+            className="hubev-img"
+            onError={() => setImgFailed(true)}
+          />
+        )}
+      </a>
+      <div className="hubev-body">
+        <span className="hubev-date">{e.date}</span>
+        <span className="hubev-cat">{e.category}</span>
+        <span className="hubev-brand">{e.brand}</span>
+        <h3 className="hubev-title"><a href={hubEventHref(e)}>{e.title}</a></h3>
+        <p className="hubev-desc">{e.desc}</p>
+        <div className="hubev-actions">
+          <button type="button" className="hubev-btn" onClick={() => onRegister(e)}>
+            {EVENT_CTA.toUpperCase()}
+          </button>
+          <a href={hubEventHref(e)} className="hubev-explore">Explore Event &gt;</a>
+        </div>
+      </div>
+    </article>
   );
 }
-
-/* Quick Registration modal — demo-only interest capture, not wired to EmailJS. */
-
 
 function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
   const [activeCategory, setActiveCategory] = useState<EventCategory>("All Events");
   const [registering, setRegistering] = useState<EventItem | null>(null);
+  const [view, setView] = useState<HubEventsView>("grid");
 
+  const visibleFilters = EVENT_CATEGORIES.filter(
+    c => c === "All Events" || events.some(e => e.category === c)
+  );
   const filteredEvents = activeCategory === "All Events"
     ? events
     : events.filter(e => e.category === activeCategory);
@@ -2228,7 +2275,7 @@ function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
         </p>
 
         <div className="hub-events-filter-row" style={evs.filterRow}>
-          {EVENT_CATEGORIES.map(cat => (
+          {visibleFilters.map(cat => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
@@ -2240,30 +2287,46 @@ function EventsSection({ events = [] }: { nav: NavFn; events?: EventItem[] }) {
           ))}
         </div>
 
+        {/* Count + Grid/List toggle */}
+        <div className="hubev-toolbar">
+          <p className="hubev-count" aria-live="polite">
+            {filteredEvents.length} {filteredEvents.length === 1 ? "event" : "events"}
+          </p>
+          <div className="hubev-toggle" role="group" aria-label="Change layout">
+            <button type="button" className={`hubev-toggle-btn${view === "grid" ? " active" : ""}`}
+              aria-pressed={view === "grid"} onClick={() => setView("grid")}>
+              <HubGridIcon /><span>Grid</span>
+            </button>
+            <button type="button" className={`hubev-toggle-btn${view === "list" ? " active" : ""}`}
+              aria-pressed={view === "list"} onClick={() => setView("list")}>
+              <HubListIcon /><span>List</span>
+            </button>
+          </div>
+        </div>
+
         {filteredEvents.length === 0 ? (
           <p className="hub-events-empty" style={{ fontFamily: "'Montserrat',sans-serif", color: "#662369", padding: "24px 0" }}>
             No events in this category yet — check back soon.
           </p>
         ) : (
-          <div className="hub-events-grid" style={evs.grid}>
-          {filteredEvents.map((e, i) => (
-  <HubEventCard key={e.id} e={e} index={i} onRegister={setRegistering} />
-))}
+          <div className={`hubev-grid${view === "list" ? " is-list" : ""}`}>
+            {filteredEvents.map(e => (
+              <HubEventCard key={e.id} e={e} onRegister={setRegistering} />
+            ))}
           </div>
         )}
       </div>
 
-{registering && (
-  <EventInterestModal
-    event={registering}
-    events={HUB_EVENTS}
-    onClose={() => setRegistering(null)}
-  />
-)}
+      {registering && (
+        <EventInterestModal
+          event={registering}
+          events={HUB_EVENTS}
+          onClose={() => setRegistering(null)}
+        />
+      )}
     </section>
   );
 }
-
 function ImpactSection() {
   return (
     <section className="hub-impact-section" style={st.section}>
@@ -3694,6 +3757,9 @@ export default function EllevationHub() {
           color: #d9a8cd !important;
         }
 
+
+
+
         /* Events section */
         [data-theme="dark"] .hub-events-section {
           background: #160d22 !important;
@@ -3831,6 +3897,95 @@ export default function EllevationHub() {
           0%,100% { transform: translateY(0); opacity: 0.7; }
           50%      { transform: translateY(8px); opacity: 1; }
         }
+
+/* ═══════════ Events page: image-led cards + Grid/List (same as Ms Ellevation) ═══════════ */
+.hubev-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.hubev-count { font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; color: #554866; }
+.hubev-toggle { display: inline-flex; padding: 4px; gap: 4px; background: #fff; border: 1.5px solid #ded4ee; border-radius: 100px; }
+.hubev-toggle-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+  padding: 8px 16px; border: none; border-radius: 100px; background: transparent; color: #554866; cursor: pointer;
+}
+.hubev-toggle-btn:hover { opacity: 1; transform: none; color: #4B1E56; }
+.hubev-toggle-btn.active { background: #D7B264; color: #fff; box-shadow: 0 3px 10px rgba(215,178,100,0.4); }
+.hubev-toggle-btn:focus-visible, .hubev-btn:focus-visible, .hubev-explore:focus-visible, .hubev-title a:focus-visible { outline: 3px solid rgba(215,178,100,0.9); outline-offset: 2px; }
+
+.hubev-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; text-align: left; }
+
+.hubev-card {
+  display: flex; flex-direction: column; min-width: 0; overflow: hidden;
+  background: #fff; border: 1px solid rgba(124,92,191,0.15); border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(75,30,86,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.hubev-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(75,30,86,0.14); }
+
+.hubev-img-wrap { position: relative; display: block; aspect-ratio: 16/9; overflow: hidden; background: #ede7f5; }
+.hubev-img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s ease; }
+.hubev-card:hover .hubev-img { transform: scale(1.05); }
+.hubev-img-fallback { position: absolute; inset: 0; display: block; background: linear-gradient(135deg,#6b2f7a 0%,#4B1E56 60%,#2d1740 100%); }
+
+.hubev-body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 22px 24px 24px; text-align: left; }
+.hubev-date { font-family: 'Montserrat', sans-serif; font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em; color: #4B1E56; text-transform: uppercase; margin-bottom: 8px; }
+.hubev-cat { font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; color: #554866; text-transform: uppercase; margin-bottom: 6px; }
+.hubev-brand { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 500; color: #8a5a97; margin-bottom: 16px; }
+.hubev-title { font-family: 'Astrid Regular', serif; font-size: 22px; font-weight: 400; line-height: 1.25; margin-bottom: 10px; }
+.hubev-title a { color: #4B1E56; text-decoration: none; }
+.hubev-title a:hover { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #D7B264; }
+.hubev-desc { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; color: #554866; line-height: 1.65; margin-bottom: 20px; flex-grow: 1; }
+
+.hubev-actions { display: flex; flex-direction: column; gap: 14px; }
+.hubev-btn {
+  display: block; width: 100%; text-align: center;
+  font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.1em; line-height: 1.3;
+  padding: 14px 12px; border-radius: 8px; border: 2px solid #D7B264; background: #D7B264; color: #fff; cursor: pointer;
+}
+.hubev-btn:hover { opacity: 1; filter: brightness(1.05); box-shadow: 0 8px 20px rgba(215,178,100,0.45); transform: translateY(-1px); }
+.hubev-explore { align-self: flex-start; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 500; color: #554866; text-decoration: none; }
+.hubev-explore:hover { color: #4B1E56; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #D7B264; }
+
+/* List view */
+.hubev-grid.is-list { grid-template-columns: 1fr; gap: 20px; }
+.is-list .hubev-card { flex-direction: row; }
+.is-list .hubev-img-wrap { flex: 0 0 36%; aspect-ratio: auto; min-height: 240px; }
+.is-list .hubev-body { justify-content: center; padding: 26px 30px; }
+.is-list .hubev-desc { flex-grow: 0; }
+.is-list .hubev-actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.is-list .hubev-btn { width: auto; padding: 14px 28px; }
+.is-list .hubev-explore { align-self: center; }
+
+@media (max-width: 900px) {
+  .hubev-grid:not(.is-list) { grid-template-columns: 1fr; max-width: 640px; margin: 0 auto; }
+}
+@media (max-width: 768px) {
+  .is-list .hubev-card { flex-direction: column; }
+  .is-list .hubev-img-wrap { flex: none; width: 100%; min-height: 0; aspect-ratio: 21/9; }
+  .is-list .hubev-body { padding: 20px 22px 22px; }
+  .is-list .hubev-desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px; }
+}
+@media (max-width: 480px) {
+  .hubev-grid { gap: 18px; }
+  .hubev-body, .is-list .hubev-body { padding: 18px 18px 20px; }
+  .hubev-toggle-btn { padding: 8px 13px; }
+  .is-list .hubev-btn { width: 100%; }
+  .is-list .hubev-actions { flex-direction: column; align-items: stretch; gap: 14px; }
+  .is-list .hubev-explore { align-self: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hubev-card, .hubev-img, .hubev-btn { transition: none !important; }
+  .hubev-card:hover, .hubev-card:hover .hubev-img, .hubev-btn:hover { transform: none !important; }
+}
+
+/* Dark mode */
+[data-theme="dark"] .hubev-count, [data-theme="dark"] .hubev-desc { color: #d9a8cd !important; }
+[data-theme="dark"] .hubev-toggle { background: #160d22 !important; border-color: rgba(155,109,190,0.3) !important; }
+[data-theme="dark"] .hubev-toggle-btn { color: #d9a8cd !important; }
+[data-theme="dark"] .hubev-toggle-btn.active { background: #D7B264 !important; color: #fff !important; }
+[data-theme="dark"] .hubev-card { background: #1f1330 !important; border-color: rgba(155,109,190,0.25) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important; }
+[data-theme="dark"] .hubev-date, [data-theme="dark"] .hubev-title a { color: #ffffff !important; }
+[data-theme="dark"] .hubev-cat, [data-theme="dark"] .hubev-brand, [data-theme="dark"] .hubev-explore { color: #d9a8cd !important; }
+
 
         .field-label {
           display: block;

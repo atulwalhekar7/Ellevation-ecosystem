@@ -21,6 +21,7 @@ import Event from './Pages/Event';
 import PrivacyPolicy from './Components/Privacy-Policy';
 import TermsCondition from './Components/TermsCondition';
 import OnboardingForm from "./Pages/onboarding-form";
+import EventDetailPage from "./Pages/EventDetailPage";
 
 
 
@@ -65,6 +66,7 @@ const hideFooter = pathname === "/ellevationhub-business-profile";
         <Route path="/terms-condition" element={<TermsCondition />} />
         <Route path="/onboarding-form" element={<OnboardingForm />} />
 <Route path="/ellevationhub-business-profile" element={<EllevationHubBusinessProfile />} />
+<Route path="/events/:id" element={<EventDetailPage />} />
         </Routes>
       {!hideFooter && <Footer />}
     </>
