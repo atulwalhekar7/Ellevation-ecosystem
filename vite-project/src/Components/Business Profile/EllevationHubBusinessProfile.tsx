@@ -29,10 +29,11 @@ const BG_IMAGES = [bg1, bg2, bg3, bg4, bg5, bg6];
 
 /* ── 2. LINKS ── */
 const WEBSITE = "https://ellevationhub.com.au"; // TODO: confirm real website link
-const GOOGLE_BUSINESS = "#"; // TODO: Google Business Profile link milne par yahan paste karo
+const GOOGLE_BUSINESS = "https://share.google/HGKhJHDvpPDzfAMW8"; 
+const REVIEW = "https://search.google.com/local/writereview?placeid=ChIJQ9x1lPyvEmsRRRtJSdcbRcs";
 const MS_ELLEVATION_INSTAGRAM = "https://www.instagram.com/ms_ellevation";
 const HUB_INSTAGRAM = "https://www.instagram.com/ellevation.hub";
-const YOUTUBE = "https://www.youtube.com/@EllevationOfficial";
+// const YOUTUBE = "https://www.youtube.com/@EllevationOfficial";
 const TIKTOK = "https://www.tiktok.com/@msellevation?_r=1&_t=ZS-97pLDiCJEYs";
 const EMAIL = "mailto:hello@ellevationhub.com.au";
 /* ── Brand tokens ── */
@@ -71,10 +72,9 @@ const InstagramIcon = () => (  <svg {...ico}>
     <circle cx="17.5" cy="6.5" r="0.6" fill={GOLD} stroke="none" />
   </svg>
 );
-const YoutubeIcon = () => (
+const StarIcon = () => (
   <svg {...ico}>
-    <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
-    <path d="M10 9.5v5l4.5-2.5z" fill={GOLD} />
+    <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5z" />
   </svg>
 );
 const TiktokIcon = () => (
@@ -93,10 +93,12 @@ type ProfileLink = { label: string; caption?: string; href: string; icon: ReactE
 
 const profileLinks: ProfileLink[] = [
     { label: "Google Business", href: GOOGLE_BUSINESS, icon: <GoogleBusinessIcon />, external: true },
+      { label: "Review", caption: "Leave us a Google review", href: REVIEW, icon: <StarIcon />, external: true },
+
   { label: "Website", href: WEBSITE, icon: <GlobeIcon />, external: true },
   { label: "Instagram", caption: "Ms Ellevation", href: MS_ELLEVATION_INSTAGRAM, icon: <InstagramIcon />, external: true },
   { label: "Instagram", caption: "Ellevation Hub", href: HUB_INSTAGRAM, icon: <InstagramIcon />, external: true },
-  { label: "YouTube", href: YOUTUBE, icon: <YoutubeIcon />, external: true },
+  // { label: "YouTube", href: YOUTUBE, icon: <YoutubeIcon />, external: true },
   { label: "TikTok", href: TIKTOK, icon: <TiktokIcon />, external: true },
   { label: "Email", href: EMAIL, icon: <MailIcon /> },
 ];

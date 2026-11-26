@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { submitRegistration } from "../Emailjs/submitRegistration";
 import type { EventItem } from "./eventsData";
 
+
 /* ─────────────────────────────────────────────────────────────────────────
    Reusable "Register Your Interest" form (popup) — one form for ALL events.
    Frontend-only: submissions go through the existing EmailJS helper.
